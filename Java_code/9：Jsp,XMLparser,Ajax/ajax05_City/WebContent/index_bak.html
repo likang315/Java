@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+  function init()
+  {
+	 ajax("GET","city","",function(data){
+		 var json=eval("("+data+")");
+		 var c1=document.getElementById("c1");
+			for(var i=0;i<json.length;i++)
+			{
+				 var option=document.createElement("option");
+			     option.setAttribute("value",json[i].id);
+			     var txt=document.createTextNode(json[i].name);
+			     option.appendChild(txt);
+			     
+			     c1.appendChild(option)
+			}
+	 }); 
+  }
+  
+  function subselect()
+  {
+	  //value 是选择之后option 的value
+	  var pid=document.getElementById("c1").value;
+		  
+	  ajax("GET","city","pid="+pid,function(data){
+	 		var json=eval("("+data+")");
+			
+			var c2=document.getElementById("c2");
+			c2.length=0;
+			 
+			var c1=document.getElementById("c2");
+			for(var i=0;i<json.length;i++)
+			{
+				 var option=document.createElement("option");
+			     option.setAttribute("value",json[i].id);
+			     var txt=document.createTextNode(json[i].name);
+			     option.appendChild(txt);
+			   
+			     c1.appendChild(option)
+			}
+			
+		 }); 
+  }
+</script>
+</head>
+<body onload="init();">
+
+<center>
+  <h1>省市联动</h1>
+  <select id="c1" onchange="subselect();">
+    <option value="-1">请选择省</option>
+  </select>
+  
+  <select id="c2">
+    <option value="-1">请选择市</option>
+  </select>
+</center>
+
+</body>
+</html>

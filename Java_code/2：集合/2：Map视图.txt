@@ -1,0 +1,145 @@
+package com.demo;
+
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+public class Test {
+
+	public static  void main(String[] args) {
+		
+//		 HashMap<Integer,String> p = new HashMap<Integer,String>();
+//		 p.put(2,"李慧");
+//		 p.put(1, "李康");
+//	  	 p.put(3, "王老三");		  
+//	  	 System.out.println(p);
+//		 System.out.println(p.size());
+//		 System.out.println( p.get(2));
+//		 if(p.containsKey(2)) {
+//			 System.out.println("containsKey包含.........");
+//		 }
+//		 if(p.containsValue("王三")) { 
+//			 System.out.println("Value don't contain.......");	 
+//		 }
+//		 if(p.isEmpty()) 
+//			System.out.println("Map 为空.......");
+//		else
+//			System.out.println("Map 不为空......");
+//		
+////		 p.clear();清除
+////		 System.out.println(p);
+//		 
+//		 Set<Entry<Integer, String>> s= p.entrySet();
+//		 Iterator a=s.iterator();
+//		 while(a.hasNext()) {
+//			System.out.println(a.next());
+//		 }
+//		 System.out.println(s);
+//
+//		 Set<Integer> s1=p.keySet();
+//		 Iterator a1=s1.iterator();
+//		 while(a1.hasNext()) {
+//			 System.out.println(a1.next());
+//		 }
+		
+		 
+		 
+		 TreeMap<String,Character>  s=new TreeMap<String,Character>();
+		 s.put("a", 'A');
+		 s.put("c", 'B');
+		 s.put("b", 'C');
+		 System.out.println(s);//按照其键的自然顺序排序的
+		 
+		 System.out.println(s.isEmpty());
+		 System.out.println(s.size());
+		 System.out.println(s.containsKey("a"));
+		 System.out.println(s.lastKey());
+		 System.out.println(s.firstKey());
+		 System.out.println(s.ceilingKey("c"));
+		 SortedMap<String,Character> a=s.subMap("a", "b");
+		 System.out.println(a);
+		 Map.Entry<String,Character> b=s.pollFirstEntry();
+		 System.out.println(b);
+		 System.out.println(s.size());
+		 
+		
+		 
+		 
+		 		
+		
+		
+	}
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	2 ：通过Map集合解决之前我们统计字符串中字符出现的个数问题
+
+
+
+package com.demo;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+public class Test {
+
+	public static  void main(String[] args) {
+		
+		String str="dkjfghakjdlfhgiksd";
+		TreeMap<Character,Integer> m=new TreeMap<Character,Integer>();//根据所传的参数，可以排序
+		m=toMap(str);
+		Set<Map.Entry<Character,Integer>> ma=m.entrySet();
+		Iterator<Map.Entry<Character,Integer>> s=ma.iterator();
+		while(s.hasNext()) {
+			System.out.println(s.next());
+		}
+		
+	}	
+	
+	
+	public static TreeMap toMap(String str) {
+		char[] ch=str.toCharArray();
+		TreeMap<Character,Integer> m=new TreeMap<Character,Integer>();
+		for(int i=0;i<ch.length;i++) {//把映射关系存入TreeMap中
+			if(m.containsKey(ch[i])) {
+				Integer in=m.get(ch[i]);
+				in+=1;
+				m.put(ch[i],in);
+			}
+			else
+			m.put(ch[i], 1);
+		}
+		return m;
+	}
+	
+	
+}
+

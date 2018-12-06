@@ -1,0 +1,122 @@
+package com.demo;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.text.Document;
+
+public class Weixin extends JFrame{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6314294896306379393L;
+	private JPanel panel;//窗口
+	private JTextField jf;//文本框
+	private JTextArea ja;//文本域
+	private JButton send,clear,close;//发送，清楚，关闭按钮
+	
+	public Weixin(){
+		
+			this.setTitle("微信聊天室....");//窗口标体
+			this.setSize(600, 600);//窗口大小
+			this.setResizable(false) ;//不可调整窗口大小
+				
+			panel=new JPanel();
+			jf = new JTextField();
+			
+			ja = new JTextArea() ;
+			send=new JButton("send");
+			clear=new JButton("clear");
+			close=new JButton("close");
+			
+			this.setVisible(true);//可视化
+			
+		}
+		
+		
+	public void windows () {
+		
+		//先进行流式布局设置，在向面板装入三个按钮，
+		panel.setLayout(new FlowLayout());
+		
+		panel.add(send);
+		panel.add(clear);
+		panel.add(close);	
+		
+		//将文本域，文本框，面板装入窗体---装入到窗体的内容面板上
+		Container container = this.getContentPane();//得到面板
+		container.setLayout(new BorderLayout());//在面板上进行方位布局
+		
+		container.add(ja, BorderLayout.CENTER);
+		container.add(jf, BorderLayout.SOUTH);
+	
+		
+		//按钮进行方位布局
+		container.add(panel, BorderLayout.EAST);
+	
+		
+		//事件处理
+		
+		//关闭,点击按钮其作用加监听器
+		close.addActionListener(new ActionListener(){//匿名内部类
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("正在关闭中........");
+				System.exit(0);
+			}
+			
+		});
+		
+		
+		//发送
+		send.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String st=jf.getText();
+				ja.setText("I said： "+st);
+				jf.setText("");
+				
+			}
+			
+		});
+		
+		//清除
+		
+		clear.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jf.setText("");
+				ja.setText("");
+			}
+			
+		});
+		
+
+	}
+	
+}
+
+
+
+
+package com.demo;
+
+public class Test8 {
+
+	public static void main(String[] args) {
+		new Weixin().windows();
+		
+	}
+
+}
+

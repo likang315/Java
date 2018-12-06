@@ -1,0 +1,139 @@
+body,button,dd,img,input,h1,h2,h3,h4,h5,h6,p,ul,li,dl,dt,dd,ol{ padding: 0; margin: 0;}
+	    	/*body,button,dd,dl,dt,form,h1,h2,h3,h4,h5,h6,hr,input,li,ol,p,pre,td,textarea,th,ul,img{margin:0;padding:0; font-weight:normal; }*/
+ol,ul,dl,dt{list-style:none}
+body {
+  min-width: 1200px;
+}
+@font-face
+{
+font-family: zhonghei;
+src: url('../fonts/sszh.TTF'); /* IE9+ */
+}
+	    	
+             body{ margin: 0; font-size: 14px; font-family: "微软雅黑";}
+             #topnav,#ousfocus,#kaochantuan,#haiwaigoufang,#haiwaizx,#success_case,#pagefoot{width: 1200px; margin: 0 auto;}
+            /*导航部分*/
+	    	#topnav{ height: 80px; position: relative;  }
+	    	#topnav img{position:absolute; left: 10px; top: 20px; max-width: 200px;}
+	    	#topnav ul{list-style:none;  position: absolute;  left: 300px; top: 0px;}
+	    	#topnav ul li {float: left;}
+	    	#topnav ul li>a{ display:block;color: black;  border-top: 2px #FFF solid;  margin: 0 15px; height: 80px; line-height: 80px;text-decoration: none;}
+	    	#topnav ul li>a:hover{ border-top:2px #0072E4 solid; }
+	    	#topnav p{ position: absolute; right: 20px; top: 0;/* background: url(img/telicon.png) no-repeat 0 25px;*/  color: red; font-size: 22px; padding-left: 40px; line-height: 80px; float: left; }
+	    	/*下拉菜单*/
+	    	#downmenu{
+	    	 	background:rgba(0,0,0,0.4); color: white; width: 100px; height: 200px;
+	    	 	position: absolute;
+	    	 	left: 0;
+	    	 	top:80px;
+	    	 	z-index: 999;
+	    	 	display: none;
+	    	 }
+	    	  #downmenu a{ display: block; line-height: 40px; color: #FFF; text-decoration: none; padding-left:15px;}
+	    	  #downmenu a:hover{ text-decoration: underline;}
+	    	
+	    	 /*图片轮播*/
+	    	 #imgadw{ width: 100%;}
+	    	  
+	    	 /* .carousel-caption p{ font-family: "微软雅黑"; font-size: 30px; font-weight: bold; margin-bottom: 60px;}*/
+	    	
+	    	/*------------关于我们的优势-----------------*/
+	    	#ousfocus{ height: 200px; text-align: center; margin-top: 15px;}
+	    	#ousfocus .us_list{ width: 266px; height: 200px; padding: 10px; cursor: pointer; float: left; margin-right: 26px;;}
+	    	#ousfocus .us_list:hover{position: relative; top: 10px; }
+	    	#ousfocus .us_list span{ font-size: 50px; color: #0072E4; text-align: center; }
+	    	#ousfocus .us_list h5{ font-weight: bold; font-size: 16px; line-height: 30px;}
+	    	#ousfocus .us_list p{ text-align: left; font-size: 12px;}
+	    	
+	    	/*考察团*/
+	    	#kaochantuan{ position: relative;}
+	    	#kaochantuan .kaocha_more{ line-height: 55px;}
+	    	#kaochantuan .kaocha_more span{ font-size: 16px; font-weight: bold; color: red; margin-right: 35px;}
+	    	#kaochantuan .kaocha_more a{ line-height: 50px; color: #0072E4; font-weight: bold; text-decoration: none;}
+	    	#kaochantuan .kaocha_more a:hover{text-decoration: underline;}
+	    	
+	    	.bigtitle h3{ text-align: center;font-size:30px; font-family: zhonghei; color:#FF3300;}
+	        .bigtitle h3 span{ color: #0072E4;}
+	        .bigtitle p{ line-height: 45px; text-align: center;}
+	    	
+	    	
+	    	
+	    	#kaochantuan .kaocha_list{position: relative; width: 570px; height: 370px;  background: #EEE; float: left; margin-right: 30px; }
+	    	#kaochantuan .kaocha_list:hover{ background: #CCCCCC;}
+	    	#kaochantuan .kaocha_list img{position:absolute; left: 0px; top: 0px; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+	    	#kaochantuan .kaocha_list h3{width: 570px;  line-height: 45px; height:45px; position:absolute; left: 0; top: 250px;  padding-left: 10px; color: #FFF; font-size: 22px;  background: rgba(0,0,0,.6);}
+	        #kaochantuan .kaocha_list h3 a{ color: #FFF; text-decoration: none;}
+	         #kaochantuan .kaocha_list h3 a:hover{ color: #BBB;}
+	         #kaochantuan .kaocha_list span{ display: block; position: absolute; left: 484px; top: 5px; width: 76px; height: 33px; text-align: center; line-height: 33px; color: #FFF; background: orangered;}
+	         #kaochantuan .kaocha_list ul{ list-style: none; position: absolute; left: 10px; top:300px;}
+	         #kaochantuan .kaocha_list ul li{ line-height: 30px;}
+	         #kaochantuan .kaocha_list a.baomingbutn{ display:block; border-radius:5px; padding:8px 15px; background:orangered; color:#FFF; text-decoration:none;position: absolute; left: 450px; top: 325px;}
+	         #kaochantuan .kaocha_list a.baomingbutn:hover{ background: #FF6640;}
+	         
+	         /*海外购房*/
+	        #haiwaigoufang{ }
+	        #haiwaigoufang ul{ list-style: none;}
+	        #haiwaigoufang ul li{ float: left; margin-right: 15px;}
+	        #haiwaigoufang ul li a{ padding: 6px 10px; display: block; text-decoration: none; color: #000;}
+	        #haiwaigoufang ul li a:hover{ color: #0072E4; border-bottom: 2px #0072E4 solid;}
+	        
+	        #haiwaigoufang #house_contents{}
+	        #haiwaigoufang #house_contents .house_list{position:relative;width: 380px; height: 300px;  float: left; margin-right: 20px;  }
+	        #haiwaigoufang #house_contents .house_list:hover{position: relative; top: 5px;}
+	        
+	        #haiwaigoufang #house_contents .house_list img{ position: absolute; left: 0; top: 0; border-top-left-radius: 10px; border-top-right-radius: 10px;}
+	       #haiwaigoufang #house_contents .house_list .bot_kuang{ background: #FFF; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; padding-left: 15px; line-height: 25px; width: 380px; height: 60px; position: absolute; left: 0; top:215px; border: 1px #C0C0C0 solid; border-top: 0;}
+	       #haiwaigoufang #house_contents .house_list .bot_kuang span{ font-size: 16px; font-weight: bold; color: #F00;}
+	      
+	       #haiwaigoufang #house_contents .house_list .location{ position: absolute; left: 250px; top: 230px; z-index: 10; /* background: rgba(0,0,0,.6);*/ font-size: 12px; padding: 5px 8px; border-radius: 10px;}
+	       
+	        #haiwaigoufang #house_contents .house_list h3{ position: absolute; left:0; top: 175px; width: 380px;   background: rgba(0,0,0,.6); }
+	        #haiwaigoufang #house_contents .house_list h3 a{ height: 40px; line-height: 40px;color: #FFF; font-size: 16px; font-weight: bold; text-decoration: none; margin-left: 15px;}
+	          #haiwaigoufang #house_contents .house_list h3 a:hover{color: #CCC;}
+	     
+	       /*海外资讯*/
+	      #haiwaizx #news_content{ height: 550px;}
+	      #haiwaizx #news_content .left{width: 530px; height: 550px; float: left;}
+	       #haiwaizx #news_content .right{width: 650px; height: 550px; float: right; }
+	        #haiwaizx #news_content .right .news_list{ width: 615px; height: 120px; position: relative;  margin-bottom: 22px;}
+	        #haiwaizx #news_content .right .news_list span{ font-size: 12px; color: #C0C0C0; position: absolute; left: 175px; top: 0;}
+	        #haiwaizx #news_content .right .news_list h1{ font-size: 16px;  position: absolute; left: 175px; top: 18px; width:440px ; border-bottom: 1px #CCC solid; line-height: 40px; height: 40px; }
+	        #haiwaizx #news_content .right .news_list h1 a{ text-decoration: none; line-height: 30px; font-weight: bold; color: #222; }
+	        #haiwaizx #news_content .right .news_list h1 a:hover{ color: #666;}
+	        #haiwaizx #news_content .right .news_list p{ overflow: hidden;text-overflow: ellipsis;  position: absolute; left: 175px; top: 62px; width: 440px; line-height: 25px; height: 50px; font-size: 12px;}
+	        #haiwaizx #news_content .right .news_list p a{ text-decoration: none; color: #666;}
+	        #haiwaizx #news_content .right .news_list p a:hover{ color: #999;}
+	        
+	        /*成功案例*/
+	       
+	       #success_case{}
+	       #success_case .success_list{ float: left; margin-right: 15px;}
+	       #success_case .success_list a{ text-decoration: none; color: #333;}
+	       #success_case .success_list a:hover{text-decoration: underline;}
+	       #success_case .success_list .topimg{ width: 385px; height: 180px; position: relative;}
+	        #success_case .success_list .topimg img{ position: absolute; left: 0; top: 0;}
+	        #success_case .success_list .topimg div{ height: 60px; padding: 10px; width: 385px; background: rgba(0,0,0,.5); color: #FFF; position: absolute; left: 0; top:120px ;}
+	        #success_case .success_list .topimg div h5{ line-height: 20px; padding-left: 15px; font-size: 14px; font-weight: bold; color: #FFF; margin-left: 20px; border-left: 3px #FFF solid;}
+	        #success_case .success_list .topimg div h6{ line-height: 20px; padding-left: 15px; font-size: 12px;  color: #FFF; margin-left: 20px; border-left: 3px #FFF solid;}
+	      
+	      
+	      #success_case .success_list .personcase{width: 385px; height: 164px; border:1px #ccc solid; border-top: 0; padding: 10px;}
+	      #success_case .success_list .personcase img{ margin-right: 10px;}
+	      #success_case .success_list .personcase h6{font-size: 16px; line-height: 28px;}
+	      #success_case .success_list .personcase p{ font-size: 12px; color: #666; margin-top: 10px; line-height: 25px; height: 55px; overflow: hidden;}
+	      /*页脚*/
+	     #pagefoot{color: #999;}
+	     #pagefoot #foot_tel{ padding: 30px;}
+	     #pagefoot #foot_tel .left{ width: 400px; height: 200px; float: left;}
+	     #pagefoot #foot_tel .right{ width: 600px; height: 200px; float: left;}
+	      #pagefoot #foot_tel .right div{float: left; margin-right: 30px;}
+	     #pagefoot #foot_tel .left h3{ font-family: zhonghei; font-size: 24px; line-height: 50px;}
+	     
+
+            .pathnav{list-style: none; line-height: 40px;}
+	    	.pathnav li{ float: left; }
+	    	.pathnav li:after{ content: "/"; }
+	    	.pathnav li:last-of-type:after{ content: "";}
+	    	.pathnav li a{ text-decoration: none; color: #333; font-size: 14px;  margin: 0 10px;}
+	    	.pathnav li a:hover{ color: #888;}
+	    	

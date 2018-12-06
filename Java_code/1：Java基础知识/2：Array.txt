@@ -1,0 +1,368 @@
+1：编写一个方法，使用二分法查找出目标元素，并且返回该元素所在数组的位置
+
+public static int halfSearch(double[] a,int key)
+{                                                         
+	int mid=0;
+	int low=0,high=a.length-1;
+	while (low <= high)
+	{
+		mid = (low + high) / 2;
+		if (a[mid] == key)
+			return mid;
+		if (a[mid] > key)
+			high = mid - 1;
+		else
+			low = mid + 1;
+	}
+	return -1;
+	
+}
+
+
+}
+
+
+
+2:自定义一个String的对象，对象中的内容全部要求是英文字母（不区分大小写），
+要求编写一个方法能够输出该字符串中每个出现的字符的个数------使用数组完成
+
+package com.java;
+
+public class demo {
+	public static void main(String[] args) {
+		String a=new String("ladasdadsa");
+		count(a);
+	}
+	public static void count(String a){
+		int m,p=0;
+		 char[] b=new char[100];
+	on:for(int i=0;i<a.length();i++) {
+			m=1;
+			for(int q=0;q<p;q++) {
+				if(b[q]==a.charAt(i))
+					continue on;
+			}
+			b[p++]=a.charAt(i);
+			
+			for(int j=i+1;j<a.length();j++) {
+				if(a.charAt(i)==a.charAt(j)) {
+					m+=1;
+				}
+			}
+			System.out.println(a.charAt(i)+"的重复字符有"+m+"个");
+		}
+		
+	}
+	                                      
+	
+	
+}
+
+
+3:Arrays类中提供了一个方法是查找目标元素的，请你们写例子测试
+
+package com.test;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class test {
+	public  static void main(String[] args ) {
+		int[] a= {1,2,4,8,7,};
+		int p;
+		System.out.println("Please input you need find.....");
+		Scanner sc = new Scanner(System.in);
+		int key=sc.nextInt();
+		p=Arrays.binarySearch(a, key);
+		System.out.println("被查找元素的地址为"+p);	
+		
+	}	
+}
+
+
+4:对数组中的元素进行反转   
+package com.test;
+
+public class test {
+	public  static void main(String[] args ) {
+		String[] p= {"sfdmdsfj","dasad","fghd"};
+		for(int i=p.length;i>=0;i--) {
+			System.out.println(p[i]);
+		}
+		
+		
+//		StringBuffer a=new StringBuffer("liakang");
+//		System.out.println(a.reverse().toString());
+	
+	}	
+}
+
+
+
+5:要求输入一组英文字符串数组，
+    让这个字符串数组中前面一个元素的最后一个字母和下一个元素的首位上的字母相等，
+    并且每个元素的长度大于等于2且小于等于100.
+
+
+package com.test;
+
+import java.util.Arrays;
+
+public class hellow {
+	public static void main(String[] args) {
+		String[] a= {"sfd","tht","jgjy"};
+		int i=0;
+		for( i=0;i<a.length-1;i++) {
+		String st1 = a[i];
+		String st2 = a[i+1];
+		char ch1 = st1.charAt(st1.length()-1);
+		a[i+1] =  ch1+ st2;
+		}
+		System.out.println(Arrays.toString(a));
+		
+			if(a[i].length()<2) {
+				a[i].concat("     ");
+			}
+			if(a[i].length()>=100) {
+				a[i].substring(0, 100);
+			}
+				
+		}	
+
+}
+
+6:快速找出一个数组中的最大数、第二大数。
+
+package com.test;
+
+import java.util.Scanner;
+
+public class hellow {
+	public static void main(String[] args) {
+		int[] a=new int[5];
+		int max,pmax;
+		System.out.println("please input array's value....");
+		for(int i=0;i<a.length;i++) {
+			Scanner sc=new Scanner(System.in);
+			int m=sc.nextInt();
+			a[i]=m;	
+		}	
+		findMax(a);
+		
+		
+	}
+	public static void findMax(int[] a) {
+		int max=a[0]>a[1]?a[0]:a[1];// 比较两个数把最大值赋给max
+		int pmax=a[0]>a[1]?a[1]:a[0];
+		for(int i=2;i<a.length;i++) {
+			if(a[i]>pmax) {
+				if(a[i]>max) 
+					max=a[i];
+				else
+					pmax=a[i];	
+				
+			}	
+		}
+		
+		System.out.println("数组的最大值为："+max+" 次大值为"+pmax);
+	}
+	
+}
+
+
+
+7:现在有如下一个数组：
+    int oldArr[]={1,3,4,5,0,0,6,6,0,5,4,7,6,7,0,5};
+    要求将以上数组中的0项去掉，将不为0的值存入一个新的数组，生成新的数组为
+    int newArr[]={1,3,4,5,6,6,5,4,7,6,7,5};
+
+package com.test;
+
+
+public class hellow {
+	public static void main(String[] args) {
+	int[] oldArr= {1,3,4,5,0,0,6,6,0,5,4,7,6,7,0,5};
+	int j=deleteZero(oldArr);
+	for(int i=0;i<j;i++) {
+		System.out.println(oldArr[i]);
+		
+	}
+	
+	}
+	public static int deleteZero(int[] oldArr) {
+		int  j=0;
+		for(int i=0;i<oldArr.length;) {
+			if(oldArr[i]!=0) 
+				oldArr[j++]=oldArr[i++];
+			else
+				i++;
+		}
+		return j;
+	}
+}
+
+
+
+8: 歌手打分： 
+	在歌唱比赛中，共有10位评委进行打分，在计算歌手得分时，去掉一个最高分，去掉一个最低分， 
+	然后剩余的8位评委的分数进行平均，就是该选手的最终得分。输入每个评委的评分，求某选手的得分。
+	
+package com.test;
+
+import java.util.Scanner;
+
+public class hellow {
+	public static void main(String[] args) {
+		double[] a=new double[10];
+		double x;
+		System.out.println("please input compitition's score......");
+		for(int i=0;i<a.length;i++) {
+			Scanner sc=new Scanner(System.in);
+			double p=sc.nextDouble();
+			a[i]=p;
+		}
+		x=averageScore(a);
+		System.out.println(x);
+		
+		
+	}
+	public static double averageScore(double[] a) {
+		double count=0;
+		double max=a[0];
+		int j=0;
+		for(int i=1;i<a.length;i++) {//删除了最大值
+			if(a[i]>max) {
+				double t;
+				t=max;
+				max=a[i];
+				a[i]=t;
+			}    
+			a[j++]=a[i];
+		}
+		
+		double min=a[0];
+		int m=0;
+		for(int i=1;i<j;i++) {//删除最小值，m为下标
+			if(a[i]<min) {
+				double t;
+				t=min;
+				min=a[i];
+				a[i]=t;
+			}
+			a[m++]=a[i];
+		}
+		
+		for(int i=0;i<m;i++) {//算出平均值
+			count+=a[i];
+		}
+		count=count/m;
+		return count;
+		
+		
+	}
+}
+
+
+
+
+
+9：杨辉三角形:
+
+	杨辉三角形又称Pascal三角形，它的第i+1行是(a+b)i的展开式的系数。
+	它的一个重要性质是：三角形中的每个数字等于它两肩上的数字相加。
+	下面给出了杨辉三角形的前4行：　
+	???1	　　
+	??1   1	　　
+	?1   2   1	　　
+	1   3   3   1　给出n，输出它的前n行。
+输入格式
+	输入包含一个数n。
+输出格式
+	输出杨辉三角形的前n行。每一行从这一行的第一个数开始依次输出，中间使用一个空格分隔。请不要在前面输出多余的空格。
+
+
+package com.test;
+
+import java.util.Scanner;
+    
+public class hellow {
+public static void main (String[] args) { 
+	System.out.println("Please input data n: ");
+	Scanner sc=new Scanner(System.in);
+	int n=sc.nextInt();
+	pascal(n);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+	}
+	public static void pascal(int n) {//封装杨辉三角（pascal）
+		int a[][]=new int[n][n];
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<=i;j++) {
+				if(j==0||i==j) {             //寻找规律，发现每一行第一个和最后一个为1，其他符合规律
+					a[i][j]=1;
+				}
+				else {
+					a[i][j]=a[i-1][j-1]+a[i-1][j];
+				}
+			}
+		}
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<=i;j++) {
+			System.out.print(a[i][j]+" ");	
+			}
+			System.out.println();
+		}
+		
+	}
+}
+
+
+
+
+
+10:二维数组的行列转换：（行列相等为例），行列转换
+ 
+原始数据：
+	1  2  3 
+	4  5  6 
+	7  8  9 
+
+第一次转换之后   （2--4换位置）
+    	1  4  3
+	2  5  6                              
+	7  8  9
+第二次转换之后	（3--7换位置）
+	1  4  7
+	2  5  6
+	3  8  9
+第三次转换之后	（6--8换位置）
+	1  4  7
+	2  5  8
+	3  6  9
+原始数据：
+	1(x=0,y=0)  2(x=0,y=1)  3(x=0,y=2)
+	4(x=1,y=0)  5(x=1,y=1)  6(x=1,y=2)
+	7(x=2,y=0)  8(x=2,y=1)  9(x=2,y=2)
+	
+
+经过观察只有行数和列数相同的数发生转换，进而观察发生转换的数的坐标（x，y）不相等，对角线上的不变， 即x!=y时发生转换
+
+
+public static void chage(int[][] a){
+	for(int i=0;i<a.length;i++){
+		for(int j=i;j<a.length;j++){
+			if(i!=j){
+				int t=a[i][j];
+				a[i][j]=a[j][i];
+				a[j][i]=t;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

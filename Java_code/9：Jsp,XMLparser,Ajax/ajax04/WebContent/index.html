@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="ajax.js"></script>
+<script type="text/javascript">
+
+
+  //处理用户事件，通过xmlhttprequest对象给服务器发请求，并收以响应
+  function proc()
+  {
+	  ajax("POST","checkemail","name=lisi&age=22&email="+document.getElementById("email").value,function(retxt){
+
+		     if(retxt=="0")
+		    	 {
+		    	   document.getElementById("showtip").innerHTML="<span style='color:green;'>可以注册~!</span>";
+		    	 }else
+	    		 {
+		    		 document.getElementById("showtip").innerHTML="<span style='color:red;'>不可以注册~!</span>";
+	    		 }
+	  });
+	
+	 
+  } 
+  
+  /*   
+  function proc()
+  {
+	  ajax("POST","checkemail","name=lisi&age=22&email="+document.getElementById("email").value,success);
+  }
+  
+
+  function success(retxt)
+  {
+	  if(retxt=="0")
+	 	 {
+	 	   document.getElementById("showtip").innerHTML="<span style='color:green;'>可以注册~!</span>";
+	 	 }
+	  else
+		 {
+ 		   document.getElementById("showtip").innerHTML="<span style='color:red;'>不可以注册~!</span>";
+		 }
+  } */
+ 
+</script>
+</head>
+<body>
+<center>
+  <h1>页面前面的部分</h1>
+  <img src="img/banneradw.jpg"/>
+  <br/>
+  <hr/>
+
+  邮件:<input type="text" name="email" id="email" onblur="proc();"/><span id="showtip"></span><br/>
+  姓名:<input type="text" name="name"/>
+</center>
+</body>
+</html>

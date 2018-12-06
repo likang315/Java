@@ -1,0 +1,115 @@
+package com.demo;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class TCPClient {
+	public static void main(String[] args) {
+			
+		try {
+			//创建Socket，指定ip，port
+			Socket socket = new Socket("127.0.0.1", 4700);
+			//获得从键盘输入的缓冲流
+			BufferedReader sin = new BufferedReader(new InputStreamReader(System.in));				
+			//获得基于Socket的输出流和输出
+			PrintWriter os = new PrintWriter(socket.getOutputStream());
+			//获得读取socket的缓冲的字符输入流
+			BufferedReader is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			String readline;
+			readline = sin.readLine();
+			
+			
+			//向服务器写数据
+			while (!readline.equals("exit")) {
+				//把键盘输入的流，写入到scoket
+				os.println(readline);
+				os.flush();
+				//等待服务器端 回应
+				System.out.println("Server:" + is.readLine());
+				readline = sin.readLine();
+			}
+				os.close();
+				is.close();
+				socket.close();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+	}
+		
+}
+
+
+
+
+
+
+
+package com.demo;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPServer {
+	public static void main(String[] args) {
+		
+		try {
+			ServerSocket server = null;
+			try {
+				//创建ServerSocket对象，指定端口是4700
+				server = new ServerSocket(4700);
+				System.out.println("服务器启动成功");
+			} catch (Exception e) {
+				System.out.println("服务器启动出错");
+			}
+			Socket socket = null;
+			try {
+				//调用ServerSocket的accept方法，得到可以接受客户端的信息，并返回一个
+				  包含客户端信息的Socket对象
+				socket = server.accept();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//获得基于Socket的输入流
+			BufferedReader is = new BufferedReader(new InputStreamReader(
+					socket.getInputStream()));
+			
+			//获得基于Socket的输出流
+			PrintWriter os = new PrintWriter(socket.getOutputStream());
+			
+			//获得控制台输入
+			BufferedReader sin = new BufferedReader(new InputStreamReader(
+					System.in));
+			
+			//输出客户端输入，第一次打招呼确认
+			String line;
+			System.out.println("Client First :" + is.readLine());
+			
+			line = sin.readLine();
+			//向客户端传送消息数据
+			while (!line.equals("exit")) {
+				os.println(line);
+				os.flush();
+				System.out.println("Client:" + is.readLine());
+				line = sin.readLine();
+			}
+			
+			//资源关闭操作
+			os.close();
+			is.close();
+			socket.close();
+			server.close();
+	
+		}catch (Exception e) {
+			System.out.println("Error:" + e);
+		}
+
+	}
+}
+
+

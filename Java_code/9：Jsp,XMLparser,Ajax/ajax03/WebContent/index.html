@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var xmlhttp;//xmlHttpRequest
+function newInstance()
+{
+	if (window.XMLHttpRequest)
+	  {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	  }
+	else
+	  {// code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	  }
+
+}
+
+  //处理用户事件，通过xmlhttprequest对象给服务器发请求，并收以响应
+  function proc()
+  {
+	 newInstance(); 
+	 xmlhttp.onreadystatechange= function ()
+	  {
+		  if(xmlhttp.readyState==4&&xmlhttp.status==200)
+			  {
+			     var show=document.getElementById("showtip");
+			     var retxt=xmlhttp.responseText;
+			     if(retxt==1)
+			    	 {
+			    	   show.innerHTML="<span style='color:green;'>可以注册!</span>";
+			    	 }else
+		    		 {
+			    		 show.innerHTML="<span style='color:red;'>不可以注册!</span>";
+		    		 }
+			    
+			  }
+	  };
+	 //POST  请求方法
+	 xmlhttp.open("POST","checkemail");
+	 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	 xmlhttp.send("name=lisi&age=22&email="+document.getElementById("email").value);
+	 
+  }
+ 
+</script>
+</head>
+<body>
+<center>
+  <h1>页面前面的部分</h1>
+  <img src="img/banneradw.jpg"/>
+  <br/>
+  <hr/>
+
+  邮件:<input type="text" name="email" id="email" onblur="proc();"/><span id="showtip"></span><br/>
+  姓名:<input type="text" name="name"/>
+</center>
+</body>
+</html>

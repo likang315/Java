@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>增加商品</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-offset-3" style="padding-top: 30px;">
+<div class="panel panel-info">
+  <div class="panel-heading">增加商品：</div>
+  <div class="panel-body">
+ <!---------start form------------>
+ <form action="goods" method="post">
+ <!-- 传参 -->
+ <input type="hidden" name="action" value="savegoods"/>
+  <div class="form-group">
+    <label>商品名:</label>
+    <input type="text" class="form-control" name="name" placeholder="请输入商品名">
+  </div>
+  <div class="form-group">
+    <label >单价:</label>
+    <input type="text" class="form-control" name="price" placeholder="请输入单价">
+  </div>
+  <div class="form-group">
+    <label >图片:</label>
+    <select name="pic" onchange="changeimg(this);">
+     	 <option value="a1.jpg">a1</option>
+       	 <option value="a2.jpg">a2</option>
+       	 <option value="a3.jpg">a3</option>
+         <option value="a4.jpg">a4</option>
+         <option value="a5.jpg">a5</option>
+         <option value="a6.jpg">a6</option>
+         <option value="a7.jpg">a7</option>
+         <option value="a8.jpg">a8</option>
+         <option value="a9.jpg">a9</option>
+    </select>
+       <img src="img/a1.jpg" width="60" height="60" id="showimg" />
+  </div>
+  <button type="submit" class="btn btn-info">增加商品</button>
+</form>
+ 
+ <!---------end form----------->
+  </div>
+</div>
+					
+				</div>
+				
+			</div>
+		</div>
+		
+	 	<script type="text/javascript">
+			function changeimg(sel)
+			{
+				document.getElementById("showimg").src="img/"+sel.value;
+			}
+		</script>
+	 
+
+	</body>
+</html>
