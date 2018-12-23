@@ -13,7 +13,7 @@
  
 
 <!-- <select id="findStudentsById" parameterType="int" resultMap="stumap"> -->
-<!--     select * from students where stud_id=#{id} -->
+<!--     select * from students where stud_id=#{studId} -->
 <!-- </select> -->
  
 <!-- 简单数据类型 -->
