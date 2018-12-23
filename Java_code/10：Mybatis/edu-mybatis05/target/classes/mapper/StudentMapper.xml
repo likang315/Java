@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.mapper.StudentMapper">
+
+ <select id="findAllStudents" resultType="com.xzy.pojo.Students">
+    select * from students
+ </select>
+ 
+<insert id="insertStudent" parameterType="com.xzy.pojo.Students" useGeneratedKeys="true" keyColumn="stud_id" keyProperty="stud_id">
+INSERT INTO STUDENTS(NAME,EMAIL,DOB) VALUES(#{name},#{email},#{dob})
+</insert>
+ 
+ 
+ 
+ <sql id="role_columns">
+id,role_name#{name},note
+</sql>
+<select id="getRole" parameterType="long" resultMap="roleMap">
+select <include refid="role_columns"/> from t_role where id=#{id}
+</select>
+
+<select id="getRole" parameterType="long" resultMap="roleMap">
+select 
+<include refid="role_columns">
+<property name="name" value="lisi"/>
+</include>
+
+ from t_role where id=#{id}
+</select>
+
+
+
+</mapper>

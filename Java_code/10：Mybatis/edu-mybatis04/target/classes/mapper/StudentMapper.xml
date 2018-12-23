@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.mapper.StudentMapper">
+
+<!--   
+<resultMap type="students" id="stumap">
+     <id property="studId" column="stud_id"/>
+     <result property="name" column="name"/>
+     <result property="dob" column="dob"/>
+     <result property="email" column="email"/>
+  </resultMap>
+ -->
+
+ <select id="findAllStudents" resultType="com.xzy.pojo.Students">
+    select * from students
+ </select>
+ 
+<!-- 
+<select id="findStudentsById" parameterType="int" resultMap="stumap">
+    select * from students where stud_id>#{id}
+ </select> -->
+ 
+ 
+ <select id="findStudentsById" parameterType="int" resultType="students">
+    select * from students where stud_id>#{id}
+ </select>
+ 
+  <select id="findById" parameterType="int" resultType="map">
+    select * from students where stud_id=#{id}
+ </select>
+ 
+  <select id="findById2" parameterType="int" resultType="map">
+    select * from students where stud_id>#{id}
+ </select>
+ 
+ 
+ <select id="findBy02" parameterType="map" resultType="students">
+    select * from students where  stud_id>#{id} and  name like concat(#{name},'%');
+ </select>
+ <select id="findBy03" parameterType="map" resultType="students">
+    select * from students where  stud_id>#{id} and  name like #{name};
+ </select>
+
+</mapper>
