@@ -54,8 +54,8 @@ public class MybatisSqlSessionFactory {
 		Students stu=new Students();
 		stu.setName("likang");
 		stu.setEmail("13571881752@163.com");
+		stu.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1997-11-12"));
 		
-			stu.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1997-11-12"));
 			sm.insertStudent(stu);
 			sqlSession.commit();
 			System.out.println("OK");

@@ -1,14 +1,8 @@
 package com.xzy.edu;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -19,7 +13,7 @@ import com.xzy.pojo.Students;
 import com.zxy.mapper.StudentMapper;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple App
  */
 public class AppTest 
 {
@@ -28,35 +22,28 @@ public class AppTest
     {
 
 		InputStream inputStream = AppTest.class.getResourceAsStream("/mybatis-config.xml");
-		//相当于根据mybatis-config.xml构建接池
 		SqlSessionFactory sqlSessionFactory =new SqlSessionFactoryBuilder().build(inputStream);
-
-		// SqlSession相当于我们的Connection
-		SqlSession session = sqlSessionFactory.openSession();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
 		
-			StudentMapper sm=session.getMapper(StudentMapper.class);
-			
+			StudentMapper sm=sqlSession.getMapper(StudentMapper.class);
 			//增加
 			Students stu=new Students();
-			stu.setDob(new Date());
+			stu.setName("小李");
 			stu.setEmail("Hello@163.com");
-			stu.setName("小五");
+			stu.setDob(new SimpleDateFormat("yyyy-MM-dd").parse("1997-11-12"));
 			
 			sm.insertStudent(stu);
 			
+			sqlSession.commit();
+			System.out.println("主键回填："+stu.getStud_id());
 			
-			System.out.println("------------------------->"+stu.getStud_id());
+		} catch (ParseException e) {
+			sqlSession.rollback();
+			e.printStackTrace();
 			
-			
-		   session.commit();
-			
-			//查询
-			
-			
-
 		} finally {
-		 session.close();
+			sqlSession.close();
 		}
     }
 

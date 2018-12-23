@@ -4,10 +4,13 @@ import java.util.Date;
 
 public class Students {
 	//private int studId;
+	
 	private int stud_id;
 	private String name;
 	private String email;
 	private Date dob;
+	
+	
 	public int getStud_id() {
 		return stud_id;
 	}

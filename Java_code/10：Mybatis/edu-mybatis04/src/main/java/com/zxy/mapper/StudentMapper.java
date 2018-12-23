@@ -6,16 +6,15 @@ import java.util.Map;
 import com.xzy.pojo.Students;
 
 public interface StudentMapper {
-	//查询所有学生
-	public List<Students> findAllStudents();
-	//据据id找学生
-	//public Students findStudentById(Integer id);
 	
-	//增加一个学生
-	//public void insertStudent(Students student);
-	
+	//根据ID查询
 	public List<Students> findStudentsById(int id);
 	
+	//返回Map，一个对象
 	public Map<String,Object> findById(int id);
+	
+	//返回List<Map> ,多个对象
 	public List<Map<String,Object>> findById2(int id);
+	
+	
 }

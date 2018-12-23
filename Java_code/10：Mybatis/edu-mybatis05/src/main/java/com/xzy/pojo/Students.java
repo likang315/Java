@@ -3,7 +3,7 @@ package com.xzy.pojo;
 import java.util.Date;
 
 public class Students {
-	//private int studId;
+	
 	private int stud_id;
 	private String name;
 	private String email;
