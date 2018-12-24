@@ -28,7 +28,7 @@ public class AppTest
 		
 			StudentMapper sm=sqlSession.getMapper(StudentMapper.class);
 			List<Stu> list=sm.findAllStu();
-			for(Stu s:list)
+			for(Stu s:list)           
 			{
 				System.out.println(s.getId()+"\t"+s.getName()+"\t"+s.getClazz().getName()+"\t"+s.getSex()+"\t"+s.getAge()+"\t"+s.getScore().getEnglish()+"\t"+s.getScore().getMath()+"\t"+s.getScore().getPe());
 			}

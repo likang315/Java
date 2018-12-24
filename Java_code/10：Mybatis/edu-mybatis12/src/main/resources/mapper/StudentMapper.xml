@@ -9,7 +9,7 @@
           <id property="id" column="id"/>
 	      <result property="math" column="math"/>
 	      <result property="english" column="english"/>
-	       <result property="pe" column="pe"/>
+	      <result property="pe" column="pe"/>
 </resultMap>
 
  <resultMap type="stu" id="stusMap">
@@ -18,13 +18,13 @@
      <result property="name" column="name"/>
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
+     
      <association property="score" select="findScorebyid" column="id"> </association>
      <association property="clazz" select="findClazzById" column="clazz_id"></association>
-   </resultMap>   
+ </resultMap>   
    
 <resultMap type="Clazz" id="clazzMap">
      <id property="id" column="id"/>
-    
      <result property="name" column="name"/>
    
      <association property="stus" javaType="ArrayList" select="findStuByClassId" column="id" fetchType="lazy"> </association>
@@ -32,47 +32,45 @@
 
 
 <resultMap type="Teacher" id="teachMap">
-   <id property="id" column="id"/>
+     <id property="id" column="id"/>
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
      <result property="name" column="name"/>
      
-     <collection property="stus" fetchType="lazy" select="findStuByTeacherId" column="id"></collection>
-    <!--  <association property="stus" select="findStuByTeacherId" column="id" ></association> -->
+    <association property="stus" select="findStuByTeacherId" column="id" ></association>
 </resultMap>
-   
+ 
+<!-- one to one  -->
 <select id="findClazzById" resultMap="clazzMap">
-   select * from clazz where id=#{id}
+   select * from clazz where id=#{clazz_id}
 </select>  
+
 <select id="findScorebyid" resultType="score" parameterType="int">
     select * from score where stu_id=#{id}
 </select>
    
-<select id="findAllStu01" resultMap="stusMap">
+<select id="findAllSt" resultMap="stusMap">
    select * from stu
 </select>
   
   
+ <!-- one to many  -->
 <select id="findStuByClassId" resultMap="stusMap">
   select * from stu where clazz_id=#{id}
 </select>
   
-  
-<!--  <select id="findAllStu01" resultMap="stusMap">
-   select s.id,s.clazz_id,s.name,s.sex,s.age,c.math,c.english,c.pe from stu s,score c where c.stu_id=s.id
- </select> -->
- 
- <select id="findAllClazz"  resultMap="clazzMap">
+<select id="findAllClazz"  resultMap="clazzMap">
    select * from clazz
- </select>
+</select>
  
+ 
+ <!-- many to many -->
  <select id="findAllTeacher" resultMap="teachMap">
     select * from teacher
  </select>
  
  <select id="findStuByTeacherId" resultMap="stusMap">
- <!-- select * from stu_tea where tea_id=#{id} -->
- select s.*,st.* from stu_tea st,stu s where st.tea_id=#{id} and s.id=st.stu_id
+ 	select s.*,st.* from stu_tea st,stu s where st.tea_id=#{id} and st.stu_id=s.id
  </select>
 
 </mapper>

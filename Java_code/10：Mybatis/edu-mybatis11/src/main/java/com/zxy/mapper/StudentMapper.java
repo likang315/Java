@@ -10,11 +10,6 @@ public interface StudentMapper {
 	
 	//查询所有学生,one to one 
 	public List<Stu> findAllStu();
-
-	public Score findScorebyid(int id);
-	
-	public Clazz findClazzById(int id);
-	
 	
 	//one to many
 	public List<Clazz> findAllClazz();

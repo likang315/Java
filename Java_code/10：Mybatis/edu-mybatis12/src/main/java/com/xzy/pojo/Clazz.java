@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Clazz {
-  private int	 id;
+	
+  private int id;
   private String name;
   
-  List<Stu> stus=new ArrayList<Stu>();
+  private List<Stu> stus=new ArrayList<Stu>();
   
 public int getId() {
 	return id;

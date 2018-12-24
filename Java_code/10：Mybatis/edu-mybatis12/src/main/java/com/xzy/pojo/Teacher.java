@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher {
+	
 	private int id;
 	private String name;
-	 private int age;
-	 private String sex;
+	private int age;
+	private String sex;
 	 
-	 List<Stu> stus=new ArrayList<Stu>();
+	private List<Stu> stus=new ArrayList<Stu>();
 
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}

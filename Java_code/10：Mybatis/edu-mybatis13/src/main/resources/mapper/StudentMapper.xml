@@ -4,28 +4,28 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zxy.mapper.StudentMapper">
 
-
+<!-- 所有映射关系的mapper都有，many to many 需要都配置 -->
 <resultMap type="score" id="scoreMap">
           <id property="id" column="id"/>
 	      <result property="math" column="math"/>
 	      <result property="english" column="english"/>
-	       <result property="pe" column="pe"/>
+	      <result property="pe" column="pe"/>
 </resultMap>
 
- <resultMap type="stu" id="stusMap">
+<resultMap type="stu" id="stusMap">
      <id property="id" column="id"/>
      <result property="clazzId" column="clazz_id"/>
      <result property="name" column="name"/>
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
+     
      <association property="score" select="findScorebyid" column="id"> </association>
      <association property="clazz" select="findClazzById" column="clazz_id"></association>
-     <collection property="teas" select="findTeachByStuId" column="id"  fetchType="lazy"></collection>
-   </resultMap>   
+     <collection property="teas"   select="findTeachByStuId" column="id"  fetchType="lazy"></collection>
+</resultMap>   
    
 <resultMap type="Clazz" id="clazzMap">
      <id property="id" column="id"/>
-    
      <result property="name" column="name"/>
    
      <association property="stus" javaType="ArrayList" select="findStuByClassId" column="id" fetchType="lazy"> </association>
@@ -33,22 +33,22 @@
 
 
 <resultMap type="Teacher" id="teachMap">
-   <id property="id" column="id"/>
+   	<id property="id" column="id"/>
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
-     
      <result property="course" column="course"/>
+     
     <collection property="stus" fetchType="lazy" select="findStuByTeacherId" column="id"></collection>
 </resultMap>
    
-<select id="findClazzById" resultMap="clazzMap">
-   select * from clazz where id=#{id}
+<select id="findClazzById" resultMap="clazzMap" parameterType="int">
+   select * from clazz where id=#{clazz_id}
 </select>  
 <select id="findScorebyid" resultType="score" parameterType="int">
     select * from score where stu_id=#{id}
 </select>
    
-<select id="findAllStu01" resultMap="stusMap">
+<select id="findAllStu" resultMap="stusMap">
    select * from stu
 </select>
   
@@ -57,11 +57,7 @@
   select * from stu where clazz_id=#{id}
 </select>
   
-  
-<!--  <select id="findAllStu01" resultMap="stusMap">
-   select s.id,s.clazz_id,s.name,s.sex,s.age,c.math,c.english,c.pe from stu s,score c where c.stu_id=s.id
- </select> -->
- 
+
  <select id="findAllClazz"  resultMap="clazzMap">
    select * from clazz
  </select>
@@ -73,7 +69,9 @@
  <select id="findStuByTeacherId" resultMap="stusMap">
  select s.*,st.* from stu_tea st,stu s where st.tea_id=#{id} and s.id=st.stu_id
  </select>
+ 
  <select id="findTeachByStuId" resultMap="teachMap">
  select t.*,st.* from stu_tea st,teacher t where st.stu_id=#{id} and t.id=st.tea_id
  </select>
+ 
 </mapper>
