@@ -19,29 +19,20 @@ public class AppTest
 	@Test
     public void testOne2ont()
     {
-
 		InputStream inputStream = AppTest.class.getResourceAsStream("/mybatis-config.xml");
-		//相当于根据mybatis-config.xml构建接池
 		SqlSessionFactory sqlSessionFactory =new SqlSessionFactoryBuilder().build(inputStream);
-
-		// SqlSession相当于我们的Connection
-		SqlSession session = sqlSessionFactory.openSession();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
 		
-			StudentMapper sm=session.getMapper(StudentMapper.class);
-			List<Stu> list=sm.findAllStu01();
+			StudentMapper sm=sqlSession.getMapper(StudentMapper.class);
+			List<Stu> list=sm.findAllStu();
 			for(Stu s:list)
 			{
 				System.out.println(s.getId()+"\t"+s.getName()+"\t"+s.getSex()+"\t"+s.getAge()+"\t"+s.getScore().getEnglish()+"\t"+s.getScore().getMath()+"\t"+s.getScore().getPe());
 			}
 		
-			
-			//查询
-			
-			
-
 		} finally {
-		 session.close();
+			sqlSession	.close();
 		}
     }
 

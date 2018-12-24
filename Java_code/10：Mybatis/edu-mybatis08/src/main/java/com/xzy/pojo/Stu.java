@@ -1,6 +1,7 @@
 package com.xzy.pojo;
 
 public class Stu {
+	
 	private int id;
 	private int clazzId;
 	private String name;

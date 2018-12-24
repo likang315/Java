@@ -4,12 +4,12 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zxy.mapper.StudentMapper">
 
-
+<!--嵌套查询  -->
 <resultMap type="score" id="scoreMap">
           <id property="id" column="id"/>
 	      <result property="math" column="math"/>
 	      <result property="english" column="english"/>
-	       <result property="pe" column="pe"/>
+	      <result property="pe" column="pe"/>
 </resultMap>
 
  <resultMap type="stu" id="stusMap">
@@ -19,19 +19,15 @@
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
      <association property="score" select="findScorebyid" column="id"> </association>
-   </resultMap>   
+ </resultMap>   
    
    <select id="findScorebyid" resultType="score" parameterType="int">
        select * from score where stu_id=#{id}
    </select>
    
-   <select id="findAllStu01" resultMap="stusMap">
-   select * from stu
- </select>
+   <select id="findAllStu" resultMap="stusMap">
+  		select * from stu
+   </select>
   
-<!--  <select id="findAllStu01" resultMap="stusMap">
-   select s.id,s.clazz_id,s.name,s.sex,s.age,c.math,c.english,c.pe from stu s,score c where c.stu_id=s.id
- </select> -->
- 
 
 </mapper>

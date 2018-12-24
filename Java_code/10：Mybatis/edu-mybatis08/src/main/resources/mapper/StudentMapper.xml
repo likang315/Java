@@ -4,17 +4,19 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zxy.mapper.StudentMapper">
 
+ <!-- association 内联resultMap -->>
  <resultMap type="stu" id="stusMap">
      <id property="id" column="id"/>
      <result property="clazzId" column="clazz_id"/>
      <result property="name" column="name"/>
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
+     
      <association property="score" javaType="Score" column="stu_id">
 	      <id property="id" column="id"/>
 	      <result property="math" column="math"/>
 	      <result property="english" column="english"/>
-	       <result property="pe" column="pe"/>
+	      <result property="pe" column="pe"/>
      </association>
    </resultMap>   
    

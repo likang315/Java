@@ -3,13 +3,17 @@
  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
 <settings>
   <setting name="mapUnderscoreToCamelCase" value="true"/>
 </settings>
+
 <typeAliases>
   <package name="com.xzy.pojo"/>
 </typeAliases>
+
 	 <environments default="development">
+		 
 		 <environment id="development">
 			 <transactionManager type="JDBC"/>
 			 <dataSource type="POOLED">
@@ -21,8 +25,10 @@
 		 </environment>
 	
 	 </environments>
+	 
 	 <mappers>
 	     <!-- 对像和数据表的关系 -->
 	     <mapper resource="mapper/StudentMapper.xml"/>
 	 </mappers>
+	 
 </configuration>

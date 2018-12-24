@@ -1,11 +1,13 @@
 package com.xzy.pojo;
 
 public class Score {
+	
 	private int  id;
-	private int  stuId;
+	private int  stuId;//学生id
 	private int  math;
 	private int  english;
 	private int  pe;
+	
 	public int getId() {
 		return id;
 	}

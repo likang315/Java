@@ -6,7 +6,7 @@ import com.xzy.pojo.Stu;
 
 public interface StudentMapper {
 	//查询所有学生
-	public List<Stu> findAllStu01();
+	public List<Stu> findAllStu();
 
 	
 }
