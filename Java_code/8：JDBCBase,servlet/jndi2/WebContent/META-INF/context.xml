@@ -1,0 +1,28 @@
+<Context>
+	<Resource auth="Container"
+	      description="DB Connection"
+		  driverClass="com.mysql.jdbc.Driver"
+		  maxPoolSize="4"
+		  minPoolSize="2"
+		  acquireIncrement="1"
+
+		  name="jdbc/test"
+		  user="root"
+		  password="mysql"
+		  factory="org.apache.naming.factory.BeanFactory"
+		  type="com.mchange.v2.c3p0.ComboPooledDataSource"
+		  jdbcUrl="jdbc:mysql://localhost:3306/income" />
+</Context>
+<!--
+14   |- name：表示以后要 查找jndi的名称。通过此名称可以找到DataSource，此名称任意更换，但是程序中最终要查找的就是此名称，
+15            为了不与其他的名称混淆，所以使用jdbc/oracle，现在配置的是一个jdbc的关于mysql的命名服务。
+16   |- auth：由容器进行授权及管理，指的用户名和密码是否可以在容器上生效
+17   |- type：此名称所代表的类型，现在为javax.sql.DataSource
+18   |- maxActive：表示一个数据库在此服务器上所能打开的最大连接数
+19   |- maxIdle：表示一个数据库在此服务器上维持的最小连接数
+20   |- maxWait：最大等待时间。10000毫秒
+21   |- username：数据库连接的用户名
+22   |- password：数据库连接的密码
+23   |- driverClassName：数据库连接的驱动程序
+24   |- url：数据库连接的地址
+25 -->
