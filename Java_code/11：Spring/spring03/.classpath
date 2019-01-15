@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="lib" path="jars/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="jars/spring-aop-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-beans-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-context-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-core-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-expression-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="jars/spring-test-4.3.7.RELEASE.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
