@@ -5,13 +5,6 @@
 <mapper namespace="com.zxy.mapper.StudentMapper">
 
 <!--嵌套查询  -->
-<resultMap type="score" id="scoreMap">
-          <id property="id" column="id"/>
-	      <result property="math" column="math"/>
-	      <result property="english" column="english"/>
-	      <result property="pe" column="pe"/>
-</resultMap>
-
  <resultMap type="stu" id="stusMap">
      <id property="id" column="id"/>
      <result property="clazzId" column="clazz_id"/>

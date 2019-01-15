@@ -11,7 +11,7 @@
 </insert>
  
  
- <!-- sq元素包含 -->
+ <!-- sql元素包含 -->
 <!--<sql id="role_columns">
 	id,role_name#{name},note
 </sql>

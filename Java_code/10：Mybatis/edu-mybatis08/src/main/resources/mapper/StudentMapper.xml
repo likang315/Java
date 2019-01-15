@@ -18,7 +18,7 @@
 	      <result property="english" column="english"/>
 	      <result property="pe" column="pe"/>
      </association>
-   </resultMap>   
+</resultMap>   
    
   
  <select id="findAllStu01" resultMap="stusMap">
