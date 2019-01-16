@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.xzy</groupId>
+  <artifactId>study-spring07</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>study-spring07</name>
+  <url>http://maven.apache.org</url>
+
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>4.3.7.RELEASE</spring.version>
+  </properties>
+  
+    <!-- 设定主仓库，按设定顺序进行查找。 -->
+	<repositories>
+		<repository>
+			<id>my-repos</id>
+			<name>redcms Repository</name>
+			<url>http://192.168.1.198:8081/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+	
+	<!-- 设定插件仓库 -->
+	<pluginRepositories> 
+	
+		<pluginRepository>
+			<id>my-plug</id>
+			<name>redcms Repository</name>
+			<url>http://192.168.1.198:8081/nexus/content/groups/public/</url>
+		</pluginRepository>
+		
+	</pluginRepositories> 
+
+
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-core</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-beans</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-context</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-expression</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-test</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-aop</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+
+
+  </dependencies>
+
+ <distributionManagement>
+	 <repository>
+		 <id>nexus_release</id>
+		<name>Proj Release Repository </name>
+		<url>http://192.168.1.198:8081/nexus/content/repositories/releases/</url>
+	 </repository>
+	 <snapshotRepository>
+		 <id>nexu_snapshots</id>
+		 <name>Proj Snapshot Repository </name>
+		 <url>http://192.168.1.198:8081/nexus/content/repositories/snapshots/</url>
+	 </snapshotRepository>
+</distributionManagement>
+
+  <build>
+   <plugins>
+		<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+    </plugins>
+  </build>
+
+</project>
