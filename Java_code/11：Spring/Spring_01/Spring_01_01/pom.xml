@@ -7,7 +7,10 @@
   <groupId>com.xupt</groupId>
   <artifactId>Spring_01</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <modules>
+        <module>../spring_01_03</module>
+    </modules>
+    <packaging>pom</packaging>
 
   <name>Spring_01</name>
   <!-- FIXME change it to the project's website -->
