@@ -6,11 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringMVC_01_02" />
+        <module name="SpringMVC_01_04" />
+        <module name="SpringMVC_01_06" />
+        <module name="SpringMVC_01_07" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Spring_01_04" target="1.5" />
       <module name="SpringMVC_01_02" target="1.7" />
+      <module name="SpringMVC_01_03" target="1.7" />
+      <module name="SpringMVC_01_04" target="1.8" />
+      <module name="SpringMVC_01_05" target="1.7" />
+      <module name="SpringMVC_01_06" target="1.7" />
+      <module name="SpringMVC_01_07" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
