@@ -8,7 +8,7 @@ package com.xupt.pojo;
  */
 public class User {
 
-    private String  name;
+    private String name;
     private int age;
 
     public String getName()
