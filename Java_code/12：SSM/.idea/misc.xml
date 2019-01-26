@@ -23,6 +23,12 @@
         <option value="$PROJECT_DIR$/ssm_parent/xupt_web/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/ssm_parent/pom.xml" />
+        <option value="$PROJECT_DIR$/ssm_parent/xupt_autogenerator/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectDictionaryState">
     <dictionary name="likang" />

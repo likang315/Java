@@ -44,7 +44,7 @@
     </dependencies>
 
     <build>
-        <!-- 用来加载mapper.xml文件-->
+
         <resources>
             <resource>
                 <directory>src/main/java</directory>

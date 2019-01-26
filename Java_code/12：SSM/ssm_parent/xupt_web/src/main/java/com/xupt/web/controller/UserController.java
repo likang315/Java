@@ -5,6 +5,7 @@ import com.xupt.service.IUserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @CreateTime： 2019/1/25 19:54
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/user")
 public class UserController {
 
     private static Logger log=Logger.getLogger(UserController.class);
@@ -22,15 +23,16 @@ public class UserController {
     @Autowired
     private IUserService ius;
 
-    @RequestMapping("/user")
-    public String userHandle()
+    @RequestMapping("/login")
+    public String userHandle(Model model)
     {
         log.info("+++++++ start 查找User +++++++++");
         User user=ius.findById(2);
         System.out.println(user.toString());
 
+        model.addAttribute("user",user);
         log.info("---------- end 查找User --------------");
-        return "hello";
+        return "user/login";
 
     }
 

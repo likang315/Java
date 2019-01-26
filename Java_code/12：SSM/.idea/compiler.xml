@@ -14,6 +14,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ssm_parent" target="1.5" />
+      <module name="xupt_autogenerator" target="1.7" />
       <module name="xupt_dao" target="1.7" />
       <module name="xupt_model" target="1.7" />
       <module name="xupt_service" target="1.7" />
