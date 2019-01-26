@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="xupt_web:war">
+    <output-path>$PROJECT_DIR$/ssm_parent/xupt_web/target</output-path>
+    <root id="archive" name="xupt_web-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="xupt_web:war exploded" />
+    </root>
+  </artifact>
+</component>
