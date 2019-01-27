@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/xupt_web" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/pom.xml" />
+        <option value="$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/xupt_dao/pom.xml" />
+        <option value="$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/xupt_model/pom.xml" />
+        <option value="$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/xupt_service/pom.xml" />
+        <option value="$PROJECT_DIR$/../../12：SSM/SSM_01/ssm_parent/xupt_web/pom.xml" />
+      </set>
+    </option>
+  </component>
   <component name="ProjectKey">
     <option name="state" value="project://63537948-39a4-48a0-9c97-34259a0fa913" />
   </component>

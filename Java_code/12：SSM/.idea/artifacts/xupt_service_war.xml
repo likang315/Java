@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="xupt_service:war">
-    <output-path>$PROJECT_DIR$/ssm_parent/xupt_service/target</output-path>
-    <root id="archive" name="xupt_service.war">
-      <element id="artifact" artifact-name="xupt_service:war exploded" />
-    </root>
-  </artifact>
-</component>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="org.springframework.beans.factory.annotation.Autowired" />
+    </list>
+  </component>
+  <component name="FUSUsageTrigger">
+    <session id="-592544876">
+      <usages-collector id="statistics.spring.core.usages.trigger">
+        <counts>
+          <entry key="fixes.SpringFacetInspection.AddFacetFix" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/ssm_parent/xupt_dao" />
+    <file type="web" url="file://$PROJECT_DIR$/ssm_parent/xupt_manager" />
+    <file type="web" url="file://$PROJECT_DIR$/ssm_parent/xupt_service" />
+    <file type="web" url="file://$PROJECT_DIR$/ssm_parent/xupt_web" />
+  </component>
+  <component name="Kotlin2JsCompilerArguments">
+    <option name="sourceMapEmbedSources" />
+    <option name="sourceMapPrefix" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/ssm_parent/pom.xml" />
+        <option value="$PROJECT_DIR$/ssm_parent/xupt_manager/pom.xml" />
+        <option value="$PROJECT_DIR$/ssm_parent/xupt_web/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/ssm_parent/pom.xml" />
+        <option value="$PROJECT_DIR$/ssm_parent/xupt_autogenerator/pom.xml" />
+        <option value="$PROJECT_DIR$/ssm_parent/xupt_manager/com_xupt/pom.xml" />
+        <option value="$PROJECT_DIR$/ssm_parent/xupt_manager/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="likang" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="xupt_service" />
+      </set>
+    </option>
+  </component>
+</project>

@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="xupt_dao:war">
-    <output-path>$PROJECT_DIR$/ssm_parent/xupt_dao/target</output-path>
-    <root id="archive" name="xupt_dao.war">
-      <element id="artifact" artifact-name="xupt_dao:war exploded" />
-    </root>
-  </artifact>
-</component>
