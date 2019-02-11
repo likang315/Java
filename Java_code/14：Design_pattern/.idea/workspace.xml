@@ -47,6 +47,11 @@
         <option value="$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb_abs.java" />
         <option value="$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb_absImp.java" />
         <option value="$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Main.java" />
+        <option value="$PROJECT_DIR$/3：Decorator/src/Product.java" />
+        <option value="$PROJECT_DIR$/3：Decorator/src/Main.java" />
+        <option value="$PROJECT_DIR$/3：Decorator/src/Base.java" />
+        <option value="$PROJECT_DIR$/3：Decorator/src/Decorator.java" />
+        <option value="$PROJECT_DIR$/3：Decorator/src/ConcreteDecorator.java" />
       </list>
     </option>
   </component>
@@ -67,8 +72,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -80,7 +86,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -108,7 +113,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main (2)">
+  <component name="RunManager" selected="Application.Main (3)">
     <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xupt.class_adapter.Main" />
       <module name="Adapter" />
@@ -128,6 +133,10 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+    </configuration>
+    <configuration name="Main (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="3：Decorator" />
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.xupt.Main" />
@@ -166,9 +175,11 @@
       <item itemvalue="Application.Singleton_lazy" />
       <item itemvalue="Application.Main (1)" />
       <item itemvalue="Application.Main (2)" />
+      <item itemvalue="Application.Main (3)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (3)" />
         <item itemvalue="Application.Main (2)" />
         <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.Singleton_lazy" />
@@ -187,11 +198,14 @@
       <updated>1548859571000</updated>
       <workItem from="1548859575149" duration="4061000" />
       <workItem from="1549096607067" duration="1955000" />
+      <workItem from="1549626982406" duration="158000" />
+      <workItem from="1549627264302" duration="1396000" />
+      <workItem from="1549888684891" duration="1714000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6016000" />
+    <option name="totallyTimeSpent" value="9284000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -206,11 +220,11 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.12542956" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.04639175" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22012103" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22919819" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -247,108 +261,70 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/single_hungry/Singleton02.java" />
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Type_imp.java">
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Type_imp.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Adapter.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Main.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Type_c.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Andriod.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb_absImp.java" />
+    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_hungry_02/Singleton.java" />
+    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_hungry_03/Singleton.java" />
+    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_lazy_01/Singleton.java" />
+    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_lazy_02/Singleton.java" />
+    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_lazy_03/Singleton.java" />
+    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_hungry_01/Singleton.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb_abs.java" />
+    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Main.java" />
+    <entry file="file://$PROJECT_DIR$/2：Adapter/src/com/xupt/interface_adapter/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2：Adapter/src/com/xupt/class_adapter/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3：Decorator/src/Base.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="7" selection-start-line="7" selection-end-line="13" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3：Decorator/src/Product.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="16" />
+          <caret line="8" selection-start-line="8" selection-end-line="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Adapter.java">
+    <entry file="file://$PROJECT_DIR$/3：Decorator/src/ConcreteDecorator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="12" selection-start-line="12" selection-end-line="20" selection-end-column="1" />
+        <state relative-caret-position="126">
+          <caret line="6" selection-start-line="6" selection-end-line="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Main.java">
+    <entry file="file://$PROJECT_DIR$/3：Decorator/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+        <state relative-caret-position="105">
+          <caret line="5" column="3" lean-forward="true" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Type_c.java">
+    <entry file="file://$PROJECT_DIR$/3：Decorator/src/Decorator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/class_adapter/Andriod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb_absImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" selection-start-line="8" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_hungry_02/Singleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3">
-          <caret line="9" selection-start-line="9" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_hungry_03/Singleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" selection-start-line="9" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_lazy_01/Singleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-98">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_lazy_02/Singleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="9" selection-start-line="9" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_lazy_03/Singleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="24" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SingleTon/src/com/xupt/singleton_hungry_01/Singleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="20" column="28" lean-forward="true" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Usb_abs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="9" selection-start-line="9" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Adapter/src/com/xupt/interface_adapter/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="18" lean-forward="true" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+        <state relative-caret-position="42">
+          <caret line="7" selection-start-line="7" selection-end-line="17" />
         </state>
       </provider>
     </entry>
