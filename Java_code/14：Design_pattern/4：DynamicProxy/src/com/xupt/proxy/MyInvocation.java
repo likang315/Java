@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  */
 
 /**
- * 动态代理必须实现invovationHandler
+ * 动态代理必须实现invovationHandler，事件处理器
  */
 public class MyInvocation implements InvocationHandler {
 
