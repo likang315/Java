@@ -47,7 +47,6 @@
 </select>
 
 
-
 <select id="findAllClazz"  resultMap="clazzMap">
    select * from clazz
 </select>

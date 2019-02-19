@@ -9,7 +9,7 @@
 
         <!--数据库配置-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/ssm"
+                        connectionURL="jdbc:mysql://localhost:3306/alading"
                         userId="root"
                         password="mysql">
         </jdbcConnection>
@@ -20,24 +20,24 @@
         </javaTypeResolver>
 
         <!-- 模型生成包名-->
-        <javaModelGenerator targetPackage="com.xupt.nmodel.pojo" targetProject=".\src">
+        <javaModelGenerator targetPackage="com.aladin.pojo" targetProject=".\src">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
         <!-- mybatis的映射.xml-->
-        <sqlMapGenerator targetPackage="com.xupt.dao.mapper"  targetProject=".\src">
+        <sqlMapGenerator targetPackage="com.aladin.dao.mapper"  targetProject=".\src">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
         <!-- mybatis 的mapper接口生成的包路径-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.xupt.dao.mapper"  targetProject=".\src">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.aladin.dao.inter"  targetProject=".\src">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
         <!-- 配置生成表的模型-->
-        <table tableName="user" domainObjectName="User"/>
-        <table tableName="users" domainObjectName="Users" />
+        <table tableName="m_order" domainObjectName="m_order"/>
+        <table tableName="m_shopping" domainObjectName="m_shopping" />
 
 
     </context>
