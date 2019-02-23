@@ -1,0 +1,304 @@
+
+IntelliJ IDEA 
+
+1：install(傻瓜式安装)
+	Create DeskTop shrtcut:创建快捷图标 
+	Create associations ：关联 Java 和 Groovy 文件，建议都不要勾选
+
+2：uninstall(卸载)
+	Delete cache and local history：删除本地的缓存和记录
+	Delete setting and installed piugins:删除旧版本和个性化设置
+
+3：首次运行
+	import my setting from a privious version :导入旧版本的配置文件
+	License key 密钥
+	select UI theme ：选择主题
+	Java Frameworks 的 Customize，选择IDEA的工具
+	Start using IntelliJ IDEA  完成配置
+	
+
+4：安装目录讲解
+	idea64.exe 文件是 IntelliJ IDEA 64 位的可行执行文件，要求必须电脑上装有 JDK 64 位版本
+	idea64.exe.vmoptions 文件是 IntelliJ IDEA 64 位的可执行文件的 VM 配置文件 
+	idea.properties 文件是 IntelliJ IDEA 的一些属性配置文件
+
+5：配置文件的修改
+
+
+6：IDEA 界面介绍
+
+重点说明：IDEA 是没有类似 Eclipse 的工作空间的概念（Workspaces ），最大单元就是 Project
+如果你同时观察多个项目的情况,IDEA 提供的解决方案是打开多个项目实例，可以理解为开多个项目窗口 
+	命令 Create New Project 创建一个新项目
+	命令 Import Project 	导入一个已有项目 
+	命令 Open 		打开一个已有项目,打开 Eclipse 项目,可能需要配置
+	命令 Check out from Version Control 导出服务器上的项目或是其他Git托管服务器上的项目
+
+	View设置显示：Toolbar 和 Tool Buttons
+
+	
+7：Setting--Editor
+	忽略大小写敏感：General-->Code Sensitive Completion-->Case-->None
+	智能导包：General-->Auto Import-->(add unambiguous 和Optinmize xxx)
+	代码折叠：General-->Code Folding指定代码类型进行默认折叠或是展开
+
+	字体：Editor-->Font
+	
+	编码格式：
+		File Encoding-->全部修改为utf-8，对于 Properties 文件,的属性Transparent native-to-ascii conversion 
+		用于转换 ascii,要勾选，不然 Properties 文件中的注释显示的都不会是中文
+	设置文件模板：
+		File and Code Template-->includes-->File Header
+		自定义变量格式有两种方式：$变量名 或 ${变量名}
+	实时模板：Code Style-->Live Templates-->Tempalte group(创建模板组)或者Live Template
+
+	隐藏 .idea文件夹和 .iml等文件：（.idea 即为 Project 的配置文件目录，.iml 即为 Module 的配置文件）
+		File Type-->Ignore files and folders-->添加 *.idea;*.iml;
+	
+		
+8：IDEA 索引文件和缓存：用来加快文件查询，从而加快各种查找、代码提示等操作的速度
+	File-->Incalidate Cachexs/Restart... 清除索引和缓存
+
+	项目文件的历史更改记录,目录地址在：C:\Users\当前登录的系统用户名\.IntelliJIdea14\system\LocalHistory(占内存) 
+
+9：IDEA编译方式Build
+	共有三种：
+		Compile：对选定的目标（Java 类文件），强制性编译，不管目标是否是被修改过 
+		Rebuild：编译整个Project，强制性编译，不管目标是否是被修改过，
+		build：对选定的目标（Project 或 Module)进行编译，但只编译有修改过的文件，没有修改过的文件不会编译,节省时间
+	开启自动编译：build project automatically
+	设置编译heap大小:默认是 700,内存足够的建议改为 1500 或以上,编译的时候可能出错，报：OutOfMemoryError
+	排除遍历列表：Exclude
+	java conmpiler :设置编译器，默认javac
+
+
+10：Project Structure(项目结构设置区)
+	IDEA 中 Project 是最顶级的级别，次级别是 Module，一个Project下有多个Module,每个Module都有自己的src目录
+	VM options :设置JVM内存变量的
+
+	Project：项目
+		SDK（Software Development Kit）
+		 	Project SDK :软件开发工具包
+		 	language level：限定项目编译检查时最低要求的 JDK 特性
+		
+	Modules：模块
+		Sources：显示项目的目录资源，那些是项目部署的时候需要的目录，不同颜色代表不同的类型，标记文件类型
+		Paths：可以指定项目的编译输出目录，即项目类和测试类的编译输出地址（替换掉了Project的默认输出地址）
+		Dependencies：项目的依赖
+
+		Content Root是包含组成Module的所有文件的文件夹
+
+		Content Root里的文件夹分为以下几类：
+			1:Source Roots（或Source Folders，展示样式： rootSource）
+				标为此类的文件夹，告诉IDEA，此文件夹及其子文件夹应作为构建过程的一部分进行编译
+			2:Resource Roots（或Resource Folders，展示样式： rootResourceIJ ，只有Java Module才可用）
+				是给resource文件用的
+			3:Excluded Roots（展示样式：rootExcluded）
+				IDEA对该文件夹基本忽略
+	-->Web
+		Name：输入该Web Facet的名称，Web是默认的名称
+		Deployment Descriptors：定义web.xml 的路径
+		Type：只读字段，展示部署描述符类型,各自依赖的facet类型有：Web Module Deployment Descriptor、
+		      EJB Module Deployment Descriptor、 Application Module Deployment Descriptor
+		Path：只读字段，展示部署描述符的位置
+		Add Application Server specific descriptor：添加一个支持application servers的部署描述符
+		Web Resource Directories：定义Web资源的根目录
+
+	Librarys：管理jar包
+
+
+	Facets：介绍在Module中使用的各种各样的框架的设置,没用
+	
+	Artifact：项目资源的组合体，项目的打包部署设置
+		jar：Java ARchive，通常用于聚合大量的Java类文件、相关的元数据和资源（文本、图片等）文件到一个文件，
+		     以便分发Java平台应用软件或库
+
+		war：Web application ARchive，一种JAR文件，其中包含用来分发的JSP、Java Servlet、Java类、XML文件、标签库、
+		     静态网页（HTML和相关文件），以及构成Web应用程序的其他资源,发布用
+		工程target目录下会生成war包, 并且解压后的war包会被部署到tomcat的webapp 目录下
+
+		war exploded：WEB工程以当前文件夹的位置关系,支持热部署，开发用
+	
+	输出成war包
+	Artifacts--> + -->Web application Archive--> + -->Directory Content-->选择WebRoot目录，编译即可
+			  
+	
+	SDKs 为 SDK 的统一管理处，可以有多种不同的SDK
+	
+	
+11：Create New Project
+
+   新建Java 项目
+	Java-->Java EE，并选择JDK版本-->create from template(Hellow World) -->项目名和存储路径
+		.idea (directory based) 创建项目的时候自动创建一个 .idea 的项目配置目录来保存项目的配置信息,默认选项 
+		.ipr (file based) 创建项目的时候自动创建一个 .ipr 的项目配置文件来保存项目的配置信息
+
+   新建Web 项目
+	1:Java-->Web application-->File-->Project Structure-->
+	2:Sources-->在WEB-INF目录下新建两个目录，名为 classes 和 lib
+	3:Paths-->勾选Use module compile output path,并将Output path和Test output path改为web目录下新建的classes文件夹
+	  目的：在构建项目时，能将.class文件输出至 classes 文件夹中
+	4:下面的JavaDoc中添加web目录下的 lib文件夹
+	5:添加web目录下的lib文件夹和Tomcat的Library,在添加 lib文件夹时选择 Jar Directory
+	6:Libraries-->添加web目录下的lib文件夹，选择 Jar Director
+	7:Facets-->在Deployment Descriptor中添加 web.xml 文件
+	8:Artifacts-->勾选Include in project build 和 Show content of elements 两个选项，点击OK
+	9:配置Tomcat
+		Run - Edit Configurations - Tomcat Server - Local
+		修改名称，在Deployment中添加第8步中的Artifact
+
+
+12：Version Control
+	Git 配置：导入git.exe路径
+	GitHub使用：
+		1:Github 登录账号和密码，点击 Test 
+
+	Git -->Repository-->执行push，pull,reset HEAD操作
+
+	工具栏上版本控制操作按钮
+		第一个按钮：Update Project 更新项目 
+		第二个按钮：Commit changes 提交项目上所有变化文件
+		第三个按钮：Compare with the Same Repository Version 当前文件与服务器上该文件版本的内容进行比较
+			    如果当前编辑的文件没有修改，则是灰色不可点击
+		第四个按钮：Show history 显示当前文件的历史记录
+		第五个按钮：Revert 还原当前被修改的文件到违背修改的版本状态下,如果当前编辑的文件没有修改,则是灰色不可点击
+
+    Version Control
+	Show directories with changed descendants:子目录有文件被修改,则该文件的所有上层目录都显示版本控制被修改的颜色
+     
+    -->Configeration
+	When files are created ：表示当有新文件放进项目中的时候IDEA 做如何处理，默认是 Show options before adding to
+			         version control 表示弹出提示选项，让开发者决定这些新文件是加入到版本控制中还是不加入 
+	When files are deleted ：表示当有新文件在项目中被删除的时候IDEA 做如何处理，默认是 Show options before removing 
+				 from version control 表示弹出提示选项，让开发者决定这些被删除的是否从版本控制中删除
+
+    -->Ignore Files：不想加入到版本控制的文件，可以添加要此忽略的列表中
+
+    
+    Commit Changes 点击后弹出的变动文件汇总弹出层 
+
+ 	Show Diff 当前文件与服务器上该文件通版本的内容进行比较
+	Move to Another Changelist 将选中的文件转移到其他的 Change list 中
+	Change list 改变列表，这是一个下拉选项，说明我们可以切换不同的 Change list，提交不同的 Change list 文件
+
+	Jump to Source 打开并跳转到被选中
+	Reformat code 格式化代码，如果是 Web 开发建议不要勾选
+	Rearrange code 重新编排代码，IntelliJ IDEA 支持各种复杂的编排设置选项	
+	Optimize imports 优化导入包，会在自动去掉没有使用的包
+ 	Perform code analysis 进行代码分析，这个建议不用在提交的时候处理，在开发完之后，要专门养成对代码进行分析的习惯
+	Check TODO 检查代码中的 TODO，一个记录待办事项的功能 
+	Cleanup 清除下版本控制系统，去掉一些版本控制系统的错误信息，建议勾选 
+	Commit Message：填写提交的信息,后面按钮查看提交历史中使用的 Commit Message
+
+
+
+13：Plugins:插件
+	All plugins 显示所有插件
+	Enabled 显示当前所有已经启用的插件 
+	Disabled 显示当期那所有已经禁用的插件
+	Bundled 显示所有 IntelliJ IDEA 自带的插件 
+	Custom 显示所有我们自行安装的插件，如果你自己装了很多次插件的话，这个选项会用得比较多
+
+	启用的插件是被勾选的，如果要禁用一个插件，去掉勾选即可 
+	install JetBrains plugins：弹出 IntelliJ IDEA 公司自行开发的插件仓库列表，供下载安装
+	Browse reposities：弹出插件仓库中所有插件列表供下载安装。 
+	install plugins：浏览本地的插件文件进行安装，而不是从服务器上下载并安装。 
+
+
+14：配置Tomcat
+	Run-->Edit Configeration--> + -->Tomcat-->添加Tomcat
+	On Update action :选择的 Update classes and resources 事件是最常用的，表示我们在按 Ctrl + F10 进行容器更新的时候
+			  我们触发更新编译的类和资源文件到容器中
+	Tomcat 的 HTTP端口:修改为80
+	Deploymet部署项目-->artifact
+	
+	停止按钮是要按两次，第一按完出现一个骷髅头并不是停止，需要再点击一次
+
+	
+
+15：Maven
+	Build-->Maven-->
+		指定本地 Maven 的安装目录，Maven 的 settings.xml 位置和本地仓库位置
+	-->importing,
+		impotr Maven project automatically:监测pom.xml文件，自动导包
+	
+	创建Maven项目
+	Maven-->maven-archetype-webapp-->GroupID...-->(Java Web,需要自己创建test,resources目录)
+	Maven-->maven-archetype-quickstart-->(Java)
+
+	Maven projects-->
+	lifecycle：Maven 生命周期的命令，通过双击对应的命令来执行项目编译、打包、部署
+	Plugins：  pom.xml 中配置的插件列表，方便调用插件
+	dependencies：pom.xml中配置的依赖包列表(项目依赖结构图:红线代表依赖冲突,exclude排除功能）
+
+
+
+16：Debug:
+	Build-->Debugger-->设置 Debug 连接方式，默认是 Socket
+
+	F7:Debug模式下,进入下一步,如果当前行断点是一个方法,则进入当前方法体内,如果该方法体还有方法,则不会进入该内嵌的方法
+	Alt + Shift + F7 在 Debug 模式下，进入下一步，如果当前行断点是一个方法，则进入当前方法体内，如果方法体还有方法，
+			 则会进入该内嵌的方法中，依此循环进入 
+
+	F8:Debug 模式下，进入下一步，如果当前行断点是一个方法，则不进入当前方法体内  
+	Alt + F8 在 Debug 的状态下，选中对象，弹出可输入计算表达式调试框，查看该输入内容的调试结果
+ 
+	F9:Debug 模式下，恢复程序运行,跳出
+ 
+	
+	Ctrl + F8 在 Debug 模式下，设置光标当前行为断点，如果当前已经是断点则去掉断点 
+	Shift + F7 在 Debug 模式下，智能步入。断点所在行上有多个方法调用，会弹出进入哪个方法 
+	Ctrl + Shift + F8 在 Debug 模式下，指定断点进入条件 
+	
+
+17：Refactor(重构)
+	rename,copy,move,find and replace
+
+18：Database 组件配置
+	+-->连接Mysql数据库-->下载mysql驱动
+	可以对表操作，且commit,查看SQL语句，使用sql语句
+
+19：Keymap：设置快捷键Template(Default)
+	1：可以输入快捷键描述内容，或者快捷键来搜索快捷键
+	2：自定义快捷键
+		 Add Keyboard Shortcut 用来添加新纯键盘快捷键组合 
+		 Add Mouse Shortcut 用来添加新 键盘 + 鼠标 快捷键组合
+		 Remove 快捷键 ：移出当前操作命令已设置的快捷键组合
+
+
+20：常用设置
+	1：HighLighting level	
+		Inspections 为最高等级检查，可以检查单词拼写，语法错误，变量使用，方法之间调用等
+		Syntax 可以检查单词拼写，简单语法错误
+		None 不设置检查
+
+	2：Compact Empty ...：默认是会折叠空包的
+	3：Power save model： 省电模式
+	4：Ctrl + Shift + N ：进行打开某个文件的时候，我们可以直接定位到改文件的行数上
+	5：Split Vertically ：垂直，水平分组
+	6：Editor-->spelling ：单词拼写检查带下划线
+	7：Run：shift+F9
+	   Build：ctrl+F9
+	   Debug：shift+F9
+	   basic：Ctrl + 逗号(自定义)
+	8：花括号换行：Code style-->Java-->Wrapping and Brace-->braces
+	9：ctrl+滚轮 调整字体大小：Editor-->General-->Change font size...
+	10：增加 Ctrl + 鼠标滚轮 快捷键来控制图片的大小：Eidtor-->image-->Zoom...
+	
+21：快捷键
+	Ctrl + Y 删除光标所在行 或 删除选中的行
+	Ctrl + / 注释光标所在行代码，会根据当前不同文件类型使用不同的注释符号  
+	Ctrl + Space 基础代码补全，默认在 Windows 系统上被输入法占用，需要进行修改，建议修改为 Ctrl + 逗号
+	Alt + Enter IntelliJ IDEA 根据光标所在问题，提供快速修复选择，光标放在的位置不同提示的结果也不同  
+	Shift + F9 等效于点击工具栏的 Debug 按钮 
+	Shift + F10 等效于点击工具栏的 Run 按钮 
+	Ctrl + Alt + L 格式化代码，可以对当前文件和整个包目录使用  
+	Ctrl + Alt + O 优化导入的类，可以对当前文件和整个包目录使用  
+
+
+
+
+
+
+
+	

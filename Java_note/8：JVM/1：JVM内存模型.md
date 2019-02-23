@@ -5,7 +5,7 @@ JVM
 
 ### 1：内存模型
 
-![](F:\note\9：JVM\jvm内存模型.png)
+![](G:\Java\Java_note\8：JVM\jvm内存模型.png)
 
 
 

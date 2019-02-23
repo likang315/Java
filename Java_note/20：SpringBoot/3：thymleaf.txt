@@ -1,0 +1,86 @@
+
+模板引擎:thymleaf，freemark，Thymeleaf是一个适用于Web和独立环境的现代服务器端Java模板引擎
+
+1:thymleaf 配置
+   导入依赖
+	<dependency>    
+		<groupId>org.springframework.boot</groupId>    
+		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+	</dependency>
+
+    在application.properties文件中增加Thymeleaf模板的配置
+
+	#thymelea模板配置
+	spring.thymeleaf.prefix=classpath:/templates/
+	spring.thymeleaf.suffix=.html
+	spring.thymeleaf.mode=HTML5
+	spring.thymeleaf.encoding=UTF-8
+	spring.thymeleaf.content-type=text/html
+	spring.thymeleaf.cache=false
+	spring.resources.chain.strategy.content.enabled=true
+	spring.resources.chain.strategy.content.paths=/**
+	说明一下，这些配置不是必须的，如果配置了会覆盖默认的。
+
+2：Thymeleaf 基本用法
+ 	1：引用命名空间 <html xmlns:th="http://www.thymeleaf.org">         
+		在html中引入此命名空间，可避免编辑器出现html验证错误，虽然加不加命名空间对Thymeleaf的功能没有任何影响。
+	2：输出内容  
+	  	<p th:text="#{user.name}">Welcome to our grocery store!</p>       
+	   th:text  用来将内容输出到所在标签的body中
+	   #{user.name} 用来引入数据user对象中的 name属性 
+	   以用th:utext 用来显示“unescaped ” 的html内容
+	3：访问对象
+             ${param.x}：返回名为x 的 request参数（可能有多个值）       
+	     ${session.x}：返回名为x 的Session参数       
+	     ${application.x}：返回名为x 的servletContext 的参数
+	4：日期的输出        
+	     <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+	5：输出URL
+		th:href是一个修饰符属性：一旦处理，它将计算要使用的链接URL并将该值设置href为<a>标记的属性，覆盖
+	     <a th:href="@{/product/list}">Product List</a>       
+	     <a th:href="@{/order/{orderId}/details(orderId=${o.id})}">view</a>
+	6：使用代码段       
+	     <div th:insert="~{commons :: main}">...</div>
+     	7：直接输出内容
+	   <span th:text="'working web application'"> -- 输出字符
+	   <span th:text="2013 + 2">  -- 输出数据表达式
+	   <div th:if="${user.isAdmin()} == false">  --输出布尔表达式，满足添加才执行
+	   <span th:text="'Welcome to our application, ' + ${user.name} + '!'"> -- 带变量的
+	8：条件表达式
+	   <tr th:class="${row.even}? 'even' : 'odd'">...  </tr>
+	   <tr th:class="${row.even}? 'alt'">...省略 false 结果的表达方式</tr>
+	9：格式化        
+	   <td th:text="${{user.lastAccessDate}}">...</td> --${{.}}  调用默认的格式化器来输出结果
+
+ 	10：设置 Attribute 值，设置多个
+	  	<img src="../../images/gtvglogo.png"  th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" /> 
+
+	11：循环输出，循环状态
+		<tr th:each="prod : ${prods}">     
+			<td th:text="${prod.name}">Onions</td>     
+			<td th:text="${prod.price}">2.41</td>     
+			<td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+		</tr>
+
+	<tr>：将会以prods中的每个元素prod为迭代变量,迭代多次，${prods}称为被迭代的表达式，被迭代的变量(Iterated expression
+	      prod称为迭代变量，其作用域为声明其的标签
+
+	迭代的状态通过状态变量（status variable）反映
+	声明状态变量的语法为：prod,iterStat : ${prods}
+		状态变量包含属性：
+			index：从0开始，当前的迭代索引
+			count：从1开始，当前的迭代索引
+			size：被迭代变量中的元素总数
+			current：当前的迭代变量
+			even/odd ：布尔属性，当前的迭代是奇数还是偶数
+			first/last： 布尔属性，当前是否是开始的或最后的迭代
+
+	如果没有显式的声明状态变量，一个隐式的状态变量被自动声明，其名称为迭代变量加上“Stat”的后缀
+	
+	12：注释：<!-- ... -->  
+
+
+
+
+
+

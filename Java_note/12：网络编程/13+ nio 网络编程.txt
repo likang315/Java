@@ -1,0 +1,61 @@
+
+NIO：采取通道（Channel）和缓冲区(Buffer)来传输和保存数据，它是非阻塞式的I/O，即在等待连接、读写数据的时候，
+     程序也可以做其他事情，以实现线程的异步操作。
+
+Channel 接口：只是一个通道，一旦创建默认通道打开
+
+NIO的Selector选择器作用:监听Channel发生的事件，对已注册的事件进行操作
+
+Selector内部原理是在做一个对所有注册的Channel的轮询访问，不断的轮询，一旦轮询到一个注册的Channel，有事件发生，
+比如建立连接，它就会读取Channel中的数据，并对其进行处理。
+
+
+nio+TCP/IP（通信）：是非阻塞，能同时监听多个端口，处理来自所有这些端口的连接与连接的关闭，
+		    并且它只在单个线程中完成所有这些工作（轮询）。
+
+Selector：选择器
+   方法：
+	static Selector open() 
+              建立一个选择器。 
+
+
+SocketChannel
+	方法：	
+	  static SocketChannel open() 
+               建立套接字通道。
+	  SelectableChannel configureBlocking(boolean block) 
+               设置此通道的阻塞模式 
+
+	  abstract  boolean connect(SocketAddress remote) 
+               连接此通道。 
+	  abstract  boolean finishConnect() 
+               判断套接字通道的连接是否成功
+	  abstract  Socket socket() 
+               获取与此通道关联的套接字。
+	  
+
+	
+
+ServerSocketChannel：服务器套接字通道，不是侦听网络套接字的完整抽象，必须通过调用socket()所获得的关联 ServerSocket对象
+
+   方法：
+	static ServerSocketChannel open() 
+             建立服务器套接字通道。 
+	SelectableChannel configureBlocking(boolean block) 
+             设置此通道的阻塞模式
+	abstract  ServerSocket socket() 
+             获取与此通道关联的服务器套接字。 
+	SelectionKey register(Selector sel, int ops) 
+             向给定的选择器注册此通道，返回一个选择键。 
+	abstract  SocketChannel accept() 
+             接受到此通道套接字的连接。 
+	
+
+
+
+
+
+
+
+
+

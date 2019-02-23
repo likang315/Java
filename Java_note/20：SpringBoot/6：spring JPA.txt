@@ -1,0 +1,84 @@
+
+1：配置主从数据源
+	多数据源配置的时候注意，必须要有一个主数据源，用 @Primary 标志该 Bean
+
+	@Bean(name = "masterDataSource") 
+	@Primary 
+	public DataSource masterDataSource() 
+	{ 
+		DruidDataSource dataSource = new DruidDataSource(); 
+		dataSource.setDriverClassName(driverClass); 
+		dataSource.setUrl(url); 
+		dataSource.setUsername(user); 
+		dataSource.setPassword(password); 
+		return dataSource;
+	}
+  
+	dataSource,DataSourceTransactionManager,SqlSessionFactory 同理
+
+2：spring-data-jpa：是Spring基于Hibernate开发的一个JPA框架
+   
+ JPA(Java Persistence API):Sun官方提出的Java持久化规范,为Java开发人员提供了一种对象/关联映射工具来管理Java应用中的关系数据
+
+  1：导入依赖
+	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+  2：application.properties 配置
+	spring.jpa.properties.hibernate.hbm2ddl.auto=update
+	spring.jpa.show-sql=true
+
+	spring.datasource.url=jdbc:mysql://localhost:3306/xupt?useSSL=false&serverTimezone=GMT%2B8
+	spring.datasource.username=root
+	spring.datasource.password=mysql
+	spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+	spring.xxx.auto是hibernate的配置属性，其主要作用是：自动创建、更新、验证数据库表结构
+	update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载
+		hibernate时根据model类自动更新表结构,要等应用第一次运行起来后才会生成表
+
+  3：使用方式
+	1：继承JpaRepository接口，注解@Repository
+		public interface PersonRepository extends JpaRepository<Person,Long>{}
+	2：@EnableJpaRepositories("包名")
+		value:用来扫描数据访问接口所在包下的数据访问接口定义
+
+	@configuration
+	@EnableJpaRepositories(“com.xxx.reps”)
+
+        JpaRepository通用接口已经实现了创建（save）、更新（save）、删除（delete）、查询（findAll、findOne）等基本操作的函数
+
+
+3：JPA 基本注解，用来配置数据表和实体类的
+	@Entity, @Table, @Id, @GeneratedValue, @Column, @Basic，@Transient, @Temporal
+   1：@Entity
+    	标注用于实体类声明语句之前，指出该Java 类为实体类，将映射到指定的数据库表
+   2：@Table
+    当实体类与其映射的数据库表名不同名时需要使用 @Table 标注说明，该标注与 @Entity 标注并列使用，置于实体类声明语句之前，
+    可写于单独语句行，也可与声明语句同行，属性name，用于指明数据库的表名
+   3：@Id
+    @Id 标注用于声明一个实体类的属性映射为数据库的主键列，也可置于属性的getter方法之前。
+   4：@GeneratedValue
+    @GeneratedValue  用于标注主键的生成策略，通过 strategy 属性指定
+	默认情况下，JPA 自动选择一个最适合底层数据库的主键生成策略：SqlServer 对应 identity，MySQL 对应 auto increment。
+   5：@Basic
+    	表示一个简单的属性到数据库表的字段的映射,对于没有任何标注的 getXxxx() 方法,默认即为@Basic
+    		fetch: 表示该属性的读取策略,有 EAGER 和 LAZY 两种,分别表示主支抓取和延迟加载,默认为 EAGER.
+    		optional:表示该属性是否允许为null, 默认为true 
+   6：@Column
+    当实体的属性与其映射的数据库表的列不同名时需要使用@Column 标注说明，该属性通常置于实体的属性声明语句之前
+    还可与 @Id 标注一起使用
+    
+   7：@Transient
+    表示该属性并非一个到数据库表的字段的映射,ORM框架将忽略该属性.
+    如果一个属性并非数据库表的字段映射,就务必将其标示为@Transient,否则,ORM框架默认其注解为@Basic
+ 
+
+
+
+
+
+
+
+

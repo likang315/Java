@@ -1,0 +1,94 @@
+
+logback：log4j的升级版，重写了log4j内核，性能更快
+
+1：集成logback：需要添加spring-boot-starter-logging依赖，而此依赖已经在spring-boot-starter中添加过了，所以不用再添加此依赖
+	
+   默认情况下，Spring Boot会用Logback来记录日志，并用INFO级别输出到控制台,如果需要修改可以通过配置logging.level.包语法来
+   配置, 包即可以是一个包名也支持全限定路径包.类，如logging.level.com.example.demo.dao=DEBUG,
+   logging.level.包属性可以配置多个，可以为每个包进行单独设置日志级别，这种方式能够控制每个包的输出日志级别, 也可以设
+   root的日志级别logging.level.root=INFO
+
+  日志级别：TRACE < DEBUG < INFO < WARN < ERROR < FATAL
+
+2：默认情况下，Spring Boot将日志输出到控制台，不会写到日志文件。如果要将日志写入文件，则需在application.properties中设置
+   logging.file或logging.path属性
+
+   logging.file，设置日志文件，可以是绝对路径，也可以是相对路径
+   logging.path，设置日志所在的目录，会在该目录下创建spring.log文件，并写入日志内容
+	
+   注意：二者不能同时使用，如若同时使用，则只有logging.file生效,默认情况下，日志文件的大小达到10MB时会切分一次，产生新的
+	 日志文件, 如果要修改大小可以通过logging.file.max-size来配置,单位为MB
+
+3：自定义logback-spring.xml
+	在Spring Boot中可即可以通过在application.properties中配置日志，也可以使用传统的配置文件(logback.xml)的方式来配置
+        (logback-spring.xml)，Spring推荐使用已logback-spring.xml
+
+	使用logback-spring.xml可以使用多环境日志输出springProfile，当然配置文件的名称也可以是自定义的，自定义的名称需要在
+	application.properties中使用logging.config配置对应的名字，如：logging.config=classpath:logback-config.xml,
+        配置文件的位置放在src/main/resources下面
+
+4：AOP：添加aop依赖
+
+	<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-aop</artifactId>
+	</dependency>
+
+使用方式：
+	
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    ThreadLocal<Long> startTime = new ThreadLocal<>();
+
+    logger.info("IP:" + request.getRemoteAddr());
+
+
+5：log4j：引入log4j依赖<!-- 忽略自带的日志框架. -->
+  
+	<exclusions>       
+		<exclusion>           
+		<groupId>org.springframework.boot</groupId>           
+		<artifactId>spring-boot-starter-logging</artifactId>      
+		</exclusion>   
+	</exclusions> 
+		
+	<!-- log4j. -->
+	<dependency>    
+		<groupId>org.springframework.boot</groupId>   
+		<artifactId>spring-boot-starter-log4j</artifactId>
+	</dependency>
+
+    1:控制台输出通过如下配置，设定root日志的输出级别为INFO，appender为控制台输出stdout
+	# LOG4J配置
+	log4j.rootCategory=INFO,stdout
+	# 控制台输出
+	log4j.appender.stdout=org.apache.log4j.ConsoleAppender 
+	log4j.appender.stdout.layout=org.apache.log4j.PatternLayout 
+	log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n   
+    2:输出到文件在开发环境，我们只是输出到控制台没有问题，但是到了生产或测试环境，或许持久化日志内容，方便追溯问题原因
+      可以通过添加如下的appender内容，按天输出到不同的文件中去，同时还需要为log4j.rootCategory添加名为file的appender，
+      这样root日志就可以输出到logs/springboot.log文件中了
+	
+	# LOG4J配置log4j.rootCategory=INFO,stdout,file
+	# 日志输出到文件
+	log4j.appender.file=org.apache.log4j.DailyRollingFileAppender 
+	log4j.appender.file.file=logs/springboot.log 
+	log4j.appender.file.DatePattern='.'yyyy-MM-dd 
+	log4j.appender.file.layout=org.apache.log4j.PatternLayout 
+	log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n 
+	
+   当然输出到文件和输出到控制台是可以并行存在的。
+	
+   3:分类输出当我们日志量较多的时候，查找问题会非常困难，常用的手段就是对日志进行分类，比如：可以按不同package进行输出
+   通过定义输出到logs/my.log的appender，并对com.didispace包下的日志级别设定为DEBUG级别、appender设置为输出到logs/my.log
+   的名为errorfile的appender
+	# LOG4J配置
+	log4j.rootCategory=INFO, stdout,errorfile
+	log4j.logger.error=errorfile
+	# error日志输出
+	log4j.appender.errorfile=org.apache.log4j.DailyRollingFileAppender
+	log4j.appender.errorfile.file=logs/error.log
+	log4j.appender.errorfile.DatePattern='.'yyyy-MM-dd
+	log4j.appender.errorfile.Threshold = ERROR
+	log4j.appender.errorfile.layout=org.apache.log4j.PatternLayout
+   log4j.appender.errorfile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L - %m%n %5p %c{1}:%L - %m%n
+

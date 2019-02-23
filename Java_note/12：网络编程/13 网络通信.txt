@@ -1,0 +1,94 @@
+﻿
+
+网络通信
+
+	TCP：面向连接的可靠协议
+	UDP：面向无连接的不可靠协议
+	
+	IP：是用四个字节32位的二进制数表示  0.0.0.1缺省ip，127.0.0.1寻回路转ip
+	端口：是用十六进制的数表示  0-65535,4000以下不能使用（已经用过了）
+
+
+TCP 协议：	
+Socket：作为客户端对象
+ServerSocket ：作为服务器端的对象
+InetAddress 类 ：表示互联网协议 (IP) 地址。
+
+
+java.net.Socket 类：套接字，套接字是两台机器间通信的端点。
+	封装了TCP 协议，使用它就可以基于TCP协议，进行网络通讯，Socket是运行在client
+
+实例化Socket的时候需要传入两个参数：
+	1：服务端地址：通过IP地址可以找到服务的计算机
+	2：服务端端口：通过端口可以找到服务端计算机上的服务端应用程序
+
+通常new Socket的过程就是连接的过程，若远端计算机没有响应就会抛出异常
+
+	构造方法：
+		  Socket(InetAddress address, int port) 
+          		创建一个流套接字并将其连接到指定 IP 地址（InetAddress）的指定端口号。 
+		  Socket(String host, int port) 
+          		创建一个流套接字并将其连接到指定主机名上的指定端口号。
+	方法：
+		 OutputStream getOutputStream() ----OutputSreamWriter-----PrintWriter封装成高级流
+        		返回此套接字的输出流，通过该流写出的数据会被发送至远端计算机（缓冲区，暂时存储要发送的数据）。 
+		 InputStream getInputStream() -----InputStreamReader---BufferReader封装成高级流
+          		返回此套接字的输入流，从该流对取得数据就是从远端计算机发送过来的。
+		 InetAddress getInetAddress() 
+          		返回套接字获取远端计算机的地址信息。 
+		 void close() 
+          		关闭此套接字，同时关闭了输入输出流。 
+
+
+java.net.ServerSocket:运行在服务端的套接字
+
+	1：向系统申请服务端口，客户端就是通过这个端口连接的
+	2：监听申请的服务端口，当一个客户端通过该端口尝试连接时，SeverSocket会在服务端创建一个Socket与客户端建立连接
+
+	构造方法：
+		ServerSocket(int port) 
+        	     创建绑定到特定端口的服务器套接字。
+
+	方法：
+		Socket accept() 
+          	     监听服务端端口，直到一个客户端连接并创建一个Socket，使用该Socket即可与刚连接的client交互
+
+
+java.net.InetAddress 类：表示互联网协议 (IP) 地址。
+
+	方法：
+	 	String getHostAddress() 
+            	     返回 IP 地址字符串（以文本表现形式）。 
+ 	 	String getHostName() 
+           	     获取此 IP 地址的主机名。 
+
+	
+
+运用多线程来实现多个client连接server端，把读写操作放入run（）中
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
