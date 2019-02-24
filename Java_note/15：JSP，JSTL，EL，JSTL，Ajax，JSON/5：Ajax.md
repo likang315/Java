@@ -8,17 +8,15 @@
 AJAX异步交互方式:
 	采用异步的方式，交互数据，与服务器交换数据并更新部分网页的技术，不重新加载整个页面
 
-![](G:\Java\Java_note\15：JSP, Jsp自定义标签,EL，JSTL，Ajax，JSON\5+：Ajax.png)
+![](G:\Java\Java_note\15：JSP，JSTL，EL，JSTL，Ajax，JSON\5+：Ajax.png)
 
 ### 1:AJAX工作流程
 
-###### ?	1:用户在页面上执行了某个操作，例如鼠标移动、点击某个区域等
+###### 1:用户在页面上执行了某个操作，例如鼠标移动、点击某个区域等
 
 ###### 	2:根据用户的操作，页面发出相应的DHTML事件
 
-###### 	3:调用注册到该DHTML事件的客户端JavaScript事件处理函数，其中初始化了一个用以向服务器发送异步请求的
-
-###### ?	  XMLHttpRequest对象，同时指定了一个回调函数，当服务器端的响应返回时，将自动调用该回调函数
+###### 	3:调用注册到该DHTML事件的客户端JavaScript事件处理函数，其中初始化了一个用以向服务器发送异步请求的 XMLHttpRequest对 象，同时指定了一个回调函数，当服务器端的响应返回时，将自动调用该回调函数
 
 ###### 	4:服务器收到XMLHttpRequest对象的请求之后，开始根据请求进行一系列的处理
 
@@ -40,15 +38,15 @@ AJAX异步交互方式:
 		1 ：(初始化)      对象已建立，尚未调用send方法 
 		2 ：(发送数据)   send方法已调用，但是当前的状态及http头未知 
 		3 ：(数据传送中) 已接收部分数据，因为响应及http头不全，这时通过responseText获取部分数据会出现错误 
-		4 ：(完成)       数据接收完毕,此时可以通过responseBody和responseText获取完整的回应数据 
+		4 ：(完成)          数据接收完毕,此时可以通过responseBody和responseText获取完整的回应数据 
 
 ###### responseText 		将响应信息作为字符串返回
 
 ###### responseXML 		将响应信息格式化为Xml Document对象并返回
 
-###### status 			返回当前请求的http状态码
+###### status 				返回当前请求的http状态码
 
-###### statusText  		返回当前请求的响应行状态
+###### statusText  			返回当前请求的响应行状态
 
 #####    方法
 
@@ -61,7 +59,11 @@ abort 取消当前请求
 getAllResponseHeaders 获取响应的所有http头 
 getResponseHeader 从响应信息中获取指定的http头 
 
+### 3：如何判断前端是Ajax请求？
 
+String type = request.getHeader("X-Requested-With");  
+
+ requestType能拿到值，并且值为XMLHttpRequest,表示客户端的请求为异步请求，那自然是ajax请求了，反之如果为null,则是普通的请求
 
 
 

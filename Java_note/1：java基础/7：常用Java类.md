@@ -16,7 +16,6 @@ Object类是Java中类的一个最高父类，也可以理解为要是一个正�
 	   注意：该方法是在打印对象是默认访问的一个方法
 
 2：boolean equals(Object obj) 
-        
    如若没有重写，则是继承Objecet类的，根据源码看，还是==，比较的是地址，若重写则比较的是内容，判断两个对象是否相等。
 
    equals和== 最大的区别是一个是方法一个是运算符
@@ -36,12 +35,11 @@ public boolean equals(Object obj)
 
 3：hashCode(): 为了提高查找的执行效率而出现的方法，哈希表（散列）
 
-   对象调用该方法时，返回的是一个根据其在内存中的地址，而获得的与地址有关的整数，在一个程序中没有改变对象中封装的数据，则对象多次调用该方法时产生同一个整数（哈希码）。
+   对象调用该方法时，返回的是一个根据其在内存中的物理地址，而获得的与地址有关的整数，在一个程序中没有改变对象中封装的数据，则对象多次调用该方法时产生同一个整数（哈希码）
 
-	hasgCode()与equals()机制 
+	hashCode()与equals()机制 
 	
-	若两个对象equals相等，但不在一个区间，所以根本没有机会进行比较，
-	会被认为是不同的对象。
+	若两个对象equals相等，但不在一个区间，所以根本没有机会进行比较，会被认为是不同的对象
 	
 	所以Java对于eqauls方法和hashCode方法是这样规定的： 
 	1 如果两个对象相等，那么它们的hashCode值一定要相等。也告诉我们重写equals方法，一定要重写hashCode方法
@@ -307,13 +305,13 @@ Java为我们提供了用于加载本地化资源文件的方便类java.util.Res
 注意：一定要将properties文件创建在src目录下
 
 ​		
-		例：	//以特定语言环境输出，创建Local对象进行语言环境封装
-			Locale locale = new Locale("en", "US");
-			//获取资源包
-			ResourceBundle rb1 = ResourceBundle.getBundle("info",locale);
-			System.out.println("name = "+rb1.getString("name"));
-			System.out.println("password = "+rb1.getString("password"));
-			System.out.println("address = "+rb1.getString("address"));
+​		例：	//以特定语言环境输出，创建Local对象进行语言环境封装
+​			Locale locale = new Locale("en", "US");
+​			//获取资源包
+​			ResourceBundle rb1 = ResourceBundle.getBundle("info",locale);
+​			System.out.println("name = "+rb1.getString("name"));
+​			System.out.println("password = "+rb1.getString("password"));
+​			System.out.println("address = "+rb1.getString("address"));
 
 
 ​	

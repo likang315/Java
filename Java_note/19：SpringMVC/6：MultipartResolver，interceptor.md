@@ -32,7 +32,7 @@ HandlerInterceptorAdapter：自定义拦截器，需要继承此类，然后编�
 	preHandle：目标执行前
 
 ```xml
-FormattingConversionServiceFactoryBean<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
@@ -67,6 +67,64 @@ FormattingConversionServiceFactoryBean<?xml version="1.0" encoding="UTF-8"?>
 </beans>
 ```
 
+### 3：Filter：用来统一编码格式的
+
+```xml
+ <!--配置过滤器--> 
+<filter>
+	<filter-name>FilterDemo01</filter-name>
+	<filter-class>com.xupt.filter</filter-class>
+</filter>
+ 
+<!--映射过滤器-->
+<filter-mapping>
+<filter-name>FilterDemo01</filter-name>
+	<!--“/*”表示拦截所有的请求 -->
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+
+
+### 4：定时器
+
+```xml
+Spring 配置文件中namespace
+<beans xmlns:task="http://www.springframework.org/schema/task"
+		http://www.springframework.org/schema/task  
+		http://www.springframework.org/schema/task/spring-task-3.2.xsd
+/>
+<task:annotation-driven/> 启动定时器 
+@Scheduled(cron="0 0 1 * * ?")
+```
+
+### 4：Cron Expressions
+
+CronTriggers往往比SimpleTrigger更有用，如果您需要基于日历的概念，而非SimpleTrigger完全指定的时间间隔，复发的发射工作的时间表
+
+Cron的表达式被用来配置CronTrigger实例，cron的表达式是字符串，实际上是由**七子表达式**，描述个别细节的时间表。这些子表达式是分开的空白："0 0 12 ? * WED" 在每星期三下午12:00 执行
+
+###### Seconds (秒)           ：可以用数字0－59 表示，
+
+###### Minutes**(**分)             ：可以用数字0－59 表示，
+
+###### Hours**(**时)                  ：可以用数字0-23表示,
+
+###### Day-of-Month(天) ：可以用数字1-31 中的任一一个值，但要注意一些特别的月份
+
+###### Month**(**月)                 ：可以用0-11 或用字符串  “JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC” 表示
+
+###### Day**-**of**-**Week(每周)：可以用数字1-7表示（1 ＝ 星期日）或用字符口串“SUN, MON, TUE, WED, THU, FRI and SAT”表示
+
+###### .年份（1970－2099）
+
+“/”：为特别单位，表示为“每”如“0/15”表示每隔15分钟执行一次,“0”表示为从“0”分开始, “3/20”表示表示每隔20分钟执行一次，“3”表示从第3分钟开始执行
+
+“?”：表示每月的某一天，或第周的某一天
+
+“*”：字符代表所有可能的值
+
+###### 每天凌晨1点执行一次：0 0 1 * * ?
 
 
 
