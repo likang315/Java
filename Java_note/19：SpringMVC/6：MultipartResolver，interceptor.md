@@ -95,6 +95,10 @@ Spring 配置文件中namespace
 		http://www.springframework.org/schema/task/spring-task-3.2.xsd
 />
 <task:annotation-driven/> 启动定时器 
+
+<!-- 配置线程池，否则多线程下会有延时，应为定时器时单线程的-->
+<task:annotation-driven scheduler="myScheduler"/> 
+<task:scheduler id="myScheduler" pool-size="5"/> 
 @Scheduled(cron="0 0 1 * * ?")
 ```
 
@@ -120,7 +124,7 @@ Cron的表达式被用来配置CronTrigger实例，cron的表达式是字符串�
 
 “/”：为特别单位，表示为“每”如“0/15”表示每隔15分钟执行一次,“0”表示为从“0”分开始, “3/20”表示表示每隔20分钟执行一次，“3”表示从第3分钟开始执行
 
-“?”：表示每月的某一天，或第周的某一天
+“?”：表示每月的每一天，或第周的每一天
 
 “*”：字符代表所有可能的值
 

@@ -3,7 +3,7 @@
 
 JVM
 
-### 1：内存模型
+### 1：内存模型（JMM(Java Memory Model)）
 
 ![](G:\Java\Java_note\8：JVM\jvm内存模型.png)
 
