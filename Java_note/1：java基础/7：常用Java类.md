@@ -1,4 +1,4 @@
-#### Java中的顶级父类：Object类
+### Java中的顶级父类：Object类
 
 Object类是Java中类的一个最高父类，也可以理解为要是一个正常Java类那么就必须继承这个Object类，才能行使java类的功能
 
@@ -6,17 +6,19 @@ Object类是Java中类的一个最高父类，也可以理解为要是一个正�
 
 在这个类中提供了最基本的9个方法（加上重载是11个方法）-----是一个正常的Java类
 
-##### Object 类：
+### Object 类：
 
-1：toString(): 对象自动调用object类中的toString()方法，也可手动调用
+###### 1：toString(): 对象自动调用object类中的toString()方法，也可手动调用
+
 在打印查看一个对象的内部封装数据（属性）时，默认打印的是（完整限定名@对象哈希值的十六进制表示---com.xzy.obj.Person@82764b
 
-	Object提供了toString()用来默认的解析对象的内部结构，当前的这个默认解析是Object类给我们的一种实现，需要重写
-	
-	   注意：该方法是在打印对象是默认访问的一个方法
+Object提供了toString()用来默认的解析对象的内部结构，当前的这个默认解析是Object类给我们的一种实现，需要重写
 
-2：boolean equals(Object obj) 
-   如若没有重写，则是继承Objecet类的，根据源码看，还是==，比较的是地址，若重写则比较的是内容，判断两个对象是否相等。
+注意：该方法是在打印对象是默认访问的一个方法
+
+###### 2：boolean equals(Object obj) 
+
+   如若没有重写，则是继承Objecet类的，根据源码看，还是==，比较的是地址，若重写则比较的是内容，判断两个对象是否相等
 
    equals和== 最大的区别是一个是方法一个是运算符
 
@@ -32,8 +34,7 @@ public boolean equals(Object obj)
 }
 ```
 
-
-3：hashCode(): 为了提高查找的执行效率而出现的方法，哈希表（散列）
+###### 3：hashCode(): 为了提高查找的执行效率而出现的方法，哈希表（散列）
 
    对象调用该方法时，返回的是一个根据其在内存中的物理地址，而获得的与地址有关的整数，在一个程序中没有改变对象中封装的数据，则对象多次调用该方法时产生同一个整数（哈希码）
 
@@ -47,33 +48,38 @@ public boolean equals(Object obj)
 
 
 
-4：Class<?> getClass() 
-          返回此 Object 的运行时class对象
+###### 4：Class<?> getClass() 
 
-5：protected  native Object clone() 
-          创建并返回此对象的一个副本，如果某个对象已经有一些有效值了，并且需要一个和它一样的对象，并且改变此对象
-	  对原对象没有任何影响，clone（）默认是浅拷贝
-	  先在堆中分配一个与原对象内存大小一样的空间，然后把原对象的各个域填充到clone的对象域中，然后返回对象
+​          返回此 Object 的运行时class对象
+
+###### 5：protected  native Object clone() 
+
+​          创建并返回此对象的一个副本，如果某个对象已经有一些有效值了，并且需要一个和它一样的对象，并且改变此对象对原对象没有任何影响，clone（）默认是浅拷贝
+​	  先在堆中分配一个与原对象内存大小一样的空间，然后把原对象的各个域填充到clone的对象域中，然后返回对象
 
 1：按照惯例重写的时候一个要将protected修饰符修改为public，这是JDK所推荐的做法
 2：重写的clone()必须实现Cloneable接口。虽然这个接口并没有什么方法，但是必须实现该标志接口,如果不实现将会在运行期间
    抛出：CloneNotSupportedException异常 
 
-浅拷贝和深拷贝的区别是：
+### 浅拷贝和深拷贝的区别是：
+
 在拷贝对象的一些属性时时，创不创建新的属性对象，不创建直接将原对象的引用值拷贝给新的对象，则是浅拷贝
 反之，创建新的对象为深拷贝
 	
-实现深拷贝
-如果想要深拷贝一个对象，这个对象必须要实现Cloneable接口，重写clone方法，并且在 clone 方法内部，把该对象引用的其他对象
-也要 clone 一份，这就要求这个被引用的对象必须也要实现Cloneable接口并且重写clone方法。序列化也可以拷贝为深拷贝
+
+##### 实现深拷贝
+
+如果想要深拷贝一个对象，这个对象必须要实现Cloneable接口，重写clone方法，并且在 clone 方法内部，把该对象引用的其他对象也要 clone 一份，这就要求这个被引用的对象必须也要实现Cloneable接口并且重写clone方法
+
+序列化也可以拷贝为深拷贝
+
+###### 6：protected  void finalize() 
+
+​          当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法
 
 
-6：protected  void finalize() 
-          当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法
 
-
-
-##### System 类
+### System 类
 
 字段：
 	static PrintStream err 
@@ -244,9 +250,9 @@ BigDecimal 类：（任意精度的十进制浮点数数）用来对超过16位�
 
 
 
-####  DateFormat类(java.text.DateFormat): 是日期/时间格式化子类的抽象类    
+###  DateFormat类(java.text.DateFormat): 是日期/时间格式化子类的抽象类    
 
-​	    DateFormat：提供了一个类方法 getInstance（），以获得此类型的一个通用的对象
+#### 	    DateFormat：提供了一个类方法 getInstance（），以获得此类型的一个通用的对象
 
 ​	方法：
 ​		static DateFormat getDateInstance() ----------------   获取日期格式器，该格式器具有默认语言环境的默认格式化风格 
