@@ -16,7 +16,7 @@
 
 ###### 2：在远程服务上执行命令
 
- **redis-cli -h host -p port -a password**     //如何连接到主机为 127.0.0.1，端口为 6379 ，密码为 mypass 的 redis 服务上
+ **redis-cli -h host -p port -a password**     //连接到主机为 127.0.0.1，端口为 6379 ，密码为 mypass 的 redis 服务上
 
 ### Redis 键 (key)：用于管理 redis 的键
 
