@@ -1,4 +1,4 @@
-### 1£ºSQL(Structured Query Language) ½á¹¹»¯²éÑ¯ÓïÑÔ£ºÔÚ¹ØÏµÊý¾Ý¿âÉÏÖ´ÐÐÊý¾Ý²Ù×÷£¬¼ìË÷¼°Î¬»¤ËùÊ¹ÓÃµÄ±ê×¼ÓïÑÔ
+###   1£ºSQL(Structured Query Language) ½á¹¹»¯²éÑ¯ÓïÑÔ£ºÔÚ¹ØÏµÊý¾Ý¿âÉÏÖ´ÐÐÊý¾Ý²Ù×÷£¬¼ìË÷¼°Î¬»¤ËùÊ¹ÓÃµÄ±ê×¼ÓïÑÔ
 
 SQL·ÖÎª£º
 	1£ºÊý¾Ý¶¨ÒåÓïÑÔ£¨DDL£©£ºÓÃÓÚ´´½¨£¬ÐÞ¸Ä£¬É¾³ýÊý¾Ý¿âµÄ¶ÔÏó£¬Êý¾Ý¿â¶ÔÏó°üÀ¨£º±í£¬ÊÓÍ¼£¬Ë÷Òý£¬ÐòÁÐ
@@ -10,8 +10,8 @@ SQL·ÖÎª£º
   ×¢Òâ£º
        1:SQLÓï¾ä±¾Éí²»Çø·Ö´óÐ¡Ð´£¬µ«ÊÇ³öÓÚ¿É¶ÁÐÔµÄÄ¿µÄ£¬ÎÒÃÇÍ¨³£»á½«SQLµÄ¹Ø¼ü×ÖÈ«²¿´óÐ´£¬·Ç¹Ø¼ü×ÖÈ«²¿Ð¡Ð´
        1: £»ÊÇ²»±ØÒªµÄµ«ÊÇ×÷ÎªÒ»´ÎÓï¾äµÄ½áÊø£¬·Ö¸ô·û£¬delimiter
-	% 	Ìæ´úÒ»¸ö»ò¶à¸ö×Ö·û
-	_ 	½öÌæ´úÒ»¸ö×Ö·û
+       % 	Ìæ´úÒ»¸ö»ò¶à¸ö×Ö·û
+	? 	½öÌæ´úÒ»¸ö×Ö·û
 
 ##### DDLÓï¾ä£ºÓÃÓÚ´´½¨£¬ÐÞ¸Ä£¬É¾³ýÊý¾Ý¿âµÄ¶ÔÏó£¬Êý¾Ý¿â¶ÔÏó°üÀ¨£º±í£¬ÊÓÍ¼£¬Ë÷Òý£¬ÐòÁÐ
 
@@ -32,7 +32,7 @@ CREATE TABLE ±íÃû£¨
 
 ###### Íâ¼üÔ¼Êø£º foreign key references ÒýÓÃÍâ¼ü±í(ÁÐÃû) 
 
-?	      £º  foreign key(ÁÐÃû) references Ä¿±ê±íÃû(Ä¿±êÁÐÃû)
+2£º  foreign key(ÁÐÃû) references Ä¿±ê±íÃû(Ä¿±êÁÐÃû)
 
 ´´½¨ÏàÍ¬µÄ±í£ºCREATE TABLE ±í1 LIKE ±í2£»
 ´ÓÒÑÓÐµÄ±íÖÐ´´½¨ÐÂ±í£º CREATE TABLE ÐÂ±í1 SELECT ×Ö¶Î1£¬×Ö¶Î2...FROM Ô­±í2£»
@@ -55,13 +55,16 @@ CREATE TABLE ±íÃû£¨
 
 ###### 	Ôö¼ÓÐÂµÄ×Ö¶Î£ºALTER TABLE ±íÃû ADD ×Ö¶ÎÃû... after ×Ö¶ÎÃû|first£»
 
-###### 	ÐÞ¸ÄÏÖÓÐ×Ö¶Î£ºALTER TABLE ±íÃû MODIFY ÐÞ¸ÄµÄ×Ö¶Î
+###### 	ÐÞ¸ÄÏÖÓÐ×Ö¶Î£ºALTER TABLE ±íÃû MODIFY ÐÞ¸ÄµÄ×Ö¶Î£»
 
-###### 	ÐÞ¸Ä×Ö¶ÎÃû£º  ALTER TABLE ±íÃû RENAME column A to B;
+###### 	ÐÞ¸Ä×Ö¶ÎÃû£º     ALTER TABLE ±íÃû RENAME column A to B;
 
 ###### 	É¾³ýÏÖÓÐ×Ö¶Î£ºALTER TABLE ±íÃû DROP ×Ö¶ÎÃû£»
 
-?		
+```sql
+alter table stu add (name varchar(30) default ¡®ÎÞÃûÊÏ¡¯ not null);
+alter table stu modify (name varchar(16) default ¡®unknown¡¯);
+```
 
 ###   É¾³ý±í£¨DROP£©£º
 
@@ -75,9 +78,9 @@ CREATE TABLE ±íÃû£¨
 
 1£ºINSERT INTO Ïò±íÖÐ²åÈëÊý¾Ý
 
-###### 	INSERT INTO ±íÃû(id,name£¬birth) VALUES(1£¬'jack'£¬TO_DATE£¨'2009-06-05',¡®YYYY-MM-DD¡¯£©)£»
+###### 	INSERT INTO ±íÃû(id£¬name£¬birth) VALUES(1£¬'jack'£¬TO_DATE£¨'2009-06-05',¡®YYYY-MM-DD¡¯£©)£»
 
-?	Èç¹û²åÈëµÄÊ±ÈÕÆÚ×Ö¶Î:TO_DATE£¨'2009-06-05',¡®YYYY-MM-DD¡¯£©
+Èç¹û²åÈëµÄÊ±ÈÕÆÚ×Ö¶Î:TO_DATE£¨'2009-06-05',¡®YYYY-MM-DD¡¯£©
 
 2£ºDELETE É¾³ý±íÖÐµÄÊý¾Ý£¬Òª¼ÓWHEREÓï¾äÏÞ¶¨É¾³ýµÄ¼ÇÂ¼£¬·ñÔò¾ÍÊÇÇå¿Õ±í²Ù×÷
 
@@ -87,18 +90,22 @@ CREATE TABLE ±íÃû£¨
 
 ###### 	UPDATE ±íÃû SET ×Ö¶ÎÃû=Öµ£¬×Ö¶ÎÃû=Öµ WHERE ÏÞÖÆ¼ÇÂ¼µÄ×Ö¶Î£»
 
+```sql
+update stu t set t.NAME = 'mike', t.SEX = '1' where t.ID = '2';
+```
+
 4:SELECT£º²éÑ¯±íµÄÄÚÈÝ£¬* ´ú±íËùÓÐ×Ö¶Î
 
 ###### 	SELECT * FROM ±íÃû£»  ²é¿´±íµÄËùÓÐÄÚÈÝ
 
-  SELECT×Ó¾ä£ººóÃæ¸úÒª²éÑ¯µÄ×Ö¶Î£¬Ò²¿ÉÒÔÊÇ±íÖÐµÄ¾ßÌå×Ö¶Îº¯Êý»òÕß±í´ïÊ½,Ö±½ÓÔÚÆäºóÃæ¼Ó±ðÃû as ±ðÃû£»
+  SELECT ×Ó¾ä£ººóÃæ¸úÒª²éÑ¯µÄ×Ö¶Î£¬Ò²¿ÉÒÔÊÇ±íÖÐµÄ¾ßÌå×Ö¶Îº¯Êý»òÕß±í´ïÊ½,Ö±½ÓÔÚÆäºóÃæ¼Ó±ðÃû as ±ðÃû£»
 	  ÄÇÃ´½á¹û¼¯»áÒÔÕâ¸ö±ðÃû×÷Îª×Ö¶ÎµÄÃû×Ö£¬¿ÉÒÔÊ¹ÓÃ "" ¸ø±ðÃûÇø·Ö´óÐ¡Ð´ºÍÌí¼Ó¿Õ¸ñ
 
 ######   DISTINCT£º¶ÔÖ¸¶¨×Ö¶ÎÖØ¸´µÄ¼ÇÂ¼È¥ÖØ£¬µ«ÊÇÓÃ¶à×Ö¶ÎÈ¥ÖØÊ±£¬ÊÇ×Ö¶ÎµÄ×éºÏÃ»ÓÐÖØ¸´Öµ(²»Í¬µÄ)
 
-?	Àý£ºSELECT DISTINCT column_name as new_name,column_name FROM table_name;  È¥ÖØ
+Àý£ºSELECT DISTINCT column_name as new_name,column_name FROM table_name;  È¥ÖØ
 
-######   FROM×Ó¾ä£ºÓÃÀ´ÖÆ¶¨Êý¾Ý±íµÄÀ´Ô´£¬Æäºó¿ÉÒÔ¼Ó ORDER BY ×Ö¾äÅÅÐò£»?		
+######   FROM×Ó¾ä£ºÓÃÀ´ÖÆ¶¨Êý¾Ý±íµÄÀ´Ô´£¬Æäºó¿ÉÒÔ¼Ó ORDER BY ×Ö¾äÅÅÐò£»	
 
 ######   WHERE×Ó¾ä£ºÓÃÀ´Ìí¼ÓÏÞÖÆÌõ¼þ£¬¿ÉÒÔÓÐ¶à¸ö£¬Ö»½«Âú×ãÌõ¼þµÄ¼ÇÂ¼²éÑ¯³öÀ´
 
@@ -127,7 +134,7 @@ CREATE TABLE ±íÃû£¨
 
 Í¶Ó°(projector)£º²¿·ÖÁÐ×é³ÉµÄÐÂµÄ¼¯ºÏ 
 SELECT name as emp_name,sex,age FROM emp; 
-Ñ¡Ôñ(selector)£º²¿·ÖÐÐ×é³ÉÐÂµÄ¼¯ºÏ 
+Ñ¡Ôñ(selector)£º²¿·ÖÐÐ×é³ÉÐÂµÄ¼¯ºÏ £¬·Ö±í´æ´¢
 SELECT * FROM stu WHERE id<10;
 
 ### 3£ºGROUP BY£¨·Ö×é£©
@@ -148,12 +155,10 @@ SELECT * FROM stu WHERE id<10;
 
 ORDER BY ×Ó¾ä£º¿ÉÒÔ¸ù¾ÝÖ¸¶¨µÄ×Ö¶Î¶Ô½á¹û¼¯°´ÕÕ¸Ã×Ö¶ÎµÄÖµ½øÐÐÉýÐò»òÕß½µÐòÅÅÐò
 
-?	  ASC£ºÉýÐò£¬Ä¬ÈÏµÄ²»ÓÃÐ´
-?    	  DESC £º½µÐò
- 	  °´ÕÕ¶à×Ö¶ÎÅÅÐòÊ±£¬Ê×ÏÈ°´ÕÕµÚÒ»¸ö×Ö¶ÎÅÅÐò£¬µ±µÚÒ»¸ö×Ö¶ÎÓÐÖØ¸´ÖµÊ±²Å»á°´ÕÕµÚ¶þ¸ö×Ö¶ÎÅÅÐò·½Ê½½øÐÐÅÅÐò
-?	  ÒÔ´ËÀàÍÆ£¬Ã¿¸ö×Ö¶Î¶¼¿ÉÒÔµ¥¶ÀµÄÖ¸¶¨ÅÅÐò·½Ê½£¬ÔÚÅÅÐòÖÐNULLÖµ±»ÈÏÎªÊÇ×î´óÖµ
-?	   select * FROM stu1 ORDER BY age DESC;	
-?		
+ ASC£ºÉýÐò£¬Ä¬ÈÏµÄ²»ÓÃÐ´£¨ascending order£©
+DESC £º½µÐò£¨descending order£©
+°´ÕÕ¶à×Ö¶ÎÅÅÐòÊ±£¬Ê×ÏÈ°´ÕÕµÚÒ»¸ö×Ö¶ÎÅÅÐò£¬µ±µÚÒ»¸ö×Ö¶ÎÓÐÖØ¸´ÖµÊ±²Å»á°´ÕÕµÚ¶þ¸ö×Ö¶ÎÅÅÐò·½Ê½½øÐÐÅÅÐò ÒÔ´ËÀàÍÆ£¬Ã¿¸ö×Ö¶Î¶¼¿ÉÒÔµ¥¶ÀµÄÖ¸¶¨ÅÅÐò·½Ê½£¬ÔÚÅÅÐòÖÐNULLÖµ±»ÈÏÎªÊÇ×î´óÖµ
+select * FROM stu1 ORDER BY age DESC;
 
 ### 5£ºWHERE ÏÞÖÆÌõ¼þ
 
@@ -164,7 +169,7 @@ WHEREÊÇÔÚÊý¾Ý¿â¼ìË÷±íÖÐÊý¾ÝÊ±£¬¶ÔÊý¾ÝÖðÌõ¹ýÂËÒÔ¾ö¶¨ÊÇ·ñ²éÑ¯¸ÃÊý¾ÝÊÇ·ñÊ¹ÓÃµÄ£¬ËùÒ
 ÈôÒªÊ¹ÓÃ¾ÛºÏº¯ÊýµÄ½á¹û×÷Îª¹ýÂËÌõ¼þÊ±£¬ÄÇÃ´Ò»¶¨ÊÇÊý¾Ý´Ó±íÖÐ²éÑ¯Íê±ÏµÃµ½µÄ½á¹û¼¯£¬²¢ÇÒ·Ö×éÍê±Ï²Å½øÐÐ¾ÛºÏº¯ÊýÍ³¼Æ½á¹û£¬µÃµ½ºó²Å¿ÉÒÔ¶Ô·Ö×é½øÐÐ¹ýÂË£¬ÓÉ´Ë¿É¼ûÕâ¸ö¹ýÂËÊ±»úÊÇÔÚWHEREÖ®ºó½øÐÐµÄ£¬ËùÒÔ¾ÛºÏº¯ÊýµÄ¹ýÂËÌõ¼þÒªÔÚHAVING×Ó¾äÖÐÊ¹ÓÃ£¬
 HAVING±ØÐëÔÚGROUP BYÖ®ºó
 
-SELECT dep_id,count(dep_id) FROM emp GROUP BY dep_id HAVING count(dep_id)>1£»
+##### SELECT dep_id,count(dep_id) FROM emp GROUP BY dep_id HAVING count(dep_id)>1£»
 
 
 
@@ -173,10 +178,10 @@ SELECT dep_id,count(dep_id) FROM emp GROUP BY dep_id HAVING count(dep_id)>1£»
 1£ºFROM×Ó¾ä£ºÖ´ÐÐË³Ðò´ÓºóÍùÇ°£¬´ÓÓÒÍù×ó£¬Êý¾ÝÁ¿½ÏÉÙµÄ±í¾¡Á¿·ÅÔÚºóÃæ
 2£ºWHERE×Ó¾ä£º×ÔÏÂ¶øÉÏ£¬´ÓÓÒµ½×ó
 
-3£ºGROUP BY ×Ó¾ä£º´Ó×óÍù
+3£ºGROUP BY ×Ó¾ä£º´Ó×óÍùÓÒ
 4£ºHAVING×Ó¾ä£ºÏûºÄ×ÊÔ´£¬Á½Õß½áºÏÊ¹ÓÃ
 
-5£ºSELECT ×Ó¾ä£ºÉÙÓÃ*ºÅ£¬¾¡Á¿È¡×Ö¶ÎÃû³Æ
+5£ºSELECT ×Ó¾ä£ºÉÙÓÃ * ºÅ£¬¾¡Á¿È¡×Ö¶ÎÃû³Æ
 6£ºORDER BY ×Ó¾ä£º´Ó×óµ½ÓÒÅÅÐò£¬ÏûºÄ×ÊÔ´
 
 ### 7£º·ÖÒ³²éÑ¯ LIMIT 
@@ -214,7 +219,7 @@ NÕÅ±í¾ÍÓÐN-1¸öÁ¬½ÓÌõ¼þ
 
 ##### ÍâÁ´½Ó£ºËùÓÐÊý¾Ý¶¼ÏÔÊ¾
 
-ÍâÁ¬½Ó·ÖÎª£º
+ÍâÁ¬½Ó·ÖÎª£º 
 
 ######   ×óÍâÁ¬½Ó£º£¨LEFT JOIN£©ÒÔJOIN×ó²à×÷ÎªÇý¶¯±í£¬»ñÈ¡×ó±íËùÓÐ¼ÇÂ¼£¬¼´Ê¹ÓÒ±íÃ»ÓÐ¶ÔÓ¦Æ¥ÅäµÄ¼ÇÂ¼£¬ÓÃNULL Ìî³ä
 
@@ -223,6 +228,72 @@ NÕÅ±í¾ÍÓÐN-1¸öÁ¬½ÓÌõ¼þ
 ######   ÍâÁ´½Ó£º£¨RIGHT JOIN£©ÓÒÍâÁ¬£ºÓë LEFT JOIN Ïà·´£¬ÓÃÓÚ»ñÈ¡ÓÒ±íËùÓÐ¼ÇÂ¼£¬¼´Ê¹×ó±íÃ»ÓÐ¶ÔÓ¦Æ¥ÅäµÄ¼ÇÂ¼£¬ÓÃNULLÌî³ä
 
   Àý£ºselect e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e RIGHT JOIN dep d ON e.dep_id=d.id;
+
+## 10£ºEXPLAIN
+
+###### ²é¿´ÔËÐÐSQLÓï¾äÊ±ÄÄÖÖ²ßÂÔÔ¤¼Æ»á±»ÓÅ»¯Æ÷²ÉÓÃ£¬²é¿´ÓÐÃ»ÓÐ×ßË÷Òý
+
+```sql
++----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
+| id | select_type | table | type  | possible_keys | key  | key_len | ref  | rows | Extra                    |
++----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
+|  1 | SIMPLE      | t1    | index | PRIMARY       | name | 63      | NULL |    4 | Using where; Using index |
++----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
+```
+
+#### 1£ºid£º°üº¬Ò»×éÊý×Ö£¬±íÊ¾²éÑ¯ÖÐÖ´ÐÐselect×Ó¾ä»ò²Ù×÷±íµÄË³Ðò
+
+?	1£ºidÏàÍ¬£¬Ö´ÐÐË³ÐòÓÉÉÏÖÁÏÂ
+
+?	2£ºÈç¹ûÊÇ×Ó²éÑ¯£¬idµÄÐòºÅ»áµÝÔö£¬idÖµÔ½´óÓÅÏÈ¼¶Ô½¸ß£¬Ô½ÏÈ±»Ö´ÐÐ
+
+?	3£ºid Èç¹ûÏàÍ¬£¬¿ÉÒÔÈÏÎªÊÇÒ»×é£¬´ÓÉÏÍùÏÂË³ÐòÖ´ÐÐ£»ÔÚËùÓÐ×éÖÐ£¬idÖµÔ½´ó£¬ÓÅÏÈ¼¶Ô½¸ß£¬Ô½ÏÈÖ´ÐÐ
+
+#### 2£ºselect_type  Ê¾²éÑ¯ÖÐÃ¿¸öselect×Ó¾äµÄÀàÐÍ£¨¼òµ¥OR¸´ÔÓ£©
+
+?	a. SIMPLE£º²éÑ¯ÖÐ²»°üº¬×Ó²éÑ¯»òÕßUNION
+?	b. ²éÑ¯ÖÐÈô°üº¬ÈÎºÎ¸´ÔÓµÄ×Ó²¿·Ö£¬×îÍâ²ã²éÑ¯Ôò±»±ê¼ÇÎª£ºPRIMARY
+?	c. ÔÚSELECT»òWHEREÁÐ±íÖÐ°üº¬ÁË×Ó²éÑ¯£¬¸Ã×Ó²éÑ¯±»±ê¼ÇÎª£ºSUBQUERY
+?	d. ÔÚFROMÁÐ±íÖÐ°üº¬µÄ×Ó²éÑ¯±»±ê¼ÇÎª£ºDERIVED£¨ÑÜÉú£©ÓÃÀ´±íÊ¾°üº¬ÔÚfrom×Ó¾äÖÐµÄ×Ó²éÑ¯µÄselect£¬mysql»áµÝ¹éÖ´ÐÐ²¢½«½á¹û·Åµ½Ò»¸öÁÙÊ±±íÖÐ¡£·þÎñÆ÷ÄÚ²¿³ÆÎª"ÅÉÉú±í"£¬ÒòÎª¸ÃÁÙÊ±±íÊÇ´Ó×Ó²éÑ¯ÖÐÅÉÉú³öÀ´µÄ
+?	e. ÈôµÚ¶þ¸öSELECT³öÏÖÔÚUNIONÖ®ºó£¬Ôò±»±ê¼ÇÎªUNION£»ÈôUNION°üº¬ÔÚFROM×Ó¾äµÄ×Ó²éÑ¯ÖÐ£¬Íâ²ãSELECT½«±»±ê¼ÇÎª£ºDERIVED
+?	f. ´ÓUNION±í»ñÈ¡½á¹ûµÄSELECT±»±ê¼ÇÎª£ºUNION RESULT
+
+#### 3£ºtype £º±íÊ¾MySQLÔÚ±íÖÐÕÒµ½ËùÐèÐÐµÄ·½Ê½£¬ÓÖ³Æ¡°·ÃÎÊÀàÐÍ¡±£¬³£¼ûÀàÐÍÈçÏÂ:
+
+ **ALL, index,  range, ref, eq_ref, const, system, NULL**
+
+**´Ó×óµ½ÓÒ£¬ÐÔÄÜ´Ó×î²îµ½×îºÃ**
+
+?	ALL£ºÈ«±íÉ¨Ãè
+
+?	index£ºÖ»±éÀúË÷ÒýÊ÷
+
+?	range£ºË÷Òý·¶Î§É¨Ãè£¬¶ÔË÷ÒýµÄÉ¨Ãè¿ªÊ¼ÓÚÄ³Ò»µã£¬·µ»ØÆ¥ÅäÖµÓòµÄÐÐ
+
+?	ref£ºÊ¹ÓÃ·ÇÎ¨Ò»Ë÷ÒýÉ¨Ãè»òÕßÎ¨Ò»Ë÷ÒýµÄÇ°×ºÉ¨Ãè£¬·µ»ØÆ¥ÅäÄ³¸öµ¥¶ÀÖµµÄ¼ÇÂ¼ÐÐ
+
+ 	NULL£ºMySQLÔÚÓÅ»¯¹ý³ÌÖÐ·Ö½âÓï¾ä£¬Ö´ÐÐÊ±ÉõÖÁ²»ÓÃ·ÃÎÊ±í»òË÷Òý£¨¸²¸ÇË÷Òý£©
+
+#### 4£ºpossible_keys  £ºÖ¸³öMySQLÄÜÊ¹ÓÃÄÄ¸öË÷ÒýÔÚ±íÖÐÕÒµ½¼ÇÂ¼£¬²éÑ¯Éæ¼°µ½µÄ×Ö¶ÎÉÏÈô´æÔÚË÷Òý£¬Ôò¸ÃË÷Òý½«±»ÁÐ³ö£¬µ«²»Ò»¶¨±»²éÑ¯Ê¹ÓÃ
+
+#### 5£ºkey£ºÏÔÊ¾MySQLÔÚ²éÑ¯ÖÐÊµ¼ÊÊ¹ÓÃµÄË÷Òý£¬ÈôÃ»ÓÐÊ¹ÓÃË÷Òý£¬ÏÔÊ¾ÎªNULL
+
+#### 6£ºkey_len£º±íÊ¾Ë÷ÒýÖÐÊ¹ÓÃµÄ×Ö½ÚÊý£¬¿ÉÍ¨¹ý¸ÃÁÐ¼ÆËã²éÑ¯ÖÐÊ¹ÓÃµÄË÷ÒýµÄ³¤¶È£¨key_lenÏÔÊ¾µÄÖµÎªË÷Òý×Ö¶ÎµÄ×î´ó¿ÉÄÜ³¤¶È£¬²¢·ÇÊµ¼ÊÊ¹ÓÃ³¤¶È£¬¼´key_lenÊÇ¸ù¾Ý±í¶¨Òå¼ÆËã¶øµÃ£¬²»ÊÇÍ¨¹ý±íÄÚ¼ìË÷³öµÄ£©
+
+#### 7£ºref£º±íÊ¾ÉÏÊö±íµÄÁ¬½ÓÆ¥ÅäÌõ¼þ£¬¼´ÄÄÐ©ÁÐ»ò³£Á¿±»ÓÃÓÚ²éÕÒË÷ÒýÁÐÉÏµÄÖµ
+
+#### 8£ºrows£º¹ÀËãµÄÕÒµ½ËùÐèµÄ¼ÇÂ¼ËùÐèÒª¶ÁÈ¡µÄÐÐÊý
+
+#### 9£º Extra£º°üº¬²»ÊÊºÏÔÚÆäËûÁÐÖÐÏÔÊ¾µ«Ê®·ÖÖØÒªµÄ¶îÍâÐÅÏ¢
+
+?	Using index £º¸ÃÖµ±íÊ¾ÏàÓ¦µÄselect²Ù×÷ÖÐÊ¹ÓÃÁË¸²¸ÇË÷Òý
+
+?	Using where£º±íÊ¾mysql·þÎñÆ÷½«ÔÚ´æ´¢ÒýÇæ¼ìË÷ÐÐºóÔÙ½øÐÐ¹ýÂË
+
+?	Using temporary£º±íÊ¾MySQLÐèÒªÊ¹ÓÃÁÙÊ±±íÀ´´æ´¢½á¹û¼¯£¬³£¼ûÓÚÅÅÐòºÍ·Ö×é²éÑ¯
+
+#### 10£ºTable £ºÖ´ÐÐSQLÓÃµ½µÄ±íÃû
+
 
 
 

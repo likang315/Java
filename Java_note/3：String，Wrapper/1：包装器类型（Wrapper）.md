@@ -75,19 +75,23 @@ Integer：当我们给一个Integer对象赋一个int 值的时候，会调用 I
  int compareTo(Integer anotherInteger) ----比较两个Integer对象的大小，调用compare方法
 
  static String toBinaryString(int i) ---------以二进制无符号整数形式返回一个整数参数的字符串表示形式
- static String	toString(int i)
+ 
  String	toString()
 
  int intValue() 以 int 类型返回该 Integer 的值,拆箱
  static Integer valueOf(int i) 返回一个表示指定的 int 值的 Integer 实例，装箱
 
  static int parseInt(String s)  -----将满足要求的字符串对象转换成其所对应的基本数据类型
+ static String	toString(int i)
  
  static int reverse(int i)  进行数值反转,以补码输出
 ```
 
-
 ​	 
+
+##### 装箱阶段自动替换为了 valueOf 方法，拆箱阶段自动替换为了 xxxValue 方法
+
+
 
 ## Double 
 
@@ -248,7 +252,13 @@ static Boolean valueOf(String s)
 static boolean parseBoolean(String s) 
           将字符串参数转换为对应的 boolean 值 
 
+### Java中包装类缓存
 
+Integer包装类在自动装箱的过程中，是由缓冲池的。对于值**在-128~127之间的数**，会放在内存中进行重用；对于大于或者小于这个范围的数，没有使用的时候都会new出一个新的对象
+
+java使用该机制是为了达到最小化数据输入和输出的目的,这是一种优化措施,提高效率（可以设置系统属性 java.lang.Integer.IntegerCache.high **修改缓冲区上限,默认为127**。参数内容应为大于127的十进制数形式的字符串,否则将被忽略。取值范围为127-Long.MAX_VALUE,但是用时将 强转为int。当系统中大量使用Integer时,增大缓存上限可以节省小量内存）
+
+其他包装类缓存：Boolean（全部缓存）、Byte（全部缓存）、Character（<= 127缓存）、Short（-128~127缓存）、Long（-128~127缓存）、Float（没有缓存）、Double（没有缓存），因为在指定范围内浮点型数据个数是不确定的，整型等个数是确定的，所以可以 Cache
 
 
 

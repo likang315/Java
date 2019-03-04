@@ -34,6 +34,16 @@ public boolean equals(Object obj)
 }
 ```
 
+### equals方法的特性：
+
+**自反性（reflexive）**：对于任意不为nul的引用值x，x.equals(x)一定是true
+
+**对称性（symmetric)**：对于任意不为null的引用值x和y，当且仅当x.equals(y)是true时，y.equals(x)也是true
+
+**传递性（transitive）**：对于任意不为null的引用值x，y和z，如果x.equals(y)是true，同时y.equals(z)是true，那么			x.equals(z)一定是true
+
+**一致性（consistent）**：对于任意不为null的引用值x和y，如果用于equals比较的对象信息没有被修改的话，多次调用时x.equals(y)要么一致地返回true要么一致地返回false
+
 ###### 3：hashCode(): 为了提高查找的执行效率而出现的方法，哈希表（散列）
 
    对象调用该方法时，返回的是一个根据其在内存中的物理地址，而获得的与地址有关的整数，在一个程序中没有改变对象中封装的数据，则对象多次调用该方法时产生同一个整数（哈希码）

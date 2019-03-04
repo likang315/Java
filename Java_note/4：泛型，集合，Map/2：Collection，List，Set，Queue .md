@@ -192,18 +192,38 @@ LinkedHashSe t继承自HashSet，源码更少、更简单，唯一的区别是LinkedHashSet内部使用
 
 ### 5：Interface Queue<E>：队列，FIFO，实现了Collection接口
 
-方法：
- boolean add(E e) 
-      将指定的元素插入此队列（如果立即可行且不会违反容量限制），在成功时返回 true，如果当前没有可用的空间，
-  则抛出 IllegalStateException 
- E peek() 
+boolean offer(E e)  添加一个元素并返回true       如果队列已满，则返回false
+
+E poll() 
+      获取并移除此队列的头，如果此队列为空，则返回 null 
+
+E peek() 
       获取但不移除此队列的头；如果此队列为空，则返回 null
 
- E poll() 
-          获取并移除此队列的头，如果此队列为空，则返回 null 
+实现类：Linkedlist,PriorityQueue
 
+```java
+//add()和remove()方法在失败的时候会抛出异常(不推荐)
+Queue<String> queue = new LinkedList<String>();
+//添加元素
+queue.offer("a");
+```
 
-  实现类：Linkedlist,PriorityQueue
+### public class Stack<E> extends Vector<E> ：栈，继承 了数组实现的集合,2倍扩容
+
+###### boolean  empty()     ：判断栈为不为空
+
+###### E   pop()    ：出栈，如果是空栈，会抛出异常：EmptyStackException
+
+###### E   push  (E item)  ：入栈
+
+###### int  search(Object o) ：返回某元素在栈中的位置,计数从1开始
+
+```java
+Stack<Integer> st = new Stack<Integer>();
+ast.push(8);
+System.out.println("stack: " + st);
+```
 
 
 

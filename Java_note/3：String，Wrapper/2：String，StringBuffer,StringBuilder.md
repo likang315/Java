@@ -130,10 +130,12 @@ public void test(String status) {
 		}
 ```
 
-```
+```java
 	String substring(int beginIndex) ----从指定位置开始截取子字符串
-	String substring(int beginIndex, int endIndex) --从指定位置开始截取到指定的位置，但不包含结束的位置	  static String valueOf(int i)   -----将int参数返回String对象，或者和空字符串拼接
-	static int parseInt(String s)  -----将满足要求的字符串对象转换成其所对应的基本数据类型
+	String substring(int beginIndex, int endIndex) --从指定位置开始截取到指定的位置，但不包含结束的位置
+	
+     String   static String valueOf(int i)   -----将int参数返回String对象，或者和空字符串拼接
+	Integet  static int parseInt(String s)  -----将满足要求的字符串对象转换成其所对应的基本数据类型
 ```
 
 

@@ -1,5 +1,5 @@
 
-RTTI(Run-Time Type Identification):运行时类型识别,RTTI能在运行时就能够自动识别每个编译时已知的类型
+RTTI(Run-Time Type Identification):运行时类型识别,RTT能在运行时就能够自动识别每个编译时已知的类型
 
 # JAVA反射机制
 
@@ -109,7 +109,11 @@ java.lang.reflect.Field（class）
 3：调用方法，修改属性值
 	使用getDeclaredMethod（）获取方法,invoke（）调用
 
-​	
+### 反射的作用：
+
+1、动态地创建类的实例，将类绑定到现有的对象中，或从现有的对象中获取类型
+
+2、应用程序需要在运行时从某个特定的程序集中载入一个特定的类
 
 
 
