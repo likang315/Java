@@ -4,7 +4,7 @@
 
 ###### 异步执行：多个线程可以同时进行
 
-### Synchronized ，ReentrantLock和 volatile 变量，CAS 实现同步机制
+### Synchronized ，ReentrantLock 和 volatile 变量，CAS 实现同步机制
 
 多线程并发访问同一资源时，就会形成“抢”的现象，由于线程切换实际不确定，可能导致执行代码顺序的混乱，
 严重时会导致系统瘫痪
@@ -232,7 +232,7 @@ public class MyService {
 }
 ```
 
-###### condition对象的signal()方法可以唤醒wait线程，ReentrantLock类可以唤醒指定条件的线程，而object的wait()的唤醒是随机的
+###### condition对象的 signal()方法可以唤醒wait线程，ReentrantLock类可以唤醒指定条件的线程，而object的wait()的唤醒是随机的
 
 Condition类的signal 方法和Object类的notify 方法等效													Condition类的signalAll 方法和Object类的notifyAll 方法等效
 
@@ -343,7 +343,7 @@ CAS虽然很高效的解决原子操作，但是CAS仍然存在三大问题：**
 
 ### ABA问题：
 
-AtomicStampedReference 来解决**ABA问题**，这个类的 compareAndSet方法作用是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志（版本号），如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值
+AtomicStampedReference 来解决**ABA问题**，这个类的 compareAndSet 方法作用是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志（版本号），如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值
 
 ### 循环时间长开销大：
 

@@ -80,7 +80,7 @@ boolean equals(Object o) ----------------------  ±È½ÏÖ¸¶¨µÄ¶ÔÏó(ÁÐ±í)ÓëÁÐ±íÊÇ·ñÏ
 
    ¹¹Ôì·½·¨£º
 
-ArrayList<E>() --------- ¹¹ÔìÒ»¸ö³õÊ¼ÈÝÁ¿Îª 10 µÄ¿ÕÁÐ±í,1.5±»À©ÈÝ
+###### ArrayList<E>() --------- ¹¹ÔìÒ»¸ö³õÊ¼ÈÝÁ¿Îª 10 µÄ¿ÕÁÐ±í,1.5±»À©ÈÝ
 
 ArrayList<E>(int initialCapacity) -------- ¹¹ÔìÒ»¸ö¾ßÓÐÖ¸¶¨³õÊ¼ÈÝÁ¿µÄ¿ÕÁÐ±í
 
@@ -110,7 +110,9 @@ Object[] toArray()          ---------------------  °´ÊÊµ±Ë³Ðò£¨´ÓµÚÒ»¸öµ½×îºóÒ»¸
 
 ######   Class LinkedList<E>£ºÁ´±íÐòÁÐ£¬Òò´ËÔÚÔö¼Ó£¬É¾³ýÊ±Ð§ÂÊ¸ß £¬Ö÷ÒªÖ´ÐÐÉ¾³ý£¬²åÈë£¬µ¥¸ö¼¯ºÏÔªËØµÄ²Ù×÷£¬²»ÊÇÏß³Ì°²È«µÄ 
 
-###### 		       			        ÓÃË«ÏòÁ´±íÊµÏÖµÄ£¬Ïß³Ì²»°²È«Àà£¬Ã»ÓÐ¼Ósynchronized
+###### 		       			        ÓÃË«ÏòÁ´±íÊµÏÖµÄ£¬Ïß³Ì²»°²È«Àà£¬Ã»ÓÐ¼Ó synchronized
+
+Ë«ÏòÁ´±í£ºÓÅµã£¬Ôö¼ÓÉ¾³ý£¬ÓÃÊ±¼äºÜ¶Ì£¬µ«ÊÇÒòÎªÃ»ÓÐË÷Òý£¬¶ÔË÷ÒýµÄ²Ù×÷£¬±È½ÏÂé·³£¬Ö»ÄÜÑ­»·±éÀú£¬µ«ÊÇÃ¿´ÎÑ­»·µÄÊ±ºò£¬¶¼»áÏÈÅÐ¶ÏÒ»ÏÂ£¬Õâ¸öË÷ÒýÎ»ÓÚÁ´±íµÄÇ°²¿·Ö»¹ÊÇºó²¿·Ö£¬Ã¿´Î¶¼»á±éÀúÁ´±íµÄÒ»°ë £¬¶ø²»ÊÇ È«²¿±éÀú
 
 ¹¹Ôì·½·¨£º
 	LinkedList() ------------- ¹¹ÔìÒ»¸ö¿ÕÁ´±í 
