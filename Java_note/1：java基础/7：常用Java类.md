@@ -8,11 +8,11 @@ Object类是Java中类的一个最高父类，也可以理解为要是一个正�
 
 ### Object 类：
 
-###### 1：toString(): 对象自动调用object类中的toString()方法，也可手动调用
+###### 1：toString(): 对象自动调用object类中的 toString() 方法，也可手动调用
 
 在打印查看一个对象的内部封装数据（属性）时，默认打印的是（完整限定名@对象哈希值的十六进制表示---com.xzy.obj.Person@82764b
 
-Object提供了toString()用来默认的解析对象的内部结构，当前的这个默认解析是Object类给我们的一种实现，需要重写
+Object 提供了 toString() 用来默认的解析对象的内部结构，当前的这个默认解析是Object类给我们的一种实现，需要重写
 
 注意：该方法是在打印对象是默认访问的一个方法
 
@@ -20,12 +20,11 @@ Object提供了toString()用来默认的解析对象的内部结构，当前的�
 
    如若没有重写，则是继承Objecet类的，根据源码看，还是==，比较的是地址，若重写则比较的是内容，判断两个对象是否相等
 
-   equals和== 最大的区别是一个是方法一个是运算符
+   **equals和== 最大的区别是一个是方法一个是运算符**
 
    引用数据类型是否相等我们必须比较其封装的内容是否完全相同，该方法就是用来比较两个对象中内容是否相同的，即两个对象是否相等，相等返回true，否则返回false
 
-   Java自己的类就都重写过了，自己定义的类如果需要使用必须重写
-	
+Java自己的类就都重写过了，自己定义的类如果需要使用必须重写
 
 ```JAVA
 public boolean equals(Object obj) 
@@ -42,19 +41,19 @@ public boolean equals(Object obj)
 
 **传递性（transitive）**：对于任意不为null的引用值x，y和z，如果x.equals(y)是true，同时y.equals(z)是true，那么			x.equals(z)一定是true
 
-**一致性（consistent）**：对于任意不为null的引用值x和y，如果用于equals比较的对象信息没有被修改的话，多次调用时x.equals(y)要么一致地返回true要么一致地返回false
+**一致性（consistent）**：对于任意不为null的引用值x和y，如果用于equals比较的对象信息没有被修改的话，多次调用时x.equals(y)要么一致地返回true 要么一致地返回false
 
 ###### 3：hashCode(): 为了提高查找的执行效率而出现的方法，哈希表（散列）
 
    对象调用该方法时，返回的是一个根据其在内存中的物理地址，而获得的与地址有关的整数，在一个程序中没有改变对象中封装的数据，则对象多次调用该方法时产生同一个整数（哈希码）
 
-	hashCode()与equals()机制 
-	
-	若两个对象equals相等，但不在一个区间，所以根本没有机会进行比较，会被认为是不同的对象
-	
-	所以Java对于eqauls方法和hashCode方法是这样规定的： 
-	1 如果两个对象相等，那么它们的hashCode值一定要相等。也告诉我们重写equals方法，一定要重写hashCode方法
-	2 如果两个对象的hashCode相等，它们并不一定相等，这里的对象相同指的是用eqauls方法比较，拉链法
+### hashCode()与equals()机制 
+
+若两个对象equals相等，但不在一个区间，所以根本没有机会进行比较，会被认为是不同的对象
+
+所以Java对于eqauls方法和hashCode方法是这样规定的： 
+1 如果两个对象相等，那么它们的hashCode值一定要相等。也告诉我们重写equals方法，一定要重写hashCode方法
+2 如果两个对象的hashCode相等，它们并不一定相等，这里的对象相同指的是用eqauls方法比较，拉链法
 
 
 
@@ -85,7 +84,7 @@ public boolean equals(Object obj)
 
 ###### 6：protected  void finalize() 
 
-​          当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法
+当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法
 
 
 
@@ -102,14 +101,13 @@ public boolean equals(Object obj)
 1：static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length) 
         从指定源数组中复制一个数组，复制从指定的位置开始，到目标数组的指定位置结束。
 2：static void exit(int status) 
-        终止当前正在运行的 Java 虚拟机。 
+        终止当前正在运行的 Java 虚拟机
 3：static void gc() 
-        运行垃圾回收器。 
+        运行垃圾回收器
 
+### Scanner类：扫描器，从指定源开始扫描，遇到next...时会自动停止，等待键盘输入，创建对象时，建立打开扫描器
 
-Scanner类：扫描器，从指定源开始扫描，遇到next...时会自动停止，等待键盘输入，创建对象时，建立打开扫描器
-
-next() 与 nextLine() 区别
+##### next() 与 nextLine() 区别
 
 next()，nextInt().....都一样:
 
@@ -119,7 +117,7 @@ next()，nextInt().....都一样:
 
 nextLine()：
 
-1：以Enter为结束符，可以获得空格，Tab键。
+1：以Enter为结束符，可以获得空格，Tab键
 2：读取玩完之在它的结束符之前系统自动加\n，给输入的流换了个行，下一次读取时自动从新的一行开始扫描
 
 
@@ -178,10 +176,10 @@ nextLine()：
 ​			public Random(long d){}------- 使用单个 long 种子创建一个新的随机数生成器
 ​		方法：
 ​		  int nextInt() 
-​      			返回下一个伪随机数，它是此随机数生成器的序列中均匀分布的 int 值。 
+​      			返回下一个伪随机数，它是此随机数生成器的序列中均匀分布的 int 值
 
 ​		  int nextInt(int n) 
- 			        返回一个伪随机数，它是取自此随机数生成器序列的、在 0（包括）和指定值（不包括）之间均匀分布的 int 值。 
+ 			        返回一个伪随机数，它是取自此随机数生成器序列的、在 0（包括）和指定值（不包括）之间均匀分布的 int 值
 
 ​		  long nextLong() 
 ​      			返回下一个伪随机数，它是取自此随机数生成器序列的均匀分布的 long 值。 
@@ -189,29 +187,27 @@ nextLine()：
 ​	注意：伪随机数如果种子数相同，那么在相同的随机次数下，产生的随机数是相同的，其有一个nextDouble()产生含0.几的随机小数，其也是Math类的Random()底层实现
 
 
-​		
 
+###  BigInteger：大整数类  java.math.BigInteger  
 
+属性：
 
-####  BigInteger：大整数类  java.math.BigInteger       
+​	static BigInteger ONE 
+​			  BigInteger 的常量 1 
+​	static BigInteger TEN 
+​			  BigInteger 的常量 10 
+​	static BigInteger ZERO 
+​			  BigInteger 的常量 0
 
-#### 	  属性：
-		static BigInteger ONE 
-				  BigInteger 的常量 1。 
-		static BigInteger TEN 
-				  BigInteger 的常量 10。 
-		static BigInteger ZERO 
-				  BigInteger 的常量 0。 
-
-​	  构造方法：
+构造方法：
 ​		BigInteger(int numBits, Random rnd) 
 ​      			构造一个随机生成的 BigInteger，它是在 0 到 (2numBits - 1)（包括）范围内均匀分布的值。
 
 ​		BigInteger(String val) 
 ​			将 BigInteger 的十进制字符串表示形式转换为 BigInteger
-​	  方法：
+方法：
 ​		 BigInteger abs() 
-​				返回其值是此 BigInteger 的绝对值的 BigInteger。
+​				返回其值是此 BigInteger 的绝对值的 BigInteger
 ​		 BigInteger negate() 
 ​				返回其值是 (-this) 的 BigInteger  
 
@@ -234,14 +230,15 @@ nextLine()：
 ​		 String toString() 
  			          返回此 BigInteger 的十进制字符串表示形式
 
-BigDecimal 类：（任意精度的十进制浮点数数）用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。
-		BigDecimal 由任意精度的整数非标度值 和 32 位的整数标度 (scale) 组成。
-		如果为零或正数，则标度是小数点后的位数。
-		如果为负数，则将该数的非标度值乘以 10 的负 scale 次幂。因此，BigDecimal 表示的数值是 (unscaledValue × 10-scale)。 
+### BigDecimal 类：（任意精度的十进制浮点数数）用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数
+
+​		BigDecimal 由任意精度的整数非标度值 和 32 位的整数标度 (scale) 组成。
+​		如果为零或正数，则标度是小数点后的位数。
+​		如果为负数，则将该数的非标度值乘以 10 的负 scale 次幂。因此，BigDecimal 表示的数值是 (unscaledValue × 10-scale)。 
 
 ​	舍入模式：MathContext 类用来设置舍入模式，精度
 
-#####  Date类(java.util.Date)：用来获取当前的瞬时时间精确到毫秒   
+###  Date类(java.util.Date)：用来获取当前的瞬时时间精确到毫秒   
 
 ​	 使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和解析日期字符串
 
@@ -260,7 +257,7 @@ BigDecimal 类：（任意精度的十进制浮点数数）用来对超过16位�
 
 
 
-###  DateFormat类(java.text.DateFormat): 是日期/时间格式化子类的抽象类    
+###  DateFormat类(java.text.DateFormat):  是日期/时间格式化子类的抽象类    
 
 #### 	    DateFormat：提供了一个类方法 getInstance（），以获得此类型的一个通用的对象
 
@@ -268,21 +265,24 @@ BigDecimal 类：（任意精度的十进制浮点数数）用来对超过16位�
 ​		static DateFormat getDateInstance() ----------------   获取日期格式器，该格式器具有默认语言环境的默认格式化风格 
 ​		static DateFormat getTimeInstance() ----------------   获取时间格式器，该格式器具有默认语言环境的默认格式化风格 
 
+### SimpleDateFormat：是一个以与语言环境有关的方式来格式化和解析日期的具体类     DateFormat的子类  
 
- 	 SimpleDateFormat：是一个以与语言环境有关的方式来格式化和解析日期的具体类     DateFormat的子类  java.text.SimpleDateFormat
+java.text.SimpleDateFormat
 
- 	构造方法：		
+构造方法：		
 
-  			SimpleDateFormat() --------------   用默认的模式和默认语言环境的日期格式符号构造 SimpleDateFormat。
+  			SimpleDateFormat() --------------   用默认的模式和默认语言环境的日期格式符号构造 SimpleDateFormat
 			SimpleDateFormat(String pattern) -----------------  用给定的模式和默认语言环境的日期格式符号构造 SimpleDateFormat
         		例： new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
-   		方法：
-		
-		void applyPattern(String pattern) ------------------  将给定模式字符串应用于此日期格式 
-		String.format(String.valueOf(date) -----------------   将一个 Date 格式化为日期/时间字符串 
+方法：
 
-######  Calendar类：是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH、DAY_OF_MONTH、HOUR 等日历字段之间的转换提供了一些方法，并为操作日历字段提供了一些方法
+​	void applyPattern(String pattern) ------------------  将给定模式字符串应用于此日期格式 
+​	String.format(String.valueOf(date) -----------------   将一个 Date 格式化为日期/时间字符串 
+
+###  Calendar类：
+
+是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH、DAY_OF_MONTH、HOUR 等日历字段之间的转换提供了一些方法，并为操作日历字段提供了一些方法
 
 ​	    Calendar 提供了一个类方法 getInstance（），以获得此类型的一个通用的对象
 
@@ -296,7 +296,9 @@ BigDecimal 类：（任意精度的十进制浮点数数）用来对超过16位�
 
 #### 国际化（i18n）：
 
-ResourceBundle类：当程序需要一个特定于语言环境的资源时（如 String），程序可以从适合当前用户语言环境的资源包中加载它。
+### ResourceBundle类：
+
+##### 当程序需要一个特定于语言环境的资源时（如 String），程序可以从适合当前用户语言环境的资源包中加载它。
 
 主要依靠java.util包中的ResourceBundle类与Local类完成
 	

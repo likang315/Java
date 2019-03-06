@@ -1,15 +1,15 @@
 ## ¼¯ºÏ¿ò¼Ü
 
-### 1:¼¯ºÏ£ºÒ»¸ö½â¾öÊý×é¹Ì¶¨³¤¶ÈÈ±ÏÝµÄ¶¯Ì¬ÈÝÆ÷£¬java¶¨ÒåµÄÒ»×é¹ÜÀí¶ÔÏóµÄÀà¿â
+### 1:¼¯ºÏ£ºÒ»¸ö½â¾öÊý×é¹Ì¶¨³¤¶ÈÈ±ÏÝµÄ¶¯Ì¬ÈÝÆ÷£¬java ¶¨ÒåµÄÒ»×é¹ÜÀí¶ÔÏóµÄÀà¿â
 
 java.util
 Interface Collection<E>
 
-  Collection£º¼¯ºÏÀàµÄ¸ù½Ó¿Ú£¬Collection ±íÊ¾Ò»×é¶ÔÏóµÄÒýÓÃ£¬ÕâÐ©¶ÔÏóÒ²³ÆÎª collection µÄÔªËØ£¬·ºÐÍ¾ö¶¨¼¯ºÏÖÐÔªËØÎª¶ÔÏóÐÍ
+Collection£º¼¯ºÏÀàµÄ¸ù½Ó¿Ú£¬Collection ±íÊ¾Ò»×é¶ÔÏóµÄÒýÓÃ£¬ÕâÐ©¶ÔÏóÒ²³ÆÎª collection µÄÔªËØ£¬·ºÐÍ¾ö¶¨¼¯ºÏÖÐÔªËØÎª¶ÔÏóÐÍ
 
-  JavaÖÐÃ»ÓÐÌá¹©Õâ¸ö½Ó¿ÚµÄÖ±½ÓµÄÊµÏÖÀà¡£µ«ÊÇÈ´ÈÃÆä±»¼Ì³Ð²úÉúÁËÁ½¸ö½Ó¿Ú£¬¾ÍÊÇSetºÍList
+JavaÖÐÃ»ÓÐÌá¹©Õâ¸ö½Ó¿ÚµÄÖ±½ÓµÄÊµÏÖÀà¡£µ«ÊÇÈ´ÈÃÆä±»¼Ì³Ð²úÉúÁËÁ½¸ö½Ó¿Ú£¬¾ÍÊÇSetºÍList
 
-###   CollectionµÄÓÅ»¯×Ó½Ó¿Ú£ºList£¨½Ó¿Ú£©+ Set£¨½Ó¿Ú) +£¨Queue--¶ÓÁÐ½Ó¿Ú£©	
+###   Collection µÄÓÅ»¯×Ó½Ó¿Ú£ºList£¨½Ó¿Ú£©+ Set£¨½Ó¿Ú) +£¨Queue--¶ÓÁÐ½Ó¿Ú£©
 
 #####    List£ºÊÇÒ»¸öÓÐÐòµÄ¼¯ºÏ£¬¿ÉÒÔ°üº¬ÖØ¸´µÄÔªËØ£¬Ìá¹©ÁË°´Ë÷Òý·ÃÎÊµÄ·½Ê½
 
@@ -55,7 +55,7 @@ static void	reverse(List<?> list)	·µ»ØÓÐÐò¼¯ºÏ
 
  ·µ»ØÖ¸¶¨ set Ö§³ÖµÄÍ¬²½£¨Ïß³Ì°²È«µÄ£©set
 
-### 3£ºList£¨½Ó¿Ú£©£ºÐòÁÐ£¬ÓÐÐò¿ÉÖØ¸´£¬ÔÊÐínull´æÔÚ
+### 3£ºList£¨½Ó¿Ú£©£ºÐòÁÐ£¬ÓÐÐò¿ÉÖØ¸´£¬ÔÊÐí null ´æÔÚ
 
 java.util 
 Interface List<E>
@@ -74,11 +74,17 @@ boolean equals(Object o) ----------------------  ±È½ÏÖ¸¶¨µÄ¶ÔÏó(ÁÐ±í)ÓëÁÐ±íÊÇ·ñÏ
 
 ##### List£¨ÐòÁÐ£¬ÏßÐÔ±í£©½Ó¿ÚµÄÊµÏÖÀà£º
 
-######    Class Vector<E>£º   Êý×éÐòÁÐ,VectorÏß³Ì°²È«Ð§ÂÊµÍ£¬ÒÔÊÊÓ¦´´½¨ Vector ºó½øÐÐÌí¼Ó»òÒÆ³ýÏîµÄ²Ù×÷
+######    Class Vector<E>£º     Êý×éÐòÁÐ,Vector Ïß³Ì°²È«£¬¸øÃ¿Ò»¸ö·½·¨¼ÓÁËÍ¬²½Ëø£¬Ð§ÂÊµÍ£¬ÒÔÊÊÓ¦´´½¨ Vector ºó½øÐÐÌí¼Ó»òÒÆ³ýÏîµÄ²Ù×÷
+
+³õÊ¼ÈÝÁ¿10£¬À©ÈÝËæ×ÅÔªËØµÄÔö³¤¶øÔö³¤
 
 ######    Class ArrayList<E>£ºÊý×éÐòÁÐ,±¾ÖÊ¶¼ÊÇObject[]Êý×é£¬Ö»²»¹ýArrayListÏß³Ì²»°²È«Ð§ÂÊ¸ß£¬¶ÔÐòÁÐÕûÌå½øÐÐ²Ù×÷£¬ÓÃÊý×éÊµÏÖµÄ
 
-   ¹¹Ôì·½·¨£º
+µ±Ç°Êý×éÊÇÓÉÄ¬ÈÏ¹¹Ôì·½·¨Éú³ÉµÄ¿ÕÊý×é²¢ÇÒµÚÒ»´ÎÌí¼ÓÊý¾Ý¡£´ËÊ±minCapacityµÈÓÚÄ¬ÈÏµÄÈÝÁ¿£¨10£©ÄÇÃ´¸ù¾ÝÏÂÃæÂß¼­¿ÉÒÔ¿´µ½×îºóÊý×éµÄÈÝÁ¿»á´Ó0À©ÈÝ³É10¡£¶øºóµÄÊý×éÀ©ÈÝ²ÅÊÇ°´ÕÕµ±Ç°ÈÝÁ¿µÄ1.5±¶½øÐÐÀ©ÈÝ£»
+
+µ±Ç°Êý×éÊÇÓÉ×Ô¶¨Òå³õÊ¼ÈÝÁ¿¹¹Ôì·½·¨´´½¨²¢ÇÒÖ¸¶¨³õÊ¼ÈÝÁ¿Îª0¡£´ËÊ± minCapacity µÈÓÚ1ÄÇÃ´¸ù¾ÝÏÂÃæÂß¼­¿ÉÒÔ¿´µ½×îºóÊý×éµÄÈÝÁ¿»á´Ó0±ä³É1¡£Õâ±ß¿ÉÒÔ¿´µ½Ò»¸öÑÏÖØµÄÎÊÌâ£¬Ò»µ©ÎÒÃÇÖ´ÐÐÁË³õÊ¼ÈÝÁ¿Îª0£¬ÄÇÃ´¸ù¾ÝÏÂÃæµÄËã·¨Ç°ËÄ´ÎÀ©ÈÝÃ¿´Î¶¼ +1£¬ÔÚµÚ5´ÎÌí¼ÓÊý¾Ý½øÐÐÀ©ÈÝµÄÊ±ºò²ÅÊÇ°´ÕÕµ±Ç°ÈÝÁ¿µÄ1.5±¶½øÐÐÀ©ÈÝ
+
+¹¹Ôì·½·¨£º
 
 ###### ArrayList<E>() --------- ¹¹ÔìÒ»¸ö³õÊ¼ÈÝÁ¿Îª 10 µÄ¿ÕÁÐ±í,1.5±»À©ÈÝ
 
@@ -106,13 +112,13 @@ boolean contains(Object o) ----------------------  Èç¹û´ËÁÐ±íÖÐ°üº¬Ö¸¶¨µÄÔªËØ£¬Ô
 void trimToSize()           ---------------------  ½«´Ë ArrayList ÊµÀýµÄÈÝÁ¿µ÷ÕûÎªÁÐ±íµÄµ±Ç°´óÐ¡
 Iterator<E> iterator()      ---------------------  ·µ»Ø°´ÊÊµ±Ë³ÐòÔÚÁÐ±íµÄÔªËØÉÏ½øÐÐµü´úµÄµü´úÆ÷¡£ 
 Object[] toArray()          ---------------------  °´ÊÊµ±Ë³Ðò£¨´ÓµÚÒ»¸öµ½×îºóÒ»¸öÔªËØ£©·µ»Ø°üº¬´ËÁÐ±íÖÐ
-							   ËùÓÐÔªËØµÄÊý×é	
+							   	ËùÓÐÔªËØµÄÊý×é	
 
 ######   Class LinkedList<E>£ºÁ´±íÐòÁÐ£¬Òò´ËÔÚÔö¼Ó£¬É¾³ýÊ±Ð§ÂÊ¸ß £¬Ö÷ÒªÖ´ÐÐÉ¾³ý£¬²åÈë£¬µ¥¸ö¼¯ºÏÔªËØµÄ²Ù×÷£¬²»ÊÇÏß³Ì°²È«µÄ 
 
 ###### 		       			        ÓÃË«ÏòÁ´±íÊµÏÖµÄ£¬Ïß³Ì²»°²È«Àà£¬Ã»ÓÐ¼Ó synchronized
 
-Ë«ÏòÁ´±í£ºÓÅµã£¬Ôö¼ÓÉ¾³ý£¬ÓÃÊ±¼äºÜ¶Ì£¬µ«ÊÇÒòÎªÃ»ÓÐË÷Òý£¬¶ÔË÷ÒýµÄ²Ù×÷£¬±È½ÏÂé·³£¬Ö»ÄÜÑ­»·±éÀú£¬µ«ÊÇÃ¿´ÎÑ­»·µÄÊ±ºò£¬¶¼»áÏÈÅÐ¶ÏÒ»ÏÂ£¬Õâ¸öË÷ÒýÎ»ÓÚÁ´±íµÄÇ°²¿·Ö»¹ÊÇºó²¿·Ö£¬Ã¿´Î¶¼»á±éÀúÁ´±íµÄÒ»°ë £¬¶ø²»ÊÇ È«²¿±éÀú
+Ë«ÏòÁ´±í£ºÓÅµã£¬Ôö¼ÓÉ¾³ý£¬ÓÃÊ±¼äºÜ¶Ì£¬µ«ÊÇÒòÎªÃ»ÓÐË÷Òý£¬¶ÔË÷ÒýµÄ²Ù×÷£¬±È½ÏÂé·³£¬Ö»ÄÜÑ­»·±éÀú£¬µ«ÊÇÃ¿´ÎÑ­»·µÄÊ±ºò£¬¶¼»áÏÈÅÐ¶ÏÒ»ÏÂ£¬Õâ¸öË÷ÒýÎ»ÓÚÁ´±íµÄÇ°²¿·Ö»¹ÊÇºó²¿·Ö£¬Ã¿´Î¶¼»á±éÀúÁ´±íµÄÒ»°ë £¬¶ø²»ÊÇÈ«²¿±éÀú
 
 ¹¹Ôì·½·¨£º
 	LinkedList() ------------- ¹¹ÔìÒ»¸ö¿ÕÁ´±í 
@@ -135,9 +141,9 @@ ListIterator<E> listIterator(int index)   -------- ·µ»Ø´ËÁÐ±íÖÐµÄÔªËØµÄÁÐ±íµü´úÆ
 ##### CopyOnWriteArrayList£ºÐ´Ê±¸´ÖÆµÄÈÝÆ÷£¬¶Á¶àÐ´ÉÙµÄ³¡¾°																				public class CopyOnWriteArrayList<E>  implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 
 - ÊµÏÖÁËList½Ó¿Ú
-- ÄÚ²¿³ÖÓÐÒ»¸öReentrantLock lock = new ReentrantLock();¿ÉÖØÈëËø
+- ÄÚ²¿³ÖÓÐÒ»¸ö ReentrantLock lock = new ReentrantLock();¿ÉÖØÈëËø
 - µ×²ãÊÇÓÃvolatile transient ÉùÃ÷µÄÊý×é array
-- ¶ÁÐ´·ÖÀë£¬Ð´Ê±¸´ÖÆ³öÒ»¸öÐÂµÄÊý×é£¬Íê³É²åÈë¡¢ÐÞ¸Ä»òÕßÒÆ³ý²Ù×÷ºó½«Êý×éµÄÒýÓÃÖ¸ÏòÐÂÊý×é£¬Èç¹ûÓÐÏß³Ì²¢·¢µÄÐ´£¬ÔòÍ¨¹ýËøÀ´¿ØÖÆ£¬·ÀÖ¹¶à¸ö¸±±¾»ìÏýÊý¾Ý
+- ¶ÁÐ´·ÖÀë£¬Ð´Ê±¸´ÖÆ³öÒ»¸öÐÂµÄÊý×é£¬Íê³É²åÈë¡¢ÐÞ¸Ä»òÕßÒÆ³ý²Ù×÷ºó½«Êý×éµÄÒýÓÃÖ¸ÏòÐÂÊý×é£¬Èç¹ûÓÐÏß³Ì²¢·¢Ð´£¬ÔòÍ¨¹ýËøÀ´¿ØÖÆ£¬·ÀÖ¹¶à¸ö¸±±¾»ìÏýÊý¾Ý
 - Èç¹ûÓÐÏß³Ì²¢·¢µÄ¶Á£¬²»ÐèÒª¼ÓËø£¬Ôò·Ö¼¸ÖÖÇé¿ö£º
   1¡¢Èç¹ûÐ´²Ù×÷Î´Íê³É£¬ÄÇÃ´Ö±½Ó¶ÁÈ¡Ô­Êý×éµÄÊý¾Ý
   2¡¢Èç¹ûÐ´²Ù×÷Íê³É£¬µ«ÊÇÒýÓÃ»¹Î´Ö¸ÏòÐÂÊý×é£¬ÄÇÃ´Ò²ÊÇ¶ÁÈ¡Ô­Êý×éÊý¾Ý
@@ -149,16 +155,16 @@ ListIterator<E> listIterator(int index)   -------- ·µ»Ø´ËÁÐ±íÖÐµÄÔªËØµÄÁÐ±íµü´úÆ
 
 SkipList£º²åÈë¡¢²éÕÒÎªO(logn)£¬µ«³£ÊýÏî±ÈºìºÚÊ÷Òª´ó£»µ×²ã½á¹¹ÎªÁ´±í£¬¿ÉÎÞËøÊµÏÖ£»Êý¾ÝÌìÈ»ÓÐÐò
 
-### 4£ºInterface Set<E>£ºÎÞÐò£¬²»ÖØ¸´.²¢ÇÒ×î¶à°üº¬Ò»¸ö null ÔªËØ£¬²»ÄÜÍ¨¹ýÏÂ±ê²Ù×÷£¬ÆäÊµµ×²ãÊµÏÖÒÀÀµ map
+### 4£ºInterface Set<E>£ºÎÞÐò£¬²»ÖØ¸´.²¢ÇÒ×î¶à°üº¬Ò»¸ö  null  ÔªËØ£¬²»ÄÜÍ¨¹ýÏÂ±ê²Ù×÷£¬ÆäÊµµ×²ãÊµÏÖÒÀÀµ map
 
-   ·½·¨£ºÍ¬list£¬³ýÁËÏÂ±ê²Ù×÷µÄ·½·¨
+·½·¨£ºÍ¬list£¬³ýÁËÏÂ±ê²Ù×÷µÄ·½·¨
          Iterator<E> iterator() ---------·µ»ØÔÚ´Ë set ÖÐµÄÔªËØÉÏ½øÐÐµü´úµÄµü´úÆ÷
 
-  Set¼¯ºÏµÄÊµÏÖÀà£º£¨Á½¸ö¶¼²»ÊÇÏß³Ì°²È«µÄÀà£¬Ã»ÓÐ¸ø·½·¨Ìí¼ÓÍ¬²½Ëø£©
+Set ¼¯ºÏµÄÊµÏÖÀà£º£¨Á½¸ö¶¼²»ÊÇÏß³Ì°²È«µÄÀà£¬Ã»ÓÐ¸ø·½·¨Ìí¼ÓÍ¬²½Ëø£©
 
-#####   Class HashSet<E>(É¢ÁÐ¼¯)£ºÖ»ÄÜ±£Ö¤Set¼¯ºÏÔªËØÎ¨Ò»£¬µ«²»ÄÜ±£Ö¤ÓÐÐò£¬ÓÉ¹þÏ£±í£¨Êµ¼ÊÉÏÊÇÒ»¸ö HashMap ÊµÀý£©Ö§³Ö,²¢Ã»ÓÐÔö¼Ó·½·¨£¬Ïß³Ì²»°²È«Àà
+#####   Class HashSet<E>(É¢ÁÐ¼¯)£ºÖ»ÄÜ±£Ö¤ Set ¼¯ºÏÔªËØÎ¨Ò»£¬µ«²»ÄÜ±£Ö¤ÓÐÐò£¬ÓÉ¹þÏ£±í£¨Êµ¼ÊÉÏÊÇÒ»¸ö HashMap ÊµÀý£©Ö§³Ö,²¢Ã»ÓÐÔö¼Ó·½·¨£¬Ïß³Ì²»°²È«Àà
 
-  ¹¹Ôìº¯Êý:
+¹¹Ôìº¯Êý:
 	HashSet()---------------- ¹¹ÔìÒ»¸öÐÂµÄ¿Õ set£¬±¾ÖÊHashMap ÊµÀýµÄÄ¬ÈÏ³õÊ¼ÈÝÁ¿ÊÇ 16£¬¼ÓÔØÒò×ÓÊÇ 0.75
 	HashSet(int initialCapacity)---¹¹ÔìÒ»¸öÐÂµÄ¿Õ set£¬Æäµ×²ã HashMap ÊµÀý¾ßÓÐÖ¸¶¨µÄ³õÊ¼ÈÝÁ¿ºÍÄ¬ÈÏµÄ¼ÓÔØÒò×Ó£¨0.75£©Èç¹ûÈÝÁ¿³¬¹ý³õÊ¼ÈÝÁ¿£¬Ôò´´½¨ÐÂµÄÈÝÁ¿µÄ¼¯ºÏ£¬²¢ÇÒ°ÑÔ­À´µÄÊý¾Ý¸´ÖÆ½øÈ¥£¬²¢ÇÒÉ¾³ýÔ­Ê¼µÄ¼¯ºÏ	
   ·½·¨:
@@ -169,11 +175,11 @@ SkipList£º²åÈë¡¢²éÕÒÎªO(logn)£¬µ«³£ÊýÏî±ÈºìºÚÊ÷Òª´ó£»µ×²ã½á¹¹ÎªÁ´±í£¬¿ÉÎÞËøÊµÏÖ£
 
 ##### LinekdHashSet
 
-LinkedHashSe t¼Ì³Ð×ÔHashSet£¬Ô´Âë¸üÉÙ¡¢¸ü¼òµ¥£¬Î¨Ò»µÄÇø±ðÊÇLinkedHashSetÄÚ²¿Ê¹ÓÃµÄÊÇLinkedHashMap,ÕâÑù×öµÄÒâÒå»òÕßºÃ´¦¾ÍÊÇLinkedHashSetÖÐµÄÔªËØË³ÐòÇÒÎ¨Ò»ÊÇ¿ÉÒÔ±£Ö¤µÄ£¬Ò²¾ÍÊÇËµ±éÀúÐòºÍ²åÈëÐòÊÇÒ»ÖÂµÄ
+LinkedHashSet ¼Ì³Ð×ÔHashSet£¬Ô´Âë¸üÉÙ¡¢¸ü¼òµ¥£¬Î¨Ò»µÄÇø±ðÊÇLinkedHashSetÄÚ²¿Ê¹ÓÃµÄÊÇLinkedHashMap,ÕâÑù×öµÄÒâÒå»òÕßºÃ´¦¾ÍÊÇLinkedHashSetÖÐµÄÔªËØË³ÐòÇÒÎ¨Ò»ÊÇ¿ÉÒÔ±£Ö¤µÄ£¬Ò²¾ÍÊÇËµ±éÀúÐòºÍ²åÈëÐòÊÇÒ»ÖÂµÄ
 
 #####  Class TreeSet<E>(Ê÷¼¯):
 
-±£Ö¤Set¼¯ºÏµÄÔªËØÎ¨Ò»,¶øÇÒÓÐÐò£¬µ×²ãÊÇTreeMap£¬ÔªËØ±»ÅÅÐò·ÅÈë¸ÃÈÝÆ÷ÔªËØµÄÀà£¬±ØÐëÊµÏÖComparable<T>»òComparator<T>,ÒòÎªÔÚÔªËØ½øÐÐÅÅÐòÊ±ÐèÒª°´ÕÕ´ËÔ­Ôò±¾ÖÊÊÇÒ»¸öTreeMap
+±£Ö¤ Set ¼¯ºÏµÄÔªËØÎ¨Ò», ¶øÇÒÓÐÐò£¬µ×²ãÊÇ TreeMap£¬ÔªËØ±»ÅÅÐò·ÅÈë¸ÃÈÝÆ÷ÔªËØµÄÀà£¬±ØÐëÊµÏÖComparable<T>»òComparator<T>,ÒòÎªÔÚÔªËØ½øÐÐÅÅÐòÊ±ÐèÒª°´ÕÕ´ËÔ­Ôò±¾ÖÊÊÇÒ»¸öTreeMap
 
  ¹¹Ôìº¯Êý£º
 	TreeSet() ------------- ¹¹ÔìÒ»¸öÐÂµÄ¿Õ set£¬¸Ã set ¸ù¾ÝÆäÔªËØµÄ×ÔÈ»Ë³Ðò½øÐÐÅÅÐò
@@ -211,7 +217,7 @@ Queue<String> queue = new LinkedList<String>();
 queue.offer("a");
 ```
 
-### public class Stack<E> extends Vector<E> £ºÕ»£¬¼Ì³Ð ÁËÊý×éÊµÏÖµÄ¼¯ºÏ,2±¶À©ÈÝ
+### public class Stack<E> extends Vector<E> £ºÕ»£¬¼Ì³Ð ÁËÊý×éÊµÏÖµÄ¼¯ºÏ, 2±¶À©ÈÝ
 
 ###### boolean  empty()     £ºÅÐ¶ÏÕ»Îª²»Îª¿Õ
 
@@ -238,7 +244,7 @@ System.out.println("stack: " + st);
 ²¢·¢¼¯ºÏÔòÍ¨¹ýÄÚ²¿Ê¹ÓÃËø·Ö¶Î¼¼Êõ£¬²»½ö±£Ö¤ÁË¶àÏß³ÌµÄ°²È«ÓÖÌá¸ßµÄ²¢·¢Ê±µÄÐ§ÂÊ
 ConcurrentHashMap¡¢ConcurrentLinkedQueue¡¢ConcurrentLinkedDeque
 
-### 7£ºArraysÀàÖÐµÄasList·½·¨ 
+### 7£ºArraysÀàÖÐµÄ asList ·½·¨ 
 
  * ¸Ã·½·¨¶ÔÓÚ»ù±¾Êý¾ÝÀàÐÍµÄÊý×éÖ§³Ö²¢²»ºÃ,µ±Êý×éÊÇ»ù±¾Êý¾ÝÀàÐÍÊ±²»½¨ÒéÊ¹ÓÃ 
 

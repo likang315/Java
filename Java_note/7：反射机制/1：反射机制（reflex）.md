@@ -1,15 +1,16 @@
 
 RTTI(Run-Time Type Identification):运行时类型识别,RTT能在运行时就能够自动识别每个编译时已知的类型
 
-# JAVA反射机制
+## JAVA反射机制
 
-   在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法，对于任意一个对象，都能够调用它的任意方法
-   和属性,这种动态获取类的信息和动态调用对象方法的功能称为java语言的反射机制
-	
+###### 在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法，对于任意一个对象，都能够调用它的任意方法和属性,这种动态获取类的信息和动态调用对象方法的功能称为java语言的反射机制
+
+​	
 想获取一个类这些信息,就必须获取到该类的字节码文件对象，即：Class对象
-java中获取Class对象的方式(3种)：
 
-Class 类没有公共构造方法，Class对象是在加载类时,由Java 虚拟机通过调用类加载器中的 defineClass()自动构造的
+### Java  中 获取Class对象的方式 (3种) ：
+
+Class 类没有公共构造方法，Class对象是在加载类时,由Java 虚拟机通过调用类加载器中的 defineClass() 自动构造的
 
 1：通过类的静态属性,JVM将使用类装载器,将类装入内存,不做类的初始化工作.返回Class的对象
 	类.class;
@@ -23,15 +24,12 @@ Class 类没有公共构造方法，Class对象是在加载类时,由Java 虚拟
 ​    Class 对象表示正在运行的 Java 应用程序中的类和接口,一个类表示一个class对象
 ​    枚举，数组，void，数据类型都是一个对象Filed，Method，注释是接口
 
- 
-
 ```java
   方法;
 	static Class<?> forName(String className) 
           	返回与带有给定字符串名的类或接口相关联的 Class 对象
 	T newInstance() 
-          	创建此 Class 对象所表示的类的一个新实例
-		
+          	创建此 Class 对象所表示的类的一个新实例	
 ```
 
 <A extends Annotation> A getAnnotation(Class<A> annotationClass) 
@@ -62,13 +60,13 @@ Method getMethod(String name, Class<?>... parameterTypes)
 
 ## java.lang.reflect.AccessibleObject
 
- 	是 Field、Method 和 Constructor 对象的基类，在反射对象中设置 accessible,可以将反射的对象标记为在使用时
-	取消默认 Java 语言访问控制检查的能力，跳过访问检查阶段
-			
-  方法： 
-	void setAccessible(boolean flag) 
-      	   将此对象的 accessible 标志设置为指示的布尔值，然后设置可访问性(true)
+是 Field、Method 和 Constructor 对象的基类，在反射对象中设置 accessible,**可以将反射的对象标记为在使用时
+取消默认 Java 语言访问控制检查的能力，跳过访问检查阶段** 
 
+​		
+  方法： 
+​	**void setAccessible(boolean flag**) 
+​      	   将此对象的 accessible 标志设置为指示的布尔值，然后设置可访问性(true)
 
 java.lang.reflect.Constructor<T>
 	提供关于类的单个构造方法的信息以及对它的访问权
@@ -102,18 +100,18 @@ java.lang.reflect.Field（class）
 
 ## 反射的应用：
 
-1：通过反射运行配置文件内容
+1：Spring IOC的实现
 
 2：通过反射越过泛型检查
 
 3：调用方法，修改属性值
-	使用getDeclaredMethod（）获取方法,invoke（）调用
+	使用 getDeclaredMethod（）获取方法, invoke（）调用
 
 ### 反射的作用：
 
-1、动态地创建类的实例，将类绑定到现有的对象中，或从现有的对象中获取类型
+1：动态地创建类的实例，将类绑定到现有的对象中，或从现有的对象中获取类型
 
-2、应用程序需要在运行时从某个特定的程序集中载入一个特定的类
+2：应用程序需要在运行时从某个特定的程序集中载入一个特定的类
 
 
 

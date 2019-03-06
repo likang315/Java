@@ -1,6 +1,6 @@
 ### 1：核心API
 
-##### ​	1>:SqlSessionFactoryBuilder.build(InputStream in)------------有重载的
+##### 1>:SqlSessionFactoryBuilder.build(InputStream in)------------有重载的
 
 ​		根据xml配置信息或代码构建 SqlSessionFactory
 

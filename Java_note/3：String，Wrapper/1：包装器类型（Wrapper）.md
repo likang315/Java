@@ -17,8 +17,11 @@ boolean								Boolean
 
 **public final class Integer extends Number implements Comparable<Integer>** 
 
-Integer：当我们给一个Integer对象赋一个int 值的时候，会调用 Integer 类的静态方法 valueOf，valueof()原码分析得
-	 如果整型字面量的值在-128 到 127 之间，那么不会 new 新的 Integer 对象，而是直接引用常量池中的 Integer 对象，如超过 则new一个新的对象
+### Integer：
+
+当我们给一个Integer对象赋一个int 值的时候，会调用 Integer 类的静态方法 valueOf，valueof()原码分析得
+
+ 如果整型字面量的值在-128 到 127 之间，那么不会 new 新的 Integer 对象，而是直接引用常量池中的 Integer 对象，如超过 则new一个新的对象
 
 ```java
 	static字段：(属性)
@@ -252,15 +255,13 @@ static Boolean valueOf(String s)
 static boolean parseBoolean(String s) 
           将字符串参数转换为对应的 boolean 值 
 
-### Java中包装类缓存
+### Java 中包装类 缓存
 
-Integer包装类在自动装箱的过程中，是由缓冲池的。对于值**在-128~127之间的数**，会放在内存中进行重用；对于大于或者小于这个范围的数，没有使用的时候都会new出一个新的对象
+Integer包装类在**自动装箱的过程中**，是有缓冲池的，对于值**在-128~127之间的数**，会放在内存中进行重用；对于大于或者小于这个范围的数，没有 使用的时候 都会 new 出一个新的对象
 
 java使用该机制是为了达到最小化数据输入和输出的目的,这是一种优化措施,提高效率（可以设置系统属性 java.lang.Integer.IntegerCache.high **修改缓冲区上限,默认为127**。参数内容应为大于127的十进制数形式的字符串,否则将被忽略。取值范围为127-Long.MAX_VALUE,但是用时将 强转为int。当系统中大量使用Integer时,增大缓存上限可以节省小量内存）
 
-其他包装类缓存：Boolean（全部缓存）、Byte（全部缓存）、Character（<= 127缓存）、Short（-128~127缓存）、Long（-128~127缓存）、Float（没有缓存）、Double（没有缓存），因为在指定范围内浮点型数据个数是不确定的，整型等个数是确定的，所以可以 Cache
-
-
+其他包装类缓存：Boolean（全部缓存）、Byte（全部缓存）、Character（<= 127缓存）、Short（-128~127缓存）、Long（-128~127缓存）、**Float（没有缓存）、Double（没有缓存），因为在指定范围内浮点型数据个数是不确定的，整型等个数是确定的，所以可以 Cache**
 
 
 

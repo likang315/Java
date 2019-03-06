@@ -1,12 +1,13 @@
-##### 1：Bean 标签的定义
+### 1：Bean 标签的定义
 
-###### 	Property:
+##### 	Property:
 
 1：id="对象名"
 2：class="实例化类，放入Spring容器中"
-3：scope="作用域"
+**3：scope= "作用域"**
 		singleton：单例模式,Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例
 		prototype：原型模式,每一次请求（将其注入到另一个bean中，或者以程序的方式调用容器的getBean()方法）都会产生一个新的bean实例，相当与一个new的操作，克隆操作
+
 4：lazy-init="true" 懒加载，初始化容器的时候不会立刻加载，用时在加载
 5：init-method="方法名"     初始化对象之前调用此方法
 6：destory-method="方法名"  销毁对象之前调用此方法

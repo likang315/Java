@@ -16,19 +16,16 @@ public interface Base {
 	public abstract void method();
 }
 
-public class Source implements Base {
-	
+public class Source implements Base {	
 @Override
 public void method() {
 	System.out.println("实现Source功能...");
 }
-
 }
 
 public class Proxy implements Base{
 	private Base pbase;
 	
-
 public Proxy(Base t){
 	pbase=t;
 }
@@ -56,8 +53,8 @@ public class Main{
 1：代理对象不需要实现接口
 2：代理对象的生成,是利用JDK的API,动态的在内存中创建代理对象(需要传递创建代理对象/目标对象实现的接口的类型和类加载器)
 
-代理类所在包:java.lang.reflect.Proxy
-JDK实现代理只需要代理工厂使用newProxyInstance方法,但是该方法需要接收三个参数,完整的写法是:
+代理类所在包：java.lang.reflect.Proxy
+JDK 实现代理只需要代理工厂使用 newProxyInstance 方法,但是该方法需要接收三个参数,完整的写法是:
 
 static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces,InvocationHandler h )
 
@@ -157,17 +154,14 @@ public static void main(String[] args)
    proxy.receive();
 
 }
-
 }
-
-
 ```
 
 
 
 ##### 3：Cglib代理：是对指定的目标类生成一个子类，并覆盖其中方法实现增强，但因为采用的是继承，所以不能对final修饰的类进行代理
 
-   JDK的动态代理机制只能代理实现了接口的类，而不能实现接口的类就不能实现JDK的动态代理，cglib是针对类来实现代理的
+   Chlib只能代理实现了接口的类，而不能实现接口的类就不能实现JDK的动态代理，cglib是针对类来实现代理的
 
    Cglib代理,也叫作子类代理,它是在内存中构建一个子类对象从而实现对目标对象功能的扩展
 
@@ -176,10 +170,6 @@ Cglib子类代理实现方法:
 2.引入功能包后,就可以在内存中动态构建子类
 3.代理的类不能为final,否则报错
 4.目标对象的方法如果为final/static,那么就不会被拦截,即不会执行目标对象额外的业务方法
-
-
-
-
 
 
 
