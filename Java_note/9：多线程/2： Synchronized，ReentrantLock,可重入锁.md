@@ -4,7 +4,7 @@
 
 ###### 异步执行：多个线程可以同时进行
 
-### Synchronized ，ReentrantLock 和 volatile 变量，CAS 实现同步机制
+### Synchronized ，ReentrantLock 和 volatile 变量，CAS 实现 同步机制
 
 多线程并发访问同一资源时，就会形成“抢”的现象，由于线程切换实际不确定，可能导致执行代码顺序的混乱，
 严重时会导致系统瘫痪
@@ -13,13 +13,25 @@
 
 ![](G:\Java\Java_note\9：多线程\锁.png)
 
+
+
+### 乐观锁与悲观锁：
+
+悲观锁：是一种独占锁，而 synchronized 就是一种独占锁，synchronized 会导致其它，所有未持有锁的线程阻塞，而去等待持有锁的线程释放锁
+
+乐观锁：每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。而乐观锁用到的机制就是CAS
+
+
+
 加入同步锁来避免在该线程没有完成操作之前，被其他线程的调用，从而避免了多线程的并发性
 
-### synchronized 是Java中的关键字，是一种同步锁，通常称为重量级锁
+### synchronized ：
 
-Synchronized 锁 原理
+###### 是Java中的关键字，是一种同步锁，通常称为重量级锁，即锁住了当前对象也把锁给了当前对象
 
-###### synchronized 关键字是通过字节码指令来实现的
+### Synchronized 锁 原理
+
+###### synchronized 关键字是通过 字节码指令 来实现的
 
 ###### synchronized 关键字编译后会在同步块前后形成monitorenter和monitorexit两个字节码指令
 
@@ -29,10 +41,10 @@ Synchronized 锁 原理
 
 
 
-###### synchronized 修饰方法时，该方法为同步方法，即：多个线程不能同时进入方法内部执行
+### synchronized 修饰方法时，该方法为同步方法，即：多个线程不能同时进入方法内部执行
 
 对于方法而言，synchronized 锁会在一个线程调用该方法时将该方法所属对象加锁，其他线程在执行此方法时
-由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁，所以，解决多线程并发问题的办法就是讲“抢”变为“排队”
+由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁，所以，**解决多线程并发问题的办法就是讲“抢”变为“排队”**
 
 同一个锁对象可以产生互斥作用，不同锁对象不能产生互斥作用
 
@@ -44,7 +56,7 @@ public synchronized void method()
 
 注意：
 
-1：synchronized关键字不能继承，若需要同步，在子类的重写方法添加synchronized关键字
+1：**synchronized 关键字 不能继承，**若需要同步，在子类的重写方法添加synchronized关键字
 
 2：在定义接口方法时不能使用synchronized关键字，不能被继承
 
@@ -53,7 +65,7 @@ public synchronized void method()
 ###### synchronized修饰的静态方法锁定的是这个类的所有对象
 
 ```java
-public static synchronized  method()
+public static synchronized void method()
 {
 }
 ```
@@ -65,7 +77,7 @@ public static synchronized  method()
 
 要求多个线程对该块内的代码排队执行，但是前提条件是同步监视器对象，即：要求多个线程看到的必须是同一个对象（上锁对象），可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
 
-##### this 锁
+#### this 锁
 
 ```java
 synchronized(this) //监视器对象
@@ -82,7 +94,7 @@ synchronized(this) //监视器对象
 
 
 
-##### 非this
+#### 非this
 
 ```java
 synchronized() //监视器对象
@@ -119,7 +131,7 @@ public void method()
 
 
 
-##### synchronized 可以作用于类，通过反射，class锁
+### synchronized 可以作用于类，通过反射，class锁
 
 ```java
 synchronized(ClassName.class)
@@ -146,6 +158,10 @@ static <K,V> Map<K,V>  synchronizedMap(Map<K,V> m)
 
 就算是线程安全的集合那么其中对于元素的操作，如add，remove方法都不予迭代器遍历做互斥，需要自行维护互斥关系，fail-fast机制
 
+
+
+
+
 ### 并发编程的三个特性
 
 ###### 原子性，有序性
@@ -154,7 +170,7 @@ static <K,V> Map<K,V>  synchronizedMap(Map<K,V> m)
 
 当一个变量被volatile修饰后，当一个线程修改共享变量后他会立即被更新到主内存中，其他线程读取共享变量时，会直接从主内存中读取。当然，synchronize和Lock都可以保证可见性。synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中。因此可以保证可见性
 
-##### 
+
 
 ### 重入锁（Lock）：实现线程同步
 
@@ -186,15 +202,21 @@ boolean	tryLock(long time, TimeUnit unit)
 void	unlock()  //释放锁
 ```
 
-### java.util.concurrent.locks  
+
+
+### java.util.concurrent.locks 
 
 ### Class ReentrantLock：可重入锁
 
-###### 是可重入、实现了Lock接口的锁，它与使用synchronized方法和块具有相同的基本行为和语义，并且扩展了其能力  
+###### 是可重入、实现了Lock接口的锁，它与使用 synchronized 方法和块具有相同的基本行为和语义，并且扩展了其能力
+
+### ReenTrantLock原理：
+
+ReenTrantLock 是 JDK实现，是一种自旋锁，通过循环调用CAS操作来实现加锁，它的性能比较好也是因为避免了使线程进入内核态的阻塞状态
 
 ```java
 public class MyService {
-    private final reentrantlock lock=new reentrantlock（）；
+    private final Reentrantlock lock=new Reentrantlock（）；
     public void testMethod() {
         lock.lock(); //先获得锁，再处理业务
         for (int i = 0; i < 5; i++) {
@@ -236,7 +258,23 @@ public class MyService {
 
 Condition类的signal 方法和Object类的notify 方法等效													Condition类的signalAll 方法和Object类的notifyAll 方法等效
 
-### Lock的 公平锁和 非公平锁：
+### ReentranLock 和Synchronized 的区别
+
+###### 1：ReentrantLock可以实现公平锁
+
+​	Lock lock=new ReentrantLock(true);//公平锁
+
+###### 2：ReentrantLock可响应中断
+
+当使用synchronized实现锁时,阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了一个可以响应中断的获取锁的方法`lockInterruptibly()`，该方法可以用来解决死锁问题，被中断的线程将抛出异常，而另一个线程将能获取锁后正常结束
+
+###### 3：获取锁时限时等待
+
+ReentrantLock还给我们提供了获取锁限时等待的方法`tryLock()`,可以选择传入时间参数,表示等待指定的时间,无参则表示立即返回锁申请的结果:true表示获取锁成功,false表示获取锁失败
+
+
+
+### Lock 的 公平锁和 非公平锁：
 
 ```java
 Lock lock=new ReentrantLock(true);//公平锁
@@ -284,113 +322,6 @@ public void read() {
         }
     }
 ```
-
-
-
-### 乐观锁与悲观锁：
-
-悲观锁：是一种独占锁，而 synchronized 就是一种独占锁，synchronized 会导致其它，所有未持有锁的线程阻塞，而去等待持有锁的线程释放锁
-
-乐观锁：每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。而乐观锁用到的机制就是CAS
-
-
-
-### CAS（Compare And Set）: 原子操作，解决多线程并行情况下使用锁造成性能损耗的一种机制
-
-###### CAS操作包含三个操作数：内存位置（V）、预期值（A），新值(B）
-
-如果内存位置的值与预期值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。无论哪种情况，它都会在CAS指令之前返回该位置的值
-
-CAS 有效地说明了“我认为位置V应该包含值A；如果包含该值，则将B放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可
-
-在java 中可以通过 **锁 和循环  CAS 的方式来实现原子操作**，Java中 java.util.concurrent.atomic 包相关类就是 CAS的实现
-
-​	AtomicBoolean：可以用原子方式更新的 `boolean` 值
-
-​	AtomicInteger：可以用原子方式更新的 `int` 值
-
-​	AtomicLong：可以用原子方式更新的 `long` 值
-
-​	AtomicIntegerFieldUpdater<T>：基于反射的实用工具，可以对指定类的指定 `volatile int` 字段进行原子更新
-
-###### atomic 包中的类可将 `volatile` 值、字段和数组元素的概念扩展到那些也提供原子条件更新操作的类
-
- Java中，i++ 等类似操作并不是线程安全的，因为  i++可分为三个独立的操作：获取变量当前值，为该值+1，然后写回新的值。在没有额外资源可以利用的情况下，只能使用加锁才能保证**读-改-写**这三个操作时“原子性”的。但是利用加锁的方式来实现该功能的话，代码将非常复杂及难以维护
-
-```java
-synchronized (lock) {  
- i++;  
-}  
-```
-
-###### compareAndSet方法：如果当前值 == 预期值，则以原子方式将该值设置为给定的更新值，不是锁的常规替换方法，仅当对象的重要更新限定于单个 变量时才应用它
-
-```java
-/** 使用CAS实现线程安全计数器 */  
-    private void safeCount() {  
-        for (;;) {  
-            int i = ai.get();  
-            // 如果当前值 == 预期值，则以原子方式将该值设置为给定的更新值  
-            boolean suc = ai.compareAndSet(i, ++i);  
-            if (suc) {  
-                break;  
-            }  
-        }  
-    }  
-```
-
-CAS虽然很高效的解决原子操作，但是CAS仍然存在三大问题：**ABA问题、循环时间长开销大、只能保证一个共享变量的原子操作**
-
-### ABA问题：
-
-AtomicStampedReference 来解决**ABA问题**，这个类的 compareAndSet 方法作用是首先检查当前引用是否等于预期引用，并且当前标志是否等于预期标志（版本号），如果全部相等，则以原子方式将该引用和该标志的值设置为给定的更新值
-
-### 循环时间长开销大：
-
-自旋CAS如果长时间不成功，会给CPU带来非常大的执行开销。如果JVM能支持处理器提供的pause指令那么效率会有一定的提升，pause指令有两个作用，第一它可以延迟流水线执行指令（de-pipeline）,使CPU不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零。第二它可以避免在退出循环的时候因内存顺序冲突（memoryorder violation）而引起CPU流水线被清空（CPU pipeline flush），从而提高CPU的执行效率
-
-### 只能保证一个共享变量的原子操作：
-
-当对一个共享变量执行操作时，我们可以使用循环CAS的方式来保证原子操作，但是对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁，或者有一个取巧的办法，就是把多个共享变量合并成一个共享变量来操作。比如有两个共享变量i＝2,j=a，合并一下ij=2a，然后用CAS来操作ij。从Java1.5开始JDK提供了AtomicReference类来保证引用对象之间的原子性，你可以把多个变量放在一个对象里来进行CAS操作
-
-
-
-### volatile：是Java提供的一种轻量级的同步机制
-
-###### volatile：更轻量级，它不会引起线程上下文的切换和调度，但是volatile 变量的同步性较差（有时它更简单并且开销更低），而且其使用也更容易出错
-
-###### 1：保证可见性，不保证原子性
-
-volatile变量更新时，JMM会把该线程本地内存中的变量强制刷新到主内存中去，这个写会操作会导致其他线程中的缓存无效
-
-###### 2：禁止指令重排 
-
-用volatile修饰的共享变量，在编译时，会在指令序列中插入内存屏障来禁止特定类型的处理器重排序
-
-##### 内存屏障
-
-加入volatile关键字时，会多出一个lock前缀指令，lock前缀指令实际上相当于一个内存屏障（也成内存栅栏）
-
-###### 内存屏障会提供3个功能：
-
-1：它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面，即在执行到内存屏障这句指令时，在它前面的操作已经全部完成
-2：它会强制将对缓存的修改操作立即写入主存															3：如果是写操作，它会导致其他CPU中对应的缓存行无效
-
-### 重排序
-
-指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段
-
-###### 重排序需要遵守一定规则：
-
-重排序操作不会对存在数据依赖关系的操作进行重排序
-
-重排序是为了优化性能，但是不管怎么重排序，单线程下程序的执行结果不能被改变
-
-##### 多线程中的非同步问题主要出现在对域的读写上，如果让域自身避免这个问题，则就不需要修改操作该域的方法。用final域，有锁保护的域和 volatile 域可以避免非同步的问题
-
-
-
-
 
 
 
