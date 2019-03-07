@@ -24,7 +24,7 @@
 
 ###### DEL key：用于在 key 存在时删除  key
 
-###### DUMP key：用于序列化给定 key ，并返回被序列化的值，如果 key 不存在，那么返回 nil 
+###### DUMP key：用于序列化 给定 key ，并返回被序列化的值，如果 key 不存在，那么返回 nil 
 
 ###### EXISTS key：用于检查给定 key 是否存在，若 key 存在返回 1 ，否则返回 `0`
 
@@ -128,7 +128,7 @@ WATCH key [key ...]：监视一个(或多个) key ，如果在事务执行之前
 
  INFO ：获取 Redis 服务器的各种信息和统计数值
 
- Bgrewriteaof ：用于异步执行一个 AOF（AppendOnly File） 文件重写操作
+ Bgrewriteaof ：用于异步执行一个 AOF（Append Only File） 文件重写操作
 
 CLIENTLIST：获取连接到服务器的客户端内连接列表
 

@@ -131,13 +131,25 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 ##### 新生代又分为 Eden区、ServivorFrom、ServivorTo三个区
 
-**MinorGC 采用复制算法**：首先，把Eden和ServivorFrom区域中存活的对象复制到ServicorTo区域（如果有对象的年龄以及达到了老年的标准，则赋值到老年代区），同时把这些对象的年龄+1（如果ServicorTo不够位置了就放到老年区）；然后，清空Eden和ServicorFrom中的对象；最后，ServicorTo和ServicorFrom互换，原ServicorTo成为下一次GC时的ServicorFrom区
+**MinorGC 采用复制算法**：首先，把Eden和ServivorFrom区域中存活的对象复制到ServicorTo区域（如果有对象的年龄以及达到了老年的标准，则赋值到老年代区），同时把这些对象的年龄+1（如果ServicorTo不够位置了就放到老年区）；然后，清空 Eden 和 ServicorFrom 中的对象；最后，ServicorTo 和 ServicorFrom 互换，原ServicorTo成为下一次GC时的ServicorFrom 区
 
  **MajorGC采用标记—清除算法**：首先扫描一次所有老年代，标记出存活的对象，然后回收没有标记的对象。MajorGC的耗时比较长，因为要扫描再回收。MajorGC会产生内存碎片，为了减少内存损耗，我们一般需要进行合并或者标记出来方便下次直接分配
 
 指内存的永久保存区域，主要存放 Class和Meta（元数据）的信息,Class在被加载的时候被放入永久区域.   它和存放实例的区域不同,GC不会在主程序运行期对永久区域进行清理，所以这也导致了永久代的区域会随着加载的Class的增多而胀满，最终抛出 OOM 异常
 
 在Java8中，永久代已经被移除，被一个称为“元数据区”（元空间）的区域所取代
+
+**Full GC：对整个堆进行收集**
+
+###### 出发Full GC的条件：
+
+1：System.gc() 方法的调用
+
+2：老年代空间不足，在新生代对象转入及创建大对象、大数组时才会出现不足的现象
+
+3：永生区空间不足（方法区）
+
+4：CMS GC 时，出现 promotion failed 和 concurrent mode failure（并发标记）
 
 
 
@@ -163,7 +175,7 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 开启选项：`-XX:+SerialGC`
 
-是一个单线程的收集器,它进行垃圾收集时,必须暂停其他所有的工作线程(Stop-The-World:将用户正常工作的线程全部暂停掉)直到它收集结束
+是一个单线程的收集器,它进行垃圾收集时,必须暂停其他所有的工作线程直到它收集结束
 
 ###### Serial收集器：是虚拟机运行在client模式下的默认新生代收集器
 
@@ -184,7 +196,7 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 #### 4：CMS 收集器（Concurrent Mark Sweep：并发+标记+清除）:一种以获取最短回收停顿时间为目标的收集器
 
-###### 应用于重视服务器的响应速度，希望系统停顿时间最短，例如在互联网站或者B/S系统的服务器上
+###### 应用于重视服务器的响应速度，希望系统停顿时间最短，例如在互联网站或者B/S系统的服务器上，cms收集算法只是清理老年代和永久代
 
 
 
@@ -227,11 +239,11 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
    CMS将老年代的空间分成大小为512 byte 的块，card table中的每个元素对应着一个块,并发标记时，如果某个对象的引用发生了变化，就标记该对象所在的块为  **dirty card**,并发预清理阶段就会重新扫描该块，将该对象引用的对象标识为可达
 
-###### AbortablePreclean（可中断的预清理）（可能没有）
+###### 4：AbortablePreclean（可中断的预清理）（可能没有）
 
 该阶段发生的前提是，**新生代Eden区的内存使用量大于参数**`CMSScheduleRemarkEdenSizeThreshold` 默认是2M，如果新生代的对象太少，就没有必要执行该阶段，直接执行重新标记阶段
 
-###### 4：FinalMarking（并发重新标记，STW过程）
+###### 5：FinalMarking（并发重新标记，STW过程）：该阶段的任务是完成标记整个年老代的所有的存活对象
 
 该阶段并发执行，在之前的并行阶段，可能产生新的引用关系如下：
 
@@ -247,22 +259,9 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 2. 根据GC Roots，重新标记
 3. 遍历老年代的Dirty Card，重新标记，这里的Dirty Card大部分已经在clean阶段处理过
 
-###### 5：并发清理：用户线程被重新激活，同时清理那些无效的对象
+###### 6：并发清理：清除那些没有标记的对象并且回收空间，用户线程被重新激活，所以可能存在浮动垃圾
 
-
-
-###### 主动 Old GC（老年代 GC）
-
-###### 触发条件：
-
-1. YGC过程发生Promotion Failed，进而对老年代进行回收
-2. 比如执行了`System.gc()`，前提是没有参数`ExplicitGCInvokesConcurrent`
-
-如果触发了主动Old GC，这时周期性Old GC正在执行，那么会夺过周期性Old GC的执行权（同一个时刻只能有一种在Old  GC在运行），并记录 concurrent mode failure 或者 concurrent mode interrupted
-
-###### 6：调整堆大小：如果有需要，重新调整堆大小
-
-###### 7：重置：CMS清除内部状态
+###### 7：重置：重新设置CMS算法内部的数据结构，准备下一个CMS生命周期的使用
 
 
 
@@ -274,22 +273,26 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 并发时GC线程与用户线程抢占CPU,这可能会造成用户线程执行效率下降
 
+
+
+如果触发了主动Old GC，这时周期性Old GC正在执行，那么会夺过周期性Old GC的执行权（同一个时刻只能有一种在Old  GC在运行），并记录 concurrent mode failure 或者 concurrent mode interrupted
+
+
+
 ### cms gc 和 full gc 的区别
 
 **cms gc** 通过一个后台线程触发，触发机制是默认每隔2秒判断一下当前老年代的内存使用率是否达到阈值，当然具体的触发条件没有这么简单，如果是则触发一次cms gc，在该过程中只会标记出存活对象，然后清除死亡对象，期间会产生碎片空间
 
 **full gc** 是通过 vm thread（虚拟机线程） 执行的，单线程的，整个过程是 stop-the-world，在该过程中会判断当前 gc 是否需要进行compact（压缩），即把存活对象移动到内存的一端，可以有效的消除cms gc产生的碎片空间
 
-###### 触发 full gc 的主要原因是：在 eden 区为对象或TLAB分配内存失败，导致一次 YGC
-
 
 
 ###    5：G1收集器：面向服务端应用的收集器
 
-1：并行并发：G1使用多个CPU来缩短Stop-The-World停顿时间，通过并发可以让java程序继续运行
+1：并行并发：G1使用多个CPU来缩短Stop-The-World停顿时间，通过并发可以让 java 程序继续运行
 2：分代收集
 3：空间整合：结合多种垃圾收集算法，不会产生内碎片
-4：可预测的停顿：低停顿的同时实现高吞吐，可以明确指定M毫秒的时间片内，消耗在垃圾收集上的时间不能超过N毫秒
+4：可预测的停顿：低停顿的同时实现高吞吐，可以明确指定M毫秒的时间片内，消耗在垃圾收集上的时间不能超过 N 毫秒
 
 
 
@@ -299,6 +302,3 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 
 
-
-
-w
