@@ -178,6 +178,18 @@ HAVING必须在GROUP BY之后
 SELECT * FROM emp LIMIT 3;//返回从第一条开始，查询三条， 实际是：0,3;
 SELECT * FROM emp LIMIT 3,5;//从结果的第4条开始，查询5条
 
+### 8：UNION 操作符用于合并两个或多个 SELECT 语句的结果集，UNION 命令只会选取不同的值
+
+请注意，UNION 内部的 **SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同**，
+
+```sql
+SELECT column_name(s) FROM table_name1
+UNION ALL
+SELECT column_name(s) FROM table_name2
+```
+
+###  UNION ALL 命令会列出所有的值，不去重，尽量用，效率高
+
 
 
 ### 8:多表查询(关联查询)：
@@ -318,6 +330,14 @@ Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
 **select子句--少用\*号，尽量取字段名称**
 
 在解析的过程中, 会将依次转换成所有的列名, 这个工作是通过查询数据字典完成的, 使用列名意味着将减少消耗时间
+
+**limit 1 只查询一条语句时**
+
+避免全表扫描，找到即返回
+
+**使用Explain 取查看执行计划**
+
+查看有没有走索引
 
 
 

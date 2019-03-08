@@ -92,7 +92,7 @@ public void send()
   public static Object getProxy(Object obj)
   {
       MyInvocation my=new MyInvocation(obj);
-      return Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),my);
+      return 		              			      Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),my);
   }
   }
 

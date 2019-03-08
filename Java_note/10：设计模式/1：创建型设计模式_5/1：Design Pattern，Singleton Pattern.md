@@ -1,6 +1,6 @@
 ### 1：设计模式：Java中一般认为有23种
 
-   设计原则：
+设计原则：
 		1：开闭原则：对扩展开放，对修改关闭
 		2：高内聚，低耦合：尽量提高模块的聚合度，尽量降低模块之间的联系（尽量减少类之间的依赖性）
 		3：提高软件的重用性
@@ -11,7 +11,6 @@
 
 ?    这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用 new 运算符直接实例化对象
 ?    这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活
-?	
 
 ######   结构性模式（7种）：适配器模式，装饰模式，代理模式，外观模式，桥接模式，组合模式，享元模式
 
@@ -29,8 +28,6 @@
 ?     实现：
 ?	1：构造函数私有（类外不可创建对象，不可被继承）
 ?	2：类的static方法
-?	
-?	
 
 ###### 1：//懒汉式，对象是方法被调用时，才初始化，也叫做对象的延时加载
 
@@ -39,7 +36,7 @@
 懒汉式，对象的延时加载,线程安全，同步代码块，双重检查Double-Check,效率高（双检锁）
 */
 public class Singleton {
-private volatile static Singleton instance=null;
+private volatile static Singleton instance = null;
 public static Singleton getInstance()
 {
 	if(instance==null)
@@ -58,10 +55,14 @@ public static Singleton getInstance()
 ```
 
 在并发情况下，如果没有volatile关键字，在instance = new TestInstance(会出现出现问题，可以分解为3行伪代码
-   1.memory = allocate()   //分配内存
 
-      2. ctorInstanc(memory)   //初始化对象
-      3. instance = memory  //设置instance指向刚分配的地址
+```java
+1. memory = allocate()   //分配内存
+2. ctorInstanc(memory)   //初始化对象
+3. instance = memory  //设置instance指向刚分配的地址
+```
+
+
 
 ```java
 /**
@@ -136,7 +137,7 @@ public static void main(String[] args) {
 
     ```java
     /**
-    单元素枚举实现单例模式，不仅能避免反射问题，而且还自动支持序列化机制
+    	单元素枚举实现单例模式，不仅能避免反射问题，而且还自动支持序列化机制
     */
     public enum  EnumSingleton {
         INSTANCE;

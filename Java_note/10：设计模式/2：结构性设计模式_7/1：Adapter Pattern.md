@@ -97,8 +97,7 @@ public interface Usb {
 }
 
 /**
-
-- 使用抽象类，空方法体，可以让实现类有选择的实现
+	 使用抽象类，空方法体，可以让实现类有选择的实现
   */
   public abstract class Usb_abs implements Usb{
   @Override

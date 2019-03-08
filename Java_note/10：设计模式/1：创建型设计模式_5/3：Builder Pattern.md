@@ -4,7 +4,7 @@
 建造者(builder) ：创建一个产品对象的各个部件的抽象接口
 具体的建造者（concreteBuilder)：实现Builder接口，描写各个部件的装配细节
 
-  与工厂模式的区别是：建造者模式更加关注与零件装配的？
+与工厂模式的区别是：建造者模式更加关注与零件装配的
 
 ```java
 package com.builder;
@@ -33,9 +33,9 @@ public class ConcreteBuilderA implements Builder {
 		p=new Product();
 	}
 
-public Product getP() {
-	return p;
-}
+    public Product getP() {
+        return p;
+    }
 
 @Override
 public void buildPartA() {

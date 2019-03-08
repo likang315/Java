@@ -1,21 +1,8 @@
 ### TransactionManager：Spring 提供了灵活方便的事务管理功能，基于底层数据库本身的事务处理机制工作
 
-##### 1：数据库事务
+### Spring的事务管理机制实现的原理:
 
-​	ACID：原子性(Atomic),一致性(Consistency),隔离性(Isolation),和持久性（Durabiliy）
-
-##### 2：数据并发问题
-
-​	1:更新丢失：更新丢失本质上是写操作的冲突，解决办法是一个一个地写
-​	2:脏读：脏读本质上是读写操作的冲突，解决办法是写完之后再读
-​	3:不可重复读：不可重复读本质上是读写操作的冲突，解决办法是读完再写
-​	4:幻象读：幻象读本质上是读写操作的冲突，解决办法是读完再写
-
-##### 3：事务隔离级别
-
-​	隔离级别有 4 个，由低到高依次为 Read uncommitted、Readcommitted、Repeatable read、Serializable
-​	最终解决了脏读，不可重复读，换幻想读
-​	MySQL 的默认隔离级别：Repeatable read
+通过动态代理对所有需要事务管理的Bean进行加载，并根据配置在invoke方法中对当前调用的 法名进行判定，并在method.invoke方法前后为其加上合适的事务管理代码
 
 ##### 4：JDBC 对事务的支持
 
@@ -32,7 +19,7 @@
 
 ThreadLocal 类，只有 4 个方法
 
-void 	set(T value)
+void   set(T value)
 		设置当前线程的线程局部变量的值
 public T get()
 		返回当前线程所对应的线程局部变量
@@ -46,15 +33,16 @@ protected T initialValue()
 
 ThreadLocal中的缺省实现直接返回一个 null,没有方法体
 
-ThreadLocal 为每一个线程维护变量的副本,实现的思路很简单：
-	在 ThreadLocal 类中有一个 Map，用于存储每一个线程的变量副本，Map 中元素的键为线程对象，而值对应线程的变量副本
+###### ThreadLocal 为每一个线程维护变量的副本,实现的思路很简单：
+
+​	**在 ThreadLocal 类中有一个ThreadLocalMap，用于存储每一个线程的变量副本，Map 中元素的键为线程对象，而值对应线程的变量副本**
 
 ThreadLocal 提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进 ThreadLocal
-private static ThreadLocal<Connection> connThreadLocal = new ThreadLocal<Connection>();
+private static ThreadLocal<Connection>  connThreadLocal = new ThreadLocal<Connection>();
 
 ### 6：ThreadLocal与 同步机制的比较
 
-​	对于多线程资源共享的问题，同步机制采用了“以时间换空间”的方式，而 ThreadLocal 采用了“以空间换时间”的方式
+​	对于多线程资源共享的问题，同步机制采用了“以时间换空间”的方式，而 **ThreadLocal 采用了“以空间换时间”的方式**
 
 ​	前者仅提供一份变量，让不同的线程排队访问，而后者为每一个线程都提供了一份变量，因此可以同时访问而互不影响要做到同一事务多 DAO 共享同一 Connection，必须在一个共同的外部类使用 ThreadLocal 保存 Connection
 
@@ -125,9 +113,9 @@ p:dataSource-ref="dataSource"/>
 
 #####        一般不用，用druid声明式事务
 
-##### 13：XML 配置声明式事务：Spring的事务是基于AOP实现的，因此必须先配AOP
+### 13：XML 配置声明式事务：Spring的事务是基于AOP实现的，因此必须先配AOP
 
-​	通过事务的声明性信息，Spring负责将事务管理增强逻辑，动态织入到业务方法相应连接点中,这些逻辑包括获取线程绑定资源,开始事务、提交/回滚事务、进行异常转换和处理等工作
+​	通过事务的声明性信息，**Spring负责将事务管理增强逻辑，动态织入到业务方法相应连接点中,这些逻辑包括获取线程绑定资源,开始事务、提交/回滚事务、进行异常转换和处理等工作**
 
 1:使用原始的 TransactionProxyFactoryBean 进行声明式事务配置,参考TransactionProxyFactoryBean.xm文件
 2:基于 tx/aop 命名空间的配置(使用)
@@ -181,7 +169,8 @@ timeout:以秒为单位，一个事务所允许执行的最长时间，如果超
 		<tx:method name="update*"/>
 	</tx:attributes>
 </tx:advice>
-<!--使用强大的切点表达式语言轻松定义目标方法-->
+
+<!-- 使用强大的切点表达式语言轻松定义目标方法 -->
 <aop:config>
 	<!--通过 aop 定义事务增强切面-->
 	<aop:pointcut id="serviceMethod" expression="execution(*com.yyq.service.*Forum.*(..))"/>
@@ -192,13 +181,13 @@ timeout:以秒为单位，一个事务所允许执行的最长时间，如果超
 
 
 
-##### Spring提供的@Transaction注解事务管理，内部同样是利用环绕通知TransactionInterceptor实现事务的开启及关闭。
+### Spring提供的@Transaction注解事务管理，内部同样是利用环绕通知TransactionInterceptor实现事务的开启及关闭
 
 使用@Transactional注意点：
 
-1. 1. ###### 如果在接口、实现类或方法上都指定了@Transactional 注解，则优先级顺序为方法>实现类>接口
+1:如果在接口、实现类或方法上都指定了@Transactional 注解，则优先级顺序为**方法>实现类>接口**
 
-   2. ###### 建议只在实现类或实现类的方法上使用@Transactional，而不要在接口上使用，这是因为如果使用JDK代理机制（基于接口的代理）是没问题；而使用使用CGLIB代理（继承）机制时就会遇到问题，因为其使用基于类的代理而不是接口，这是因为接口上的@Transactional注解是“不能继承的”
+2：建议只在实现类或实现类的方法上使用@Transactional，而不要在接口上使用，这是因为如果使用JDK代理机制（基于接口的代理）是没问题；而使用使**用CGLIB代理（继承）机制时就会遇到问题，因为其使用基于类的代理而不是接口**，这是因为接口上的@Transactional注解是“不能继承的”
 
 
 

@@ -212,7 +212,7 @@ void	unlock()  //释放锁
 
 ### ReenTrantLock原理：
 
-ReenTrantLock 是 JDK实现，是一种自旋锁，通过循环调用CAS操作来实现加锁，它的性能比较好也是因为避免了使线程进入内核态的阻塞状态
+ReenTrantLock 是 JDK 实现，是一种自旋锁，通过循环调用CAS操作来实现加锁，它的性能比较好也是因为避免了使线程进入内核态的阻塞状态
 
 ```java
 public class MyService {
