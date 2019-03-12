@@ -1,6 +1,6 @@
 ### 1：format(String format.object... args)---使用指定的格式字符串，和参数返回一个格式化的字符串
 
-?		args:格式说明符
+args:格式说明符
 
 日期格式化:  %tb--月份的简称
 	     %tB--月份的全--称

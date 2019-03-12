@@ -1,10 +1,9 @@
 ### 包装器类型（wrapper）：
 
-​	为了能将基本类型视为对象来处理,调用相关的方法，都有一个常量池，直接赋其基本数据类型时，查看范围在-128~127，都是final类
+​	为了能将基本类型视为对象来处理,调用相关的方法
 
 ```java
-Java中八种基本数据类型对应有八种包装器类型
-
+//Java中八种基本数据类型对应有八种包装器类型
 byte                        		  Byte
 short            					 Short
 int 								Integer(特殊)
@@ -17,14 +16,29 @@ boolean								Boolean
 
 **public final class Integer extends Number implements Comparable<Integer>** 
 
+
+
+### Java 中 包装类 缓存(cache)
+
+###### 原理：
+
+**静态内部类IntegerCache，IntegerCache有一个静态的Integer数组，因为有静态代码块的存在，在类加载时就将-128 到 127 的 Integer 对象创建了**，并填充在**cache数组**中，一旦程序调用valueOf 方法，如果i的值是在-128 到 127 之间就直接在cache缓存数组
+
+Integer包装类在**自动装箱的过程中**，是有缓存数组的，对于值 **在-128~127之间的数**，会放在内存中进行重用；对于大于这个范围的数，使用的时候 都会 new 出一个新的对象
+
+java使用该机制是**为了达到最小化数据输入和输出的目的,这是一种优化措施,提高效率**（可以设置系统属性 java.lang.Integer.IntegerCache.high **修改缓冲区上限,默认为127**
+
+其他包装类缓存：Boolean（全部缓存）、Byte（全部缓存）、Character（<= 127缓存）、Short（-128~127缓存）、Long（-128~127缓存）、**Float（没有缓存）、Double（没有缓存），因为在指定范围内浮点型数据个数是不确定的，整型等个数是确定的，所以可以 Cache**
+
+
+
 ### Integer：
 
-当我们给一个Integer对象赋一个int 值的时候，会调用 Integer 类的静态方法 valueOf，valueof()原码分析得
+当我们给一个Integer对象赋一个int 值的时候，会**调用 Integer 类的静态方法 valueOf(int i)**，valueof()原码分析得
 
- 如果整型字面量的值在-128 到 127 之间，那么不会 new 新的 Integer 对象，而是直接引用常量池中的 Integer 对象，如超过 则new一个新的对象
+直接赋值时，如果整型字面量的值在-128 到 127 之间，那么不会 new 新的 Integer 对象，而是直接引用常量池中的 Integer 对象，如超过则new一个新的对象
 
-```java
-	static字段：(属性)
+static字段：(属性)
 	static int MAX_VALUE 
 	          值为 231－1 的常量，它表示 int 类型能够表示的最大值
 	static int MIN_VALUE 
@@ -33,17 +47,13 @@ boolean								Boolean
 	          用来表示 int 值的比特位数
 	static Class<Integer> TYPE 
 	          表示基本类型 int 的 Class 实例
-```
-
-
-​		
-```java
-	构造方法
+构造方法
 	Integer(int value) 
 	          构造一个新分配的 Integer 对象，它表示指定的 int 值
 	Integer(String s) 
-	          构造一个新分配的 Integer 对象，它表示 String 参数所指示的 int 值
+	          构造一个新分配的 Integer 对象，它表示 String 参数所指示的 int 值​	
 
+```java
 	Integer i1 = new Integer(10);
 	Integer i2 = new Integer("10");
 	Integer i3 = 10;
@@ -55,22 +65,6 @@ boolean								Boolean
 	System.out.println(i3==i4);//true	常量池
 	System.out.println(i==i4);//true
 ```
-
-
-
-### 自动拆装箱机制（Auto boxing）：
-
-### 默认的进行基本数据与包装器类型之间的一个相互转化过程的一种自动机制
-
-```java
-​	Integer i1 = new Integer(23);
-​	int i2 = 10;
-​	i1 = i2;//装箱----类型提升过程,发生了类型变化
-​	i2 = i1;//拆箱---类型降低过程，类型肯定发生变化
-```
-
-
-
 
 ```java
  方法：
@@ -90,58 +84,24 @@ boolean								Boolean
  static int reverse(int i)  进行数值反转,以补码输出
 ```
 
-​	 
-
-##### 装箱阶段自动替换为了 valueOf 方法，拆箱阶段自动替换为了 xxxValue 方法
 
 
+### 自动拆装箱机制（Auto boxing）：
 
-## Double 
+### 默认的进行基本数据与包装器类型之间的一个相互转化过程的一种自动机制
 
-字段：
-	
-static double MAX_VALUE 
-          保存 double 类型的最大正有限值的常量，最大正有限值为 (2-2（-52）指数)·21023（指数）
+```java
+Integer i1 = new Integer(23);
+int i2 = 10;
+i1 = i2;//装箱----类型提升过程,发生了类型变化
+i2 = i1;//拆箱---类型降低过程，类型肯定发生变化
+```
 
-static double MIN_VALUE 
-          保存 double 类型的最小正非零值的常量，最小正非零值为 2(-1074)指数
-
-static int SIZE 
-          用于表示 double 值的位数
-
-static Class<Double> TYPE 
-          表示基本类型 double 的 Class 实例
-
-
-构造方法：
-
-Double(double value) 
-          构造一个新分配的 Double 对象，它表示基本的 double 参数。 
-Double(String s) 
-          构造一个新分配的 Double 对象，表示用字符串表示的 double 类型的浮点值。 
-
-方法：
-int compareTo(Double anotherDouble) 
-          对两个 Double 对象所表示的数值进行比较
-
-double doubleValue() 
-          返回此 Double 对象的 double 值 
-
-int intValue() 
-          以 int 形式返回此 Double 的值（通过强制转换为 int 类型）。 
-
-static String toString(double d) 
-          返回 double 参数的字符串表示形式 
-
-static Double valueOf(double d) 
-          返回表示指定的 double 值的 Double 实例 
-
-static double parseDouble(String s) 
-          返回一个新的 double 值，该值被初始化为用指定 String 表示的值 
+**装箱阶段自动替换为了 valueOf 方法，拆箱阶段自动替换为了 xxxValue 方法**
 
 
 
-## Float
+### Float
 
 字段：
 static float MAX_VALUE 
@@ -170,29 +130,84 @@ Float(String s)
  int compareTo(Float anotherFloat) 
           比较两个 Float 对象所表示的数值 
 
- int intValue() 
-          将此 Float 值以 int 形式返回（强制转换为 int 类型）。 
+######  int intValue() 
 
- float floatValue() 
-          返回此 Float 对象的 float 值 
+​          将此 Float 值以 int 形式返回（强制转换为 int 类型）。 
 
- double doubleValue() 
-          返回此 Float 对象的 double 值 
+######  float floatValue() 
 
- static float parseFloat(String s) 
-          返回一个新的 float 值，该值被初始化为用指定 String 表示的值
+​          返回此 Float 对象的 float 值 
+
+######  double doubleValue() 
+
+​          返回此 Float 对象的 double 值 
+
+######  static float parseFloat(String s) 
+
+​          返回一个新的 float 值，该值被初始化为用指定 String 表示的值
 
  String toString() 
           返回此 Float 对象的字符串表示形式 
 
-static Float valueOf(float f) 
-          返回表示指定的 float 值的 Float 实例。 
+###### static Float valueOf(float f) 
+
+​          返回表示指定的 float 值的 Float 实例。 
+
+
+
+### Double 
+
+字段：
+	
+static double MAX_VALUE 
+          保存 double 类型的最大正有限值的常量，最大正有限值为 (2-2（-52）指数)·21023（指数）
+
+static double MIN_VALUE 
+          保存 double 类型的最小正非零值的常量，最小正非零值为 2(-1074)指数
+
+static int SIZE 
+          用于表示 double 值的位数
+
+static Class<Double> TYPE 
+          表示基本类型 double 的 Class 实例
+
+
+构造方法：
+
+Double(double value) 
+          构造一个新分配的 Double 对象，它表示基本的 double 参数。 
+Double(String s) 
+          构造一个新分配的 Double 对象，表示用字符串表示的 double 类型的浮点值。 
+
+方法：
+int compareTo(Double anotherDouble) 
+          对两个 Double 对象所表示的数值进行比较
+
+###### double doubleValue() 
+
+​          返回此 Double 对象的 double 值 
+
+###### int intValue() 
+
+​          以 int 形式返回此 Double 的值（通过强制转换为 int 类型）。 
+
+static String toString(double d) 
+          返回 double 参数的字符串表示形式 
+
+###### static Double valueOf(double d) 
+
+​          返回表示指定的 double 值的 Double 实例 
+
+static double parseDouble(String s) 
+          返回一个新的 double 值，该值被初始化为用指定 String 表示的值 
 
 
 
 
 
-## Character
+
+
+### Character
 
 字段：自己查看
 
@@ -201,17 +216,21 @@ Character(char value)
           构造一个新分配的 Character 对象，用以表示指定的 char 值
 
 方法：
-char charValue() 
-          返回此 Character 对象的值。 
+
+###### char charValue() 
+
+​          返回此 Character 对象的值
 
 int compareTo(Character anotherCharacter) 
           根据数字比较两个 Character 对象。 
 
-static boolean isDigit(char ch) 
-          确定指定字符是否为数字，是返回ture，否则返回false
+###### static boolean isDigit(char ch) 
 
-static boolean isLetter(char ch) 
-          确定指定字符是否为字母。 
+​          确定指定字符是否为数字，是返回ture，否则返回false
+
+###### static boolean isLetter(char ch) 
+
+​          确定指定字符是否为字母。 
 
 static boolean isLetterOrDigit(char ch) 
           确定指定字符是否为字母或数字。 
@@ -228,12 +247,13 @@ static boolean isWhitespace(char ch)
 String toString() 
           返回表示此 Character 值的 String 对象
 
-static Character valueOf(char c) 
-          返回一个表示指定 char 值的 Character 实例 
+###### static Character valueOf(char c) 
+
+​          返回一个表示指定 char 值的 Character 实例 
 
 ​	 
 
-## Boolean 
+### Boolean 
 
 字段：
 	static Boolean FALSE 
@@ -248,20 +268,18 @@ Boolean(String s)
           如果 String 参数不为 null 且在忽略大小写时等于 "true"，则分配一个表示 true 值的 Boolean 对象
 
 方法：
-boolean booleanValue() 
-          将此 Boolean 对象的值作为基本布尔值返回
-static Boolean valueOf(String s) 
-          返回一个用指定的字符串表示值的 Boolean 值。 
-static boolean parseBoolean(String s) 
-          将字符串参数转换为对应的 boolean 值 
 
-### Java 中包装类 缓存
+###### boolean booleanValue() 
 
-Integer包装类在**自动装箱的过程中**，是有缓冲池的，对于值**在-128~127之间的数**，会放在内存中进行重用；对于大于或者小于这个范围的数，没有 使用的时候 都会 new 出一个新的对象
+​          将此 Boolean 对象的值作为基本布尔值返回
 
-java使用该机制是为了达到最小化数据输入和输出的目的,这是一种优化措施,提高效率（可以设置系统属性 java.lang.Integer.IntegerCache.high **修改缓冲区上限,默认为127**。参数内容应为大于127的十进制数形式的字符串,否则将被忽略。取值范围为127-Long.MAX_VALUE,但是用时将 强转为int。当系统中大量使用Integer时,增大缓存上限可以节省小量内存）
+###### static Boolean valueOf(String s) 
 
-其他包装类缓存：Boolean（全部缓存）、Byte（全部缓存）、Character（<= 127缓存）、Short（-128~127缓存）、Long（-128~127缓存）、**Float（没有缓存）、Double（没有缓存），因为在指定范围内浮点型数据个数是不确定的，整型等个数是确定的，所以可以 Cache**
+​          返回一个用指定的字符串表示值的 Boolean 值。 
+
+###### static boolean parseBoolean(String s) 
+
+​          将字符串参数转换为对应的 boolean 值 
 
 
 
