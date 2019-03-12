@@ -1,15 +1,15 @@
 ## ¼¯ºÏ¿ò¼Ü
 
-### 1:¼¯ºÏ£ºÒ»¸ö½â¾öÊý×é¹Ì¶¨³¤¶ÈÈ±ÏÝµÄ¶¯Ì¬ÈÝÆ÷£¬java ¶¨ÒåµÄÒ»×é¹ÜÀí¶ÔÏóµÄÀà¿â
+### 1£º¼¯ºÏ£ºÒ»¸ö½â¾öÊý×é¹Ì¶¨³¤¶ÈÈ±ÏÝµÄ¶¯Ì¬ÈÝÆ÷£¬java ¶¨ÒåµÄÒ»×é¹ÜÀí¶ÔÏóµÄÀà¿â
 
 java.util
 Interface Collection<E>
 
 Collection£º¼¯ºÏÀàµÄ¸ù½Ó¿Ú£¬Collection ±íÊ¾Ò»×é¶ÔÏóµÄÒýÓÃ£¬ÕâÐ©¶ÔÏóÒ²³ÆÎª collection µÄÔªËØ£¬·ºÐÍ¾ö¶¨¼¯ºÏÖÐÔªËØÎª¶ÔÏóÐÍ
 
-JavaÖÐÃ»ÓÐÌá¹©Õâ¸ö½Ó¿ÚµÄÖ±½ÓµÄÊµÏÖÀà¡£µ«ÊÇÈ´ÈÃÆä±»¼Ì³Ð²úÉúÁËÁ½¸ö½Ó¿Ú£¬¾ÍÊÇSetºÍList
+Java ÖÐ Ã»ÓÐÌá¹©Õâ¸ö½Ó¿ÚµÄÖ±½ÓµÄÊµÏÖÀà£¬µ«ÊÇÈ´ÈÃÆä±»¼Ì³Ð²úÉúÁËÁ½¸ö½Ó¿Ú£¬¾ÍÊÇ Set ºÍ List
 
-###   Collection µÄÓÅ»¯×Ó½Ó¿Ú£ºList£¨½Ó¿Ú£©+ Set£¨½Ó¿Ú) +£¨Queue--¶ÓÁÐ½Ó¿Ú£©
+###   Collection µÄÓÅ»¯×Ó½Ó¿Ú£ºList£¨½Ó¿Ú£©+    Set£¨½Ó¿Ú) +£¨Queue--¶ÓÁÐ½Ó¿Ú£©
 
 #####    List£ºÊÇÒ»¸öÓÐÐòµÄ¼¯ºÏ£¬¿ÉÒÔ°üº¬ÖØ¸´µÄÔªËØ£¬Ìá¹©ÁË°´Ë÷Òý·ÃÎÊµÄ·½Ê½
 
@@ -22,11 +22,13 @@ boolean remove(Object o) -------  ´Ó´Ë collection ÖÐÒÆ³ýÖ¸¶¨ÔªËØµÄµ¥¸öÊµÀý£¬Èç¹û
 void clear() -------------------  ÒÆ³ý´Ë collection ÖÐµÄËùÓÐÔªËØ£¨¿ÉÑ¡²Ù×÷£©
 boolean isEmpty() --------------  Èç¹û´Ë collection ²»°üº¬ÔªËØ£¬Ôò·µ»Ø true
 
-int size() ---------------------  ·µ»Ø´Ë collection ÖÐµÄÔªËØÊý
+###### int size() ---------------------  ·µ»Ø´Ë collection ÖÐµÄÔªËØÊý
+
 boolean contains(Object o) -----  Èç¹û´Ë collection °üº¬Ö¸¶¨µÄÔªËØ£¬Ôò·µ»Ø true 
 
 Object[] toArray() -------------  ·µ»Ø°üº¬´Ë collection ÖÐËùÓÐÔªËØµÄÊý×é
-Iterator<E> iterator() ---------  ·µ»Ø¼¯ºÏµÄµü´úÆ÷£¬ÊÇÊµÏÖÁËIterator µÄÊµÏÖÀà
+
+###### Iterator<E> iterator() ---------  ·µ»Ø¼¯ºÏµÄµü´úÆ÷£¬ÊÇÊµÏÖÁËIterator µÄÊµÏÖÀà
 
 ### 2£ºCollections
 
@@ -55,34 +57,38 @@ static void	reverse(List<?> list)	·µ»ØÓÐÐò¼¯ºÏ
 
  ·µ»ØÖ¸¶¨ set Ö§³ÖµÄÍ¬²½£¨Ïß³Ì°²È«µÄ£©set
 
-### 3£ºList£¨½Ó¿Ú£©£ºÐòÁÐ£¬ÓÐÐò¿ÉÖØ¸´£¬ÔÊÐí null ´æÔÚ
+### 3£ºList£¨½Ó¿Ú£©£ºÐòÁÐ£¬ÓÐÐò¿ÉÖØ¸´£¬ÔÊÐí ¶à¸ö null ´æÔÚ
 
 java.util 
-Interface List<E>
+Interface List <E>
 
 Method£º
-void add(int index, E element) ----------------  ÔÚÁÐ±íµÄÖ¸¶¨Î»ÖÃ²åÈëÖ¸¶¨ÔªËØ£¨¿ÉÑ¡²Ù×÷£©
 
-E get(int index)      -------------------------  ·µ»ØÁÐ±íÖÐÖ¸¶¨Î»ÖÃµÄÔªËØ
-E set(int index, E element) -------------------  ÓÃÖ¸¶¨ÔªËØÌæ»»ÁÐ±íÖÐÖ¸¶¨Î»ÖÃµÄÔªËØ£¨¿ÉÑ¡²Ù×÷£© 		
-int indexOf(Object o) -------------------------  ·µ»Ø´ËÁÐ±íÖÐµÚÒ»´Î³öÏÖµÄÖ¸¶¨ÔªËØµÄË÷Òý
+###### void add(int index, E element) ----------------  ÔÚÁÐ±íµÄÖ¸¶¨Î»ÖÃ²åÈëÖ¸¶¨ÔªËØ£¨¿ÉÑ¡²Ù×÷£©
+
+###### E get(int index)      -------------------------  ·µ»ØÁÐ±íÖÐÖ¸¶¨Î»ÖÃµÄÔªËØ
+
+###### E set(int index, E element) -------------------  ÓÃÖ¸¶¨ÔªËØÌæ»»ÁÐ±íÖÐÖ¸¶¨Î»ÖÃµÄÔªËØ£¨¿ÉÑ¡²Ù×÷£© 		
+
+###### int indexOf(Object o) -------------------------  ·µ»Ø´ËÁÐ±íÖÐµÚÒ»´Î³öÏÖµÄÖ¸¶¨ÔªËØµÄË÷Òý
 
 List<E>	subList(int fromIndex, int toIndex) ---  ·µ»Øº¬ÓÐÁ½¸ö±ß½çµÄ×ÓÐòÁÐ¼¯ºÏ
-Iterator<E> iterator() ------------------------  ·µ»Ø°´ÊÊµ±Ë³ÐòÔÚÁÐ±íµÄÔªËØÉÏ½øÐÐµü´úµÄµü´úÆ÷
+
+###### Iterator<E> iterator() ------------------------  ·µ»Ø°´ÊÊµ±Ë³ÐòÔÚÁÐ±íµÄÔªËØÉÏ½øÐÐµü´úµÄµü´úÆ÷
 
 boolean equals(Object o) ----------------------  ±È½ÏÖ¸¶¨µÄ¶ÔÏó(ÁÐ±í)ÓëÁÐ±íÊÇ·ñÏàµÈ 
 
 ##### List£¨ÐòÁÐ£¬ÏßÐÔ±í£©½Ó¿ÚµÄÊµÏÖÀà£º
 
-######    Class Vector<E>£º     Êý×éÐòÁÐ,Vector Ïß³Ì°²È«£¬¸øÃ¿Ò»¸ö·½·¨¼ÓÁËÍ¬²½Ëø£¬Ð§ÂÊµÍ£¬ÒÔÊÊÓ¦´´½¨ Vector ºó½øÐÐÌí¼Ó»òÒÆ³ýÏîµÄ²Ù×÷
+######    Class Vector <E>£ºÊý×éÐòÁÐ,Vector Ïß³Ì°²È«£¬¸øÃ¿Ò»¸ö·½·¨¼ÓÁËÍ¬²½Ëø£¬Ð§ÂÊµÍ£¬ÒÔÊÊÓ¦´´½¨ Vector ºó½øÐÐÌí¼Ó»òÒÆ³ýÏîµÄ²Ù×÷
 
 ³õÊ¼ÈÝÁ¿10£¬À©ÈÝËæ×ÅÔªËØµÄÔö³¤¶øÔö³¤
 
 ######    Class ArrayList<E>£ºÊý×éÐòÁÐ,±¾ÖÊ¶¼ÊÇObject[]Êý×é£¬Ö»²»¹ýArrayListÏß³Ì²»°²È«Ð§ÂÊ¸ß£¬¶ÔÐòÁÐÕûÌå½øÐÐ²Ù×÷£¬ÓÃÊý×éÊµÏÖµÄ
 
-µ±Ç°Êý×éÊÇÓÉÄ¬ÈÏ¹¹Ôì·½·¨Éú³ÉµÄ¿ÕÊý×é²¢ÇÒµÚÒ»´ÎÌí¼ÓÊý¾Ý¡£´ËÊ±minCapacityµÈÓÚÄ¬ÈÏµÄÈÝÁ¿£¨10£©ÄÇÃ´¸ù¾ÝÏÂÃæÂß¼­¿ÉÒÔ¿´µ½×îºóÊý×éµÄÈÝÁ¿»á´Ó0À©ÈÝ³É10¡£¶øºóµÄÊý×éÀ©ÈÝ²ÅÊÇ°´ÕÕµ±Ç°ÈÝÁ¿µÄ1.5±¶½øÐÐÀ©ÈÝ£»
+µ±Ç°Êý×éÊÇÓÉÄ¬ÈÏ¹¹Ôì·½·¨Éú³ÉµÄ¿ÕÊý×é²¢ÇÒµÚÒ»´ÎÌí¼ÓÊý¾Ý¡£´ËÊ±minCapacityµÈÓÚÄ¬ÈÏµÄÈÝÁ¿£¨10£©ÄÇÃ´¸ù¾ÝÏÂÃæÂß¼­¿ÉÒÔ¿´µ½×îºó**Êý×éµÄÈÝÁ¿»á´Ó0À©ÈÝ³É10**¡£¶øºóµÄÊý×éÀ©ÈÝ²ÅÊÇ°´ÕÕµ±Ç°ÈÝÁ¿µÄ1.5±¶½øÐÐÀ©ÈÝ£»
 
-µ±Ç°Êý×éÊÇÓÉ×Ô¶¨Òå³õÊ¼ÈÝÁ¿¹¹Ôì·½·¨´´½¨²¢ÇÒÖ¸¶¨³õÊ¼ÈÝÁ¿Îª0¡£´ËÊ± minCapacity µÈÓÚ1ÄÇÃ´¸ù¾ÝÏÂÃæÂß¼­¿ÉÒÔ¿´µ½×îºóÊý×éµÄÈÝÁ¿»á´Ó0±ä³É1¡£Õâ±ß¿ÉÒÔ¿´µ½Ò»¸öÑÏÖØµÄÎÊÌâ£¬Ò»µ©ÎÒÃÇÖ´ÐÐÁË³õÊ¼ÈÝÁ¿Îª0£¬ÄÇÃ´¸ù¾ÝÏÂÃæµÄËã·¨Ç°ËÄ´ÎÀ©ÈÝÃ¿´Î¶¼ +1£¬ÔÚµÚ5´ÎÌí¼ÓÊý¾Ý½øÐÐÀ©ÈÝµÄÊ±ºò²ÅÊÇ°´ÕÕµ±Ç°ÈÝÁ¿µÄ1.5±¶½øÐÐÀ©ÈÝ
+µ±Ç°Êý×éÊÇÓÉ×Ô¶¨Òå³õÊ¼ÈÝÁ¿¹¹Ôì·½·¨´´½¨²¢ÇÒÖ¸¶¨³õÊ¼ÈÝÁ¿Îª0¡£´ËÊ± minCapacity µÈÓÚ1ÄÇÃ´¸ù¾ÝÏÂÃæÂß¼­¿ÉÒÔ¿´µ½×îºóÊý×éµÄÈÝÁ¿»á´Ó0±ä³É1¡£Õâ±ß¿ÉÒÔ¿´µ½Ò»¸öÑÏÖØµÄÎÊÌâ£¬Ò»µ©ÎÒÃÇ**Ö´ÐÐÁË³õÊ¼ÈÝÁ¿Îª0£¬ÄÇÃ´¸ù¾ÝÏÂÃæµÄËã·¨Ç°ËÄ´ÎÀ©ÈÝÃ¿´Î¶¼ +1£¬ÔÚµÚ5´ÎÌí¼ÓÊý¾Ý½øÐÐÀ©ÈÝµÄÊ±ºò²ÅÊÇ°´ÕÕµ±Ç°ÈÝÁ¿µÄ1.5±¶½øÐÐÀ©ÈÝ**
 
 ¹¹Ôì·½·¨£º
 
@@ -118,7 +124,7 @@ Object[] toArray()          ---------------------  °´ÊÊµ±Ë³Ðò£¨´ÓµÚÒ»¸öµ½×îºóÒ»¸
 
 ###### 		       			        ÓÃË«ÏòÁ´±íÊµÏÖµÄ£¬Ïß³Ì²»°²È«Àà£¬Ã»ÓÐ¼Ó synchronized
 
-Ë«ÏòÁ´±í£ºÓÅµã£¬Ôö¼ÓÉ¾³ý£¬ÓÃÊ±¼äºÜ¶Ì£¬µ«ÊÇÒòÎªÃ»ÓÐË÷Òý£¬¶ÔË÷ÒýµÄ²Ù×÷£¬±È½ÏÂé·³£¬Ö»ÄÜÑ­»·±éÀú£¬µ«ÊÇÃ¿´ÎÑ­»·µÄÊ±ºò£¬¶¼»áÏÈÅÐ¶ÏÒ»ÏÂ£¬Õâ¸öË÷ÒýÎ»ÓÚÁ´±íµÄÇ°²¿·Ö»¹ÊÇºó²¿·Ö£¬Ã¿´Î¶¼»á±éÀúÁ´±íµÄÒ»°ë £¬¶ø²»ÊÇÈ«²¿±éÀú
+Ë«ÏòÁ´±í£ºÓÅµã£¬Ôö¼ÓÉ¾³ý£¬ÓÃÊ±¼äºÜ¶Ì£¬µ«ÊÇÒòÎªÃ»ÓÐË÷Òý£¬¶ÔË÷ÒýµÄ²Ù×÷£¬±È½ÏÂé·³£¬Í¨¹ý¼ÆÊýË÷ÒýÀ´ÊµÏÖindex,.ÊÇÃ¿´ÎÑ­»·µÄÊ±ºò£¬¶¼»áÏÈÅÐ¶ÏÒ»ÏÂindex ºÍ size£¨£©/2µÄ´óÐ¡ £¬Õâ¸öË÷ÒýÎ»ÓÚÁ´±íµÄÇ°²¿·Ö»¹ÊÇºó²¿·Ö£¬Ã¿´Î¶¼»á±éÀúÁ´±íµÄÒ»°ë £¬¶ø²»ÊÇÈ«²¿±éÀú
 
 ¹¹Ôì·½·¨£º
 	LinkedList() ------------- ¹¹ÔìÒ»¸ö¿ÕÁ´±í 
@@ -132,7 +138,8 @@ void addLast(E e) ---------------   ½«Ö¸¶¨ÔªËØÌí¼Óµ½´ËÁÐ±íµÄ½áÎ²
 
 E remove(int index)																					E set(int index, E element)
 
-E get(int index)  --------------   ·µ»ØÖ¸¶¨ÏÂ±êµÄÔªËØ 
+###### E get(int index)  --------------   ·µ»ØÖ¸¶¨ÏÂ±êµÄÔªËØ 
+
 E getFirst()     ---------------    ·µ»Ø´ËÁÐ±íµÄµÚÒ»¸öÔªËØ
 E getLast()     -----------------   ·µ»Ø´ËÁÐ±íµÄ×îºóÒ»¸öÔªËØ 
 
@@ -142,8 +149,8 @@ ListIterator<E> listIterator(int index)   -------- ·µ»Ø´ËÁÐ±íÖÐµÄÔªËØµÄÁÐ±íµü´úÆ
 
 - ÊµÏÖÁËList½Ó¿Ú
 - ÄÚ²¿³ÖÓÐÒ»¸ö ReentrantLock lock = new ReentrantLock();¿ÉÖØÈëËø
-- µ×²ãÊÇÓÃvolatile transient ÉùÃ÷µÄÊý×é array
-- ¶ÁÐ´·ÖÀë£¬Ð´Ê±¸´ÖÆ³öÒ»¸öÐÂµÄÊý×é£¬Íê³É²åÈë¡¢ÐÞ¸Ä»òÕßÒÆ³ý²Ù×÷ºó½«Êý×éµÄÒýÓÃÖ¸ÏòÐÂÊý×é£¬Èç¹ûÓÐÏß³Ì²¢·¢Ð´£¬ÔòÍ¨¹ýËøÀ´¿ØÖÆ£¬·ÀÖ¹¶à¸ö¸±±¾»ìÏýÊý¾Ý
+- µ×²ãÊÇÓÃ volatile transient ÉùÃ÷µÄÊý×é array
+- ¶ÁÐ´·ÖÀë£¬Ð´Ê±¸´ÖÆ³öÒ»¸öÐÂµÄÊý×é£¬Íê³É²åÈë¡¢ÐÞ¸Ä»òÕßÒÆ³ý²Ù×÷ºó½«Êý×éµÄÒýÓÃÖ¸ÏòÐÂÊý×é£¬Èç¹ûÓÐ**Ïß³Ì²¢·¢Ð´£¬ÔòÍ¨¹ýËøÀ´¿ØÖÆ£¬·ÀÖ¹¶à¸ö¸±±¾»ìÏýÊý¾Ý**
 - Èç¹ûÓÐÏß³Ì²¢·¢µÄ¶Á£¬²»ÐèÒª¼ÓËø£¬Ôò·Ö¼¸ÖÖÇé¿ö£º
   1¡¢Èç¹ûÐ´²Ù×÷Î´Íê³É£¬ÄÇÃ´Ö±½Ó¶ÁÈ¡Ô­Êý×éµÄÊý¾Ý
   2¡¢Èç¹ûÐ´²Ù×÷Íê³É£¬µ«ÊÇÒýÓÃ»¹Î´Ö¸ÏòÐÂÊý×é£¬ÄÇÃ´Ò²ÊÇ¶ÁÈ¡Ô­Êý×éÊý¾Ý
@@ -242,17 +249,13 @@ System.out.println("stack: " + st);
 Ïß³Ì°²È«¼¯ºÏ½ö½öÊÇ¸ø¼¯ºÏÌí¼ÓÁËsynchronized(Í¬²½Ëø)£¬ÑÏÖØÎþÉüÁËÐÔÄÜ£¬¶øÇÒ¶Ô²¢·¢µÄÐ§ÂÊ¾Í¸üµÍÁË
 
 ²¢·¢¼¯ºÏÔòÍ¨¹ýÄÚ²¿Ê¹ÓÃËø·Ö¶Î¼¼Êõ£¬²»½ö±£Ö¤ÁË¶àÏß³ÌµÄ°²È«ÓÖÌá¸ßµÄ²¢·¢Ê±µÄÐ§ÂÊ
-ConcurrentHashMap¡¢ConcurrentLinkedQueue¡¢ConcurrentLinkedDeque
+ConcurrentHashMap¡¢ConcurrentLinkedQueue
 
-### 7£ºArraysÀàÖÐµÄ asList ·½·¨ 
+### 7£ºArrays ÀàÖÐµÄ asList ·½·¨ 
 
- * ¸Ã·½·¨¶ÔÓÚ»ù±¾Êý¾ÝÀàÐÍµÄÊý×éÖ§³Ö²¢²»ºÃ,µ±Êý×éÊÇ»ù±¾Êý¾ÝÀàÐÍÊ±²»½¨ÒéÊ¹ÓÃ 
+ * µ±Ê¹ÓÃasList()·½·¨Ê±£¬Êý×é¾ÍºÍÁÐ±íÁ´½ÓÔÚÒ»ÆðÁË.£¬µ±¸üÐÂÆäÖÐÖ®Ò»Ê±£¬ÁíÒ»¸ö½«×Ô¶¯»ñµÃ¸üÐÂ
 
- *  µ±Ê¹ÓÃasList()·½·¨Ê±£¬Êý×é¾ÍºÍÁÐ±íÁ´½ÓÔÚÒ»ÆðÁË.£¬µ±¸üÐÂÆäÖÐÖ®Ò»Ê±£¬ÁíÒ»¸ö½«×Ô¶¯»ñµÃ¸üÐÂ
-
- *  asListµÃµ½µÄÊý×éÊÇµÄÃ»ÓÐaddºÍremove·½·¨µÄ 
-
-   
+ * asListµÃµ½µÄÊý×éÊÇµÄÃ»ÓÐaddºÍremove·½·¨µÄ 
 
    Í¨¹ý²é¿´ArraysÀàµÄÔ´Âë¿ÉÒÔÖªµÀ,asList·µ»ØµÄListÊÇArrayÖÐµÄÊµÏÖµÄ ÄÚ²¿Àà,¶ø¸ÃÀà²¢Ã»ÓÐ¶¨ÒåaddºÍremove·½·¨.ÁíÍâ,ÎªÊ²Ã´ÐÞ¸ÄÆäÖÐÒ»¸ö,ÁíÒ»¸öÒ²×Ô¶¯ »ñµÃ¸üÐÂÁË,ÒòÎªasList»ñµÃListÊµ¼ÊÒýÓÃµÄ¾ÍÊÇÊý×é 
 

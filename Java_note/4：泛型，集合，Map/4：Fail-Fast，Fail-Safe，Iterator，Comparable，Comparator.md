@@ -13,7 +13,7 @@ fail-safe 任何对集合结构的修改都会在一个复制的集合上进行修改，因此不会抛出Concur
 
 fail-safe机制有两个问题																					需要复制集合，产生大量的无效对象，开销大															无法保证读取的数据是目前原始数据结构中的数据
 
-###### ArrayList会产生fast-fail事件，而CopyOnWriteArrayList不会产生fast-fail事件
+###### ArrayList会产生Fail-Fastl事件，而CopyOnWriteArrayList不会产生Fail-Fast事件
 
 ### 3：迭代器（两种）
 
