@@ -90,7 +90,7 @@ final int hash(Object k) {
 
 ###### 8：为什么要引入红黑树
 
-?	因为之前hashmap底层结构是数组加链表，但是当数据大到一定程度的时候，即使是用链表存储也是比较长，难以增删改查，红黑树的查找效率高，二分
+因为之前hashmap底层结构是数组加链表，但是当数据大到一定程度的时候，即使是用链表存储也是比较长，难以增删改查，红黑树的查找效率高，二分
 
 ##### 9：头插造成环形链表
 
@@ -225,8 +225,9 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V> implements Concurre
 将数据分成一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问
 
 HashTable容器在并发环境下表现出效率低下的原因，是因为所有访问HashTable的线程都必须竞争同一把锁，如果容器里有多把锁每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效的提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术结构
-	由Segment(段)数组结构和HashEntry数组结构组成
-	Segment是一种可重入锁(ReentrantLock)，在ConcurrentHashMap里扮演锁的角色，HashEntry则用于存储键值的映射关系
+由Segment(段)数组结构和HashEntry数组结构组成
+
+###### Segment是一种可重入锁，在ConcurrentHashMap里扮演锁的角色，HashEntry则用于存储键值的映射关系
 
 Segment的结构和HashMap类似，是一种数组和链表结构， 一个Segment里包含一个HashEntry数组，每个HashEntry是一个链表结构的元素,每个Segment守护着一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁
 

@@ -1,10 +1,10 @@
-### Redis命令：在Redis客户端执行命令
+### Redis 命令：在 Redis 客户端执行命令
 
 ###### 1：连接Redis服务：
 
  **redis-cli**：该命令会连接本地的 redis 服务
 
-**ping**：用于检测Redis服务是否启动
+ **ping**：用于检测Redis服务是否启动
 
 **AUTH password**：验证密码是否正确
 
@@ -30,7 +30,7 @@
 
 ###### Expire key second ：命令用于设置 key 的过期时间，key 过期后将不再可用，单位以秒计
 
-###### Expireat key timestamp ：命令用于以 UNIX 时间戳(unix timestamp)格式设置 key 的过期时间，key 过期后将不再可用
+###### Expire key timestamp ：命令用于以 UNIX 时间戳(unix timestamp)格式设置 key 的过期时间，key 过期后将不再可用
 
 ######  KEYS pattern ： 查找所有符合给定模式 pattern 的 key ，表达式
 
@@ -109,10 +109,10 @@ UNSUBSCRIBE [channel [channel ...]：指退订给定的频道
 ### Redis 事务
 
 - 批量操作在发送 EXEC 命令前被放入队列缓存
-- 收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行
+- ###### 收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行
 -  在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中
 
-单个 Redis 命令的执行是原子性的，但 Redis 没有在事务上增加任何维持原子性的机制，所以 Redis 事务的执行并不是原子性的
+单个 Redis 命令的执行是原子性的，但 Redis 没有在事务上增加任何维持原子性的机制，所以 Redis 事务的执行并不是原子性的 
 
 MULTI：标记一个事务块的开始
 

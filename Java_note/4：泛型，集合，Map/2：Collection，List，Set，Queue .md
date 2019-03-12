@@ -257,6 +257,3 @@ ConcurrentHashMap、ConcurrentLinkedQueue、ConcurrentLinkedDeque
    通过查看Arrays类的源码可以知道,asList返回的List是Array中的实现的 内部类,而该类并没有定义add和remove方法.另外,为什么修改其中一个,另一个也自动 获得更新了,因为asList获得List实际引用的就是数组 
 
 
-
-
-

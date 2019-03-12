@@ -9,37 +9,43 @@ JVM
 
 
 
-1£º³ÌÐò¼ÆÊýÆ÷£ºµ±Ç°Ïß³ÌËùÖ´ÐÐ×Ö½ÚÂëµÄÐÐºÅÖ¸Ê¾Æ÷£¬Öµ +1£¬¾ÍÈ¥ÏÂÒ»ÌõµÄ×Ö½ÚÂëÖ¸ÁîÈ¥Ö´ÐÐ
-		1£ºÃ¿¸öÏß³Ì¶¼ÓÐÒ»¸ö¶ÀÁ¢µÄ³ÌÐò¼ÆÊýÆ÷£¬Ïß³ÌË½ÓÐ
+###### 1£º³ÌÐò¼ÆÊýÆ÷£ºµ±Ç°Ïß³ÌËùÖ´ÐÐ×Ö½ÚÂëµÄÐÐºÅÖ¸Ê¾Æ÷£¬Öµ +1£¬¾ÍÈ¥ÏÂÒ»ÌõµÄ×Ö½ÚÂëÖ¸ÁîÈ¥Ö´ÐÐ
 
-2£ºJava Õ»£¨stack£©£º·½·¨Ö´ÐÐµÄÄÚ´æÄ£ÐÍ
-	1£ºJVM»áÎªÃ¿Ò»¸öµ÷ÓÃµÄ·½·¨ÔÚÕ»ÖÐ·ÖÅäÒ»¸ö´æ´¢¿Õ¼ä£¬³ÆÎªÕ»èå£¨Õ»ÖÐÕ»£©
-	2£ºÕ»èåÓÃÓÚ´æ´¢¾Ö²¿±äÁ¿±í,²Ù×÷ÊýÕ»,¶¯Ì¬Á´½Ó,·½·¨³ö¿ÚµÈÐÅÏ¢
-	3£ºÃ¿¸ö·½·¨µÄµ÷ÓÃÖ±ÖÁÖ´ÐÐ¹ý³Ì£¬¶ÔÓ¦Ò»¸öÕ»Ö¡ÔÚjavaÕ»ÖÐÈëÕ»£¬³öÕ»²Ù×÷
-	4£ºjavaÕ»¿ÉÒÔ¶¯Ì¬À©Õ¹£¬Ê¹ÓÃÁ¬ÐøµÄÄÚ´æ¿Õ¼ä£¬Ïß³ÌË½ÓÐÇøÓò 
+?		1£ºÃ¿¸öÏß³Ì¶¼ÓÐÒ»¸ö¶ÀÁ¢µÄ³ÌÐò¼ÆÊýÆ÷£¬Ïß³ÌË½ÓÐ
+
+###### 2£ºJava Õ»£¨stack£©£º·½·¨Ö´ÐÐµÄÄÚ´æÄ£ÐÍ
+
+?	1£ºJVM»áÎªÃ¿Ò»¸öµ÷ÓÃµÄ·½·¨ÔÚÕ»ÖÐ·ÖÅäÒ»¸ö´æ´¢¿Õ¼ä£¬³ÆÎªÕ»èå£¨Õ»ÖÐÕ»£©
+?	2£ºÕ»èåÓÃÓÚ´æ´¢¾Ö²¿±äÁ¿±í,²Ù×÷ÊýÕ»,¶¯Ì¬Á´½Ó,·½·¨³ö¿ÚµÈÐÅÏ¢
+?	3£ºÃ¿¸ö·½·¨µÄµ÷ÓÃÖ±ÖÁÖ´ÐÐ¹ý³Ì£¬¶ÔÓ¦Ò»¸öÕ»Ö¡ÔÚjavaÕ»ÖÐÈëÕ»£¬³öÕ»²Ù×÷
+?	4£ºjavaÕ»¿ÉÒÔ¶¯Ì¬À©Õ¹£¬Ê¹ÓÃÁ¬ÐøµÄÄÚ´æ¿Õ¼ä£¬Ïß³ÌË½ÓÐÇøÓò 
 
 ?	5£ºÊý×éÒýÓÃ±äÁ¿ÊÇ´æ·ÅÔÚÕ»ÄÚ´æÖÐ£¬Êý×éÔªËØÊÇ´æ·ÅÔÚ¶ÑÄÚ´æÖÐ
 
-3£º±¾µØ·½·¨Õ»£ºNative ·½·¨Ö´ÐÐµÄÄÚ´æÄ£ÐÍ
-	1£º´æ´¢jvmÊ¹ÓÃµ½µÄNative ·½·¨£¨±¾µØ·½·¨¿â£©£¬Ïß³ÌË½ÓÐ
+###### 3£º±¾µØ·½·¨Õ»£ºNative ·½·¨Ö´ÐÐµÄÄÚ´æÄ£ÐÍ
 
-4£ºJava¶Ñ£¨heap£©£ºÔËÐÐÊ±½øÐÐ´æ´¢¿Õ¼ä·ÖÅäºÍ»ØÊÕµÄÄÚ´æ¹ÜÀíÄ£ÐÍ
+?	1£º´æ´¢jvmÊ¹ÓÃµ½µÄNative ·½·¨£¨±¾µØ·½·¨¿â£©£¬Ïß³ÌË½ÓÐ
+
+###### 4£ºJava¶Ñ£¨heap£©£ºÔËÐÐÊ±½øÐÐ´æ´¢¿Õ¼ä·ÖÅäºÍ»ØÊÕµÄÄÚ´æ¹ÜÀíÄ£ÐÍ
 
 1£ºËùÓÐnewµÄ¶ÔÏóÊµÀý£¨°üÀ¨³ÉÔ±±äÁ¿µÄÊôÐÔ£©£¬¶¼´æ´¢ÔÚ¶ÑÖÐ
-2£ºJava¶ÑÊ±GC¹ÜÀíµÄÖ÷ÒªÇøÓò£¬Òò´ËÓÐÊ±Ò²³ÆGC¶Ñ
+2£ºJava ¶ÑÊ± GC¹ÜÀíµÄÖ÷ÒªÇøÓò£¬Òò´ËÓÐÊ±Ò²³ÆGC¶Ñ
 3£ºÎïÀíÉÏ¿ÉÒÔ²»Ê¹ÓÃÁ¬ÐøµÄÄÚ´æµØÖ·£¬Ö»ÒªÂß¼­ÉÏÁ¬Ðø¼´¿É
 4£ºÏß³Ì¹²ÏíÇøÓò£¬ÉúÃüÖÜÆÚÓëjvmÏàÍ¬
 
-3£º·½·¨Çø£¨¾²Ì¬Óò£©£º´æ´¢ÀàµÄÐÅÏ¢£¬Í¨¹ýÀà¼ÓÔØÆ÷ÔØÈëÀàµÄ×Ö½ÚÂëÎÄ¼þ£¬¾­½âÎöºó×°Èë·½·¨Çø
-	1£ºÏß³Ì¹²ÏíµÄÇøÓò£¬·½·¨Ö»ÓÐÒ»·Ý£¬Í¨¹ýthisÀ´Çø·ÖÄÇ¸ö¶ÔÏóµ÷ÓÃ
-	2£ºÔËÐÐÊ±³£Á¿³Ø(Constant Pool)£º·½·¨ÇøµÄÒ»²¿·Ö£¬ÓÃÓÚ´æ·Å±àÒëÆ÷Éú³ÉµÄ¸÷ÖÖ×ÖÃæÁ¿ºÍ·ûºÅÒýÓÃ
-	3£ºClassÎÄ¼þµÄ³£Á¿³Ø£¬ÔÚÀà¼ÓÔØ×°Èë·½·¨ÇøµÄÔËÐÐÊ±µÄ³£Á¿³ØÖÐ´æ·Å
-	4£ºÔËÐÐÊ±³£Á¿³ØºÍclassÎÄ¼þµÄ³£Á¿³ØÏà±È£¬¾ßÓÐ¶¯Ì¬ÐÔ£¬¼´ÔËÐÐÊ±Ò²¿ÉÒÔ·ÅÈëÐÂµÄ³£Á¿
-		Àý£ºStringÀàµÄ intern£¨£©·½·¨																	    5£º¾²Ì¬³ÉÔ±±äÁ¿´æ´¢ÔÚ·½·¨Çø
+###### 3£º·½·¨Çø£¨¾²Ì¬Óò£©£º´æ´¢ÀàµÄÐÅÏ¢£¬Í¨¹ýÀà¼ÓÔØÆ÷ÔØÈëÀàµÄ×Ö½ÚÂëÎÄ¼þ£¬¾­½âÎöºó×°Èë·½·¨Çø
+
+?	1£ºÏß³Ì¹²ÏíµÄÇøÓò£¬·½·¨Ö»ÓÐÒ»·Ý£¬Í¨¹ýthisÀ´Çø·ÖÄÇ¸ö¶ÔÏóµ÷ÓÃ
+?	2£ºÔËÐÐÊ±³£Á¿³Ø(Constant Pool)£º·½·¨ÇøµÄÒ»²¿·Ö£¬ÓÃÓÚ´æ·Å±àÒëÆ÷Éú³ÉµÄ¸÷ÖÖ×ÖÃæÁ¿ºÍ·ûºÅÒýÓÃ
+?	3£ºClassÎÄ¼þµÄ³£Á¿³Ø£¬ÔÚÀà¼ÓÔØ×°Èë·½·¨ÇøµÄÔËÐÐÊ±µÄ³£Á¿³ØÖÐ´æ·Å
+?	4£ºÔËÐÐÊ±³£Á¿³ØºÍclassÎÄ¼þµÄ³£Á¿³ØÏà±È£¬¾ßÓÐ¶¯Ì¬ÐÔ£¬¼´ÔËÐÐÊ±Ò²¿ÉÒÔ·ÅÈëÐÂµÄ³£Á¿
+?		Àý£ºStringÀàµÄ intern£¨£©·½·¨						
+
+?	5£º¾²Ì¬³ÉÔ±±äÁ¿´æ´¢ÔÚ·½·¨Çø
 
  Àý:
       String str = new String("hello"); 
-      ±äÁ¿ str ·ÅÔÚÕ»ÉÏ£¬ÓÃ new ´´½¨³öÀ´µÄ×Ö·û´®¶ÔÏó·ÅÔÚ¶ÑÉÏ£¬¶ø"hello"Õâ¸ö×ÖÃæÁ¿ÊÇ·ÅÔÚ·½·¨ÇøµÄ³£Á¿³ØÖÐ?     
+      ±äÁ¿ str ·ÅÔÚÕ»ÉÏ£¬ÓÃ new ´´½¨³öÀ´µÄ×Ö·û´®¶ÔÏó·ÅÔÚ¶ÑÉÏ£¬¶ø"hello"Õâ¸ö×ÖÃæÁ¿ÊÇ·ÅÔÚ·½·¨ÇøµÄ³£Á¿³ØÖÐ
 
 ### 2£ºÄÚ´æ·ÖÅä
 
@@ -101,7 +107,7 @@ javaÓÀ¾Ã´úÒç³ö£¬¼´·½·¨ÇøÒç³öÁË£¬**Ò»°ã³öÏÖÓÚ´óÁ¿Class»òÕßjspÒ³Ãæ£¬»òÕß²ÉÓÃcglibµ
 
 ### 7£ºÌÓÒÝ·ÖÎö
 
-ÌÓÒÝ·ÖÎö(Escape  Analysis)£ºÊÇÒ»ÖÖ¿ÉÒÔÓÐÐ§¼õÉÙJava  ³ÌÐòÖÐÍ¬²½¸ºÔØºÍÄÚ´æ¶Ñ·ÖÅäÑ¹Á¦µÄ¿çº¯ÊýÈ«¾ÖÊý¾ÝÁ÷·ÖÎöËã·¨£¬Í¨¹ýÌÓÒÝ·ÖÎö£¬Java  Hotspot ±àÒëÆ÷ÄÜ¹»·ÖÎö³öÒ»¸öÐÂµÄ¶ÔÏóµÄÒýÓÃµÄÊ¹ÓÃ·¶Î§´Ó¶ø¾ö¶¨ÊÇ·ñÒª½«Õâ¸ö¶ÔÏó·ÖÅäµ½¶ÑÉÏ£¬½ÏÉÙGCµÄÊ±¼ä£¬Ìá¸ßÐ§ÂÊ
+ÌÓÒÝ·ÖÎö(Escape  Analysis)£ºÊÇÒ»ÖÖ¿ÉÒÔ**ÓÐÐ§¼õÉÙJava  ³ÌÐòÖÐÍ¬²½¸ºÔØºÍÄÚ´æ¶Ñ·ÖÅäÑ¹Á¦**µÄ¿çº¯Êý**È«¾ÖÊý¾ÝÁ÷·ÖÎöËã·¨**£¬Í¨¹ýÌÓÒÝ·ÖÎö£¬Java  Hotspot ±àÒëÆ÷ÄÜ¹»·ÖÎö³öÒ»¸öÐÂµÄ¶ÔÏóµÄÒýÓÃµÄÊ¹ÓÃ·¶Î§´Ó¶ø¾ö¶¨ÊÇ·ñÒª½«Õâ¸ö¶ÔÏó·ÖÅäµ½¶ÑÉÏ£¬½ÏÉÙGCµÄÊ±¼ä£¬Ìá¸ßÐ§ÂÊ
 
 ÌÓÒÝ·ÖÎöµÄ»ù±¾ÐÐÎª¾ÍÊÇ·ÖÎö¶ÔÏó¶¯Ì¬×÷ÓÃÓò£ºµ±Ò»¸ö¶ÔÏóÔÚ·½·¨ÖÐ±»¶¨Òåºó£¬Ëü¿ÉÄÜ±»Íâ²¿·½·¨ËùÒýÓÃ£¬ÀýÈç×÷Îªµ÷ÓÃ²ÎÊý´«µÝµ½ÆäËûµØ·½ÖÐ£¬³ÆÎª·½·¨ÌÓÒÝ
 

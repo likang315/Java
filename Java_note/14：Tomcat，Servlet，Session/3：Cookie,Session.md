@@ -1,8 +1,10 @@
 ###  1：Cookie：服务器把客户状态信息写到客户端硬盘上的一种技术
 
-  Cookie信息通过name-value (map)
+Cookie信息通过name-value (map)
 
-  客户端会根据从服务器端发送的响应报文内一个Set-Cookie的首部字段信息通知客户端保存此次Cookie,当下次客户端再往该服务器发送请求时客户端会自动在请求报文中加入Cookie首部字段，值SessionID 后发送出去,服务器会检查是哪一个客户端发送的请求，然后对比服务器上的记录，得到客户的状态信息
+### 原理：
+
+客户端会根据从服务器端发送的**响应报文内一个Set-Cookie的首部字段信息通知客户端保存此次Cookie,**当下次客户端再往该服务器发送请求时客户端会自动在请求报文中**加入Cookie首部字段，值SessionID 后发送出去**,服务器会检查是哪一个客户端发送的请求，然后对比服务器上的记录，得到客户的状态信息
 	
  Cookie (Class)
   构造方法：
@@ -36,20 +38,24 @@
 
 ![](F:\note\14 Tomcat，Servlet\Session.png)
 
-###   HttpSession(Interface)：服务器把会话信息写到浏览器进程内存中的一种技术
+###   HttpSession(Interface)：
 
 1：一个用户的多次访问同一个 HttpSession 对象
 
 2：HttpSession 中也有一个Map,用 setAttribute,getAttribute.....
-3：请求第一次得到Session时，没有，会在Server内存中创建HttpSession对象,然后Set-Cookie中把HTTPSession的ID返回
+3：请求第一次得到Session时，没有，会在Server中创建HttpSession对象,然后Set-Cookie中把HTTPSession的ID返回
 	 
   方法
-	java.lang.Object	getAttribute(java.lang.String name) 
-		通过属性名，得到属性
-	java.util.Enumeration<java.lang.String>	getAttributeNames() 
-		得到所有属性名的集合	
-	void	setAttribute(java.lang.String name, java.lang.Object value) 
-		设置属性
+
+###### 	java.lang.Object	getAttribute(java.lang.String name) 
+
+​		通过属性名，得到属性
+​	java.util.Enumeration<java.lang.String>	getAttributeNames() 
+​		得到所有属性名的集合	
+
+###### 	void	setAttribute(java.lang.String name, java.lang.Object value) 
+
+​		设置属性
 
 int	getMaxInactiveInterval() 
 	得到生命周期
@@ -76,17 +82,19 @@ void	invalidate()
 
 ###  3：URL重写维持会话
 
-​	如果浏览器禁掉 cookie 那么，session 失效，浏览发的所有请求中都不会带 cookie 请求报头，服务
-​	器认为每个请求都是一个新的请求
+如果浏览器禁掉 cookie 那么，session 失效，浏览发的所有请求中都不会带 cookie 请求报头，服务
+器认为每个请求都是一个新的请求
 
    httpServletResponse.encodeURL("checkLogin") //在 checkLogin 后会自动添加加 jsessionid=...
    httpServletResponse.sendRedirect(resp.encodeRedirectURL("welcome"));
 
-####  4：Servlet 线程安全
-
-​	Servlet 是单实例常驻服务器的，多个线程会共享同一个 Servlet 对象，每一个方法的调用都会生成一个方法栈所以是安全的
+###### 它允许不支持Cookie的浏览器也可以与WEB服务器保持连续的会话。将会话标识号以参数形式附加在超链接的URL地址后面的技术称为URL重写
 
 
+
+###  4：Servlet  线程安全
+
+​	Servlet 是单实例常驻服务器的，多个线程会共享同一个 Servlet 对象
 
 
 

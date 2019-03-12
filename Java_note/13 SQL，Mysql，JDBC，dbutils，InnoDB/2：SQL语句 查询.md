@@ -25,10 +25,10 @@ SQL分为：
 
 CREATE TABLE 表名（
 
-?		id	数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
-?		列名	数据类型（）not null DEFAULT defalut_value，
-?		列名	数据类型（），
-?		PRIMARY KEY(id)，																					?	 	 ）;
+?	id	数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
+	列名	数据类型（）not null DEFAULT defalut_value，
+	列名	数据类型（），
+	Foreign key( 列名) references 目标表名（列名)																				 ）;
 
 ###### 外键约束： foreign key references 引用外键表(列名) 
 
@@ -141,7 +141,7 @@ SELECT * FROM stu WHERE id<10;
 
 将结果集按照其后指定的字段值相同的记录看做一组，常和分组函数联用
 
-分组函数（聚合函数）：对某些字段的值进行统计的
+聚合函数：对某些字段的值进行统计的
     1：MAX（），MIN（）：求指定字段的最大值和最小值
     2：AVG，SUM：求平均值和总和
     3：COUNT（）函数：不是对给定字段的值进行统计，而是对给定字段不为NULL的记录数进行统计，
@@ -210,7 +210,7 @@ N张表就有N-1个连接条件
 
 
 
-### 9：连接查询(JOIN):用来完成关联查询
+### 9：连接查询(JOIN)：用来完成关联查询
 
 ![](G:\Java\Java_note\13 SQL，Mysql，JDBC，dbutils，InnoDB\连接查询.jpg)
 
@@ -339,5 +339,13 @@ Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
 
 查看有没有走索引
 
+#### count（1）和count（*），count（字段）
 
+###### 统计有多少条的记录
+
+count（1）：查询遍历的第一个字段，包含null的记录,除非是主键索引，否则没什么区别和count（*）
+
+##### count（*）会自己优化指定到哪一个字段，包含值为null的记录
+
+count（字段）：统计该字段在表中出现的次数，不统计null记录
 

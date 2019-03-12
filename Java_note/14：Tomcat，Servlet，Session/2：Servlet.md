@@ -7,18 +7,18 @@ CGI(Common Gateway Interface)：通用网关接口，指Web服务器在接受到
 
 ## Servlet：一种能在服务器上创建动态内容的程序
 
-###### 1：Servlet(服务连接器)：用Java编写的服务器端程序，主要功能在于交互式地浏览和修改数据，生成动态Web内容
+### 1：Servlet(服务连接器)：用Java编写的服务器端程序，主要功能在于交互式地浏览和修改数据，生成动态Web内容
 
 ​	1: 没有 main 方法，它的生命周期由 Servlet 容器(Tomcat)来管理
 ​	2: 必须实现 javax.servlet.Servlet 接口
 
-##### 2：servlet方式（两种）
+### 2：servlet方式（两种）
 
 ​	1：web.xml配置文件 配置字节码文件和URL的映射
 ​	2：用 Annotation(注解) 配置 Servlet
 
 ​	@WebServlet("/xxx")   -----其实也是站点的上一个URL
-​	@WebServlet(value="/xxx",name=".class名")
+​	@WebServlet(value="/xxx",name=".class名"
 
 ######   web.xml的顶层标签 <web-app> 有一个 metadata-complete 属性，该属性指定当前的部署描述文件是否是完全的
 
@@ -27,14 +27,14 @@ CGI(Common Gateway Interface)：通用网关接口，指Web服务器在接受到
 
 
 
-### 3:ServletContext(Interface)：提供了servlet与其servlet容器(Tomcat)通信的一组方法，环境
+### 3: ServletContext(Interface)：提供了servlet与其servlet容器(Tomcat)通信的一组方法，环境
 
   特点：	
-	1：Tomcat启动时，会为每个 web 应用(网站)实例化一个ServletContext 对象，每个站点的 web.xml 会被解析
-	   实例化 ServletContext 对象
-	2：同一个 web 应用，所有 ServletConfig 共享 ServletContext
-	3：ServletContext 的生命周期是伴随服务器生命周期（tomcat 启动，实例化 servletContext 对象，tomcat关闭，
- 	   才释放 ServletContext）
+
+###### 1：Tomcat启动时，会为每个 web 应用(网站)实例化一个ServletContext 对象，每个站点的 web.xml 会被解析实例化 ServletContext 对象
+
+2：同一个 web 应用，所有 ServletConfig 共享 ServletContext
+3：ServletContext 的生命周期是伴随服务器生命周期（tomcat 启动，实例化 servletContext 对象，tomcat关闭，才释放 ServletContext）
 
   方法：
 java.lang.Object	getAttribute(java.lang.String name) 
@@ -54,7 +54,7 @@ java.lang.String	getMimeType(java.lang.String file)
 
 ​		获取指定资源的绝对路径
 
-###### RequestDispatcher	getRequestDispatcher(java.lang.String path) 
+###### RequestDispatcher	 getRequestDispatcher(java.lang.String path) 
 
 ​		获取RequestDispatcher对象
 java.io.InputStream	getResourceAsStream(java.lang.String path) 
@@ -64,8 +64,7 @@ java.io.InputStream	getResourceAsStream(java.lang.String path)
 
 ### 4：ServletConfig (Interface)
 
-​     Tomcat 在启动时，加载 web.xml 或 读取 Servlet 类上的 Annotation(注释) 的 Servlet 配置，将这些配置信息封装成一个 
-​     ServletConfig 对象，会为每组 Servlet 配置各生成一个 ServletConfig 对象
+######      Tomcat 在启动时，加载 web.xml 或 读取 Servlet 类上的 Annotation(注释) 的 Servlet 配置，将这些配置信息封装成一个ServletConfig 对象，会为每组 Servlet 配置各生成一个 ServletConfig 对象
 
  java.lang.String	getInitParameter(java.lang.String name) 
 	通过指定的参数，返回它的值
@@ -101,10 +100,33 @@ void init(ServletConfig config)
 ###### ServletConfig getServletConfig()
 
 ​	用于获取ServletConfig 对象
-​    String  getServletInfo() 
+String  getServletInfo() 
 ​          返回servlet的版本信息
 
 ######  如果直接实现 Servlet 接口比较麻烦，我们继承 GenericServlet,因为GenericServlet 实现了 Servlet和 ServletConfig 接口
+
+```java
+@Override
+protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		String method= null!=req.getParameter("action")?req.getParameter("action"):"index";
+		Class[] param=new Class[] {HttpServletRequest.class,HttpServletResponse.class};
+	 
+		Class clazz=this.getClass();
+		try {
+			Method m=clazz.getDeclaredMethod(method, new Class[] {});
+			if(null!=m)
+			{
+				this.req=req;
+				this.resp=resp;
+				m.invoke(this, new Object[] {});
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("ERROR_001_找不到目标方法！");
+		}
+	}
+```
 
 
 
@@ -121,14 +143,15 @@ void init(ServletConfig config)
 ​	Step2：读取 Servlet 类上的 Annotation ,为每一组 Servlet 的配置都生成一个 ServletConfig 对象,
 ​	             共享ServletContext对象
 ​	Step3：用户第一次通过 url 访问 web 资源
-​	Step4：Servlet 容器（tomcat）会检查用户访问的 url 是不是对应一个 Servlet
-​		服务器会比对服务器上每一个 ServletConfig 对象所封装的 url 是不是和你请求的 url 相同，
-​		如果相同就找到了目标 Servlet 对应的 ServletConfig 对象
+
+###### ​	Step4：Servlet 容器（tomcat）会检查用户访问的 url 是不是对应一个 Servlet，服务器会比对服务器上每一个 ServletConfig 对象所封装的 url 是不是和你请求的 url 相同，如果相同就找到了目标 Servlet 对应的 ServletConfig 对象
+
 ​	Step5:实例化 Servlet 对象，并调用 init 方法把对应的 ServletConfig 对象传给 Servlet
 ​	Step6:自动调用 Servlet 对象的 service 方法
 
 ​	Step7:第二次访问的 URL 对应 Servlet 时，直接调用 Servlet 对象的 service 方法
-​		Servlet 是单实例长驻服务器内存的，只有第一次访问才实例对象，并调用 init 方法
+
+###### ​		Servlet 是单实例长驻服务器内存的，只有第一次访问才实例对象，并调用 init 方法
 
 ​	Step8:当服务器宕机时，会调用 Servlet 的 destory（）
 
@@ -145,41 +168,42 @@ void init(ServletConfig config)
 
 ###### void	setCharacterEncoding(java.lang.String env) 
 
-​			设置请求编码格式			
+​		设置请求编码格式			
 
 ###### 	Enumeration<java.lang.String>  getParameterNames() 
 
 ​		得到所有参数名的集合
 
-###### 	String[] getParameterValues(java.lang.String name) 
+###### 	String[]     getParameterValues(java.lang.String name) 
 
 ​		通过参数名，得到所有参数值的数组
 
-​	Map<String,Object> getParameterMap()
+Map<String,Object>   getParameterMap()
 ​			返回所有参数的封装
 
 ###### 	java.lang.Object	getAttribute(java.lang.String name) 
 
 ​			通过参数名，得到一个值
-​	void	removeAttribute(java.lang.String name) 
+void	removeAttribute(java.lang.String name) 
 ​    			移除参数
 
- 	void	setAttribute(java.lang.String name, java.lang.Object o) 
+void	setAttribute(java.lang.String name, java.lang.Object o) 
 			通过map.put 设置参数
-	java.lang.String	getScheme() 
+
+java.lang.String	getScheme() 
           		返回协议类型
 
-#####    ServletResponse（Interface）：封装了对客户端的输出流
+###    ServletResponse（Interface）：封装了对客户端的输出流
 
 ###### 	void	setContentType(java.lang.String type) 
 
 ​		设置响应内容
 
-###### ​	java.io.PrintWriter	getWriter() 
+###### java.io.PrintWriter	getWriter() 
 
 ​		返回字符输出流
 
-###### ​	ServletOutputStream	getOutputStream() 
+###### ServletOutputStream	getOutputStream() 
 
 ​		返回字节输出流
 
@@ -192,14 +216,17 @@ void init(ServletConfig config)
 ### 8：HttpServlet（Class）: 继承了 GenericServlet,实现了 servlet 接口和 ServletConfig 接口，以后写Servlet 都继承于HttpServlet
 
    方法：
-	void	service(ServletRequest req, ServletResponse res) 
-		自动调用protected  services 方法
-	protected  void	service(HttpServletRequest req, HttpServletResponse resp) 
-		自动doXXX 方法
-	protected  void	doGet(HttpServletRequest req, HttpServletResponse resp)
-		用来执行此请求方法的请求
 
-### 9：HttpServletRequest和HttpServletResponse
+###### 	   void	service(ServletRequest req, ServletResponse res) 
+
+###### 		自动调用 protected  services 方法
+
+​	protected  void	service(HttpServletRequest req, HttpServletResponse resp) 
+​		自动doXXX 方法
+​	protected  void	doGet(HttpServletRequest req, HttpServletResponse resp)
+​		用来执行此请求方法的请求
+
+### 9：HttpServletRequest 和 HttpServletResponse
 
 ######   HttpServletRequest(Interface):实现了ServletRequest 接口，扩展了可以获取 http 协议请求报头的信息，可以获Session等
 
@@ -228,9 +255,12 @@ void init(ServletConfig config)
 		得到当前的状态码
 	 void	setStatus(int sc) 
 		设置状态码
-	 void	sendRedirect(java.lang.String location) 
-		设置跳转的页面，重定向
-	
+
+###### 	 void	sendRedirect(java.lang.String location) 
+
+###### 		设置跳转的页面，重定向
+
+​	
 
 
 
@@ -268,11 +298,13 @@ void init(ServletConfig config)
 
 ######   Post 传参：参数做为 http 请求消息的报体传给服务器
 
-​	POST /welcome HTTP/1.1
-​	Host: www.baidu.com
+```http
+POST /welcome HTTP/1.1
+Host: www.baidu.com
 
-​	Name=李四&age=22&sex=F
+Name=李四&age=22&sex=F
+```
 
-​	POST 传参相对比较安全，可以传大量的数据
+POST 传参相对比较安全，可以传大量的数据
 
 

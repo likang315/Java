@@ -1,4 +1,4 @@
-### Servlet的运行环境叫做Servlet容器
+### Servlet 的运行环境叫做 Servlet容器
 
 ### Tomcat：是一个Servlet和JSP容器，独立的 WEB 服务器软件
 

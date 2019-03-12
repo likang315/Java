@@ -2,7 +2,7 @@
 
 ###  过滤器的配置：
 
-​	1：@WebFilter("/admin/*"),通过调用顺序决定过滤顺序
+​	1：@WebFilter("/admin/*")，通过调用顺序决定过滤顺序
 ​	2：Web.xml 配置文件,通过优先配置决定过滤顺序
 
 ##### 1：Filter（InterFace）：类似于多层代理模式，逐层过滤
@@ -17,6 +17,32 @@ void	destroy()
 ​          	执行过滤
  void init(FilterConfig filterConfig) 
 ​        	初始化，一旦实例化对象调用
+
+```java
+@WebFilter("/admin/*")  //过滤检查登录
+public class CheckLogedFilter implements Filter {
+	@Override
+	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)throws IOException, ServletException 
+	{
+		 HttpServletRequest  req=(HttpServletRequest)arg0;
+		 HttpServletResponse resp=(HttpServletResponse)arg1;
+		 
+		 String url=req.getRequestURL().toString();
+		 
+		 HttpSession hs=req.getSession();
+		 Admin admin=(Admin)hs.getAttribute("loged");
+		if(null!=admin||url.indexOf("admin/login")!=-1)
+		{
+			arg2.doFilter(req, resp);
+		}else
+		{
+			resp.sendRedirect("login");
+		}
+	}
+}
+```
+
+
 
 ##### 2：FilterChain（InterFace ）：过滤链
 
@@ -37,11 +63,11 @@ HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
 <filter>
      <filter-name>welcome</filter-name>
      <filter-class>com.xupt.filter.WelcomeFilter</filter-class>
-   </filter>
-   <filter-mapping>
+</filter>
+<filter-mapping>
        <filter-name>welcome</filter-name>
        <url-pattern>/admin/*</url-pattern>
-   </filter-mapping>
+</filter-mapping>
 ```
 
 
@@ -53,7 +79,7 @@ HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
 ​	1：@WebListener 
 ​	2：Web.xml，参考ppt
 
-```
+```java
 @WebListener 配制在具体是实现类上
 <web-app>
 	<listener>

@@ -32,8 +32,8 @@ key£º¿ÉÒÔÊÇÈÎÒâÊı¾İÀàĞÍ£¬value:¿ÉÒÔÊÇNumber,boolean,String,Array,null,»¹¿ÉÒÔÊÇÇ¶
 
 ##### 2:Json ¶ÔÏó
 
-?	Ê¹ÓÃ ¶ÔÏó.key ·ÃÎÊ
-?	delete ¹Ø¼ü×ÖÀ´É¾³ı Json ¶ÔÏóµÄÊôĞÔ£¬Ö±½Ó¸³Öµ¿ÉÒÔĞŞ¸Ä
+Ê¹ÓÃ ¶ÔÏó.key ·ÃÎÊ
+delete ¹Ø¼ü×ÖÀ´É¾³ı Json ¶ÔÏóµÄÊôĞÔ£¬Ö±½Ó¸³Öµ¿ÉÒÔĞŞ¸Ä
 
 ##### 3£ºJSON.parse(text,reviver)    ½«×Ö·û´®Êı¾İ×ª»»Îª JavaScript ¶ÔÏó  
 
@@ -42,7 +42,7 @@ key£º¿ÉÒÔÊÇÈÎÒâÊı¾İÀàĞÍ£¬value:¿ÉÒÔÊÇNumber,boolean,String,Array,null,»¹¿ÉÒÔÊÇÇ¶
 
 ##### 4£º½âÎöº¯Êı
 
-?	JSON ²»ÔÊĞí°üº¬º¯Êı£¬µ«Äã¿ÉÒÔ½«º¯Êı×÷Îª×Ö·û´®´æ´¢£¬Ö®ºóÔÙ½«×Ö·û´®×ª»»Îªº¯Êı
+JSON ²»ÔÊĞí°üº¬º¯Êı£¬µ«Äã¿ÉÒÔ½«º¯Êı×÷Îª×Ö·û´®´æ´¢£¬Ö®ºóÔÙ½«×Ö·û´®×ª»»Îªº¯Êı
 
   var text = '{ "name":"Runoob", "alexa":"function () {return 10000;}", "site":"www.runoob.com"}';
   var obj = JSON.parse(text);
@@ -78,5 +78,18 @@ JavaScriptµÄº¯Êı£¬ÓÃÓÚ½« JSON ÎÄ±¾×ª»»Îª JavaScript ¶ÔÏó,Ê¹ÓÃµÄÊÇ JavaScript ±àÒ
         return str;
     }
 ```
+
+### 7£ºalibaba µÄ fastJson
+
+```xml
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.54</version>
+</dependency>
+```
+
+
+
 
 

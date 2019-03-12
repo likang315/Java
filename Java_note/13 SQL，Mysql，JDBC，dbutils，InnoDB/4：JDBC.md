@@ -1,6 +1,6 @@
-## JDBC (java database connectivty)： Java连接数据库的一种技术
+## JDBC ( java database connectivty )： Java 连接数据库的一种技术
 
-JDBC API：sun公司定义的一套接口（java.sql.*），用这些接口来操作数据库
+JDBC API：sun 公司定义的一套接口（ java.sql.* ），用这些接口来操作数据库
 
 ###### JDBC驱动程序：由驱动类和数据库访问类组成,由数据库厂商提供，可以到Mysql网站下载（mysql-connector-j.jar）
 
@@ -43,7 +43,7 @@ Class.forName("com.mysql.jdbc.Driver");
 
 
 
-### DriverManager 类：驱动管理器类，用于管理驱动，也用于得到数据库的链接对象Connection
+### DriverManager 类：驱动管理器类，用于管理驱动，也用于得到数据库的链接对象 Connection
 
 static Connection getConnection(String url) 
       	试图建立到给定数据库 URL 的连接
@@ -70,7 +70,7 @@ static Connection getConnection(String url, String user, String password)
 	Statement createStatement() 
              创建一个 Statement 对象来将 SQL 语句发送到数据库
 	PreparedStatement prepareStatement(String sql) 
-             创建一个 PreparedStatement 对象来将参数化的 SQL 语句发送到数据库。
+             创建一个 PreparedStatement 对象来将参数化的 SQL 语句发送到数据库
 	CallableStatement prepareCall(String sql) 
              创建一个 CallableStatement 对象来调用数据库存储过程  
 	void close() 
@@ -85,12 +85,13 @@ static Connection getConnection(String url, String user, String password)
 
 
 
-##### Statement 接口：用于执行静态 SQL 语句并返回它所生成结果的对象
+##### Statement 接口：用于执行 静态 SQL 语句 并返回它所生成结果的对象
 
  ResultSet executeQuery(String sql) 
          	SELECT语句
  int executeUpdate(String sql) 
      	INSERT、UPDATE 或 DELETE 语句 
+
  void addBatch(String sql) 
       	将给定的 SQL 命令添加到此 Statement 对象的当前命令列表中，调用executeBatch()可以批量执行此列表中的命令
  int[] executeBatch() 
@@ -108,11 +109,11 @@ void setInt(int parameterIndex, int x)
              将指定参数设置为给定int 值
 void setString(int parameterIndex, String x) 
 void setTime(int parameterIndex, Time x) 
- void setDate(int parameterIndex, Date x) 
+void setDate(int parameterIndex, Date x) 
 
 ```java
 String sql="insert into person(id,name,sex,age) values(?,?,?,?)";
-		PreparedStatement ps=con.prepareStatement(sql);
+PreparedStatement ps=con.prepareStatement(sql);
 		
 		for(int i=1;i<10;i++)
 		{
@@ -120,14 +121,14 @@ String sql="insert into person(id,name,sex,age) values(?,?,?,?)";
 			ps.setString(2, "name"+i);
 			ps.setString(3, i%2==0?"M":"F");
 			ps.setInt(4, 20+i);
-			ps.addBatch();
+			ps.addBatch();  //添加到命令执行列表
 		}
 		int[] re=ps.executeBatch();
 ```
 
 
 
-##### ResultSet接口：表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet中有一个记录指针
+##### ResultSet 接口：表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet 中有一个记录指针
 
 ###### 默认情况下，记录指针被置于第一行之前
 
@@ -142,19 +143,19 @@ String sql="insert into person(id,name,sex,age) values(?,?,?,?)";
 	    boolean last() 
           	将光标移动到此 ResultSet 对象的最后一行 
 	    void deleteRow() 
-                从此 ResultSet 对象和底层数据库中删除当前行，得到的对象要给对Statement 参数给对	
+                从此 ResultSet 对象和底层数据库中删除当前行，得到的对象要给对Statement 参数给对
 
 ####     ResultSetMetaData getMetaData() 
 
-?      	获取此 ResultSet 对象的结果集数据表元数据，列号、类型和属性 
+获取此 ResultSet 对象的结果集数据表元数据，列号、类型和属性 
 
-?	getXXX方法。。。。
-?	setXXX方法。。。。
-?	例：
-?		int getInt(int columnIndex) 
-?     			 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列序号的值
-?		int getInt(String columnLabel) 
-?      			 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列名的值
+getXXX方法。。。。
+setXXX方法。。。。
+例：
+int getInt(int columnIndex) 
+	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列序号的值
+int getInt(String columnLabel) 
+	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列名的值
 
 注意：
 	1：ResultSet和表没有关系，只和select语句有关系

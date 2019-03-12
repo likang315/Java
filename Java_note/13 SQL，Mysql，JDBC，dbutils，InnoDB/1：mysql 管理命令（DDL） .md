@@ -56,7 +56,7 @@
 
 ##### 6£ºĞŞ¸ÄÃÜÂë
 
-?	set password=password('mysql')£»
+set password=password('mysql')£»
 
 
 

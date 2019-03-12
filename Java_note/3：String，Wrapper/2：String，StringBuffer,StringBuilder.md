@@ -181,11 +181,11 @@ void setCharAt(int index, char ch)
 
 String substring(int start) 
 
-String toString()  
+###### String toString()  
 
-StringBuffer replace(int start, int end, String str)  
+###### StringBuffer replace(int start, int end, String str)  
 
-int length()  
+###### int length()  
 
 
 

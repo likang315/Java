@@ -88,20 +88,13 @@ synchronized(this) //监视器对象
 
 ##### synchronized 块 this锁 之间具有同步性
 
-即：当一个线程访问对象的一个synchronized  同步块，其他线程仍对同一个对象中所有的其他synchronized 同步块的访问将被阻塞，因为在**执行synchronized代码块时会锁定当前的对象**，只有执行完该代码块才能释放该对象锁，下一个线程才能执行并锁定该对象
+即：当一个线程访问对象的一个synchronized  同步块，**其他线程仍对同一个对象中所有的其他synchronized 同步块的访问将被阻塞**，因为在**执行synchronized代码块时会锁定当前的对象**，只有执行完该代码块才能释放该对象锁，下一个线程才能执行并锁定该对象
 
 ###### 当一个线程访问对象的一个synchronized(this)同步代码块时，另一个线程仍然可以访问该对象中的非synchronized(this)同步代码块
 
 
 
 #### 非this
-
-```java
-synchronized() //监视器对象
-{
-	需要同步的代码
-}
-```
 
 当有一个明确的对象作为锁时
 
@@ -212,7 +205,7 @@ void	unlock()  //释放锁
 
 ### ReenTrantLock原理：
 
-ReenTrantLock 是 JDK 实现，是一种自旋锁，通过循环调用CAS操作来实现加锁，它的性能比较好也是因为避免了使线程进入内核态的阻塞状态
+ReenTrantLock 是 **JDK 实现，是一种自旋锁，通过循环调用CAS操作来实现加锁**
 
 ```java
 public class MyService {
@@ -231,7 +224,7 @@ public class MyService {
 ```java
 //创建Condition对象来使线程wait或者唤醒，必须先执行lock.lock方法获得锁
 public class MyService {
-    private final reentrantlock lock=new reentrantlock（）；
+    private final Reentrantlock lock=new Reentrantlock（）；
     private Condition condition = lock.newCondition();
     public void testMethod() {
         try {

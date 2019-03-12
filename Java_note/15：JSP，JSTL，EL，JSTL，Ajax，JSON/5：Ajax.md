@@ -1,4 +1,4 @@
-## Ajax(Asynchronous JavaScript And XML):
+## Ajax(Asynchronous JavaScript And XML)：异步的js和xml请求
 
  使用DOM实现动态显示和交互,使用HTML和CSS标准呈现,使用XMLHttpRequest（内置对象）进行异步数据读取
 ,最后用JavaScript 绑定事件和处理所有数据
@@ -35,10 +35,10 @@ AJAX异步交互方式:
 ###### readyState  		 返回当前请求的状态
 
 ?		0 ：(未初始化)   对象已建立，但是尚未初始化（尚未调用open方法） 
-		1 ：(初始化)      对象已建立，尚未调用send方法 
-		2 ：(发送数据)   send方法已调用，但是当前的状态及http头未知 
-		3 ：(数据传送中) 已接收部分数据，因为响应及http头不全，这时通过responseText获取部分数据会出现错误 
-		4 ：(完成)          数据接收完毕,此时可以通过responseBody和responseText获取完整的回应数据 
+?		1 ：(初始化)      对象已建立，尚未调用send方法 
+?		2 ：(发送数据)   send方法已调用，但是当前的状态及http头未知 
+?		3 ：(数据传送中) 已接收部分数据，因为响应及http头不全，这时通过responseText获取部分数据会出现错误 
+?		4 ：(完成)          数据接收完毕,此时可以通过responseBody和responseText获取完整的回应数据 
 
 ###### responseText 		将响应信息作为字符串返回
 
@@ -61,7 +61,7 @@ getResponseHeader 从响应信息中获取指定的http头
 
 ### 3：如何判断前端是Ajax请求？
 
-String type = request.getHeader("X-Requested-With");  
+###### String type = request.getHeader("X-Requested-With");  
 
  requestType能拿到值，并且值为XMLHttpRequest,表示客户端的请求为异步请求，那自然是ajax请求了，反之如果为null,则是普通的请求
 
