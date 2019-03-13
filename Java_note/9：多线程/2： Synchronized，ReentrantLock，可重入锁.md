@@ -35,7 +35,7 @@
 
 ###### synchronized 关键字编译后会在同步块前后形成monitorenter和monitorexit两个字节码指令
 
-###### 执行monitorenter指令时需要先获得对象的锁（每个对象有一个监视器锁monitor），如果这个对象没被锁或者当前线程已经获得此锁（也就是重入锁），那么锁的计数器+1。如果获取失败，那么当前线程阻塞，直到锁被对另一个线程释放
+###### 执行monitorenter指令时需要先获得对象的锁（每个对象有一个监视器锁monitor），如果这个对象获取锁或者当前线程已经获得此锁（也就是重入锁），那么锁的计数器+1。如果获取失败，那么当前线程阻塞，直到锁被对另一个线程释放
 
 ###### 执行monitorexit指令时，计数器减一，当为 0 的时候锁释放
 
@@ -75,7 +75,7 @@ public static synchronized void method()
 
 ### synchronized 块（同步块）：
 
-要求多个线程对该块内的代码排队执行，但是前提条件是同步监视器对象，即：要求多个线程看到的必须是同一个对象（上锁对象），可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
+要求多个线程对该块内的代码排队执行，但是前提条件是同步监视器对象，可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
 
 #### this 锁
 
@@ -124,7 +124,7 @@ public void method()
 
 
 
-### synchronized 可以作用于类，通过反射，class锁
+### synchronized 可以作用于类，通过反射，class 锁
 
 ```java
 synchronized(ClassName.class)
@@ -153,15 +153,13 @@ static <K,V> Map<K,V>  synchronizedMap(Map<K,V> m)
 
 
 
-
-
-### 并发编程的三个特性
+### 并发编程 的 三个特性
 
 ###### 原子性，有序性
 
 ###### 可见性：指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值
 
-当一个变量被volatile修饰后，当一个线程修改共享变量后他会立即被更新到主内存中，其他线程读取共享变量时，会直接从主内存中读取。当然，synchronize和Lock都可以保证可见性。synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中。因此可以保证可见性
+当一个变量被volatile修饰后，当一个线程修改共享变量后他会立即被更新到主内存中，其他线程读取共享变量时，会直接从主内存中读取。当然，synchronize和Lock都可以保证可见性。synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中，因此可以保证可见性
 
 
 
@@ -185,7 +183,7 @@ static <K,V> Map<K,V>  synchronizedMap(Map<K,V> m)
 void	lock()  // 能获得锁就返回true，不能的话一直等待获得锁
 void	lockInterruptibly()
 //如果两个线程分别执行以上两个方法，但此时中断这两个线程，前者不会抛出异常，而后者会抛出异常
-    
+
 Condition	newCondition() //返回锁的状态
     
 boolean	tryLock()
@@ -222,7 +220,7 @@ public class MyService {
 ```
 
 ```java
-//创建Condition对象来使线程wait或者唤醒，必须先执行lock.lock方法获得锁
+//创建Condition对象来使线程 wait 或者 唤醒，必须先执行 lock.lock 方法获得锁
 public class MyService {
     private final Reentrantlock lock=new Reentrantlock（）；
     private Condition condition = lock.newCondition();
@@ -251,7 +249,7 @@ public class MyService {
 
 Condition类的signal 方法和Object类的notify 方法等效													Condition类的signalAll 方法和Object类的notifyAll 方法等效
 
-### ReentranLock 和Synchronized 的区别
+### ReentranLock 和 Synchronized 的区别
 
 ###### 1：ReentrantLock可以实现公平锁
 
