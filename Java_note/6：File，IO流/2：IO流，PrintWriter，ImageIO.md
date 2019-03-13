@@ -1,4 +1,4 @@
-#### IO操作的步骤（5步）：
+### IO操作的步骤（5步）：
 
 1：封装File对象
 2：选择io对象
@@ -8,26 +8,30 @@
 
 ### IO流：将数据是读入到内存还是从内存写出分为：输入流（读入） +  输出流（写出）
 
-输入流：全部是InputStream/Reader的子类 其类名是以InputStream/Reader结尾    进行读的操作
-输出流：全部是OutputStream/Writer的子类 其类名是以OutputStream/Writer结尾  进行写的操作
+**输入流：**全部是InputStream/Reader的子类 其类名是以InputStream/Reader结尾    进行读的操作
+**输出流：**全部是OutputStream/Writer的子类 其类名是以OutputStream/Writer结尾  进行写的操作
 
 字节流经常操作二进制的数据，比如图片，视频，音乐等等，文本文件的使用字符流
 	
 字节流（低级流）
 字节流：全部是InputStream、OutputStream的子类 其类名是以OutputStream/InputStream结尾
-	public abstract class InputStream  public abstract class OutputStream
+
+######  public abstract class InputStream
+
+######  public abstract class OutputStream
 
 ![](F:\note\6：File，IO流\IO流.png)
 
-## java.io.FileInputStream 类
+### java.io.FileInputStream  类
 
-?	public class FileInputStream extends InputStream
-?	FileInputStream：从文件系统中的某个文件中获得输入字节，文件输入流（低级流）
+###### public class FileInputStream extends InputStream
+
+FileInputStream：从文件系统中的某个文件中获得输入字节，文件输入流（低级流）
 
 ```java
 构造方法：		
 	FileInputStream(File file) 
-     		  通过打开一个到实际文件的连接来创建一个文件输入流，该文件通过文件系统中的 File 对象 file 指定
+     		通过打开一个到实际文件的连接来创建一个文件输入流，该文件通过文件系统中的 File 对象 file 指定
 	FileInputStream(String name) 
     		  通过打开一个到实际文件的连接来创建一个文件输入流，该文件通过文件系统中的路径名 name 指定
 
@@ -38,10 +42,11 @@
       		关闭此文件输入流并释放与此流有关的所有系统资源
 ```
 
-## java.io.FileOutputStream类
+### java.io.FileOutputStream类
 
-?	public class FileOutputStream extends OutputStream
-?	FileOutputStream：文件字节输出流是用于将数据写入文件中，低级流 
+###### public class FileOutputStream extends OutputStream
+
+FileOutputStream：文件字节输出流是用于将数据写入文件中，低级流 
 
 ```java
 构造方法：
@@ -60,23 +65,22 @@
       		关闭此文件输出流并释放与此流有关的所有系统资源。 
 
 注意：	覆盖写：默认创建的FOS是覆盖写的操作，FOS会先将文件数据全部删除，然后在开始写
-	追加写：在创建FOS时，若指定第二个参数，并且改值为true时，则是追加写，那么内容会被追加到末尾
+	  追加写：在创建FOS时，若指定第二个参数，并且改值为true时，则是追加写，那么内容会被追加到末尾
 ```
 
 
 
-## 字符流（高级流）
+### 字符流（高级流）
 
 字符流：全部是Reader、Writer的子类，其类名是以Reader、Writer结尾，以char为读写单位
-	字符流使用了字节流读到一个或多个字时，先去查指定的编码表，将查到的字符返回
-       
+字符流使用了字节流读到一个或多个字时，先去查指定的编码表，将查到的字符返回
 
 ```java
 public abstract class Reader  public abstract class Writer
 ```
 
 转换流：可以将字节流转换为字符流处理
-	特点：可以按照指定的字符编码集写出字符
+特点：可以按照指定的字符编码集写出字符
 
 ### InputStreamReader 类：在字符流封装了字节流
 
@@ -95,7 +99,7 @@ public class OutputStreamWriter extends Writer
 
 
 
-## 根据封装的数据将 io 分为：节点流(低级流)  +   处理流（高级流）
+### 根据封装的数据将 io 分为：节点流(低级流)  +   处理流（高级流）
 
 节点流：真实负责读写数据的流
 
@@ -105,11 +109,11 @@ public class OutputStreamWriter extends Writer
 
 注意：加缓冲流以后，在进行写的时候一定要flush()
 
-缓冲流：
-
- public class BufferedInputStream extends FilterInputStream
+### 缓冲流：
 
 ###  BufferedInputStream :在创建 BufferedInputStream 时，会创建一个内部缓冲区，使用其可以加快读写效率
+
+ public class BufferedInputStream extends FilterInputStream
 
 ```java
 构造方法：
@@ -122,9 +126,11 @@ public class OutputStreamWriter extends Writer
     		关闭此输入流并释放与该流关联的所有系统资源
 ```
 
- public class BufferedOutputStream extends FilterOutputStream
+
 
 ###  BufferedOutputStream  :该类实现缓冲的输出流
+
+######  public class BufferedOutputStream extends FilterOutputStream
 
 ```java
 构造方法：
@@ -142,17 +148,17 @@ public class OutputStreamWriter extends Writer
 
 ###  BufferedReader	:字符缓冲输入流，按行读取字符串
 
-?        构造方法：
-?	  	BufferedReader(Reader in)
-?	方法：
-?	 	int read(char[] cbuf) 
-?          		将字符读入数组的某一部分
-?		String readLine() 
-?        	  	读取一个文本行，全部到取到返回String中，若返回为NULL则表示读取到末尾
-
- public class BufferedWriter extends Writer
+构造方法：
+	BufferedReader(Reader in)
+方法：
+	int read(char[] cbuf) 
+		将字符读入数组的某一部分
+	String readLine() 
+		读取一个文本行，全部到取到返回String中，若返回为NULL则表示读取到末尾
 
 ###  BufferedWriter :字符缓冲输出流
+
+ public class BufferedWriter extends Writer
 
 ```java
 方法：
@@ -195,12 +201,9 @@ public class OutputStreamWriter extends Writer
 常用流类：
    **1：ByteArrayInputStream，ByteArrayOutputStream**  
 
-?      调用 ByteArrayInputStream 或 ByteArrayOutputStream 对象的 close 方法没有任何意义，这两个基于内存的流
-?      只要垃圾回收器清理对象就能够释放资源，不同于其他流
+?	调用 ByteArrayInputStream 或 ByteArrayOutputStream 对象的 close 方法没有任何意义，这两个基于内存的流
+?	 只要垃圾回收器清理对象就能够释放资源，不同于其他流
    **2：ImageIO**
 
 
 
-
-
-?		

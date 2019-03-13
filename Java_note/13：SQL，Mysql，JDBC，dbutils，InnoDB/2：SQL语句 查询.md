@@ -1,13 +1,13 @@
-###   1：SQL(Structured Query Language) 结构化查询语言：在关系数据库上执行数据操作，检索及维护所使用的标准语言
+###   1：SQL (Structured Query Language)  结构化查询语言：在关系数据库上执行数据操作，检索及维护所使用的标准语言
 
 SQL分为：
 	1：数据定义语言（DDL）：用于创建，修改，删除数据库的对象，数据库对象包括：表，视图，索引，序列
 	2：数据操作语言（DML）：用于改变数据表的数据。		增，删，改
-	3：事物控制语言（TCL）：用于维护数据一致性的语句。	提交，回滚，保存点
+	3：事物控制语言（TCL）： 用于维护数据一致性的语句。	提交，回滚，保存点
 	4：数据查询语言（DQL）：用于查询所需要的语言。		 
 	5：数据控制语言（DCL）：用于执行权限的授予和回收操作，维护数据库。	授予，回收，创建用户
 
-  注意：
+注意：
        1:SQL语句本身不区分大小写，但是出于可读性的目的，我们通常会将SQL的关键字全部大写，非关键字全部小写
        1: ；是不必要的但是作为一次语句的结束，分隔符，delimiter
        % 	替代一个或多个字符
@@ -23,12 +23,15 @@ SQL分为：
 
 #####   创建表（CREATE）  //通常记事本写好直接copy
 
+```sql
 CREATE TABLE 表名（
 
-?	id	数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
+	id	 数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
 	列名	数据类型（）not null DEFAULT defalut_value，
 	列名	数据类型（），
-	Foreign key( 列名) references 目标表名（列名)																				 ）;
+	Foreign key( 列名) references 目标表名（列名)											
+）;
+```
 
 ###### 外键约束： foreign key references 引用外键表(列名) 
 
@@ -43,7 +46,7 @@ CREATE TABLE 表名（
     	   2：PRIMARY KEY - 主键 确保某列（或两个列多个列的结合）有唯一标识，有助于更容易更快速地找到表中的一个特定的记录
    	   3：FOREIGN KEY - 外键 一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY(唯一约束的键)
     	   4：DEFAULT - 规定没有给列赋值时的默认值
-	   5: CHECK -  约束用于限制列中的值的范围，CHECK （条件）
+	   5:   CHECK -  约束用于限制列中的值的范围，CHECK （条件）
 
 ###   修改表（ALTER）： 
 
@@ -98,7 +101,7 @@ update stu t set t.NAME = 'mike', t.SEX = '1' where t.ID = '2';
 
 ###### 	SELECT * FROM 表名；  查看表的所有内容
 
-  SELECT 子句：后面跟要查询的字段，也可以是表中的具体字段函数或者表达式,直接在其后面加别名 as 别名；
+SELECT 子句：后面跟要查询的字段，也可以是表中的具体字段函数或者表达式,直接在其后面加别名 as 别名；
 	  那么结果集会以这个别名作为字段的名字，可以使用 "" 给别名区分大小写和添加空格
 
 ######   DISTINCT：对指定字段重复的记录去重，但是用多字段去重时，是字段的组合没有重复值(不同的)
@@ -110,9 +113,9 @@ update stu t set t.NAME = 'mike', t.SEX = '1' where t.ID = '2';
 ######   WHERE子句：用来添加限制条件，可以有多个，只将满足条件的记录查询出来
 
 ?	     1：>,<,>=,<=,<>等价于！=，=		
-?	     2：使用AND，OR，NOT，AND优先级高于OR，通过括号来提高
+?	     2：使用AND，OR，NOT，AND 优先级高于 OR，通过括号来提高
 
- 	     3：IS NULL ,IS NOT NULL :判断是不是为空
+ 	     3：IS NULL ,IS NOT NULL ：判断是不是为空
 
 ?	     4：IN，NOT IN ：判断在不在列表中[]，常用来判断子查询的结果
 ?		例：WHERE id IN （1，2）；
@@ -144,10 +147,9 @@ SELECT * FROM stu WHERE id<10;
 聚合函数：对某些字段的值进行统计的
     1：MAX（），MIN（）：求指定字段的最大值和最小值
     2：AVG，SUM：求平均值和总和
-    3：COUNT（）函数：不是对给定字段的值进行统计，而是对给定字段不为NULL的记录数进行统计，
-		          		实际上所有聚合函数都忽略NULL值的统计
-   COUNT（*）:统计这个表有多少记录，有时候返回long，有时候返回BigInteger
-   NVL（），配合进行
+    3：COUNT（）函数：对给定字段的记录进行统计
+ 	  COUNT（*）:统计这个表有多少记录，有时候返回long，有时候返回BigInteger
+ 	  NVL（），配合进行
 
  select price, count(*) AS 记录数 from A group by price;
 
@@ -192,17 +194,17 @@ SELECT column_name(s) FROM table_name2
 
 
 
-### 8:多表查询(关联查询)：
+### 8：多表查询(关联查询)：
 
 ###  从多张表中查询对应记录的信息，关联查询的重点与这些表中的记录的对应关系，这个关系也称连接条件
 
 N张表就有N-1个连接条件
 
 注意：
-1：当两张表有相同字段时，SELECT子句中必须明确指定该字段来自那张表
+1：当两张表有相同字段时，SELECT子句中必须**明确指定该字段来自那张表**
 	   在关联查询中，表名也可以有别名，在表名其后直接写，这样可以简化语句的复杂度
 
-2：关联查询要添加连接条件，否则会产生笛卡尔积
+2：关联查询要添加连接条件，否则会产生**笛卡尔积**
    它是一个无意义的结果集，它的记录数是与所有参与查询的表的记录数乘积的结果，当数据量大时，会出现内存溢出
 
 3：连接条件，过滤条件全部写在WHERE中
@@ -212,13 +214,13 @@ N张表就有N-1个连接条件
 
 ### 9：连接查询(JOIN)：用来完成关联查询
 
-![](G:\Java\Java_note\13 SQL，Mysql，JDBC，dbutils，InnoDB\连接查询.jpg)
+![](G:\Java\Java_note\13：SQL，Mysql，JDBC，dbutils，InnoDB\连接查询.jpg)
 
 ##### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
 
 ###### 	FROM 表名1 表1对象 INNER JOIN 表2名 表2对象 ON 连接条件 WHERE 过滤条件
 
-例： select e.id,d.dname as dep_name,e.name,e.sex,e.age FROM emp e INNER JOIN dep d ON e.dep_id=d.id; 
+例： select e.id,d.dname as dep_name,e.name,e.sex,e.age FROM emp e **INNER JOIN** dep d **ON e.dep_id=d.id;** 
 
 ##### 外链接：所有数据都显示
 
@@ -232,7 +234,7 @@ N张表就有N-1个连接条件
 
   例：select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e RIGHT JOIN dep d ON e.dep_id=d.id;
 
-## 10：EXPLAIN
+### 10：EXPLAIN：SQL执行计划
 
 ###### 查看运行SQL语句时哪种策略预计会被优化器采用，查看有没有走索引
 
@@ -246,11 +248,11 @@ N张表就有N-1个连接条件
 
 #### 1：id：包含一组数字，表示查询中执行select子句或操作表的顺序
 
-?	1：id相同，执行顺序由上至下
+1：id相同，执行顺序由上至下
 
-?	2：如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行
+2：如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行
 
-?	3：id 如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行
+3：id 如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行
 
 #### 2：select_type  示查询中每个select子句的类型（简单OR复杂）
 
@@ -267,15 +269,15 @@ N张表就有N-1个连接条件
 
 **从左到右，性能从最差到最好**
 
-?	ALL：全表扫描
+ALL：全表扫描
 
-?	index：只遍历索引树
+index：只遍历索引树
 
-?	range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的行
+range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的行
 
-?	ref：使用非唯一索引扫描或者唯一索引的前缀扫描，返回匹配某个单独值的记录行
+ref：使用**非唯一索引扫描或者唯一索引的前缀扫描，返回匹配某个单独值的记录行**
 
- 	NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引（覆盖索引）
+ NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引（覆盖索引）
 
 #### 4：possible_keys  ：指出MySQL能使用哪个索引在表中找到记录，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用
 
@@ -289,17 +291,17 @@ N张表就有N-1个连接条件
 
 #### 9： Extra：包含不适合在其他列中显示但十分重要的额外信息
 
-?	Using index ：该值表示相应的select操作中使用了覆盖索引
+Using index ：该值表示相应的select操作中使用了**覆盖索引**
 
-?	Using where：表示mysql服务器将在存储引擎检索行后再进行过滤
+Using where：表示mysql服务器将**在存储引擎检索行后再进行过滤**
 
-?	Using temporary：表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询
+Using temporary：表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询
 
 #### 10：Table ：执行SQL用到的表名
 
 
 
-### 11：select 语句的执行过程（from--where--group by--having--select--order by, ）
+### 11：select 语句的执行过程（ from--where--group by--having--select--order by ）
 
 　　1、from子句组装来自不同数据源的数据； 
 　　2、where子句基于指定的条件对记录行进行筛选； 
@@ -311,7 +313,7 @@ N张表就有N-1个连接条件
 
 ### 12：sql 语句的优化
 
-**from 子句--执行顺序为从后往前、从右到左**
+**from 子句 -- 执行顺序为从后往前、从右到左**
 
 最后面的那个表名为驱动表，执行顺序为从后往前, 所以数据量较少的表尽量放后
 

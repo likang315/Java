@@ -1,5 +1,5 @@
 
-RTTI(Run-Time Type Identification):运行时类型识别,RTT能在运行时就能够自动识别每个编译时已知的类型
+RTTI(Run-Time Type Identification)：运行时类型识别,RTTI能在运行时就能够自动识别每个编译时已知的类型
 
 ## JAVA反射机制
 
@@ -65,12 +65,11 @@ Method getMethod(String name, Class<?>... parameterTypes)
 
 ​		
   方法： 
-​	**void setAccessible(boolean flag**) 
+**void setAccessible(boolean flag**) 
 ​      	   将此对象的 accessible 标志设置为指示的布尔值，然后设置可访问性(true)
 
 java.lang.reflect.Constructor<T>
 	提供关于类的单个构造方法的信息以及对它的访问权
-
 
 java.lang.reflect.Field（class）
 	 Field 类的对象描述了当前类中的所有属性信息，一个Field类的对象就是该类中一个属性的信息

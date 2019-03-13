@@ -38,7 +38,7 @@
 查询开销大，会使 mysql 数据库的缓存失效，建议分表操作，把大字段单独存储一个表
 查询影响大，严重时会触发热页换出
 
-### 5：MySQL自带的cache
+### 5：MySQL自带的 cache
 
 ​	**大小：256KB ,最大存储16页(16 X 16)**
 ​	MySQL是以页面作为最小缓存单位，读每次返回一页的数据
@@ -89,15 +89,13 @@
 
 12：**页面修改完成后，会把修改后的物理页面保存到redo log buffer中**，（redo log buffer会以相关参数定义的规则进行刷盘操作写入到redo tablespace中）
 
-13.如果**开启bin log，则更新数据的逻辑语句也会记录在binlog_cache中**
-
-14：如果该表上有二级索引并且本次操作会影响到二级索引，则会把相关的二级索引修改写入到innodb_buffer_pool中的change buffer里（change buffer 会以相关参数定义的规则进行刷盘操作写入所属表空间中）
+13.如果**开启bin log，则更新数据的逻辑语句也会记录在bin log_cache中**
 
 15：便是**事务的commit**或者rollback操作
 
 16：执行 commit 操作后，由于要**保证redo log与bin log的一致性，redo log采用2阶段提交方式**
 
-17：将**undo log buffer及redo log buffer刷盘**（innodb_flush_log_at_trx_commit=1），并将该事务的**redolog标记为prepare 状态**
+17：将**undo log buffer及redo log buffer刷盘**（innodb_flush_log_at_trx_commit=1），并将该事务的**redo log标记为prepare 状态**
 
 18：**将 bin log_cache 数据刷盘**（sync_binlog=1）
 
@@ -112,7 +110,7 @@
 ### 9：数据库写负载的连锁反应
 
 ​	1：大量数据写入时，DB禁止一切写操作,强制刷盘
-​	2：热点数据的频繁写入，严重的mutex(互斥锁)争用，数据库雪崩效应
+​	2：热点数据的频繁写入，严重的 mutex (互斥锁)争用，数据库雪崩效应
 
    数据库选择：关系型数据库不适合频繁的更新的场景，数据持久化的压力、数据库锁(mutex)竞争压力
 
@@ -161,7 +159,7 @@
 
 ### 15：分库分表操作
 
-##### 垂直划分：基于数据库中的"列"进行
+##### 垂直划分：基于数据库中的 "列" 进行
 
 把关联度较低的字段，或者大字段放入另一个表中
 
@@ -169,7 +167,7 @@
 
 1：按照时间区间（早上，下午）或ID区间来切分
 
-2：一般采用hash取模mod的切分方式
+2：一般采用 hash 取模 mod 的切分方式
 
 
 

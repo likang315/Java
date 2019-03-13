@@ -7,16 +7,16 @@ JDBC API：sun 公司定义的一套接口（ java.sql.* ），用这些接口来操作数据库
 配置JBDC驱动程序： D:\mysql-connector-java-5.1.20-bin.jar
 IDEA配置：jar包导入
 
-驱动类：JDBC 实现了 Java.SQL.Drive接口
-数据库访问类分别实现了JDBC规范中,定义的数据库访问接口，主要包含有Connection(连接接口)，Statement(语句接口）和ResultSet(结果集接口)三种接口
+驱动类：JDBC 实现了 Java.SQL.Drive 接口
+数据库访问类分别实现了JDBC规范中,定义的数据库访问接口，主要包含有Connection(连接接口)，Statement(语句接口）和 ResultSet (结果集接口) 三种接口
 
-##### Java.SQL.Drive接口：每个驱动程序类必须实现的接口 
+##### Java.SQL.Drive 接口：每个驱动程序类必须实现的接口 
 
 ##### JDBC 驱动程序工作过程可分为加载阶段、建立连接阶段和数据访问阶段
 
 建立连接阶段将驱动类实例注册到DriverManager(驱动程序管理器)中，建立数据库连接
 
-###### DriverManager:是一个JDBC驱动程序管理器，所有的驱动程序使用前都必须在其上登记注册，它提供对所有已注册驱动程序的管理	
+###### DriverManager：是一个JDBC驱动程序管理器，所有的驱动程序使用前都必须在其上登记注册，它对所有已注册驱动程序的管理	
 
 ###### 1：加载驱动：    得到class对象
 
@@ -30,7 +30,7 @@ Class.forName("com.mysql.jdbc.Driver");
 3：	    Properties p=new Properties();  //Map<String,String>
 		p.setProperty("user","root");
 		p.setProperty("password","mysql");
-   Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",p);
+   Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",p);
 ```
 
 ###### 3：数据访问
@@ -158,13 +158,13 @@ int getInt(String columnLabel)
 	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列名的值
 
 注意：
-	1：ResultSet和表没有关系，只和select语句有关系
+	1：ResultSet 和 表没有关系，只和 select 语句有关系
 	2：SQL语句中拼接："+ +"
 	3：带有 ' 符号的字符串可能会改变SQL语句的结构，所以使用PreparedStatement接口，先发送预编译的格式，再发参数，安全
 
 
 
-##### ResultSetMetaData接口：封装了ResultSet结果表结构的原数据信息
+##### ResultSetMetaData接口：封装了 ResultSet 结果表结构的原数据信息
 
 getColunmCount()：取结果集总共有几列
 getColumnName(i)：取指定列的名字称

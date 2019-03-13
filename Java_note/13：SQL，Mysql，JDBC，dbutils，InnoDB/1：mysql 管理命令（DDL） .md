@@ -1,9 +1,9 @@
-### 1：数据库的基础知识
+### 1：数据库 的 基础知识
 
 数据库管理系统（DBMS）：管理数据库的软件
 
    DB2数据库：关系型数据库
-   Microsoft SQL Server数据库 
+   Microsoft SQL Server 数据库 
    MySQL数据库：小型关系型数据库管理系统，开源的，Oracle 旗下，  c/c++编写的，64位系统支持最大的表文件为8TB
    Oracle数据库，学习的，商用收费，侵权
 
@@ -18,29 +18,29 @@
 记录（元组）：数据表中的一行
 字段：数据表中的一列
 
-表与表之间存在关联关系，一对一，一对多，多对多 三种关系
+###### 表与表之间存在关联关系，一对一，一对多，多对多 三种关系
 
   主键（PRIMARY KEY）：其值能唯一地标识表中的每一行，作用是用于其他表的外键关联，以及本记录的修改与删除
-  外键(FOREIGN KEY)  ：存放另一个表中主键的值的字段来表示关联，它的值必须是其他表中已存在的值
-                       例：FOREIGN KEY (dep_id) REFERENCES dep(id) )
+  外键(FOREIGN KEY)  ：   存放另一个表中主键的值的字段来表示关联，它的值必须是其他表中已存在的值
+  例：FOREIGN KEY (dep_id) REFERENCES dep(id) )
 
-##### 2：MySQL服务 启动和关闭
+### 2：MySQL 服务 启动 和 关闭
 
-   DOS命令行，root权限下
+   DOS命令行，root 权限下
 	net start mysql
-	net stop mysql 
+	net stop mysql
    Linux命令行
 	service mysqld stop
 	service mdsqld start
 
-##### 3: mysql数据库 登录和退出 
+### 3: mysql数据库 登录和退出 
 
-?    登录      mysql -uroot -pmysql(密码) 
-?    退出      \q
-?    查看状态  \s
-?    修改分隔符   delimiter 分隔符
+登录      mysql -uroot -pmysql(密码) 
+退出      \q
+查看状态  \s
+修改分隔符   delimiter 分隔符
 
-##### 4: 数据库管理 
+### 4: 数据库管理 
 
    show databases; 		查看当前服务器上管理的所有数据库 
    create database 数据库名;    创建数据库
@@ -50,11 +50,11 @@
    mysql -uroot -p 数据库名 < sql的URL    导入数据库 
    mysqldump -uroot -p xupt > xupt.sql
 
-##### 5：查看帮助 
+### 5：查看帮助 
 
    ？...   
 
-##### 6：修改密码
+### 6：修改密码
 
 set password=password('mysql')；
 
