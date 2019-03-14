@@ -33,10 +33,11 @@ CGI(Common Gateway Interface)：通用网关接口，指Web服务器在接受到
 
 ###### 1：Tomcat启动时，会为每个 web 应用(网站)实例化一个ServletContext 对象，每个站点的 web.xml 会被解析实例化 ServletContext 对象
 
-2：同一个 web 应用，所有 ServletConfig 共享 ServletContext
-3：ServletContext 的生命周期是伴随服务器生命周期（tomcat 启动，实例化 servletContext 对象，tomcat关闭，才释放 ServletContext）
+###### 2：同一个 web 应用，所有 ServletConfig 共享 ServletContext
 
-  方法：
+###### 3：ServletContext 的生命周期是伴随服务器生命周期（tomcat 启动，实例化 servletContext 对象，tomcat关闭，才释放 ServletContext）
+
+方法：
 java.lang.Object	getAttribute(java.lang.String name) 
 		根据指定的属性名返回属性,web.xml 的属性
 java.util.Enumeration<java.lang.String>	 getAttributeNames() 
