@@ -163,7 +163,7 @@ public V get(Object key) {
 
 Jdk1.8
 
-1. 计算 key 的 hash 值，根据 hash 值找到对应数组下标: hash & (length-1)
+1. 计算 key 的 hash 值，根据 hash 值找到**对应数组下标**: hash & (length-1)
 2. 判断数组该位置处的元素是否刚好就是我们要找的，如果不是，走第三步
 3. 判断该元素类型是否是 TreeNode，如果是，用红黑树的方法取数据，如果不是，走第四步
 4. 遍历链表，直到找到相等(==或equals)的 key
