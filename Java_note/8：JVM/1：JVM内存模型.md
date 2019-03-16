@@ -5,7 +5,7 @@ JVM
 
 ### 1：内存模型（JMM(Java Memory Model)）
 
-![](G:\Java\Java_note\8：JVM\jvm内存模型.png)
+![jvm内存模型.png](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png?raw=true)
 
 
 

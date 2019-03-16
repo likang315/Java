@@ -96,7 +96,7 @@ final int hash(Object k) {
 
 ÒòÎªµ±Á½¸öÏß³ÌÍ¬Ê±½øĞĞputµÄ²Ù×÷Ê±£¬¸ÕºÃÒªÀ©Èİ£¬Ò»¸öÏß³ÌÀ©ÈİÊ±ĞİÃß£¬ÁíÒ»¸öÏß³ÌÀ©Èİ£¬ÔÙhashÍêÊ±£¬ÁíÒ»¸öÏß³Ì¼ÌĞø£¬´ËÊ±¾Íµ¼ÖÂ»·ĞÎÁ´±í
 
-![](G:\Java\Java_note\4£º·ºĞÍ£¬¼¯ºÏ£¬Map\HashMapÑ­»·Á´±í.png)
+![HashMapÑ­»·Á´±í.png](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/HashMap%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.png?raw=true)
 
 ###### 8£ºput²Ù×÷£¨jdk 1.7 ºÍjdk1.8£©
 
@@ -183,7 +183,9 @@ int size()                      ---------------·µ»Ø´ËÓ³ÉäÖĞµÄ¼ü-ÖµÓ³Éä¹ØÏµÊı
 
 ### 3£ºClass LinkedHashMap<K,V>£ºÎªÁË½â¾öhashmap²»±£Ö¤Ó³ÉäË³ĞòµÄ£¨ÎŞĞò£©ÎÊÌâ£¬µü´úË³Ğò
 
-   public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
+   public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>¡¢
+
+![LinkedHashMap.png](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/LinkedHashMap.png?raw=true)
 
    HashMapºÍË«ÏòÁ´±íºÏ¶şÎªÒ»¼´ÊÇLinkedHashMap
    ËüÊÇ½«ËùÓĞEntry½ÚµãÁ´ÈëÒ»¸öË«ÏòÁ´±íµÄHashMap,Ã¿´Îput½øÀ´EntryÓ³Éä¹ØÏµ£¬³ıÁË½«Æä±£´æµ½¹şÏ£±íÖĞ¶ÔÓ¦µÄÎ»ÖÃÉÏÖ®Íâ£¬»¹»á½«Æä²åÈëµ½Ë«ÏòÁ´±íµÄÎ²²¿£¬ÄÚ²¿Àà¶îÍâÔö¼ÓµÄÁ½¸öÊôĞÔÀ´Î¬»¤µÄÒ»¸öË«ÏòÁ´±í£ºbefore¡¢AfterÊÇÓÃÓÚÎ¬»¤Entry²åÈëµÄÏÈºóË³ĞòµÄ
@@ -258,6 +260,8 @@ segment ²»ÄÜÀ©Èİ£¬À©ÈİÊÇ segment Êı×éÄÚ²¿µÄÊı×é HashEntry\[] ½øĞĞÀ©Èİ£¬À©Èİºó£¬È
  TreeMap²»Ö§³Önull¼ü£¬µ«ÊÇÖ§³ÖnullÖµ£¬ÅÅĞòÊ±
 
  **TreeMap±¾ÖÊÊÇÒ»¿ÅºìºÚÊ÷ , R-B TreeÊÇÒ»ÖÖ¶ş²æ²éÕÒÊ÷£¬ËùÓĞ·ûºÏ¶ş²æ²éÕÒÊ÷µÄÌØµã**
+
+TreeMap»ùÓÚ**ºìºÚÊ÷£¨Red-Black tree£©ÊµÏÖ**¡£¸ÃÓ³Éä¸ù¾İ**Æä¼üµÄ×ÔÈ»Ë³Ğò½øĞĞÅÅĞò**£¬»òÕß¸ù¾İ**´´½¨Ó³ÉäÊ±Ìá¹©µÄ Comparator ½øĞĞÅÅĞò**£¬¾ßÌåÈ¡¾öÓÚÊ¹ÓÃµÄ¹¹Ôì·½·¨
 
 ¹¹Ôì·½·¨£º
 	TreeMap()				    -------------Ê¹ÓÃ¼üµÄ×ÔÈ»Ë³Ğò¹¹ÔìÒ»¸öĞÂµÄ¡¢¿ÕµÄÊ÷Ó³Éä

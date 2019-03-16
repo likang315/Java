@@ -2,7 +2,7 @@
 
 ### Spring的事务管理机制实现的原理:
 
-通过动态代理对所有需要事务管理的Bean进行加载，并根据配置在invoke方法中对当前调用的 法名进行判定，并在method.invoke方法前后为其加上合适的事务管理代码
+通过**动态代理**对所有需要事务管理的Bean进行加载，并根据配置在invoke方法中对当前调用的方法名进行判定，并在method.invoke方法前后为其加上合适的事务管理代码
 
 ##### 4：JDBC 对事务的支持
 
@@ -52,11 +52,11 @@ private static ThreadLocal<Connection>  connThreadLocal = new ThreadLocal<Connec
 
 ######    Spring 事务管理 SPI（Service Provider Interface）的抽象层主要包括 3 个接口，
 
-   PlatformTransactionManager：事务管理器,事务的提交,回滚等操作全部交给它来实现
+   **PlatformTransactionManager：**事务管理器,**事务的提交,回滚等操作全部交给它来实现**
 	
-   TransactionDefinition：用于事物的属性配置,描述事务的隔离级别、超时时间、是否为只读事务和事务传播规则等控制事务具体行为的事务属性，这些事务属性可以通过 XML 配置或注解描述提供
+   **TransactionDefinition：**用于**事物的属性配置,描述事务的隔离级别、超时时间、是否为只读事务和事务传播规则**等控制事务具体行为的事务属性，这些事务属性可以通过 XML 配置或注解描述提供
 
-   TransactionStatus：描述激活事务的状态
+   **TransactionStatus：**描述**激活事务的状态**
 
 ### 8：Spring JDBC：基于数据源的管理器
 

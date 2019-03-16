@@ -125,7 +125,7 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 新生代中的对象98%都是“朝生夕死”的，当然，98%的对象可回收只是一般场景下的数据，我们没有办法保证每次回收都只有不多于10%的对象存活，当Survivor空间不够用时，需要依赖于老年代进行分配担保，所以直接把大对象进入老年代
 
-![](G:\Java\Java_note\8：JVM\新生代，老年代，永久代.jpg)
+![新生代，老年代，永久代.jpg](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/%E6%96%B0%E7%94%9F%E4%BB%A3%EF%BC%8C%E8%80%81%E5%B9%B4%E4%BB%A3%EF%BC%8C%E6%B0%B8%E4%B9%85%E4%BB%A3.jpg?raw=true)
 
 ##### 新生代又分为 Eden区、ServivorFrom、ServivorTo三个区
 
@@ -171,6 +171,8 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 ### 9：垃圾收集器：(STW: Stop The World：最小停顿时间)
 
+![垃圾回收器.jpg](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8.jpg?raw=true)
+
 ####    1：Serial + Serial Old（串行收集器组合）
 
 开启选项：`-XX:+SerialGC`
@@ -206,11 +208,9 @@ GC roots（GC根），在JAVA语言中，可以当做GC roots的对象有以下几种：
 
 
 
-##### CMS的执行过程可以分为以下几个阶段：
+##### CMS的执行过程可以分为以下几个阶段
 
-![](G:\Java\Java_note\8：JVM\CMS.png)
-
-#####   
+![CMS.png](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/CMS.png?raw=true)
 
 ###### 1：InitialMarking（初始化标记）
 

@@ -9,6 +9,8 @@ Collection：集合类的根接口，Collection 表示一组对象的引用，这些对象也称为 collec
 
 Java 中 没有提供这个接口的直接的实现类，但是却让其被继承产生了两个接口，就是 Set 和 List
 
+![Framework.png](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/Framework.png?raw=true)
+
 ###   Collection 的优化子接口：List（接口）+    Set（接口) +（Queue--队列接口）
 
 #####    List：是一个有序的集合，可以包含重复的元素，提供了按索引访问的方式

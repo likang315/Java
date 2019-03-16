@@ -20,7 +20,7 @@
 
 ######  public abstract class OutputStream
 
-![](F:\note\6：File，IO流\IO流.png)
+![IO流.png](https://github.com/likang315/Java/blob/master/Java_note/6%EF%BC%9AFile%EF%BC%8CIO%E6%B5%81/IO%E6%B5%81.png?raw=true)
 
 ### java.io.FileInputStream  类
 
