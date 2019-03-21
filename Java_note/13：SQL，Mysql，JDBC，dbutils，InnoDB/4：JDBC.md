@@ -12,7 +12,7 @@ IDEA配置：jar包导入
 
 ##### Java.SQL.Drive 接口：每个驱动程序类必须实现的接口 
 
-##### JDBC 驱动程序工作过程可分为加载阶段、建立连接阶段和数据访问阶段
+##### JDBC 驱动程序工作过程可分为 加载阶段、建立连接阶段 和 数据访问阶段
 
 建立连接阶段将驱动类实例注册到DriverManager(驱动程序管理器)中，建立数据库连接
 
@@ -54,9 +54,10 @@ static Connection getConnection(String url, String user, String password)
 
 注意：jdbc连接不同的数据库，方法全部一样，只是两个地方不一样，驱动类和url不一样
 
-常用的数据库对应的JDBC驱动
-	Oracle:oracle.jdbc.driver.OracleDriver 
-	MySQL:com.mysql.jdbc.Driver
+###### 常用的数据库对应的JDBC驱动
+
+?	Oracle:oracle.jdbc.driver.OracleDriver 
+?	MySQL:com.mysql.jdbc.Driver
 
 常见数据库的URL
 	Oracle：jdbc:oracle:thin:@computerName或IP地址:端口:数据库名称
@@ -153,9 +154,9 @@ getXXX方法。。。。
 setXXX方法。。。。
 例：
 int getInt(int columnIndex) 
-	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列序号的值
+	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中**指定列序号的值**
 int getInt(String columnLabel) 
-	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中指定列名的值
+	 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行**中指定列名的值**
 
 注意：
 	1：ResultSet 和 表没有关系，只和 select 语句有关系

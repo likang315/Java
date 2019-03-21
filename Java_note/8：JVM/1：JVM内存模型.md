@@ -103,6 +103,16 @@ javaÓÀ¾Ã´úÒç³ö£¬¼´·½·¨ÇøÒç³öÁË£¬**Ò»°ã³öÏÖÓÚ´óÁ¿Class»òÕßjspÒ³Ãæ£¬»òÕß²ÉÓÃcglibµ
 
 ²»»áÅ×OOM error£¬µ«Ò²ÊÇ±È½Ï³£¼ûµÄJavaÄÚ´æÒç³ö¡£JAVAÐéÄâ»úÕ»Òç³ö£¬Ò»°ãÊÇÓÉ**ÓÚ³ÌÐòÖÐ´æÔÚËÀÑ­»·»òÕßÉî¶ÈµÝ¹éµ÷ÓÃÔì³ÉµÄ**£¬Õ»´óÐ¡ÉèÖÃÌ«Ð¡Ò²»á³öÏÖ´ËÖÖÒç³ö£¬¿ÉÒÔÍ¨¹ýÐéÄâ»ú²ÎÊý-XssÀ´ÉèÖÃÕ»µÄ´óÐ¡
 
+½â¾ö·½Ê½£º
+
+1£ºÈÃÉî¶ÈµÝ¹é±éÀú³É·ÇµÝ¹é±éÀú
+
+2£ºËÀÑ­»·£¬ÉèÖÃãÐÖµ£¬³¬³öÖ®ºó£¬Ö±½ÓÖÕÖ¹Ö´ÐÐ
+
+3£ºµ÷ÕûÕ»µÄ´óÐ¡
+
+4£ºÊ¹ÓÃstatic¶ÔÏóÌæ´únonstatic¾Ö²¿¶ÔÏó£¬»¹ÓÐÌÓÒÝ·ÖÎö
+
 
 
 ### 7£ºÌÓÒÝ·ÖÎö

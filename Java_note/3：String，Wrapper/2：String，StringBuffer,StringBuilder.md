@@ -105,9 +105,9 @@ public void test(String status) {
 
 ###### 	char[] toCharArray()  ---将String返回char类型数组
 
-###### ?     	char charAt(int index)  ---根据索引值获取相应的字符,从0开始
+###### char charAt(int index)  ---根据索引值获取相应的字符,从0开始
 
-?	int compareTo(String anotherString) ---比较字符串的大小
+int compareTo(String anotherString) ---比较字符串的大小
 
 ?	String concat(String str)   -----想该字符串末尾拼接字符串等同+号操作
 ?	boolean contains(CharSequence s)  -----判断是否包含目标字符串
@@ -154,7 +154,11 @@ public void test(String status) {
 ######  public final class StringBuffer  extends AbstractStringBuilder implements java.io.Serializable, CharSequence
 
 每个字符串缓冲区都有一定的容量。只要字符串缓冲区所包含的字符序列的长度没有超出此容量，就无需分配新的内部缓冲区数组如果内部缓冲区溢出，则此容量自动增大
-	 	 
+
+### 扩容机制
+
+根据**当前数组长度的 2倍+2 和 新增加字符串长度+原有数组长度 进行比较,**如果前者小于后者,那么扩容后的长度就是后者,如果前者大于后者那么扩容后的数组长度就是前者
+
 构造方法：
 StringBuffer() 
           构造一个其中不带字符的字符串缓冲区，**初始容量为 16 个字符**	 

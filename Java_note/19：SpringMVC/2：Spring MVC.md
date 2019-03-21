@@ -12,7 +12,7 @@ Spring MVC 所有的请求都会通过一个前端控制器（front controller�
 ######  2：控制映射：DispatcherServlet 的任务是将请求发送给 Spring MVC 控制器（controller）
 
 控制器是一个用于处理请求的 Spring 组件,在典型的应用程序中可能会有多个控制器，DispatcherServlet 需要知道应该将
-请求发送给哪个控制器,所以 DispatcherServlet会查询一个或多个处理器映射（handler mapping）来确定请求的下一站在哪处理器映射会根据请求所携带的 URL 信息来进行决策
+请求发送给哪个控制器,所以 DispatcherServlet会查询一个或多个**处理器映射（handler mapping）**来确定请求的下一站在哪处理器映射会根据请求所携带的 URL 信息来进行决策
 
 ######  3：控制器处理：选择合适的控制器，DispatcherServlet 会将请求发送给选中的控制器 
 

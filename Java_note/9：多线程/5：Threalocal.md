@@ -20,17 +20,20 @@ void`  `set(T value)
 
 static <S> ThreadLocal<S>`  `withInitial(Supplier<? extends S> supplier)
 
+1：通过getMap()获取每个子线程**Thread 持有自己的ThreadLocalMap实例**, 因此它们是不存在并发竞争的。可以理解为每个线程有自己的变量副本
 
+2：ThreadLocalMap中Entry[]数组存储数据，初始化长度16，后续每次都是2倍扩容。**主线程中定义了几个变量，Entry[]才有几个key**
 
-1：通过getMap()获取每个子线程Thread 持有自己的**ThreadLocalMap实例,** 因此它们是不存在并发竞争的。可以理解为每个线程有自己的变量副本
-
-2：ThreadLocalMap中Entry[]数组存储数据，初始化长度16，后续每次都是2倍扩容。主线程中定义了几个变量，Entry[]才有几个key
-
- 3：Entry的key是对ThreadLocal的弱引用，当抛弃掉ThreadLocal对象时，垃圾收集器会忽略这个key的引用而清理掉ThreadLocal对象， 防止了内存泄漏
+ 3：**Entry的key是对ThreadLocal的弱引用**，当抛弃掉ThreadLocal对象时，垃**圾收集器会忽略这个key的引用而清理掉ThreadLocal对象， 防止了内存泄漏**
 
 ### ThreadLocalMap 是ThreadLocal 的一个内部类
 
-ThreadLocalMap是一个定制的哈希映射，仅适用于维护线程本地值。ThreadLocalMap类是包私有的，允许在Thread类中声明字段。为了帮助处理非常大且长时间的使用，哈希表entry使用了对键的弱引用，有助于GC回收
+```java
+ThreadLocalMap<ThreadLocal,Object>   
+		//键值对数量为ThreadLocal的数量
+```
 
-##### key为当前ThreadLocal对象，value则是对应线程的变量副本
+ThreadLocalMap是一个定制的哈希映射，仅适用于维护线程本地值。ThreadLocalMap类是包私有的，允许在Thread类中声明字段，哈希表entry使用了对键的弱引用，有助于GC回收
+
+##### key 当前 ThreadLocal 对象，value则是对应线程的变量副本
 

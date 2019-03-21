@@ -30,7 +30,7 @@ boolean contains(Object o) -----  如果此 collection 包含指定的元素，则返回 true
 
 Object[] toArray() -------------  返回包含此 collection 中所有元素的数组
 
-###### Iterator<E> iterator() ---------  返回集合的迭代器，是实现了Iterator 的实现类
+**Iterator<E> iterator() ---------  返回集合的迭代器，是实现了Iterator 的实现类**
 
 ### 2：Collections
 

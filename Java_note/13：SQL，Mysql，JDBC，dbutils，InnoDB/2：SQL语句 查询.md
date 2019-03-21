@@ -4,7 +4,7 @@ SQL分为：
 	1：数据定义语言（DDL）：用于创建，修改，删除数据库的对象，数据库对象包括：表，视图，索引，序列
 	2：数据操作语言（DML）：用于改变数据表的数据。		增，删，改
 	3：事物控制语言（TCL）： 用于维护数据一致性的语句。	提交，回滚，保存点
-	4：数据查询语言（DQL）：用于查询所需要的语言。		 
+	4：数据查询语言（DQL）：用于查询所需要的语言
 	5：数据控制语言（DCL）：用于执行权限的授予和回收操作，维护数据库。	授予，回收，创建用户
 
 注意：
@@ -26,7 +26,7 @@ SQL分为：
 ```sql
 CREATE TABLE 表名（
 
-	id	 数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
+	id	  数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
 	列名	数据类型（）not null DEFAULT defalut_value，
 	列名	数据类型（），
 	Foreign key( 列名) references 目标表名（列名)											
@@ -214,7 +214,7 @@ N张表就有N-1个连接条件
 
 ### 9：连接查询(JOIN)：用来完成关联查询
 
-![](G:\Java\Java_note\13：SQL，Mysql，JDBC，dbutils，InnoDB\连接查询.jpg)
+![](G:\Java\Java_note\13：SQL，Mysql，JDBC，dbutils，InnoDB\连接查询.png)
 
 ##### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
 
@@ -329,7 +329,7 @@ Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
 
 避免使用HAVING 子句, HAVING 只会在检索出所有记录之后才对结果集进行过滤. 这个处理需要排序,总计等操作
 
-**select子句--少用\*号，尽量取字段名称**
+**select子句--少用*号，尽量取字段名称**
 
 在解析的过程中, 会将依次转换成所有的列名, 这个工作是通过查询数据字典完成的, 使用列名意味着将减少消耗时间
 
