@@ -197,6 +197,8 @@ int size()                      ---------------返回此映射中的键-值映射关系数
 
 ### 3：Class LinkedHashMap<K,V>：为了解决 hashmap 不保证映射顺序的（无序）问题，迭代顺序
 
+![LinkedHashMap.jpg](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/LinkedHashMap.jpg?raw=true)
+
 ```java
 public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
 {
