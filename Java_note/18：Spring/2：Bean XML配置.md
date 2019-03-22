@@ -1,4 +1,4 @@
-### 1：Bean 标签的定义
+### 1：Bean  标签的定义
 
 ##### 	Property:
 
@@ -72,7 +72,7 @@
     <bean id="exampleBean" class="examples.ExampleBean">
 	<constructor-arg type="int" value="7500000"/>
 	<constructor-arg type="java.lang.String" value="42"/>
-      </bean>
+    </bean>
 或
      <bean id="exampleBean" class="examples.ExampleBean">
 	<constructor-arg index="0" value="7500000"/>
@@ -82,13 +82,14 @@
     <bean id="exampleBean" class="examples.ExampleBean">
 	<constructor-arg name="years" value="7500000"/>
 	<constructor-arg name="ultimateAnswer" value="42"/>
-     </bean>
+    </bean>
 ```
 
 
 
-#####  2：Setter方法注入
+#####  2：Setter 方法注入
 
+```xml
 <bean id="exampleBean" class="examples.ExampleBean">
 	<property name="beanOne" ref="anotherExampleBean"/>
 	<property name="beanTwo" ref="yetAnotherBean"/>
@@ -99,23 +100,30 @@
 <bean id="yetAnotherBean" class="examples.YetAnotherBean"/>
 
 <bean id="mappings" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-
-<property name="properties">
-	<value>
-		jdbc.driver.className=com.mysql.jdbc.Driver
-		jdbc.url=jdbc:mysql://localhost:3306/xupt
-	</value>
-</property>
+    <property name="properties">
+        <value>
+            jdbc.driver.className=com.mysql.jdbc.Driver
+            jdbc.url=jdbc:mysql://localhost:3306/xupt
+        </value>
+    </property>
 </bean>
+```
+
+
 
 ##### 3：IDREF 配置
 
-##### <bean id="theTargetBean" class="..."/>
+```xml
+<bean id="theTargetBean" class="..."/>
+
 <bean id="theClientBean" class="...">
 	<property name="targetName">
 		<idref bean="theTargetBean" />
 	</property>
 </bean>
+```
+
+
 
 ###### 4：Ref:不带有验证功能,注入的是bean的实例 
 
@@ -125,14 +133,18 @@
 
 ##### 5：Inner beans
 
+```xml
 <bean id="outer" class="...">
 	<property name="target">
-		<bean class="com.example.Person">             <!-- this is the inner bean -->
+		<bean class="com.example.Person">    <!-- this is the inner bean -->
 			<property name="name" value="Fiona Apple"/>
 			<property name="age" value="25"/>
 		</bean>
 	</property>
 </bean>
+```
+
+
 
 ##### 6：集合类型的装配
 
@@ -163,6 +175,7 @@
 
 ##### 7：空配置
 
+```xml
 <bean class="ExampleBean">
 	<property name="email" value=""/>
 </bean>
@@ -172,10 +185,15 @@
 		<null/>
 	</property>
 </bean>
+```
+
+
 
 ##### 8：延迟初始化
 
+```xml
 <bean id="lazy" class="com.foo.ExpensiveToCreateBean" lazy-init="true"/>
+```
 
 ##### 9：自动装配（Autowiring modes）
 
@@ -216,11 +234,11 @@
 
 ## 11：Bean 的生命周期
 
-1：Spring 对 bean 进行实例化
-2：init-method="方法名"     初始化对象之前调用此方法
-3：Spring 将值和 bean的引用注入到 bean 对应的属性中
-4：bean 已经准备就绪， 可以被应用程序使用了， 它们将一直驻留在应用上下文中， 直到该应用上下文被销毁
-5：destory-method="方法名"  销毁对象之前调用此方法
+1：Spring 对 **bean 进行实例化**
+2：**init-method="方法名"**     初始化对象之前调用此方法
+3：Spring 将**值和 bean的引用注入到 bean 对应的属性**中
+4：bean 已经准备就绪， 可以被应用程序使用了， 它们**将一直驻留在应用上下文中， 直到该应用上下文被销毁**
+5：**destory-method="方法名"**  销毁对象之前调用此方法
 	
 
 

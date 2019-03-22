@@ -29,11 +29,11 @@ Public class AppConfig{}
 
 ##### 4：Annotation 自动装配
 
-@Autowired  自动装配，从容器中取出此类的对象赋给它，按照byType注入,适用于bean属性构造方法、setter 方法
+**@Autowired  自**动装配，从容器中取出此类的对象赋给它，**按照byType注入,适用于bean属性构造方法、setter 方法**
 
-@Resource ：默认按照byName自动注入策略，如果使用type属性时则使用byType自动注入策略，如果既不指定name也不指定type属性，这是将通过反射机制使用byName自动注入
+**@Resource ：**默认按照**byName自动注入策**略，如果使用type属性时则使用byType自动注入策略，如果既不指定name也不指定type属性，这是将通过反射机制使用byName自动注入
 
-@Qualifier  选择装配 bean 的标识，用于多个 bean 无法确定装配哪个的情况,起别名	，通过byName获取对象					
+**@Qualifier**  选择装配 bean 的标识，用于多个 bean 无法确定装配哪个的情况,起别名	，**通过byName获取对象**					
 
 ```java
 @Qualifier("dev")
@@ -45,7 +45,7 @@ protected ArticleDao articleDao;
 	<qualifier value="main"/>
 </bean>
 
-@Primary 用于声明 bean 是首选的，用在多个 bean，无法选择装配谁的情况
+**@Primary** 用于声明 bean 是首选的，用在多个 bean，无法选择装配谁的情况
 	<bean id="" class="example.SimpleMovieCatalog" primary="true">
 
 ##### 5：Bean 的初始化方法与销毁

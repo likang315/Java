@@ -84,7 +84,46 @@ boolean equals(Object o) ----------------------  ±È½ÏÖ¸¶¨µÄ¶ÔÏó(ÁĞ±í)ÓëÁĞ±íÊÇ·ñÏ
 
 ######    Class Vector <E>£ºÊı×éĞòÁĞ,Vector Ïß³Ì°²È«£¬¸øÃ¿Ò»¸ö·½·¨¼ÓÁËÍ¬²½Ëø£¬Ğ§ÂÊµÍ£¬ÒÔÊÊÓ¦´´½¨ Vector ºó½øĞĞÌí¼Ó»òÒÆ³ıÏîµÄ²Ù×÷
 
-³õÊ¼ÈİÁ¿10£¬À©ÈİËæ×ÅÔªËØµÄÔö³¤¶øÔö³¤
+**³õÊ¼ÈİÁ¿10£¬**À©ÈİËæ×ÅÔªËØµÄÔö³¤¶øÔö³¤
+
+**À©Èİ»úÖÆ£º**¾ÍÊÇ¸ù¾İcapacityIncrement£¨ÈİÁ¿Ôö³¤Òò×Ó£©È·ÈÏÀ©Èİ´óĞ¡µÄ£¬Èô**capacityIncrement <= 0 ÔòÀ©´óÒ»±¶**£¬·ñ**ÔòÔÚÔ­À´ÈİÁ¿µÄ»ù´¡ÉÏ¼ÓÉÏcapacityIncrement** £¬µ±È»Õâ¸öÈİÁ¿µÄ**×î´ó·¶Î§ÎªInteger.MAX_VALUE¼´£¬2^32 - 1**£¬ËùÒÔVector²¢²»ÊÇ¿ÉÒÔÎŞÏŞÀ©³äµÄ
+
+**À©Èİ¹ı³Ì£º**ÉêÇënewCapacity ĞÂ¿Õ¼ä£¬È»ºó½«Ô­¿Õ¼äÄÚÈİ¿½±´¹ıÀ´,²¢ÊÍ·ÅÔ­¿Õ¼ä£¬vectorµÄ¿Õ¼ä¶¯Ì¬Ôö¼Ó´óĞ¡£¬²¢²»ÊÇÔÚÔ­¿Õ¼äÖ®ºóµÄÏàÁÚµØÖ·Ôö¼ÓĞÂ¿Õ¼ä£¬vectorµÄ¿Õ¼äÊÇÏßĞÔÁ¬Ğø·ÖÅäµÄ
+
+```java
+protected int capacityIncrement;
+public Vector() {
+        this(10);
+}
+
+//¿ÉÒÔÖ¸¶¨³õÊ¼ÈİÁ¿ºÍÈİÁ¿Ôö³¤Òò×Ó£¨Ä¬ÈÏÎª£º0£©
+public Vector(int initialCapacity, int capacityIncrement) {}
+
+//À©Èİ»úÖÆ
+private void grow(int minCapacity) 
+{
+    //µ±Ç°ÈİÆ÷´óĞ¡
+    int oldCapacity = elementData.length; 
+    //ĞÂÈİÁ¿
+    int newCapacity = oldCapacity + ((capacityIncrement > 0) ?capacityIncrement : oldCapacity);
+        
+        if (newCapacity - minCapacity < 0)
+            newCapacity = minCapacity;
+        
+        if (newCapacity - MAX_ARRAY_SIZE > 0)
+            newCapacity = hugeCapacity(minCapacity);
+        elementData = Arrays.copyOf(elementData, newCapacity);
+}
+//ÅĞ¶ÏÊÇ·ñ³¬³ö×î´ó·¶Î§
+private static int hugeCapacity(int minCapacity)
+{
+        if (minCapacity < 0)
+            throw new OutOfMemoryError();
+        return (minCapacity > MAX_ARRAY_SIZE) ? Integer.MAX_VALUE : MAX_ARRAY_SIZE;
+}
+```
+
+
 
 ######    Class ArrayList<E>£ºÊı×éĞòÁĞ,±¾ÖÊ¶¼ÊÇObject[]Êı×é£¬Ö»²»¹ıArrayListÏß³Ì²»°²È«Ğ§ÂÊ¸ß£¬¶ÔĞòÁĞÕûÌå½øĞĞ²Ù×÷£¬ÓÃÊı×éÊµÏÖµÄ
 

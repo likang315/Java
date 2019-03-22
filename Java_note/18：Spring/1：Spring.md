@@ -58,9 +58,9 @@
 ##### 4： 初始化Spring Ioc 容器：ApplicationContext.xml
 
 Spring 自带了多种类型的应用上下文
-ClassPathXmlApplicationContext：从类路径下的一个或多个XML配置文件中加载上下文定义,把应用上下文的定义文件作为类资源
+**ClassPathXmlApplicationContext**：从**类路径下的一个或多个XML配置文件中加载上下文定义**,把应用上下文的定义文件作为类资源
 
-FileSystemXmlapplicationcontext：从文件系统下的一个或多个 XML 配置文件中加载上下文定义AnnotationConfigApplicationContext：从一个或多个基于 Java 的配置类中加载 Spring 应用上下文
+**FileSystemXmlapplicationcontext：****从文件系统下的一个或多个 XML 配置**文件中加载上下文定义**AnnotationConfigApplicationContext：**从一个或多个基于 **Java 的配置类中加载 Spring 应用上下文**
 AnnotationConfigWebApplicationContext：从一个或多个基于 Java 的配置类中加载 Spring Web 应用上下文
 XmlWebApplicationContext： 从 Web 应用下的一个或多个XML 配置文件中加载上下文定义
 

@@ -1,8 +1,6 @@
 ## Spring profile：
 
-### Spring容器中所定义的Bean的逻辑组名称，只有当这些Profile被激活的时候，才会将Profile中所对应的Bean注册到
-
-Spring容器中，开发时可以定义不同的配置文件
+### Spring容器中所定义的Bean的逻辑组名称，只有当这些Profile被激活的时候，才会将Profile中所对应的Bean注册到Spring容器中，开发时可以定义不同的配置文件
 
 ##### 1：配置 profile bean
 
@@ -22,7 +20,7 @@ Spring容器中，开发时可以定义不同的配置文件
 ​				}
 ​			}
 
-###### ​	2：在 spring3.2  开始允许在方法级别上应用@profile
+###### 2：在 spring3.2  开始允许在方法级别上应用@profile
 
 ###### 	3：xml文件中配置名字空间添加
 
@@ -46,8 +44,8 @@ Spring容器中，开发时可以定义不同的配置文件
 ##### 2：激活 Profile
 
 Spring 在确定哪个 profile 处理激活状态时，需要依赖两个独立的属性：
-	spring.profiles.active
-	spring.profiles.default
+	**spring.profiles.active**
+	**spring.profiles.default**
 若设置spring.profiles.active,那么它的值起作用,在没有spring.profiles.active属性值时,会查找 spring.profiles.default，如果
 都没有设置，就不会激活 profile
 	有多种方式设置以上两个属性：
@@ -80,7 +78,7 @@ Spring 在确定哪个 profile 处理激活状态时，需要依赖两个独立�
 
 ##### 3：条件化 Bean（@Conditional("xxx.class")）
 
-​	Spring 4引入了一个新的@Conditional 注解，它可以用到带@Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean
+​	Spring 4引入了一个新的**@Conditional 注解，它可以用到带 @Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean**
 
 设置给@Conditional 的类可以是任意实现了 Condition 接口的类型,实现 Condition 接中的matches 方法，返回 boolean 类型的结果
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {}
@@ -115,7 +113,7 @@ ConditionContext ：
 
 在 Spring 中，处理外部值的最简单方式就是声明属性源并通过 Spring 的 Environment 来检索属性
 		App.properties文件
-		testbean.name=myTestBean
+		testbean.name = myTestBean
 
 @Configuration
 @PropertySource("classpath:/com/myco/app.properties") //这个属性文件会加载到 Environment 中
