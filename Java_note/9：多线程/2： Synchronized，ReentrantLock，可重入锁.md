@@ -10,11 +10,11 @@
 
 ### 线程同步的方式
 
-**1：互斥量：**采用互斥对象机制，只有**拥有互斥对象的线程才有访问公共资源的权限**。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问
+**1：互斥量：(加锁)** 采用互斥对象机制，只有**拥有互斥对象的线程才有访问公共资源的权限**。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问
 
 **2：信号量：**它允许同一时刻多个线程访问同一资源，但是需要控制**同一时刻访问此资源的最大线程数量**
 
-**3：事件机制：**则允许一个线程在处理完一个任务后，**主动唤醒另外一个线程执行任务**
+**3：事件机制：（wait / notify）**则允许一个线程在处理完一个任务后，**主动唤醒另外一个线程执行任务**
 
 
 
@@ -185,6 +185,8 @@ static <K,V> Map<K,V>  synchronizedMap(Map<K,V> m)
 
 
 
+
+
 ### 为什么支持重复加锁？
 
 因为源码中用变量 c 来保存当前锁被获取了多少次，故在释放时，对 c 变量进行减操作，只有 c 变量为 0 时，才算锁的最终释放。所以可以 lock 多次，同时 unlock 也必须与 lock 同样的次数
@@ -207,7 +209,7 @@ void	unlock()  //释放锁
 
 
 
-### java.util.concurrent.locks 
+## java.util.concurrent.locks;
 
 ### Class ReentrantLock：可重入锁
 
@@ -275,7 +277,7 @@ Condition类的signal 方法和Object类的notify 方法等效													Condi
 
 ReentrantLock还给我们提供了获取锁限时等待的方法`tryLock()`,可以选择传入时间参数,表示等待指定的时间,无参则表示立即返回锁申请的结果:true表示获取锁成功,false表示获取锁失败
 
-‘
+
 
 ### Lock 的 公平锁和 非公平锁：
 
@@ -287,6 +289,33 @@ Lock lock=new ReentrantLock(false);//非公平锁，设置优先级，使用效�
 ###### 公平锁：指的是线程获取锁的顺序是按照加锁顺序来的，而非公平锁指的是抢锁机制，先lock的线程不一定先获得锁
 
 公平锁是严格的以FIFO的方式进行锁的竞争，但是非公平锁是无序的锁竞争，刚释放锁的线程很大程度上能比较快的获取到锁，队列中的线程只能等待，所以非公平锁可能会有“饥饿”的问题。但是重**复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的影响是比较大的**，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
+
+
+
+### ReadWriteLock：管理一组锁，一个是只读的锁，一个是写锁
+
+```java
+public interface ReadWriteLock
+{
+    //Returns the lock used for reading
+    Lock readLock();
+    // Returns the lock used for writing
+    Lock writeLock();
+}
+```
+
+
+
+### ReetrantReadWriteLock：
+
+```java
+public class ReentrantReadWriteLock   implements ReadWriteLock, java.io.Serializable
+```
+
+1：读写锁的实现中**，读锁使用共享模式；写锁使用独占模式**
+2：当有**读锁时，写锁就不能获得**，而当**有写锁时，除了获得写锁的这个线程可以获得读锁外，其他线程不能获得读锁**
+
+
 
 ### 读写锁：Lock类有读锁和写锁，读读共享，写写互斥，读写互斥
 

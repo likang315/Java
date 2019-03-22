@@ -195,16 +195,94 @@ void clear()                    ---------------从此映射中移除所有映射关系
 int size()                      ---------------返回此映射中的键-值映射关系数 
     
 
-### 3：Class LinkedHashMap<K,V>：为了解决hashmap不保证映射顺序的（无序）问题，迭代顺序
+### 3：Class LinkedHashMap<K,V>：为了解决 hashmap 不保证映射顺序的（无序）问题，迭代顺序
 
-   public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>、
+```java
+public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
+{
+	// 用于指向双向链表的头部
+    transient LinkedHashMap.Entry<K,V> head;
+    //用于指向双向链表的尾部
+    transient LinkedHashMap.Entry<K,V> tail;
+    //用来指定LinkedHashMap的迭代顺序，true则表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链		表的最末尾,false则表示按照插入顺序来
+    //创建对象默认为False,使用插入实现有序，若传入ture，使用访问顺序进行有序 如果传入用来实现 LAU 算法
+    final boolean accessOrder;
+    public LinkedHashMap(int initialCapacity,float loadFactor,boolean accessOrder) {
+   		super(initialCapacity, loadFactor) ;//HashMap
+   		this.accessOrder = accessOrder ;
+    }
+    //取值
+    public V get(Object key) {
+          Node<K,V> e;
+          //调用HashMap的getNode的方法
+          if ((e = getNode(hash(key), key)) == null)
+            return null;
+          //在取值后对参数accessOrder进行判断，如果为true，执行afterNodeAccess
+          if (accessOrder)
+            afterNodeAccess(e);  //将最近使用的Entry，放在链表的最末尾
+          return e.value;
+	}
+    
+    static class Entry<K,V> extends HashMap.Node<K,V> {
+            //用于维护双向链表
+            Entry<K,V> before, after;
+            Entry(int hash, K key, V value, Node<K,V> next) {
+                super(hash, key, value, next);
+            }
+    }
+    
+    abstract class LinkedHashIterator {
+          //记录下一个Entry
+          LinkedHashMap.Entry<K,V> next;
+          //记录当前的Entry
+          LinkedHashMap.Entry<K,V> current;
+          //记录是否发生了迭代过程中的修改
+          int expectedModCount;
 
-![LinkedHashMap.png](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/LinkedHashMap.png?raw=true)
+          LinkedHashIterator() {
+            //初始化的时候把head给next
+            next = head;
+            expectedModCount = modCount;
+            current = null;
+          }
 
-   **HashMap和双向链表合二为一**即是LinkedHashMap
-它是将所有Entry节点链入一个双向链表的HashMap,每次**put进来Entry映射关系，除了将其保存到哈希表中对应的位置上之外，还会将其插入到双向链表的尾部**，内部类额外增加的两个属性来维护的一个双向链表**：before、After**是用于维护Entry插入的先后顺序的
+          public final boolean hasNext() {
+            return next != null;
+          }
 
-next用于维护HashMap各个存储位置的Entry链，哈希冲突时 外部类新添加的两个属性Header,AccessOrder属性，当创建对象默认为False,使用插入实现有序，若传入ture，使用访问顺序进行有序 如果传入用来实现 LAU 算法
+          //这里采用的是链表方式的遍历方式
+          final LinkedHashMap.Entry<K,V> nextNode() {
+            LinkedHashMap.Entry<K,V> e = next;
+            if (modCount != expectedModCount)
+              throw new ConcurrentModificationException();
+            if (e == null)
+              throw new NoSuchElementException();
+            //记录当前的Entry
+            current = e;
+            //直接拿after给next
+            next = e.after;
+            return e;
+          }
+
+          public final void remove() {
+                Node<K,V> p = current;
+                if (p == null)
+                  throw new IllegalStateException();
+                if (modCount != expectedModCount)
+                  throw new ConcurrentModificationException();
+                current = null ;
+                K key = p.key;
+                removeNode(hash(key), key, null, false, false);
+                expectedModCount = modCount;
+          }
+	}
+}
+```
+
+**HashMap 和 双向链表 合二为一** 即是LinkedHashMap
+它是将所有Entry节点链入一个双向链表的HashMap,每次 **put 进来 Entry映射关系，除了将其保存到哈希表中对应的位置上之外，还会将其插入到双向链表的尾部**，内部类额外增加的两个属性来维护的一个双向链表**：before、After**是用于维护Entry插入的先后顺序的
+
+next 用于维护 HashMap 各个存储位置的 Entry 链，哈希冲突时 外部类新添加的两个属性Header,AccessOrder属性，当
 
 ### 4：Class Hashtable<K,V> ：HashMap 的升级版，并发,多线程的情况下，使用Hashmap进行put操作会引起死循环,导致CPU利用率接近100%
 

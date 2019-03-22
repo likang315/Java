@@ -11,11 +11,13 @@ Java ÖĞ Ã»ÓĞÌá¹©Õâ¸ö½Ó¿ÚµÄÖ±½ÓµÄÊµÏÖÀà£¬µ«ÊÇÈ´ÈÃÆä±»¼Ì³Ğ²úÉúÁËÁ½¸ö½Ó¿Ú£¬¾ÍÊÇ Set
 
 ![Framework.png](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/Framework.png?raw=true)
 
-###   Collection µÄÓÅ»¯×Ó½Ó¿Ú£ºList£¨½Ó¿Ú£©+    Set£¨½Ó¿Ú) +£¨Queue--¶ÓÁĞ½Ó¿Ú£©
+###   Collection µÄÓÅ»¯×Ó½Ó¿Ú£ºList£¨½Ó¿Ú£©+    Set£¨½Ó¿Ú) +  Queue£¨¶ÓÁĞ½Ó¿Ú£©
 
 #####    List£ºÊÇÒ»¸öÓĞĞòµÄ¼¯ºÏ£¬¿ÉÒÔ°üº¬ÖØ¸´µÄÔªËØ£¬Ìá¹©ÁË°´Ë÷Òı·ÃÎÊµÄ·½Ê½
 
 #####    Set£ºÎŞĞòµÄ£¬²»°üº¬ÖØ¸´µÄÔªËØ
+
+##### Deque£ºË«Ïò¶ÓÁĞ£¬QueueµÄ×Ó½Ó¿Ú
 
    ·½·¨£º
 boolean	add(E e)   -------------  Íù¼¯ºÏÖĞÌí¼ÓÔªËØ
@@ -140,7 +142,7 @@ ArrayList<E>(int initialCapacity) -------- ¹¹ÔìÒ»¸ö¾ßÓĞÖ¸¶¨³õÊ¼ÈİÁ¿µÄ¿ÕÁĞ±í
    ·½·¨£º
 	boolean add(E e)               ½«Ö¸¶¨µÄÔªËØÌí¼Óµ½´ËÁĞ±íµÄÎ²²¿
         void add(int index, E element) ½«Ö¸¶¨µÄÔªËØ²åÈë´ËÁĞ±íÖĞµÄÖ¸¶¨Î»ÖÃ,ÏÈµ÷ÓÃensureCapacity£¨size+1),È»ºó¿½±´Êı×é£¬¸³Öµ
- 	boolean addAll(int index, Collection<? extends E> c)´ÓÖ¸¶¨µÄÎ»ÖÃ¿ªÊ¼£¬½«Ö¸¶¨ collection ÖĞµÄËùÓĞÔªËØ²åÈëµ½´ËÁĞ±íÖĞ 
+ 	boolean addAll(int index, Collection<? extends E> c)´ÓÖ¸¶¨µÄÎ»ÖÃ¿ªÊ¼£¬½«Ö¸¶¨ collection ÖĞµÄËùÓĞÔªËØ²åÈëµ½´ËÁĞ±íÖĞ
 		
 
 E remove(int index)          --------------------  ÒÆ³ı´ËÁĞ±íÖĞÖ¸¶¨Î»ÖÃÉÏµÄÔªËØ 
@@ -161,21 +163,108 @@ Iterator<E> iterator()      ---------------------  ·µ»Ø°´ÊÊµ±Ë³ĞòÔÚÁĞ±íµÄÔªËØÉÏ½
 Object[] toArray()          ---------------------  °´ÊÊµ±Ë³Ğò£¨´ÓµÚÒ»¸öµ½×îºóÒ»¸öÔªËØ£©·µ»Ø°üº¬´ËÁĞ±íÖĞ
 							   	ËùÓĞÔªËØµÄÊı×é	
 
-######   Class LinkedList<E>£ºÁ´±íĞòÁĞ£¬Òò´ËÔÚÔö¼Ó£¬É¾³ıÊ±Ğ§ÂÊ¸ß £¬Ö÷ÒªÖ´ĞĞÉ¾³ı£¬²åÈë£¬µ¥¸ö¼¯ºÏÔªËØµÄ²Ù×÷£¬²»ÊÇÏß³Ì°²È«µÄ 
+######   Class LinkedList<E>£ºÁ´±íĞòÁĞ£¬Òò´ËÔÚÔö¼Ó£¬É¾³ıÊ±Ğ§ÂÊ¸ß £¬Ö÷ÒªÖ´ĞĞÉ¾³ı£¬²åÈë£¬µ¥¸ö¼¯ºÏÔªËØµÄ²Ù×÷£¬·ÇÏß³Ì°²È«µÄÀà
 
-###### 		       			        ÓÃË«ÏòÁ´±íÊµÏÖµÄ£¬Ïß³Ì²»°²È«Àà£¬Ã»ÓĞ¼Ó synchronized
+###### 		       			        ÓÃË«ÏòÁ´±íÊµÏÖµÄ
 
-Ë«ÏòÁ´±í£ºÓÅµã£¬Ôö¼ÓÉ¾³ı£¬ÓÃÊ±¼äºÜ¶Ì£¬µ«ÊÇÒòÎªÃ»ÓĞË÷Òı£¬¶ÔË÷ÒıµÄ²Ù×÷£¬±È½ÏÂé·³£¬Í¨¹ı¼ÆÊıË÷ÒıÀ´ÊµÏÖindex,.ÊÇÃ¿´ÎÑ­»·µÄÊ±ºò£¬¶¼»áÏÈÅĞ¶ÏÒ»ÏÂindex ºÍ size£¨£©/2µÄ´óĞ¡ £¬Õâ¸öË÷ÒıÎ»ÓÚÁ´±íµÄÇ°²¿·Ö»¹ÊÇºó²¿·Ö£¬Ã¿´Î¶¼»á±éÀúÁ´±íµÄÒ»°ë £¬¶ø²»ÊÇÈ«²¿±éÀú
+Í¨¹ı**Ë«ÏòÁ´±íÈ¥ÊµÏÖ**µÄ£¬¼ÈÈ»ÊÇË«ÏòÁ´±í£¬ÄÇÃ´ËüµÄ**Ë³Ğò·ÃÎÊ»á·Ç³£¸ßĞ§£¬¶øËæ»ú·ÃÎÊĞ§ÂÊ±È½ÏµÍ**
 
-¹¹Ôì·½·¨£º
-	LinkedList() ------------- ¹¹ÔìÒ»¸ö¿ÕÁ´±í 
-     	LinkedList(Collection<? extends E> c) -------- ¹¹ÔìÒ»¸ö°üº¬Ö¸¶¨ collection ÖĞµÄÔªËØµÄÁĞ±í£¬
-						       ÕâĞ©ÔªËØ°´Æä collection µÄµü´úÆ÷·µ»ØµÄË³ĞòÅÅÁĞ
-    	
-·½·¨£º
+LinkedList  ÊµÏÖ List ½Ó¿ÚµÄ£¬¿ÉÒÔÍ¨¹ıÏÂ±êÀ´·ÃÎÊ£¬ÄÇÃ´ÈçºÎ½«¡°**Ë«ÏòÁ´±íºÍË÷ÒıÖµÁªÏµÆğÀ´µÄ**¡±£¿
+ËüÍ¨¹ıÒ»¸ö**¼ÆÊıË÷ÒıÖµ index**À´ÊµÏÖµÄ¡£ÀıÈç£¬µ±ÎÒÃÇµ÷ÓÃget(int location)Ê±£¬Ê×ÏÈ»á±È½Ï **¡°location¡±ºÍ¡°Ë«ÏòÁ´±í³¤¶ÈµÄ1/2¡±**£»ÈôÇ°Õß´ó£¬Ôò´ÓÁ´±íÍ·¿ªÊ¼Íùºó²éÕÒ£¬Ö±µ½ location Î»ÖÃ£»·ñÔò£¬´ÓÁ´±íÄ©Î²¿ªÊ¼ÏòÇ°²éÕÒ£¬Ö±µ½locationÎ»ÖÃ
+
+```java
+public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Cloneable, java.io.Serializable
+{
+	//Node ½áµãµÄ¸öÊı
+	transient int size = 0;
+	//Ö¸ÏòÍ·½áµã
+	transient Node<E> first;
+	//Ö¸ÏòÎ²½Úµã
+	transient Node<E> last;
+	
+    public LinkedList() {
+    }
+	//Ìí¼Ó¼¯ºÏÖĞµÄËùÓĞÔªËØ
+    public LinkedList(Collection<? extends E> c) {
+        this();
+        addAll(c);
+    }
+    
+    //Ìí¼ÓÔªËØÎ²²¿£¬¿ÉÒÔÌí¼Óµ½Ö¸¶¨Î»ÖÃ
+    public boolean add(E e) {
+        linkLast(e);
+        return true;
+    }
+
+	void linkLast(E e) {
+        final Node<E> l = last; //Ö¸ÏòÁ´±íÎ²²¿
+        final Node<E> newNode = new Node<>(l, e, null); //ÒÔÎ²²¿ÎªÇ°Çı½Úµã´´½¨Ò»¸öĞÂ½Úµã
+        last = newNode;//½«Á´±íÎ²²¿Ö¸ÏòĞÂ½Úµã
+        if (l == null)//Èç¹ûÁ´±íÎª¿Õ£¬ÄÇÃ´¸Ã½Úµã¼ÈÊÇÍ·½ÚµãÒ²ÊÇÎ²½Úµã
+            first = newNode;
+        else//Á´±í²»Îª¿Õ£¬ÄÇÃ´½«¸Ã½áµã×÷ÎªÔ­Á´±íÎ²²¿µÄºó¼Ì½Úµã
+            l.next = newNode;
+        size++;//Ôö¼Ó³ß´ç
+        modCount++; //Fast-Fail»úÖÆ
+     }
+     
+     //Í¨¹ıË÷ÒıµÃµ½Node
+     public E get(int index) {
+        //¼ì²é±ß½ç,¿´ÊÇ·ñÔ½½ç
+        checkElementIndex(index);
+        return node(index).item;
+    }
+    
+    //remove ÔªËØÖ¸¶¨¶ÔÏó£¬»¹¿ÉÒÔÍ¨¹ıË÷ÒıÉ¾³ı
+    public boolean remove(Object o) {
+        //Èç¹ûÉ¾³ı¶ÔÏóÎªnull
+        if (o == null) {
+            //´ÓÇ°Ïòºó±éÀú
+            for (Node<E> x = first; x != null; x = x.next) {
+                //Ò»µ©Æ¥Åä£¬  µ÷ÓÃunlink()·½·¨½«¸Ã½Úµã´ÓÁ´±íÖĞÒÆ³ı²¢ÇÒ·µ»Øtrue
+                if (x.item == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            //´ÓÇ°Ïòºó±éÀú
+            for (Node<E> x = first; x != null; x = x.next) {
+                //Ò»µ©Æ¥Åä£¬µ÷ÓÃunlink()·½·¨ºÍ·µ»Øtrue
+                if (o.equals(x.item)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+  
+}
+
+
+private static class Node<E> {
+        E item;
+        Node<E> next;
+        Node<E> prev;
+
+        Node(Node<E> prev, E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+        }
+}
+```
+
+###### ¹¹Ôì·½·¨£º
+
+?	LinkedList() ------------- ¹¹ÔìÒ»¸ö¿ÕÁ´±í 
+?     	LinkedList(Collection<? extends E> c) -------- ¹¹ÔìÒ»¸ö°üº¬Ö¸¶¨ collection ÖĞµÄÔªËØµÄÁĞ±í£¬ÕâĞ©ÔªËØ°´Æä collection µÄµü´úÆ÷·µ»ØµÄË³ĞòÅÅÁĞ
+
+###### ·½·¨£º
+
 void addFirst(E e) --------------   ½«Ö¸¶¨ÔªËØ²åÈë´ËÁĞ±íµÄ¿ªÍ·
 void addLast(E e) ---------------   ½«Ö¸¶¨ÔªËØÌí¼Óµ½´ËÁĞ±íµÄ½áÎ²
-	
 
 E remove(int index)																					E set(int index, E element)
 
@@ -186,7 +275,7 @@ E getLast()     -----------------   ·µ»Ø´ËÁĞ±íµÄ×îºóÒ»¸öÔªËØ
 
 ListIterator<E> listIterator(int index)   -------- ·µ»Ø´ËÁĞ±íÖĞµÄÔªËØµÄÁĞ±íµü´úÆ÷£¨°´ÊÊµ±Ë³Ğò£©£¬´ÓÁĞ±íÖĞÖ¸¶¨Î»ÖÃ¿ªÊ¼ 
 
-##### CopyOnWriteArrayList£ºĞ´Ê±¸´ÖÆµÄÈİÆ÷£¬¶Á¶àĞ´ÉÙµÄ³¡¾°																				public class CopyOnWriteArrayList<E>  implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+##### CopyOnWriteArrayList£ºĞ´Ê±¸´ÖÆµÄÈİÆ÷£¬¶Á¶àĞ´ÉÙµÄ³¡¾°	s																public class CopyOnWriteArrayList<E>  implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 
 - ÊµÏÖÁËList½Ó¿Ú
 - ÄÚ²¿³ÖÓĞÒ»¸ö ReentrantLock lock = new ReentrantLock();¿ÉÖØÈëËø

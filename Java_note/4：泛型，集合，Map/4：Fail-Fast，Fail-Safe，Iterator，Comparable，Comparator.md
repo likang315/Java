@@ -2,7 +2,7 @@
 
 java 集合中的一种错误检测机制。当多个线程对同一个集合的内容进行操作时，就可能会产生fail-fast事件，抛出异常java.util.ConcurrentModificationException
 
-原理：集合中 modCount 属性用来记录List修改的次数：每修改一次(添加/删除等操作)，将 modCount+1，调用 next() 和 remove()时， 都会执行 checkForComodification(),若"modCount != expectedModCount"，则抛出ConcurrentModificationException 异常， 产生fail-fast事件
+原理：集合中 **modCount 属性**用来记录List修改的次数：每修改一次(添加/删除等操作)，将 modCount+1**，调用 next() 和 remove()时，** 都会执行 checkForComodification(),若"modCount != expectedModCount"，则抛出ConcurrentModificationException 异常， 产生fail-fast事件
 
  解决方法：若在多线程环境下使用fail-fast机制的集合，建议使用java.util.concurrent包下的类去取代java.util包下的类,
 	   新建Iterator时，将集合中的元素保存到一个新的拷贝数组中，当原始集合的数据改变，拷贝数据中的值也不会变化
