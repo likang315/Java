@@ -155,8 +155,6 @@ static final int hash(Object key) {
 
 
 
-###### 
-
 ###### 10：put(K key, V value)  操作（ jdk1.8 ）
 
 ```java
@@ -397,7 +395,7 @@ final Node<K,V>[] resize() {
 ###### int size()                      ---------------返回此映射中的键-值映射关系数 
 
 
-   
+
 
 ### 3：Class LinkedHashMap<K,V>：为了解决 hashmap 不保证映射顺序的（无序）问题，迭代顺序
 

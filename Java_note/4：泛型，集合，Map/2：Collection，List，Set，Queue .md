@@ -1,4 +1,8 @@
-## 集合框架
+## 集合框架：（Java.util）
+
+## LIst + Set +Map +工具类（Arrays ，Collections，Iterator，Enumeration）
+
+
 
 ### 1：集合：一个解决数组固定长度缺陷的动态容器，java 定义的一组管理对象的类库
 
@@ -17,7 +21,7 @@ Java 中 没有提供这个接口的直接的实现类，但是却让其被继承产生了两个接口，就是 Set
 
 ######    Set：无序的，不包含重复的元素
 
-###### Deque：双向队列，Queue的子接口
+###### Deque：双向队列，Queue 的子接口
 
 
 
