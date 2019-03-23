@@ -1,5 +1,3 @@
-## java.util.Map£ºÓ³Éä¹ØÏµ£¨key-value£©
-
 ### 1£ºInterface Map<K,V>£ºÒ»ÖÖÓ³Éä¹ØÏµ£¬½«¼ü Ó³Éäµ½ ÖµµÄ¶ÔÏó£¬´æ´¢¼üºÍÖµÕâÑùµÄË«ÁĞÊı¾İµÄ¼¯ºÏ
 
 ######  ÌØµã£ºÒ»¸öÓ³Éä²»ÄÜ°üº¬ÖØ¸´µÄ¼ü,Ã¿¸ö¼ü×î¶àÖ»ÄÜÓ³Éäµ½Ò»¸öÖµ
@@ -7,7 +5,20 @@
 **K - Ó³Éä¼üµÄÀàĞÍ£¬·ºĞÍ**
 **V - Ó³ÉäÖµµÄÀàĞÍ**
 
-static interface Map.Entry<K,V>  £ºÓ³Éä¹ØÏµ
+```java
+public interface Map<K,V> 
+{
+    V get(Object key);
+	V put(K key, V value);
+	boolean containsKey(Object key);
+	...
+	interface Entry<K,V> 
+    {
+    	K getKey();
+        V getValue();
+    }
+}
+```
 
 ·½·¨£º	
 V put(K key, V value)            ----------- ½«Ö¸¶¨µÄÖµÓë´ËÓ³ÉäÖĞµÄÖ¸¶¨¼ü¹ØÁª£¬ÏëÏó³É·ÅÈëÁË¼¯ºÏ
@@ -28,66 +39,97 @@ boolean containsValue(Object value) -----------Èç¹û´ËÓ³Éä½«Ò»¸ö»ò¶à¸ö¼üÓ³Éäµ½Ö¸¶
 
 ### 2£ºClass HashMap<K,V>£º»ùÓÚ¹şÏ£±íµÄ Map ½Ó¿ÚµÄÊµÏÖÀà,·ÇÏß³Ì°²È«µÄÀà£¬²¢ÇÒ²»±£Ö¤Ó³ÉäµÄË³Ğò£¬µ«ÊÇ²éÕÒ¸ßĞ§£¬ÔÊĞí null Öµ ºÍ null ¼üµÄ´æÔÚ
 
-public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable 
+###### 1£ºÊµÏÖµ×²ãÔ­Àí
 
-###### 1£ºÊµÏÖÔ­Àí
-
-   HashMapµÄµ×²ãÖ÷ÒªÊÇ»ùÓÚ£¨jdk1.8£©Êı×é,Á´±íºÍºìºÚÊ÷À´ÊµÏÖ£¬ËüµÄ²éÑ¯ËÙ¶È¿ìÖ÷ÒªÊÇÒòÎªËüÊÇÍ¨¹ı¼ÆËãhashÖµÀ´¾ö¶¨´æ´¢µÄÎ»ÖÃ
-
-jdk1.7:²ÉÓÃÊı×é+Á´±í
+jdk1.7:²ÉÓÃÊı×é+Á´±í£¬£¨jdk1.8£©Êı×é,Á´±íºÍºìºÚÊ÷À´ÊµÏÖ£¬ËüµÄ²éÑ¯ËÙ¶È¿ìÖ÷ÒªÊÇÒòÎªËüÊÇÍ¨¹ı¼ÆËãhashÖµÀ´¾ö¶¨´æ´¢µÄÎ»ÖÃ
 
 ```java
-//¾²Ì¬ÄÚ²¿Àà Node<K,V>
-static class Node<K,V> implements Map.Entry<K,V> {
-        final int hash;   //rehash Ê±²»»áÔÚ¼ÆËãhash
-        final K key;
-        V value;
-        Node<K,V> next;
-        .....
- }
-
-transient int modCount;  //È«¾Ö±äÁ¿
+public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable 
+{
+	//´å´Ökey-value¼üÖµ¶Ô
+    transient Node<K,V>[] table;
+    //map´óĞ¡
+    transient int size;
+    //ĞŞ¸ÄÊôĞÔ
+    transient int modCount;
+	//ãĞÖµ
+    int threshold;
+    //¼ÓÔØÒò×Ó
+    final float loadFactor;
+    //Ä¬ÈÏµÄ¼ÓÔØÒò×Ó
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;  //³õÊ¼ÈİÁ¿ 16
+    
+    public HashMap() {
+        this.loadFactor = DEFAULT_LOAD_FACTOR; 
+    }
+    
+    //¾²Ì¬ÄÚ²¿Àà Node<K,V>
+    static class Node<K,V> implements Map.Entry<K,V> {
+            final int hash;   //rehash Ê±²»»áÔÚ¼ÆËãhash
+            final K key;
+            V value;
+            Node<K,V> next;
+            .....
+    }
+     
+     //Ö¸¶¨³õÊ¼ÈİÁ¿ºÍ¼ÓÔØÒò×Ó
+     public HashMap(int initialCapacity, float loadFactor) {
+        if (initialCapacity < 0)
+            throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
+        if (initialCapacity > MAXIMUM_CAPACITY)
+            initialCapacity = MAXIMUM_CAPACITY;
+        if (loadFactor <= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
+        this.loadFactor = loadFactor;
+        this.threshold = tableSizeFor(initialCapacity);
+     }
+     
+    //Ö¸¶¨µÄĞÂµÄãĞÖµ
+    static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
+    
+}
 ```
 
 ###### 2£ºhash³åÍ»
 
-   HashMap£ºÍ¨¹ıkeyÖµµÄhashCode£¨£©À´¼ÆËãhashÖµ£¬ÔÚÎ»ÓëÔËËã²úÉú·Ö²¼Ïà¶Ô¾ùÔÈµÄÎ»ÖÃ£¬Èç¹û´æ´¢µÄ¶ÔÏó¶Ô¶àÁË£¬¾ÍÓĞ¿ÉÄÜ²»Í¬µÄ¶ÔÏóËùËã³öÀ´µÄhashÖµÊÇÏàÍ¬µÄ£¬Õâ¾Í³öÏÖÁËËùÎ½µÄhash³åÍ»¡£½â¾öhash³åÍ»µÄ·½·¨ÓĞºÜ¶à£¬HashMap µ×²ãÊÇÍ¨¹ıÁ´±íÀ´½â¾öhash³åÍ»µÄ£¬**À­Á´·¨£¬Í°µÄÉî¶È**
+   HashMap£ºÍ¨¹ıkeyÖµµÄhashCode£¨£©À´¼ÆËãhashÖµ£¬ÔÚÎ»ÓëÔËËã²úÉú·Ö²¼Ïà¶Ô¾ùÔÈµÄÎ»ÖÃ£¬Èç¹û´æ´¢µÄ¶ÔÏó¶Ô¶àÁË£¬¾ÍÓĞ¿ÉÄÜ²»Í¬µÄ¶ÔÏóËùËã³öÀ´µÄhashÖµÊÇÏàÍ¬µÄ£¬Õâ¾Í³öÏÖÁËËùÎ½µÄhash³åÍ»
 
-¹¹Ôì·½·¨£º	
-	HashMap() ----------- ¹¹ÔìÒ»¸ö¾ßÓĞÄ¬ÈÏ³õÊ¼ÈİÁ¿ (16) ºÍÄ¬ÈÏ¼ÓÔØÒò×Ó (0.75) µÄ¿Õ HashMap£¬¶ş±¶À©Èİ
-       	HashMap(int initialCapacity) ------¹¹ÔìÒ»¸ö´øÖ¸¶¨³õÊ¼ÈİÁ¿ºÍÄ¬ÈÏ¼ÓÔØÒò×Ó (0.75) µÄ¿Õ HashMap
-       	HashMap(int initialCapacity, float loadFactor) ----------¹¹ÔìÒ»¸ö´øÖ¸¶¨³õÊ¼ÈİÁ¿ºÍ¼ÓÔØÒò×ÓµÄ¿Õ HashMap
-
-HashMap(Map<? extends K,? extends V> m) -----------------¹¹ÔìÒ»¸öÓ³Éä¹ØÏµÓëÖ¸¶¨ Map ÏàÍ¬µÄĞÂ HashMap
+HashMap µ×²ãÊÇÍ¨¹ıÁ´±íÀ´½â¾öhash³åÍ»µÄ£¬**À­Á´·¨£¬Í°µÄÉî¶È** £¬¿ª·ÅµØÖ··¨£¬ÔÙ¹şÏ£·¨
 
 ######   3£ºÓ°ÏìhashmapµÄĞÔÄÜ£ºCapacity ºÍ loadFactor
 
-µ±½ÚµãÊı´óÓÚ(threshold)·§Öµ¾ÍĞèÒªÀ©Èİ£¬Õâ¸öÖµµÄ¼ÆËã·½Ê½ÊÇ capacity * load factor
+µ±½ÚµãÊı´óÓÚ(threshold)·§Öµ¾ÍĞèÒªÀ©Èİ£¬Õâ¸öÖµµÄ¼ÆËã·½Ê½ÊÇ **capacity * load factor**
 
 ###### 4£º¶ş±¶À©Èİ£ºHashMapÀ©ÈİÊ±  £ºµ±Ç°ÈİÁ¿X2¡£ÔÚÀ©´óÈİÁ¿Ê±ĞëÒªÖØĞÂ¼ÆËãhash
 
 ²úÉúÒ»¸öĞÂµÄÊı×é°ÑÔ­À´µÄÊı×é¸³Öµ¹ıÈ¥£¬ÔÚÔ­À´µÄÊı×éµÄÇø¼ä»ù´¡ÉÏµÄ°´ÕÕË÷Òı´æ´¢
 
-######  5£ºHashMap ÎªÊ²Ã´³õÊ¼ÈİÁ¿Îª 16
+######  5£ºHashMap ÎªÊ²Ã´³õÊ¼ÈİÁ¿Îª  16
 
-ÎªÁË¼õÉÙhashÖµµÄÅö×²,ĞèÒªÊµÏÖÒ»¸ö¾¡Á¿¾ùÔÈ·Ö²¼µÄhashº¯Êı,ÔÚ HashMap ÖĞÍ¨¹ıÀûÓÃkeyµÄhashcodeÖµ,À´½øĞĞÎ»ÔËËã
-¹«Ê½:index = e.hash & (newCap - 1)
+1£º**ÎªÁË¼õÉÙhashÖµµÄÅö×²,**ĞèÒªÊµÏÖÒ»¸ö¾¡Á¿¾ùÔÈ·Ö²¼µÄhashº¯Êı,ÔÚ HashMap ÖĞÍ¨¹ıÀûÓÃkeyµÄhashcodeÖµ,À´½øĞĞÎ»ÔËËã
+¹«Ê½:  index = e.hash & (newCap - 1)
 
-·´¹Û³¤¶È16»òÕßÆäËû2µÄÃİ, length - 1µÄÖµÊÇËùÓĞ×îºó¶ş½øÖÆÎ»È«Îª1,ÕâÖÖÇé¿öÏÂ,index µÄ½á¹ûµÈÍ¬ÓÚhashcodeºó¼¸Î»µÄÖµ£¬Ö»ÒªÊäÈëµÄhashcode±¾Éí·Ö²¼¾ùÔÈ,hashËã·¨µÄ½á¹û¾ÍÊÇ¾ùÔÈµÄ£¬ËùÒÔ,HashMapµÄÄ¬ÈÏ³¤¶ÈÎª16,ÊÇÎªÁË½µµÍhashÅö×²µÄ¼¸ÂÊ
+·´¹Û**³¤¶È16»òÕßÆäËû2µÄÃİ**, length - 1µÄÖµÊÇËùÓĞ×îºó¶ş½øÖÆÎ»È«Îª1,ÕâÖÖÇé¿öÏÂ,index µÄ½á¹ûµÈÍ¬ÓÚhashcodeºó¼¸Î»µÄÖµ£¬Ö»ÒªÊäÈëµÄhashcode±¾Éí·Ö²¼¾ùÔÈ,hashËã·¨µÄ½á¹û¾ÍÊÇ¾ùÔÈµÄ£¬ËùÒÔ,HashMapµÄÄ¬ÈÏ³¤¶ÈÎª16,ÊÇÎªÁË½µµÍhashÅö×²µÄ¼¸ÂÊ
 
-###### 6£ºHash()£¬ÔÚ Hash Ê±ÓÃµ½
+2£º**¶ş½øÖÆµÄÒÆÎ»ÔËËã·û£¬·Ç³£¿ì**
 
-ÓÃÁËºÜ¶àµÄÒì»ò£¬ÒÆÎ»µÈÔËËã£¬¶ÔkeyµÄhashcode½øÒ»²½½øĞĞ¼ÆËãÒÔ¼°¶ş½øÖÆÎ»µÄµ÷ÕûµÈÀ´±£Ö¤×îÖÕ»ñÈ¡µÄ´æ´¢Î»ÖÃ¾¡Á¿·Ö²¼¾ùÔÈ
+###### 6£ºHash()
+
+ÓÃÁËÒì»ò£¬ÒÆÎ»µÈÔËËã£¬¶Ôkey.hashcode() ½øÒ»²½½øĞĞ¼ÆËãÀ´±£Ö¤×îÖÕ»ñÈ¡µÄ´æ´¢Î»ÖÃ**¾¡Á¿·Ö²¼¾ùÔÈ**
 
 ```java
-final int hash(Object k) {
-        int h = hashSeed;
-        if (0 != h && k instanceof String) {
-            return sun.misc.Hashing.stringHash32((String) k);
-        }
-
-	   h ^= k.hashCode();																 		   h ^= (h >>> 20) ^ (h >>> 12);
-	   return h ^ (h >>> 7) ^ (h >>> 4);
+static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16); //ÎŞ·ûºÅÓÒÒÆ
 }
 ```
 
@@ -101,101 +143,261 @@ final int hash(Object k) {
 
 ###### 8£ºÎªÊ²Ã´ÒªÒıÈëºìºÚÊ÷
 
-ÒòÎªÖ®Ç°hashmapµ×²ã½á¹¹ÊÇÊı×é¼ÓÁ´±í£¬µ«ÊÇµ±Êı¾İ´óµ½Ò»¶¨³Ì¶ÈµÄÊ±ºò£¬¼´Ê¹ÊÇ**ÓÃÁ´±í´æ´¢Ò²ÊÇ±È½Ï³¤£¬ÄÑÒÔÔöÉ¾¸Ä²é£¬ºìºÚÊ÷µÄ²éÕÒĞ§ÂÊ¸ß£¬¶ş·Ö**
+ÒòÎªÖ®Ç°hashmapµ×²ã½á¹¹ÊÇÊı×é¼ÓÁ´±í£¬µ«ÊÇµ±Êı¾İ´óµ½Ò»¶¨³Ì¶ÈµÄÊ±ºò£¬¼´Ê¹ÊÇ**ÓÃÁ´±í´æ´¢Ò²ÊÇ±È½Ï³¤£¬ÄÑÒÔÔöÉ¾¸Ä²é£¬ºìºÚÊ÷µÄ²éÕÒĞ§ÂÊ¸ß£¬Ïàµ±ÓÚ¶ş·Ö**
 
-##### 9£ºjdk1.7 À©ÈİÊ±£¬Í·²åÔì³É»·ĞÎÁ´±í(¸ß²¢·¢Ê±)
+
+
+###### 9£ºjdk1.7 À©ÈİÊ±£¬Í·²åÔì³É»·ĞÎÁ´±í (¸ß²¢·¢Ê±)
 
 ²¢·¢Ê±£¬µ±Á½¸öÏß³ÌÍ¬Ê±½øĞĞputµÄ²Ù×÷Ê±£¬¸ÕºÃÒªÀ©Èİ£¬Ò»¸öÏß³Ì¸ÕÀ©Èİ¾ÍĞİÃß£¬ÁíÒ»¸öÏß³ÌÖ´ĞĞÀ©Èİ£¬ÔÙhashÍêÊ±£¬ÁíÒ»¸öÏß³Ì¼ÌĞø£¬´ËÊ±¾Íµ¼ÖÂ»·ĞÎÁ´±í
 
 ![HashMapÑ­»·Á´±í.png](https://github.com/likang315/Java/blob/master/Java_note/4%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/HashMap%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.png?raw=true)
 
-###### 8£º¼üÖµ¶ÔÔÚHashMap ÖĞÒÔ Node<K.V>[ ]  table; Êı×éÊµÏÖµÄ
 
-```java
-transient Node<K,V> table;
-```
 
-###### 9£ºput²Ù×÷£¨jdk 1.7 ºÍjdk1.8£©
+###### 
+
+###### 10£ºput(K key, V value)  ²Ù×÷£¨ jdk1.8 £©
 
 ```java
 public V put(K key, V value) {
-    // µ±²åÈëµÚÒ»¸öÔªËØµÄÊ±ºò£¬ĞèÒªÏÈ³õÊ¼»¯Êı×é´óĞ¡
-    if (table == EMPTY_TABLE) {
-        inflateTable(threshold);
-    }
-    // Èç¹û key Îª null£¬¸ĞĞËÈ¤µÄ¿ÉÒÔÍùÀï¿´£¬×îÖÕ»á½«Õâ¸ö entry ·Åµ½ table[0] ÖĞ
-    if (key == null)
-        return putForNullKey(value);
-    // 1. Çó key µÄ hash Öµ
-    int hash = hash(key);
-    // 2. ÕÒµ½¶ÔÓ¦µÄÊı×éÏÂ±ê
-    int i = indexFor(hash, table.length);
-    // 3. ±éÀúÒ»ÏÂ¶ÔÓ¦ÏÂ±ê´¦µÄÁ´±í£¬¿´ÊÇ·ñÓĞÖØ¸´µÄ key ÒÑ¾­´æÔÚ£¬
-    //    Èç¹ûÓĞ£¬Ö±½Ó¸²¸Ç£¬put ·½·¨·µ»Ø¾ÉÖµ¾Í½áÊøÁË
-    for (Entry<K,V> e = table[i]; e != null; e = e.next) {
-        Object k;
-        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+    return putVal(hash(key), key, value, false, true);
+}
+
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict)
+{
+    Node<K,V>[] tab; Node<K,V> p; int n, i;
+    // tableÊÇ·ñÎªnull »òÕß lengthµÈÓÚ0, Èç¹ûÊÇÔòµ÷ÓÃresize·½·¨½øĞĞ³õÊ¼»¯
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    
+    // Í¨¹ıhashÖµ¼ÆËãË÷ÒıÎ»ÖÃ, Èç¹ûtable±í¸ÃË÷ÒıÎ»ÖÃ½ÚµãÎª¿ÕÔòĞÂÔöÒ»¸ö
+    if ((p = tab[i = (n - 1) & hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else { 
+        // table ±í¸ÃË÷ÒıÎ»ÖÃ²»Îª¿Õ
+        Node<K,V> e; K k;
+        // ÅĞ¶Ïp½ÚµãµÄhashÖµºÍkeyÖµÊÇ·ñ¸ú´«ÈëµÄhashÖµºÍkeyÖµÏàµÈ
+        if (p.hash == hash && ((k = p.key) == key || (key != null && key.equals(k)))) 
+            e = p;
+        // ÅĞ¶Ïp½ÚµãÊÇ·ñÎªTreeNode, Èç¹ûÊÇÔòµ÷ÓÃºìºÚÊ÷µÄputTreeVal·½·¨²éÕÒÄ¿±ê½Úµã
+        else if (p instanceof TreeNode) 
+            e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+        else 
+        {	
+            //×ßµ½Õâ´ú±íp½ÚµãÎªÆÕÍ¨Á´±í½Úµã,±éÀú´ËÁ´±í, binCountÓÃÓÚÍ³¼Æ½ÚµãÊı
+            for (int binCount = 0; ; ++binCount)
+            {  
+                // p.next Îª¿Õ´ú±í²»´æÔÚÄ¿±ê½ÚµãÔòĞÂÔöÒ»¸ö½Úµã²åÈëÁ´±íÎ²²¿
+                if ((e = p.next) == null)
+                {
+                    p.next = newNode(hash, key, value, null);
+                    // ¼ÆËã½ÚµãÊÇ·ñ³¬¹ı8¸ö, ¼õÒ»ÊÇÒòÎªÑ­»·ÊÇ´Óp½ÚµãµÄÏÂÒ»¸ö½Úµã¿ªÊ¼µÄ
+                    if (binCount >= TREEIFY_THRESHOLD - 1)
+                        treeifyBin(tab, hash); // Èç¹û³¬¹ı8¸ö£¬µ÷ÓÃtreeifyBin·½·¨½«¸ÃÁ´±í×ª»»ÎªºìºÚÊ÷
+                    break;
+                }
+                // e½ÚµãµÄhashÖµºÍkeyÖµ¶¼Óë´«ÈëµÄÏàµÈ, Ôòe¼´ÎªÄ¿±ê½Úµã,Ìø³öÑ­»·
+                if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k)))) 
+                    break;
+                p = e;  // ½«pÖ¸ÏòÏÂÒ»¸ö½Úµã
+            }
+        }
+        // e²»Îª¿ÕÔò´ú±í¸ù¾İ´«ÈëµÄhashÖµºÍkeyÖµ²éÕÒµ½ÁË½Úµã,½«¸Ã½ÚµãµÄvalue¸²¸Ç,·µ»ØoldValue
+        if (e != null) { 
             V oldValue = e.value;
-            e.value = value;
-            e.recordAccess(this);
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e); // ÓÃÓÚLinkedHashMap
             return oldValue;
         }
     }
- 
-    modCount++;
-    // 4. ²»´æÔÚÖØ¸´µÄ key£¬½«´Ë entry Ìí¼Óµ½Á´±íÖĞ£¬Ï¸½ÚºóÃæËµ
-    addEntry(hash, key, value, i);
+    ++modCount;
+    if (++size > threshold) // ²åÈë½Úµãºó³¬¹ıãĞÖµÔò½øĞĞÀ©Èİ
+        resize();
+    afterNodeInsertion(evict);  // ÓÃÓÚLinkedHashMap
     return null;
 }
 ```
 
-jdk1.8 £¬»áÔÚµÚÒ»´Îput µÄÊ±ºò£¬»á´¥·¢ÏÂÃæµÄ resize()£¬ÀàËÆ java7 µÄµÚÒ»´Î put Ò²Òª³õÊ¼»¯Êı×é³¤¶È
+1£ºµÚÒ»´Îput µÄÊ±ºò£¬ÅĞ¶ÏÊÇ·ñÎªnull »òÕß³¤¶ÈÎª 0£¬Ôò»á´¥·¢ÏÂÃæµÄ resize()
 **³õÊ¼¾ÍÊÇµÚÒ»´Î resize ºÍºóĞøµÄÀ©ÈİÓĞĞ©²»Ò»Ñù£¬ÒòÎªÕâ´ÎÊÇÊı×é´Ó null ³õÊ¼»¯µ½Ä¬ÈÏµÄ 16 »ò×Ô¶¨ÒåµÄ³õÊ¼ÈİÁ¿**
 
-ÕÒµ½Ë÷ÒıÎ»ÖÃºó£¬»áÈ¡³öÒ»¸öÖµÅĞ¶ÏÊÇ·ñÎªºìºÚÊ÷½Úµã
+2£ºÅĞ¶Ï**µÚÒ»¸ö½áµãÊÇ·ñÎª¿Õ**£¬Îª¿ÕÔò²åÈë
 
-if` `(p instanceof TreeNode)
-            ``e = ((TreeNode<K,V>)p).putTreeVal(``this, tab, hash, key, value);
+3£ºÅĞ¶Ï**µÚÒ»¸ö½áµãµÄ hash ºÍ keyÊÇ·ñÏàµÈ** £¬ÈôÏàµÈ£¬Ö±½ÓÌæ»»ĞÂµÄvalue
 
-·ñÔò²åÈë£¬È»ºó**ÈôÊÇµÚ9 ¸ö½áµã£¬»á×ª±äÎªºìºÚÊ÷£¬java£¬ÏÈ²åÈë£¬ÔÚÀ©Èİ**£¬²åÈë²ÉÓÃÎ²²å,jdk.1.7²ÉÓÃÍ·²å
+4£ºÅĞ¶ÏÊÇ·ñÎª**ºìºÚÊ÷µÄ½áµã**£¬ÈôÎªºìºÚÊ÷Ôòµ÷ÓÃºìºÚÊ÷µÄ putTreeVal ·½·¨
 
-###### 10£ºget²Ù×÷£¨jdk 1.7 ºÍjdk1.8£©
+5£º±éÀúÁ´±í£¬**²åÈëµ½Î²²¿(Î²²å)**£¬Í¬Ê±ÅĞ¶ÏÊÇ·ñÎªµÚ¾Å¸ö½áµã£¬×ª»»ÎªºìºÚÊ÷
 
-jdk 1.7																																		¸ù¾İ key ¼ÆËã hash Öµ
-ÕÒµ½ÏàÓ¦µÄÊı×éÏÂ±ê£ºhash & (length ¨C 1)
-±éÀú¸ÃÊı×éÎ»ÖÃ´¦µÄÁ´±í£¬Ö±µ½ÕÒµ½ÏàµÈ(==»òequals)µÄ key
+6£ºÅĞ¶ÏÊÇ·ñ³¬³öãĞÖµ£¬³¬³öÔòÏàÓ¦resize() ;
+
+
+
+###### 11£ºget(Object key) ²Ù×÷
 
 ```java
 public V get(Object key) {
-    // Ö®Ç°Ëµ¹ı£¬key Îª null µÄ»°£¬»á±»·Åµ½ table[0]£¬ËùÒÔÖ»Òª±éÀúÏÂ table[0] ´¦µÄÁ´±í¾Í¿ÉÒÔÁË
-    if (key == null)
-        return getForNullKey();
-    // 
-    Entry<K,V> entry = getEntry(key);
- 
-    return null == entry ? null : entry.getValue();
+        Node<K,V> e;
+        return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+
+final Node<K,V> getNode(int hash, Object key) {
+    Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
+    if ((tab = table) != null && (n = tab.length) > 0 && (first = tab[(n - 1) & hash]) != null) 
+    {
+       //ÅĞ¶ÏÍ°µÄµÚÒ»¸ö½áµãÊÇ²»ÊÇ£¬ÏÈhash£¬ÔÚkey
+       if (first.hash == hash && ((k = first.key) == key || (key != null && key.equals(k))))
+                return first;
+        if ((e = first.next) != null)
+        {
+             //ÅĞ¶ÏÊÇ²»ÊÇºìºÚÊ÷µÄ½áµã
+             if (first instanceof TreeNode)
+                return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+             //±éÀúÁ´±í£¬ÕÒ¶ÔÓ¦µÄ½áµã
+             do {
+                  if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k))))
+                        return e;
+                } while ((e = e.next) != null);
+         }
+     }
+     return null;
 }
 ```
-
-Jdk1.8
 
 1. ¼ÆËã **key µÄ hash Öµ**£¬¸ù¾İ hash ÖµÕÒµ½**¶ÔÓ¦Êı×éÏÂ±ê**: hash & (length-1)
 2. ÅĞ¶Ï**Êı×é¸ÃÎ»ÖÃ´¦µÄÔªËØÊÇ·ñ¸ÕºÃ¾ÍÊÇÎÒÃÇÒªÕÒµÄ**£¬Èç¹û²»ÊÇ£¬×ßµÚÈı²½
 3. **ÅĞ¶Ï¸ÃÔªËØÀàĞÍÊÇ·ñÊÇ TreeNode**£¬Èç¹ûÊÇ£¬ÓÃºìºÚÊ÷µÄ·½·¨È¡Êı¾İ£¬Èç¹û²»ÊÇ£¬×ßµÚËÄ²½
-4. **±éÀúÁ´±í£¬Ö±µ½ÕÒµ½ÏàµÈ(==»òequals)µÄ key**
+4. **±éÀúÁ´±í£¬Ö±µ½ÕÒµ½ÏàµÈ**
 
-###### ·½·¨£º
 
-V get(Object key)            ------------------·µ»ØÖ¸¶¨¼üËùÓ³ÉäµÄÖµ£»Èç¹û´ËÓ³Éä²»°üº¬¸Ã¼üµÄÓ³Éä¹ØÏµ£¬Ôò·µ»Ø null
-V put(K key, V value)          ----------------½«Ö¸¶¨µÄÖµÓë´ËÓ³ÉäÖĞµÄÖ¸¶¨¼ü¹ØÁª
-       
 
-boolean isEmpty()               ---------------Èç¹û´ËÓ³ÉäÎ´°üº¬¼ü-ÖµÓ³Éä¹ØÏµ£¬Ôò·µ»Ø true
-V remove(Object key)             --------------Èç¹û´æÔÚÒ»¸ö¼üµÄÓ³Éä¹ØÏµ£¬Ôò½«Æä´Ó´ËÓ³ÉäÖĞÒÆ³ı 
+###### 12£ºresize£¨£©²Ù×÷
 
-void clear()                    ---------------´Ó´ËÓ³ÉäÖĞÒÆ³ıËùÓĞÓ³Éä¹ØÏµ
-int size()                      ---------------·µ»Ø´ËÓ³ÉäÖĞµÄ¼ü-ÖµÓ³Éä¹ØÏµÊı 
+```java
+final Node<K,V>[] resize() {
+    Node<K,V>[] oldTab = table;
+    int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    int oldThr = threshold;
+    int newCap, newThr = 0;
+    //¼ÆËãĞÂ±íµÄÈİÁ¿ºÍãĞÖµ
+    if (oldCap > 0) {//  ¾Étable²»Îª¿Õ
+        if (oldCap >= MAXIMUM_CAPACITY) {   // ¾ÉtableµÄÈİÁ¿³¬¹ı×î´óÈİÁ¿Öµ
+            threshold = Integer.MAX_VALUE;  // ÉèÖÃãĞÖµÎªInteger.MAX_VALUE
+            return oldTab;
+        }
+        // Èç¹ûÈİÁ¿*2< ×î´óÈİÁ¿²¢ÇÒ >=16, Ôò½«ãĞÖµÉèÖÃÎªÔ­À´µÄÁ½±¶
+        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                 oldCap >= DEFAULT_INITIAL_CAPACITY)   
+            newThr = oldThr << 1; 
+    }
+    else if (oldThr > 0)   //¾É±íµÄÈİÁ¿Îª 0,  ¾É±í±íµÄãĞÖµ´óÓÚ0
+        newCap = oldThr;	// Ôò½«ĞÂ±íµÄÈİÁ¿ÉèÖÃÎª¾É±íµÄãĞÖµ 
+    else {	
+        // ¾É±íµÄÈİÁ¿Îª0, ¾É±íµÄãĞÖµÎª0, ÔòÎª¿Õ±í£¬ÉèÖÃÄ¬ÈÏÈİÁ¿ºÍãĞÖµ
+        newCap = DEFAULT_INITIAL_CAPACITY; 
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+    }
     
+    if (newThr == 0) {  // Èç¹ûĞÂ±íµÄãĞÖµÎª¿Õ, ÔòÍ¨¹ıĞÂµÄÈİÁ¿*¸ºÔØÒò×Ó»ñµÃãĞÖµ
+        float ft = (float)newCap * loadFactor;
+        newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                  (int)ft : Integer.MAX_VALUE);
+    }
+    threshold = newThr; // ½«µ±Ç°ãĞÖµ¸³ÖµÎª¸Õ¼ÆËã³öÀ´µÄĞÂµÄãĞÖµ
+//-------------------------------------------------------------------------------------------------
+    
+    @SuppressWarnings({"rawtypes","unchecked"})
+    // ¶¨ÒåĞÂ±í,ÈİÁ¿Îª¸Õ¼ÆËã³öÀ´µÄĞÂÈİÁ¿
+    Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+    table = newTab; // ½«µ±Ç°µÄ±í¸³ÖµÎªĞÂ¶¨ÒåµÄ±í
+    
+    //Èç¹ûÀÏ±í²»Îª¿Õ, ÔòĞè±éÀú½«½Úµã¸³Öµ¸øĞÂ±í
+    if (oldTab != null) {  
+        for (int j = 0; j < oldCap; ++j) {
+            Node<K,V> e;
+            if ((e = oldTab[j]) != null) {  // ½«Ë÷ÒıÖµÎªjµÄÀÏ±íÍ·½Úµã¸³Öµ¸øe
+                oldTab[j] = null; // ½«ÀÏ±íµÄ½ÚµãÉèÖÃÎª¿Õ, ÒÔ±ãÀ¬»øÊÕ¼¯Æ÷»ØÊÕ¿Õ¼ä
+                // Èç¹ûe.nextÎª¿Õ, Ôò´ú±íÀÏ±íµÄ¸ÃÎ»ÖÃÖ»ÓĞ1¸ö½Úµã, 
+                // Í¨¹ıhashÖµ¼ÆËãĞÂ±íµÄË÷ÒıÎ»ÖÃ, Ö±½Ó½«¸Ã½Úµã·ÅÔÚ¸ÃÎ»ÖÃ
+                if (e.next == null) 
+                    newTab[e.hash & (newCap - 1)] = e;
+                else if (e instanceof TreeNode)
+                	 // µ÷ÓÃtreeNodeµÄhash·Ö²¼(¸úÏÂÃæ×îºóÒ»¸öelseµÄÄÚÈİ¼¸ºõÏàÍ¬)
+                    ((TreeNode<K,V>)e).split(this, newTab, j, oldCap); 
+                
+                else { 
+                    Node<K,V> loHead = null, loTail = null; // ´æ´¢¸úÔ­Ë÷ÒıÎ»ÖÃÏàÍ¬µÄ½Úµã
+                    Node<K,V> hiHead = null, hiTail = null; // ´æ´¢Ë÷ÒıÎ»ÖÃÎª:Ô­Ë÷Òı+oldCapµÄ½Úµã
+                    Node<K,V> next;
+                    
+                    do {
+                        next = e.next;
+                 //Èç¹ûeµÄhashÖµÓëÀÏ±íµÄÈİÁ¿½øĞĞÓëÔËËãÎª0,ÔòÀ©ÈİºóµÄË÷ÒıÎ»ÖÃ¸úÀÏ±íµÄË÷ÒıÎ»ÖÃÒ»Ñù
+                        if ((e.hash & oldCap) == 0) {   
+                            if (loTail == null) // Èç¹ûloTailÎª¿Õ, ´ú±í¸Ã½ÚµãÎªµÚÒ»¸ö½Úµã
+                                loHead = e; // Ôò½«loHead¸³ÖµÎªµÚÒ»¸ö½Úµã
+                            else    
+                                loTail.next = e;    // ·ñÔò½«½ÚµãÌí¼ÓÔÚloTailºóÃæ
+                            loTail = e; // ²¢½«loTail¸³ÖµÎªĞÂÔöµÄ½Úµã
+                        }
+                 //Èç¹ûeµÄhashÖµÓëÀÏ±íµÄÈİÁ¿½øĞĞÓëÔËËãÎª1,ÔòÀ©ÈİºóµÄË÷ÒıÎ»ÖÃÎª:ÀÏ±íµÄË÷ÒıÎ»ÖÃ£«oldCap
+                        else {  
+                            if (hiTail == null) // Èç¹ûhiTailÎª¿Õ, ´ú±í¸Ã½ÚµãÎªµÚÒ»¸ö½Úµã
+                                hiHead = e; // Ôò½«hiHead¸³ÖµÎªµÚÒ»¸ö½Úµã
+                            else
+                                hiTail.next = e;    // ·ñÔò½«½ÚµãÌí¼ÓÔÚhiTailºóÃæ
+                            hiTail = e; // ²¢½«hiTail¸³ÖµÎªĞÂÔöµÄ½Úµã
+                        }
+                    } while ((e = next) != null);
+                    
+                    if (loTail != null) {
+                        loTail.next = null; // ×îºóÒ»¸ö½ÚµãµÄnextÉèÎª¿Õ
+                        newTab[j] = loHead; // ½«Ô­Ë÷ÒıÎ»ÖÃµÄ½ÚµãÉèÖÃÎª¶ÔÓ¦µÄÍ·½áµã
+                    }
+                    if (hiTail != null) {
+                        hiTail.next = null; // ×îºóÒ»¸ö½ÚµãµÄnextÉèÎª¿Õ
+                        newTab[j + oldCap] = hiHead; // ½«Ë÷ÒıÎ»ÖÃÎªÔ­Ë÷Òı+oldCapµÄ½ÚµãÉèÖÃÎªÍ·½áµã
+                    }
+                }
+            }
+        }
+    }
+    return newTab;
+}
+```
+
+1£ºÅĞ¶Ï **¾É±íµÄÈİÁ¿Îª0, ¾É±íµÄãĞÖµÎª0**, ÈôÊÇ£¬ÔòÎª¿Õ±í£¬ÉèÖÃÄ¬ÈÏÈİÁ¿ºÍãĞÖµ
+
+2£º Èô**¾É±íµÄÈİÁ¿Îª 0,  ¾É±í±íµÄãĞÖµ´óÓÚ0**£¬ÔòĞÂ±íµÄÈİÁ¿Îª¾É±íµÄãĞÖµ
+
+3£ºÈô**¾É±í²»Îª¿Õ**£¬²¢ÇÒ ÈİÁ¿*2< ×î´óÈİÁ¿²¢ÇÒ >=16, Ôò½«ãĞÖµÉèÖÃÎªÔ­À´µÄÁ½±¶
+
+4£º °Ñ½«µ±Ç°ãĞÖµ¸³ÖµÎª¸Õ¼ÆËã³öÀ´µÄĞÂµÄãĞÖµ£¬ÒÔÉÏ¶¼ÊÇ¼ÆËã³öÈİÁ¿ºÍãĞÖµ
+
+5£º±éÀú¾É±íµÄÈİÁ¿£¬°ÑÃ¿¸öÍ°¶ÔÓ¦µÄÔªËØ£¬ÅĞ¶ÏÊÇ²»ÊÇºìºÚÊ÷½áµã£¬ÈôÊÇ£¬µ÷ÓÃºìºÚÊ÷½áµã¶ÔÓ¦µÄ·½·¨
+
+6£ºÈô²»ÊÇ£¬°´ÕÕÁ´±íµÄ·½Ê½£¬·ÅÈëĞÂµÄÍ°ÖĞ£¬Ã¿Ò»¸öÔªËØĞÂµÄindex ¿ÉÄÜ²»Ò»Ñù£¬²»Ò»Ñù£¬¾Í×÷ÎªÍ·½áµã·ÅÈë£¬ÈôÒ»Ñù£¬¾ÍºÍ¾É±íÑùµÄNode
+
+7£º±éÀúÍê¾É±í£¬·µ»ØnewTab
+
+
+
+##### ·½·¨£º
+
+###### V get(Object key)            ------------------·µ»ØÖ¸¶¨¼üËùÓ³ÉäµÄÖµ£»Èç¹û´ËÓ³Éä²»°üº¬¸Ã¼üµÄÓ³Éä¹ØÏµ£¬Ôò·µ»Ø null
+
+###### V put(K key, V value)          ----------------½«Ö¸¶¨µÄÖµÓë´ËÓ³ÉäÖĞµÄÖ¸¶¨¼ü¹ØÁª
+
+###### V remove(Object key)             --------------Èç¹û´æÔÚÒ»¸ö¼üµÄÓ³Éä¹ØÏµ£¬Ôò½«Æä´Ó´ËÓ³ÉäÖĞÒÆ³ı 
+
+###### boolean isEmpty()               ---------------Èç¹û´ËÓ³ÉäÎ´°üº¬¼ü-ÖµÓ³Éä¹ØÏµ£¬Ôò·µ»Ø true
+
+###### int size()                      ---------------·µ»Ø´ËÓ³ÉäÖĞµÄ¼ü-ÖµÓ³Éä¹ØÏµÊı 
+
+
+   
 
 ### 3£ºClass LinkedHashMap<K,V>£ºÎªÁË½â¾ö hashmap ²»±£Ö¤Ó³ÉäË³ĞòµÄ£¨ÎŞĞò£©ÎÊÌâ£¬µü´úË³Ğò
 
@@ -320,6 +522,8 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
 
 next ÓÃÓÚÎ¬»¤ HashMap ¸÷¸ö´æ´¢Î»ÖÃµÄ Entry Á´£¬¹şÏ£³åÍ»Ê± Íâ²¿ÀàĞÂÌí¼ÓµÄÁ½¸öÊôĞÔHeader,AccessOrderÊôĞÔ£¬µ±
 
+
+
 ### 4£ºClass Hashtable<K,V> £ºHashMap µÄÉı¼¶°æ£¬²¢·¢,¶àÏß³ÌµÄÇé¿öÏÂ£¬Ê¹ÓÃHashmap½øĞĞput²Ù×÷»áÒıÆğËÀÑ­»·,µ¼ÖÂCPUÀûÓÃÂÊ½Ó½ü100%
 
 
@@ -340,6 +544,8 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 HashTableµÄ³õÊ¼ÈİÁ¿ÊÇ11£¬HashMapµÄ³õÊ¼ÈİÁ¿ÊÇ16.Á½ÕßµÄÌî³äÒò×ÓÄ¬ÈÏ¶¼ÊÇ0.75
 **HashMapÀ©ÈİÊ±  £ºµ±Ç°ÈİÁ¿X2¡£**ÔÚÀ©´óÈİÁ¿Ê±ĞëÒªÖØĞÂ¼ÆËãhash
 **HashtableÀ©ÈİÊ±£ºµ±Ç°ÈİÁ¿X2+1**
+
+
 
 ### 5£ºConcurrentHashMap£ºHashTableµÄÉı¼¶°æ£¬HashTableÈİÆ÷Ê¹ÓÃsynchronizedÀ´±£Ö¤Ïß³Ì°²È«£¬µ«ÔÚÏß³Ì¾ºÕù¼¤ÁÒµÄÇé¿öÏÂ HashTable µÄĞ§ÂÊ·Ç³£µÍÏÂ
 
@@ -377,11 +583,17 @@ SegmentµÄ½á¹¹ºÍHashMapÀàËÆ£¬ÊÇÒ»ÖÖÊı×éºÍÁ´±í½á¹¹£¬ Ò»¸öSegmentÀï°üº¬Ò»¸öHashEntr
 
 **segment ²»ÄÜÀ©Èİ£¬À©ÈİÊÇ segment Êı×éÄÚ²¿µÄÊı×é HashEntry\[] ½øĞĞÀ©Èİ£¬À©Èİºó£¬ÈİÁ¿ÎªÔ­À´µÄ 2 ±¶**
 
+
+
 ### WeakHashMap
 
 µ±Ä³¸ö¡°Èõ¼ü¡±²»ÔÙÕı³£Ê¹ÓÃÊ±£¬»á±»´ÓWeakHashMapÖĞ±»×Ô¶¯ÒÆ³ı£¬±»À¬»ø»ØÊÕÆ÷Ëù»ØÊÕ
 
+
+
 ### 6£ºInterface SortedMap<K,V>£ºmapµÄ×Ó½Ó¿Ú£¬Ôö¼ÓÁËÅÅĞòµÄ¹¦ÄÜ(comparator), TreeMapÊµÏÖÁËËüµÄ¼Ì³Ğ½Ó¿Ú
+
+
 
 ### 7£ºClass TreeMap<K,V>£º¸ÃÓ³Éä¸ù¾İÆä¼üµÄ×ÔÈ»Ë³Ğò(ÉıĞò)½øĞĞÅÅĞò£¬»òÕß¸ù¾İ´´½¨Ó³ÉäÊ±Ìá¹©µÄ Comparator ½øĞĞÅÅĞò
 
@@ -399,24 +611,24 @@ TreeMap»ùÓÚ**ºìºÚÊ÷£¨Red-Black tree£©ÊµÏÖ**¡£¸ÃÓ³Éä¸ù¾İ**Æä¼üµÄ×ÔÈ»Ë³Ğò½øĞĞÅÅĞò*
 
   ·½·¨£ºÌá¹©Ò»Ğ©¶Ô¼üÖµ¶Ô½øĞĞ¹ØÓÚË³ĞòµÄ²Ù×÷·½·¨
 
- 	SortedMap<K,V> subMap(K fromKey, K toKey) --------------·µ»Ø´ËÓ³ÉäµÄ²¿·ÖÊÓÍ¼£¬Æä¼üÖµµÄ·¶Î§´Ó fromKey£¨°üÀ¨£©µ½ toKey£¨²»°üÀ¨£©
+###### SortedMap<K,V> subMap(K fromKey, K toKey) --------------·µ»Ø¼üÖµµÄ·¶Î§´Ó fromKey£¨°üÀ¨£©µ½ toKey£¨²»°üÀ¨£©µÄ²¿·ÖÊÓÍ¼
 
 ###### SortedMap<K,V> tailMap(K fromKey)             ---------------·µ»Ø´ËÓ³ÉäµÄ²¿·ÖEntry£¬Æä¼ü´óÓÚµÈÓÚ fromKey
 
-Map.Entry<K,V> pollFirstEntry()          ---------------ÒÆ³ı²¢·µ»ØÓë´ËÓ³ÉäÖĞµÄ×îĞ¡¼ü¹ØÁªµÄ¼ü-ÖµÓ³Éä¹ØÏµ								        Èç¹ûÓ³ÉäÎª¿Õ£¬Ôò·µ»Ø null
-Map.Entry<K,V> pollLastEntry()           ---------------ÒÆ³ı²¢·µ»ØÓë´ËÓ³ÉäÖĞµÄ×î´ó¼ü¹ØÁªµÄ¼ü-ÖµÓ³Éä¹ØÏµ£»
-Èç¹ûÓ³ÉäÎª¿Õ£¬Ôò·µ»Ø null
 
-Set<K>	keySet()
-Collection<V> values() 		
-Set<Map.Entry<K,V>>	entrySet()
+
+
 
 ### 8£ºMapµÄ±éÀú£¨ÈıÖÖ£©£º×ª³ÉSet¼¯ºÏ£¬ÓÃµü´úÆ÷±éÀú	
 
 1£º±éÀúkey¼ü£¬ÀûÓÃ Set<K> **keySet()**  £¬·µ»ØµÄset¼¯ºÏ
 2£º±éÀúËùÓĞµÄvalue£¬ÀûÓÃ Collection<V> **values()** £¬·µ»Øcollection¼¯ºÏ
 3£º±éÀú¼üÖµ¶Ô£¬ÀûÓÃ Set<Map.Entry<K,V>> **entrySet()** ·½·¨£¬·µ»ØÃ¿Ò»×é¼üÖµ¶ÔµÄset¼¯ºÏ£¬
-   	entry.getKey(), entry.getValue()
+     **entry.getKey(), entry.getValue()**
+
+
+
+
 
 
 
