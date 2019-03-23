@@ -13,13 +13,15 @@ Java 中 没有提供这个接口的直接的实现类，但是却让其被继承产生了两个接口，就是 Set
 
 ###   Collection 的优化子接口：List（接口）+    Set（接口) +  Queue（队列接口）
 
-#####    List：是一个有序的集合，可以包含重复的元素，提供了按索引访问的方式
+######    List：是一个有序的集合，可以包含重复的元素，提供了按索引访问的方式
 
-#####    Set：无序的，不包含重复的元素
+######    Set：无序的，不包含重复的元素
 
-##### Deque：双向队列，Queue的子接口
+###### Deque：双向队列，Queue的子接口
 
-   方法：
+
+
+**方法：**
 boolean	add(E e)   -------------  往集合中添加元素
 
 boolean remove(Object o) -------  从此 collection 中移除指定元素的单个实例，如果存在的话（可选操作）
@@ -34,7 +36,9 @@ Object[] toArray() -------------  返回包含此 collection 中所有元素的数组
 
 **Iterator<E> iterator() ---------  返回集合的迭代器，是实现了Iterator 的实现类**
 
-### 2：Collections
+
+
+### 2：Collections ：工具类
 
 java.util
 Class Collections ：集合的工具类，和数组（Arrays）一样，方法基本一样    
@@ -61,6 +65,8 @@ static void	reverse(List<?> list)	返回有序集合
 
  返回指定 set 支持的同步（线程安全的）set
 
+
+
 ### 3：List（接口）：序列，有序可重复，允许 多个 null 存在
 
 java.util 
@@ -82,270 +88,22 @@ List<E>	subList(int fromIndex, int toIndex) ---  返回含有两个边界的子序列集合
 
 boolean equals(Object o) ----------------------  比较指定的对象(列表)与列表是否相等 
 
-##### List（序列，线性表）接口的实现类：
 
-######    Class Vector <E>：数组序列,Vector 线程安全，给每一个方法加了同步锁，效率低，以适应创建 Vector 后进行添加或移除项的操作
-
-**初始容量10，**扩容随着元素的增长而增长
-
-**扩容机制：**就是根据capacityIncrement（容量增长因子）确认扩容大小的，若**capacityIncrement <= 0 则扩大一倍**，否**则在原来容量的基础上加上capacityIncrement** ，当然这个容量的**最大范围为Integer.MAX_VALUE即，2^32 - 1**，所以Vector并不是可以无限扩充的
-
-**扩容过程：**申请newCapacity 新空间，然后将原空间内容拷贝过来,并释放原空间，vector的空间动态增加大小，并不是在原空间之后的相邻地址增加新空间，vector的空间是线性连续分配的
-
-```java
-protected int capacityIncrement;
-public Vector() {
-        this(10);
-}
-
-//可以指定初始容量和容量增长因子（默认为：0）
-public Vector(int initialCapacity, int capacityIncrement) {}
-
-//扩容机制
-private void grow(int minCapacity) 
-{
-    //当前容器大小
-    int oldCapacity = elementData.length; 
-    //新容量
-    int newCapacity = oldCapacity + ((capacityIncrement > 0) ?capacityIncrement : oldCapacity);
-        
-        if (newCapacity - minCapacity < 0)
-            newCapacity = minCapacity;
-        
-        if (newCapacity - MAX_ARRAY_SIZE > 0)
-            newCapacity = hugeCapacity(minCapacity);
-        elementData = Arrays.copyOf(elementData, newCapacity);
-}
-//判断是否超出最大范围
-private static int hugeCapacity(int minCapacity)
-{
-        if (minCapacity < 0)
-            throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ? Integer.MAX_VALUE : MAX_ARRAY_SIZE;
-}
-```
-
-
-
-######    Class ArrayList<E>：数组序列,本质都是Object[]数组，只不过ArrayList线程不安全效率高，对序列整体进行操作，用数组实现的
-
-当前数组是由默认构造方法生成的空数组并且第一次添加数据。此时minCapacity等于默认的容量（10）那么根据下面逻辑可以看到最后**数组的容量会从0扩容成10**。而后的数组扩容才是按照当前容量的1.5倍进行扩容；
-
-当前数组是由自定义初始容量构造方法创建并且指定初始容量为0。此时 minCapacity 等于1那么根据下面逻辑可以看到最后数组的容量会从0变成1。这边可以看到一个严重的问题，一旦我们**执行了初始容量为0，那么根据下面的算法前四次扩容每次都 +1，在第5次添加数据进行扩容的时候才是按照当前容量的1.5倍进行扩容**
-
-构造方法：
-
-###### ArrayList<E>() --------- 构造一个初始容量为 10 的空列表,1.5被扩容
-
-ArrayList<E>(int initialCapacity) -------- 构造一个具有指定初始容量的空列表
-
-   方法：
-	boolean add(E e)               将指定的元素添加到此列表的尾部
-        void add(int index, E element) 将指定的元素插入此列表中的指定位置,先调用ensureCapacity（size+1),然后拷贝数组，赋值
- 	boolean addAll(int index, Collection<? extends E> c)从指定的位置开始，将指定 collection 中的所有元素插入到此列表中
-		
-
-E remove(int index)          --------------------  移除此列表中指定位置上的元素 
-boolean remove(Object o)    ---------------------  移除此列表中首次出现的指定元素（如果存在）
-
-E set(int index, E element) ---------------------  用指定的元素替代此列表中指定位置上的元素
-
-E get(int index)           ----------------------  返回此列表中指定位置上的元素。			
-int indexOf(Object o)     -----------------------  返回此列表中首次出现的指定元素的索引，若列表不包含元素,返回-1 
-
-int size()                   --------------------  返回此列表中的元素数
-boolean isEmpty()             -------------------  如果此列表中没有元素，则返回 true 
-void clear()               ----------------------  移除此列表中的所有元素。本质是所有元素赋值NUll，size修改为0
-boolean contains(Object o) ----------------------  如果此列表中包含指定的元素，则返回 true 
-
-void trimToSize()           ---------------------  将此 ArrayList 实例的容量调整为列表的当前大小
-Iterator<E> iterator()      ---------------------  返回按适当顺序在列表的元素上进行迭代的迭代器。 
-Object[] toArray()          ---------------------  按适当顺序（从第一个到最后一个元素）返回包含此列表中
-							   	所有元素的数组	
-
-######   Class LinkedList<E>：链表序列，因此在增加，删除时效率高 ，主要执行删除，插入，单个集合元素的操作，非线程安全的类
-
-###### 		       			        用双向链表实现的
-
-通过**双向链表去实现**的，既然是双向链表，那么它的**顺序访问会非常高效，而随机访问效率比较低**
-
-LinkedList  实现 List 接口的，可以通过下标来访问，那么如何将“**双向链表和索引值联系起来的**”？
-它通过一个**计数索引值 index**来实现的。例如，当我们调用get(int location)时，首先会比较 **“location”和“双向链表长度的1/2”**；若前者大，则从链表头开始往后查找，直到 location 位置；否则，从链表末尾开始向前查找，直到location位置
-
-```java
-public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Cloneable, java.io.Serializable
-{
-	//Node 结点的个数
-	transient int size = 0;
-	//指向头结点
-	transient Node<E> first;
-	//指向尾节点
-	transient Node<E> last;
-	
-    public LinkedList() {
-    }
-	//添加集合中的所有元素
-    public LinkedList(Collection<? extends E> c) {
-        this();
-        addAll(c);
-    }
-    
-    //添加元素尾部，可以添加到指定位置
-    public boolean add(E e) {
-        linkLast(e);
-        return true;
-    }
-
-	void linkLast(E e) {
-        final Node<E> l = last; //指向链表尾部
-        final Node<E> newNode = new Node<>(l, e, null); //以尾部为前驱节点创建一个新节点
-        last = newNode;//将链表尾部指向新节点
-        if (l == null)//如果链表为空，那么该节点既是头节点也是尾节点
-            first = newNode;
-        else//链表不为空，那么将该结点作为原链表尾部的后继节点
-            l.next = newNode;
-        size++;//增加尺寸
-        modCount++; //Fast-Fail机制
-     }
-     
-     //通过索引得到Node
-     public E get(int index) {
-        //检查边界,看是否越界
-        checkElementIndex(index);
-        return node(index).item;
-    }
-    
-    //remove 元素指定对象，还可以通过索引删除
-    public boolean remove(Object o) {
-        //如果删除对象为null
-        if (o == null) {
-            //从前向后遍历
-            for (Node<E> x = first; x != null; x = x.next) {
-                //一旦匹配，  调用unlink()方法将该节点从链表中移除并且返回true
-                if (x.item == null) {
-                    unlink(x);
-                    return true;
-                }
-            }
-        } else {
-            //从前向后遍历
-            for (Node<E> x = first; x != null; x = x.next) {
-                //一旦匹配，调用unlink()方法和返回true
-                if (o.equals(x.item)) {
-                    unlink(x);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-  
-}
-
-
-private static class Node<E> {
-        E item;
-        Node<E> next;
-        Node<E> prev;
-
-        Node(Node<E> prev, E element, Node<E> next) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
-        }
-}
-```
-
-###### 构造方法：
-
-?	LinkedList() ------------- 构造一个空链表 
-?     	LinkedList(Collection<? extends E> c) -------- 构造一个包含指定 collection 中的元素的列表，这些元素按其 collection 的迭代器返回的顺序排列
-
-###### 方法：
-
-void addFirst(E e) --------------   将指定元素插入此列表的开头
-void addLast(E e) ---------------   将指定元素添加到此列表的结尾
-
-E remove(int index)																					E set(int index, E element)
-
-###### E get(int index)  --------------   返回指定下标的元素 
-
-E getFirst()     ---------------    返回此列表的第一个元素
-E getLast()     -----------------   返回此列表的最后一个元素 
-
-ListIterator<E> listIterator(int index)   -------- 返回此列表中的元素的列表迭代器（按适当顺序），从列表中指定位置开始 
-
-##### CopyOnWriteArrayList：写时复制的容器，读多写少的场景	s																public class CopyOnWriteArrayList<E>  implements List<E>, RandomAccess, Cloneable, java.io.Serializable
-
-- 实现了List接口
-- 内部持有一个 ReentrantLock lock = new ReentrantLock();可重入锁
-- 底层是用 volatile transient 声明的数组 array
-- 读写分离，写时复制出一个新的数组，完成插入、修改或者移除操作后将数组的引用指向新数组，如果有**线程并发写，则通过锁来控制，防止多个副本混淆数据**
-- 如果有线程并发的读，不需要加锁，则分几种情况：
-  1、如果写操作未完成，那么直接读取原数组的数据
-  2、如果写操作完成，但是引用还未指向新数组，那么也是读取原数组数据
-  3、如果写操作完成，并且引用已经指向了新的数组，那么直接从新数组中读取数据
-
-##### ConcurrentSkipListMap：
-
-提供了一种线程安全的并发访问的排序映射表。内部是SkipList（跳表）结构实现，在理论上能够O(log(n))时间内完成查找、插入、删除操作
-
-SkipList：插入、查找为O(logn)，但常数项比红黑树要大；底层结构为链表，可无锁实现；数据天然有序
 
 ### 4：Interface Set<E>：无序，不重复.并且最多包含一个  null  元素，不能通过下标操作，其实底层实现依赖 map
 
 方法：同list，除了下标操作的方法
          Iterator<E> iterator() ---------返回在此 set 中的元素上进行迭代的迭代器
 
-Set 集合的实现类：（两个都不是线程安全的类，没有给方法添加同步锁）
 
-#####   Class HashSet<E>(散列集)：只能保证 Set 集合元素唯一，但不能保证有序，由哈希表（实际上是一个 HashMap 实例）支持,并没有增加方法，线程不安全类
-
-构造函数:
-	HashSet()---------------- 构造一个新的空 set，本质HashMap 实例的默认初始容量是 16，加载因子是 0.75
-	HashSet(int initialCapacity)---构造一个新的空 set，其底层 HashMap 实例具有指定的初始容量和默认的加载因子（0.75）如果容量超过初始容量，则创建新的容量的集合，并且把原来的数据复制进去，并且删除原始的集合	
-  方法:
-	 boolean add(E e) ------- ---- 如果此 set 中尚未包含指定元素，则添加指定元素
-	 boolean isEmpty() ----------- 做判断条件，之前做判空处理
-	 int size()       ------------ 返回此 set 中的元素的数量，为空时，返回0
- 	 Iterator<E> iterator() ------ 返回对此 set 中元素进行迭代的迭代器
-
-##### LinekdHashSet
-
-LinkedHashSet 继承自HashSet，源码更少、更简单，唯一的区别是LinkedHashSet内部使用的是LinkedHashMap,这样做的意义或者好处就是LinkedHashSet中的元素顺序且唯一是可以保证的，也就是说遍历序和插入序是一致的
-
-#####  Class TreeSet<E>(树集):
-
-保证 Set 集合的元素唯一, 而且有序，底层是 TreeMap，元素被排序放入该容器元素的类，必须实现Comparable<T>或Comparator<T>,因为在元素进行排序时需要按照此原则本质是一个TreeMap
-
- 构造函数：
-	TreeSet() ------------- 构造一个新的空 set，该 set 根据其元素的自然顺序进行排序
-    	TreeSet(Comparator<? super E> comparator) -------构造一个新的空 TreeSet，它根据指定比较器进行排序
-			
- 方法：
-	boolean add(E e) ------------------- 将指定的元素添加到此 set（如果该元素尚未存在于 set 中)
-        void clear()      ------------------ 移除此 set 中的所有元素
-	boolean contains(Object o) --------- 如果此 set 包含指定的元素，则返回 true
- 	boolean remove(Object o)   --------- 将指定的元素从 set 中移除（如果该元素存在于此 set 中）
-      	Iterator<E> descendingIterator() --- 返回在此 set 元素上按降序进行迭代的迭代器
-       	Iterator<E> iterator()    ---------- 返回在此 set 中的元素上按升序进行迭代的迭代器 
-       	int size()     --------------------- 返回 set 中的元素数
-          
-
- TreeSet类中跟HashSet类一样也没有get()方法来获取指定位置的元素，所以也只能通过迭代器方法来获取 for each循环
- 	
 
 ### 5：Interface Queue<E>：队列，FIFO，实现了Collection接口
 
-boolean offer(E e)  添加一个元素并返回true       如果队列已满，则返回false
+###### boolean offer(E e)  ：添加一个元素并返回true       如果队列已满，则返回false
 
-E poll() 
-      获取并移除此队列的头，如果此队列为空，则返回 null 
+###### E poll() ： 获取并移除此队列的头，如果此队列为空，则返回 null 
 
-E peek() 
-      获取但不移除此队列的头；如果此队列为空，则返回 null
-
-实现类：Linkedlist,PriorityQueue
+实现类：**Linkedlist**,PriorityQueue
 
 ```java
 //add()和remove()方法在失败的时候会抛出异常(不推荐)
@@ -354,7 +112,9 @@ Queue<String> queue = new LinkedList<String>();
 queue.offer("a");
 ```
 
-### public class Stack<E> extends Vector<E> ：栈，继承 了数组实现的集合, 2倍扩容
+
+
+### 6：public class Stack<E> extends Vector<E> ：栈，继承 了数组实现的集合, 2倍扩容
 
 ###### boolean  empty()     ：判断栈为不为空
 
@@ -372,21 +132,28 @@ System.out.println("stack: " + st);
 
 
 
-### 6：普通集合、同步（线程安全）的集合、并发集合
+### 7：普通集合、同步（线程安全）的集合、并发集合（JUC）
 
 普通集合通常性能最高，但是不保证多线程的安全性和并发的可靠性
 
 线程安全集合仅仅是给集合添加了synchronized(同步锁)，严重牺牲了性能，而且对并发的效率就更低了
 
-并发集合则通过内部使用锁分段技术，不仅保证了多线程的安全又提高的并发时的效率
+并发集合则通过内部使用**锁分段技术**，不仅保证了多线程的安全又提高的并发时的效率
 ConcurrentHashMap、ConcurrentLinkedQueue
 
-### 7：Arrays 类中的 asList 方法 
 
- * 当使用asList()方法时，数组就和列表链接在一起了.，当更新其中之一时，另一个将自动获得更新
 
- * asList得到的数组是的没有add和remove方法的 
+### 8：Arrays 类中的  asList 方法 
 
-   通过查看Arrays类的源码可以知道,asList返回的List是Array中的实现的 内部类,而该类并没有定义add和remove方法.另外,为什么修改其中一个,另一个也自动 获得更新了,因为asList获得List实际引用的就是数组 
+ * 当使用asList()方法时，数组就和列表链接在一起了，**当更新其中之一时，另一个将自动获得更新**
+
+ * asList得到的List 是的**没有add和remove方法的** 
+
+   通过查看Arrays类的源码可以知道,**asList返回的List是Array中的实现的 内部类**,而该类并没有定义add和remove方法.另外,为什么修改其中一个,另一个也自动 获得更新了,因为asList获得 List实际引用的就是数组 
+
+
+
+
+
 
 

@@ -45,6 +45,8 @@ static class Node<K,V> implements Map.Entry<K,V> {
         Node<K,V> next;
         .....
  }
+
+transient int modCount;  //全局变量
 ```
 
 ###### 2：hash冲突
@@ -206,7 +208,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
     transient LinkedHashMap.Entry<K,V> head;
     //用于指向双向链表的尾部
     transient LinkedHashMap.Entry<K,V> tail;
-    //用来指定LinkedHashMap的迭代顺序，true则表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链		表的最末尾,false则表示按照插入顺序来
+    //用来指定LinkedHashMap的迭代顺序，true则表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链		表的最末尾,false则表示按照插入顺序来，插入到尾部
     //创建对象默认为False,使用插入实现有序，若传入ture，使用访问顺序进行有序 如果传入用来实现 LAU 算法
     final boolean accessOrder;
     public LinkedHashMap(int initialCapacity,float loadFactor,boolean accessOrder) {
@@ -224,6 +226,38 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
             afterNodeAccess(e);  //将最近使用的Entry，放在链表的最末尾
           return e.value;
 	}
+	void afterNodeInsertion(boolean evict) { // possibly remove eldest
+        LinkedHashMap.Entry<K,V> first;
+        if (evict && (first = head) != null && removeEldestEntry(first)) {
+            K key = first.key;
+            removeNode(hash(key), key, null, false, true);
+        }
+    }
+	//移除此结点到尾部
+    void afterNodeAccess(Node<K,V> e) { 
+        LinkedHashMap.Entry<K,V> last;
+        if (accessOrder && (last = tail) != e) {
+            LinkedHashMap.Entry<K,V> p =
+                (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
+            p.after = null;
+            if (b == null)
+                head = a;
+            else
+                b.after = a;
+            if (a != null)
+                a.before = b;
+            else
+                last = b;
+            if (last == null)
+                head = p;
+            else {
+                p.before = last;
+                last.after = p;
+            }
+            tail = p;
+            ++modCount;  //属性+1
+        }
+    }
     
     static class Entry<K,V> extends HashMap.Node<K,V> {
             //用于维护双向链表
@@ -244,7 +278,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
           LinkedHashIterator() {
             //初始化的时候把head给next
             next = head;
-            expectedModCount = modCount;
+            expectedModCount = modCount;   //Fail-Fast
             current = null;
           }
 
