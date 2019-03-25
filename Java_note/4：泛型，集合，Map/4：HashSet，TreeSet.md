@@ -1,6 +1,6 @@
 ## Set 集合的实现类(Map):
 
-###### Set类集合和Map 类 只能通过迭代器方法来获取 for each循环
+###### Set 类集合 和 Map 类 只能通过迭代器方法来获取 for each循环
 
 
 
@@ -106,9 +106,6 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
 ######        	Iterator<E> iterator()    ---------- 返回在此 set 中的元素上按升序进行迭代的迭代器 
 
 ​       	int size()     --------------------- 返回 set 中的元素数
-          
-
-### 
 
  	
 

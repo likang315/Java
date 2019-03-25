@@ -28,7 +28,7 @@ ThreadLocal实例通常来说都是 **private static** 类型的，用于**关�
 
  3：**Entry 的 key是对 当前线程ThreadLocal的弱引用**，当抛弃掉ThreadLocal对象时，垃圾收集器会忽略这个key的引用而清理掉ThreadLocal对象， 防止了内存泄漏
 
-###### key 当前 ThreadLocal 对象，value则是对应线程的变量副本
+###### key 当前线程的 ThreadLocal 对象，value则是对应线程的变量副本
 
 
 
@@ -40,6 +40,4 @@ ThreadLocalMap<ThreadLocal,Object>
 ```
 
 ThreadLocalMap是一个定制的哈希映射，仅适**用于维护线程本地值**，ThreadLocalMap类是包私有的，允许在Thread类中声明字段，哈希表entry使用了对键的弱引用，有助于GC回收
-
-##### 
 

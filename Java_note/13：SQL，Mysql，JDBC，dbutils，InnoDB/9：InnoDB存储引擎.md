@@ -352,7 +352,6 @@ Undo Log 的另一个功能是 MVCC,当需要读取的记录已经被其他事�
 ### `13`：回滚段
 
 ​	事务操作时，回滚段包含undo log，可以roolback ,如果事务提交, 回滚段中的 undo log 可以删除
-​	
 
 ### 14：当前读 和 快照读
 
@@ -366,9 +365,9 @@ Undo Log 的另一个功能是 MVCC,当需要读取的记录已经被其他事�
 
 ### 15：主从复制
 
+![主从复制.png](https://github.com/likang315/Java/blob/master/Java_note/13%EF%BC%9ASQL%EF%BC%8CMysql%EF%BC%8CJDBC%EF%BC%8Cdbutils%EF%BC%8CInnoDB/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png?raw=true)
 
-
-**从库**生成两个线程，**一个I/O线程，一个SQL线程**；
+**从库**生成两个线程，**一个I/O线程，一个SQL线程**
 
 主库会把通过**bin log 记录每次修改的记录**数据，**I/O 线程**去请求 主库 的bin log，主库会生成一个 **log dump 线程**，用来给从库 i/o线程传bin log，从库将得到的 **bin log日志写Relay log（中继日志） 文件中，SQL 线程，会读取Relay log文件中的日志**，并解析成具体操作，来实现主从的数据一致
 

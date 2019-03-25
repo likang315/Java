@@ -218,9 +218,13 @@ N张表就有N-1个连接条件
 
 ##### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
 
+会自动优化成小表驱动大表，大表加索引提高查找速度
+
 ###### 	FROM 表名1 表1对象 INNER JOIN 表2名 表2对象 ON 连接条件 WHERE 过滤条件
 
 例： select e.id,d.dname as dep_name,e.name,e.sex,e.age FROM emp e **INNER JOIN** dep d **ON e.dep_id=d.id;** 
+
+
 
 ##### 外链接：所有数据都显示
 

@@ -186,7 +186,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict)
             //走到这代表p节点为普通链表节点,遍历此链表, binCount用于统计节点数
             for (int binCount = 0; ; ++binCount)
             {  
-                // p.next 为空代表不存在目标节点则新增一个节点插入链表尾部
+                // p.next 为空代表不存在目标节点则新增一个节点插入链表尾部，并发出现问题
                 if ((e = p.next) == null)
                 {
                     p.next = newNode(hash, key, value, null);
@@ -307,7 +307,7 @@ final Node<K,V>[] resize() {
 //-------------------------------------------------------------------------------------------------
     
     @SuppressWarnings({"rawtypes","unchecked"})
-    // 定义新表,容量为刚计算出来的新容量
+    // 定义新表,容量为刚计算出来的新容量，出现get（） 问题
     Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
     table = newTab; // 将当前的表赋值为新定义的表
     
@@ -380,8 +380,6 @@ final Node<K,V>[] resize() {
 
 7：遍历完旧表，返回newTab
 
-
-
 ##### 方法：
 
 ###### V get(Object key)            ------------------返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回 null
@@ -395,6 +393,12 @@ final Node<K,V>[] resize() {
 ###### int size()                      ---------------返回此映射中的键-值映射关系数 
 
 
+
+##### 并发时可能导致的问题 (都是扩容的问题) ：
+
+1：可能会导致某个元素没有给挂在链表上，导致丢失，因为已经第一个线程已经new了一个新的结点，第二个线程来时判断他不为空就不会再new了,导致丢失
+
+2：get（index）元素时可能为空，因为扩容时，把新 new的数组赋给旧的数组，而这时还没再hash计算挂链，这是一个线程来读，可能会导致读到元素为空
 
 
 ### 3：Class LinkedHashMap<K,V>：为了解决 hashmap 不保证映射顺序的（无序）问题，迭代顺序

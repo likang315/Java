@@ -1,4 +1,4 @@
-### 1£ºÀ¬»ø£ºÃ»ÓÐÈÎºÎÒýÓÃËùÖ¸ÏòµÄ¶ÔÏó
+1£ºÀ¬»ø£ºÃ»ÓÐÈÎºÎÒýÓÃËùÖ¸ÏòµÄ¶ÔÏó
 
 »ØÊÕ¹ý³ÌÊÇÍ¸Ã÷µÄ£¬²¢²»Ò»¶¨¿´µ½À¬»ø¾Í»ØÊÕ£¬ÈôÏë¿ìÒ»Ð©£¬¿ÉÒÔµ÷ÓÃSystem.gc();
 
@@ -57,35 +57,39 @@ JVM×Ô´øµÄÒ»¸öÓÅÏÈ¼¶ºÜµÍµÄÏß³Ì£¬ÓÃÓÚ»ØÊÕÃ»ÓÐÈÎºÎÒýÓÃËùÖ¸ÏòµÄ¶ÔÏó£¬²»Í¬µÄÐéÄâ»úÆ½Ì
 
 
 
-### 5£ºJava¶ÔÏóÔÚÄÚ´æÖÐµÄ×´Ì¬
+### 5£ºJava ¶ÔÏó ÔÚ ÄÚ´æÖÐµÄ×´Ì¬
 
-¿É´ïµÄ/¿É´¥¼°µÄ£º
-¡¡¡¡Java¶ÔÏó±»´´½¨ºó£¬Èç¹û±»Ò»¸ö»ò¶à¸ö±äÁ¿ÒýÓÃ£¬ÄÇ¾ÍÊÇ¿É´ïµÄ£¬¼´´Ó¸ù½Úµã¿ÉÒÔ´¥¼°µ½Õâ¸ö¶ÔÏó
-¡¡¡¡ÆäÊµ¾ÍÊÇ´Ó¸ù½ÚµãÉ¨Ãè£¬Ö»ÒªÕâ¸ö¶ÔÏóÔÚÒýÓÃÁ´ÖÐ£¬ÄÇ¾ÍÊÇ¿É´¥¼°µÄ
+###### ¿É´ïµÄ/¿É´¥¼°µÄ£º
 
-¿É»Ö¸´µÄ£º
-¡¡¡¡Java¶ÔÏó²»ÔÙ±»ÈÎºÎ±äÁ¿ÒýÓÃ¾Í½øÈëÁË¿É»Ö¸´×´Ì¬
-¡¡¡¡ÔÚ»ØÊÕ¸Ã¶ÔÏóÖ®Ç°£¬¸Ã¶ÔÏóµÄfinalize()·½·¨½øÐÐ×ÊÔ´ÇåÀí£¬Èç¹ûÔÚfinalize()·½·¨ÖÐÖØÐÂÈÃ±äÁ¿ÒýÓÃ¸Ã¶ÔÏó
-    Ôò¸Ã¶ÔÏóÔÙ´Î±äÎª¿É´ï×´Ì¬£¬·ñÔò¸Ã¶ÔÏó½øÈë²»¿É´ï×´Ì¬       
+Java¶ÔÏó±»´´½¨ºó£¬Èç¹û±»Ò»¸ö»ò¶à¸ö±äÁ¿ÒýÓÃ£¬ÄÇ¾ÍÊÇ¿É´ïµÄ£¬¼´´Ó¸ù½Úµã¿ÉÒÔ´¥¼°µ½Õâ¸ö¶ÔÏó
+ÆäÊµ¾ÍÊÇ**´Ó¸ù½ÚµãÉ¨Ãè£¬Ö»ÒªÕâ¸ö¶ÔÏóÔÚÒýÓÃÁ´ÖÐ£¬ÄÇ¾ÍÊÇ¿É´¥¼°µÄ**
+
+###### ¿É»Ö¸´µÄ£º
+
+Java¶ÔÏó²»ÔÙ±»ÈÎºÎ±äÁ¿ÒýÓÃ¾Í½øÈëÁË¿É»Ö¸´×´Ì¬
+ÔÚ»ØÊÕ¸Ã¶ÔÏóÖ®Ç°£¬**¸Ã¶ÔÏóµÄfinalize()·½·¨½øÐÐ×ÊÔ´ÇåÀí**£¬Èç¹ûÔÚfinalize()·½·¨ÖÐÖØÐÂÈÃ±äÁ¿ÒýÓÃ¸Ã¶ÔÏó£¬Ôò¸Ã¶ÔÏóÔÙ´Î±äÎª¿É´ï×´Ì¬£¬·ñÔò¸Ã¶ÔÏó½øÈë²»¿É´ï×´Ì¬
 
 ```java
-   protected void finalize()
+protected void finalize()
 ```
 
-²»¿É´ïµÄ£º
-¡¡¡¡Java¶ÔÏó²»±»ÈÎºÎ±äÁ¿ÒýÓÃ£¬ÇÒÏµÍ³ÔÚµ÷ÓÃ¶ÔÏóµÄfinalize()·½·¨ºóÒÀÈ»Ã»ÓÐÊ¹¸Ã¶ÔÏó±ä³É¿É´ï×´Ì¬£¨¸Ã¶ÔÏóÒÀÈ»Ã»ÓÐ±»±äÁ¿ÒýÓÃ£©ÄÇÃ´¸Ã¶ÔÏó½«±ä³É²»¿É´ï×´Ì¬,µ±Java¶ÔÏó´¦ÓÚ²»¿É´ï×´Ì¬Ê±£¬ÏµÍ³²Å»áÕæÕý»ØÊÕ¸Ã¶ÔÏóËùÕ¼ÓÐµÄ×ÊÔ´
+###### ²»¿É´ïµÄ£º
+
+Java¶ÔÏó²»±»ÈÎºÎ±äÁ¿ÒýÓÃ£¬ÇÒÏµÍ³ÔÚµ÷ÓÃ¶ÔÏóµÄfinalize()·½·¨ºóÒÀÈ»Ã»ÓÐÊ¹¸Ã¶ÔÏó±ä³É¿É´ï×´Ì¬£¨¸Ã¶ÔÏóÒÀÈ»Ã»ÓÐ±»±äÁ¿ÒýÓÃ£©ÄÇÃ´¸Ã¶ÔÏó½«±ä³É²»¿É´ï×´Ì¬,µ±Java¶ÔÏó´¦ÓÚ²»¿É´ï×´Ì¬Ê±£¬ÏµÍ³²Å»áÕæÕý»ØÊÕ¸Ã¶ÔÏóËùÕ¼ÓÐµÄ×ÊÔ´
 
 
 
 ### 6£ºËÑË÷Ëã·¨£ºËÑË÷¶¨Î»ÕâÐ©ÎÞÓÃµÄ¶ÔÏó£¨À¬»ø£©
 
-  1£ºÒýÓÃ¼ÆÊýÆ÷Ëã·¨£¨·ÏÆú£© 
-     ÒýÓÃ¼ÆÊýÆ÷Ëã·¨ÊÇ¸øÃ¿¸ö¶ÔÏóÉèÖÃÒ»¸ö¼ÆÊýÆ÷£¬µ±ÓÐµØ·½ÒýÓÃÕâ¸ö¶ÔÏóµÄÊ±ºò£¬¼ÆÊýÆ÷+1£¬µ±ÒýÓÃÊ§Ð§µÄÊ±ºò£¬¼ÆÊýÆ÷-1£¬µ±¼ÆÊýÆ÷Îª0µÄÊ±ºò£¬JVM¾ÍÈÏÎª¶ÔÏó²»ÔÙ±»Ê¹ÓÃ£¬ÊÇ¡°À¬»ø¡±ÁË
+######   1£ºÒýÓÃ¼ÆÊýÆ÷Ëã·¨£¨·ÏÆú£© 
+
+?     ÒýÓÃ¼ÆÊýÆ÷Ëã·¨ÊÇ¸øÃ¿¸ö¶ÔÏóÉèÖÃÒ»¸ö¼ÆÊýÆ÷£¬µ±ÓÐµØ·½ÒýÓÃÕâ¸ö¶ÔÏóµÄÊ±ºò£¬¼ÆÊýÆ÷+1£¬µ±ÒýÓÃÊ§Ð§µÄÊ±ºò£¬¼ÆÊýÆ÷-1£¬µ±¼ÆÊýÆ÷Îª0µÄÊ±ºò£¬JVM¾ÍÈÏÎª¶ÔÏó²»ÔÙ±»Ê¹ÓÃ£¬ÊÇ¡°À¬»ø¡±ÁË
 
  È±ÏÝ£º²»ÄÜ½â¾ö¶ÔÏóµÄÑ­»·ÒýÓÃÎÊÌâ
 
-  2£º¸ùËÑË÷Ëã·¨£¨Ê¹ÓÃ£© £º¿É´ïÐÔ·ÖÎö(Reachability Analysis) 
-	¸ùËÑË÷Ëã·¨ÊÇÍ¨¹ýÒ»Ð©¡°GC Roots¡±¶ÔÏó×÷ÎªÆðµã£¬´ÓÕâÐ©½Úµã¿ªÊ¼ÍùÏÂËÑË÷£¬ËÑË÷Í¨¹ýµÄÂ·¾¶³ÉÎªÒýÓÃÁ´£¨Reference Chain£©µ±Ò»¸ö¶ÔÏóÃ»ÓÐ±»GC RootsµÄÒýÓÃÁ´Á¬½ÓµÄÊ±ºò£¬ËµÃ÷Õâ¸ö¶ÔÏóÊÇ²»¿É´ïµÄ
+######   2£º¸ùËÑË÷Ëã·¨£¨Ê¹ÓÃ£© £º¿É´ïÐÔ·ÖÎö(Reachability Analysis) 
+
+?	¸ùËÑË÷Ëã·¨ÊÇÍ¨¹ýÒ»Ð©¡°GC Roots¡±¶ÔÏó×÷ÎªÆðµã£¬´ÓÕâÐ©½Úµã¿ªÊ¼ÍùÏÂËÑË÷£¬ËÑË÷Í¨¹ýµÄÂ·¾¶³ÉÎªÒýÓÃÁ´£¨Reference Chain£©µ±Ò»¸ö¶ÔÏóÃ»ÓÐ±»GC RootsµÄÒýÓÃÁ´Á¬½ÓµÄÊ±ºò£¬ËµÃ÷Õâ¸ö¶ÔÏóÊÇ²»¿É´ïµÄ
 
 ```java
 GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
@@ -102,26 +106,25 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ±ê¼Ç-Çå³ýËã·¨¡¢¸´ÖÆËã·¨¡¢±ê¼Ç-ÕûÀíËã·¨£¬ÕâÈýÖÖËã·¨¶¼À©³äÁË¸ùËÑË÷Ëã·¨
 
-1£º±ê¼Ç¡ªÇå³ýËã·¨£¨Mark-Sweep£©
+**1£º±ê¼Ç¡ªÇå³ýËã·¨£¨Mark-Sweep£©**
      ±ê¼Ç¡ªÇå³ýËã·¨°üÀ¨Á½¸ö½×¶Î£º¡°±ê¼Ç¡±ºÍ¡°Çå³ý¡±¡£**ÔÚ±ê¼Ç½×¶Î£¬±éÀúËùÓÐµÄGC Roots£¬È»ºó½«ËùÓÐGC Roots¿É´ïµÄ¶ÔÏó±ê¼ÇÎª´æ»îµÄ¶ÔÏó£¬Çå³ý£ºÇå³ýµÄ¹ý³Ì½«±éÀú¶ÑÖÐËùÓÐµÄ¶ÔÏó£¬½«Ã»ÓÐ±ê¼ÇµÄ¶ÔÏóÈ«²¿Çå³ýµô**
 
 È±ÏÝ£º±ê¼Ç¡ªÇå³ýËã·¨ÊÇ»ù´¡µÄÊÕ¼¯Ëã·¨£¬±ê¼ÇºÍÇå³ý½×¶ÎµÄÐ§ÂÊ²»¸ß£¬¶øÇÒÇå³ýºó»Ø²úÉú´óÁ¿µÄ²»Á¬Ðø¿Õ¼ä£¬
       ÕâÑùµ±³ÌÐòÐèÒª·ÖÅä´óÄÚ´æ¶ÔÏóÊ±£¬¿ÉÄÜÎÞ·¨ÕÒµ½×ã¹»µÄÁ¬Ðø¿Õ¼ä
 
-2£º±ê¼Ç¡ªÕûÀíËã·¨£¨Mark-Compact£© ---ÀÏÉú´ú
+**2£º±ê¼Ç¡ªÕûÀíËã·¨£¨Mark-Compact£© ---ÀÏÉú´ú**
      ±ê¼Ç¡ªÕûÀíËã·¨ºÍ±ê¼Ç¡ªÇå³ýËã·¨Ò»Ñù£¬µ«ÊÇ±ê¼Ç¡ªÕûÀíËã·¨ÊÇ°Ñ±ê¼ÇµÄ´æ»î¶ÔÏóÍùÄÚ´æµÄÒ»¶ËÒÆ¶¯£¬È»ºóÖ±½Ó»ØÊÕ±ß½çÒÔÍâµÄÄÚ´æ
 
-
-3£º¸´ÖÆËã·¨£¨Copying£© -----ÐÂÉú´ú
+**3£º¸´ÖÆËã·¨£¨Copying£© -----ÐÂÉú´ú**
      ¸´ÖÆËã·¨ÊÇ°ÑÄÚ´æ·Ö³É´óÐ¡ÏàÍ¬µÄÁ½¿é£¬Ã¿´ÎÊ¹ÓÃÆäÖÐÒ»¿é£¬µ±À¬»ø»ØÊÕµÄÊ±ºò£¬°Ñ´æ»îµÄ¶ÔÏó¸´ÖÆµ½ÁíÒ»¿éÉÏ£¬
      È»ºó°ÑÕâ¿éÄÚ´æÕû¸öÇåÀíµô
 
 È±ÏÝ£º¸´ÖÆËã·¨ÊµÏÖ¼òµ¥£¬ÔËÐÐÐ§ÂÊ¸ß£¬µ«ÊÇÓÉÓÚÃ¿´ÎÖ»ÄÜÊ¹ÓÃÆäÖÐµÄÒ»°ë£¬Ôì³ÉÄÚ´æµÄÀûÓÃÂÊ²»¸ß
 
 ÏÖÊµÖÐµÄÐéÄâ»ú¸´ÖÆËã·¨£º
- ½«java¶Ñ ÄÚ´æ£¨ÐÂÉú´úºÍÀÏÉú´ú£©ÐÂÉú´ú£¬·ÖÎªÒ»¿é±È½Ï´óµÄEden¿Õ¼äºÍÁ½¿é½ÏÐ¡µÄSurvivor¿Õ¼ä£¬Ã¿´ÎÊ¹ÓÃEdenºÍÆä  ÖÐÒ»¿éSurvivor£¬8:1:1
- µ±»ØÊÕÊ±£¬½«EdenºÍSurvivorÖÐ»¹´æ»î×ÅµÄ¶ÔÏóÒ»´ÎÐÔµØ¸´ÖÆµ½ÁíÍâÒ»¿éSurvivor¿Õ¼äÉÏ£¬×îºóÇåÀíµôEdenºÍ¸Õ²ÅÓÃ¹ýµÄ Survivor¿Õ¼ä,HotSpotÐéÄâ»úÄ¬ÈÏEdenºÍSurvivorµÄ´óÐ¡±ÈÀýÊÇ8:1£¬
- Ã¿´ÎÐÂÉú´úÖÐ¿ÉÓÃÄÚ´æ¿Õ¼äÎªÕû¸öÐÂÉú´úÈÝÁ¿µÄ90%£¨80%+10%£©£¬Ö»ÓÐ10%µÄ¿Õ¼ä»á±»ÀË·Ñ
+½«java¶Ñ ÄÚ´æ£¨ÐÂÉú´úºÍÀÏÉú´ú£©ÐÂÉú´ú£¬·ÖÎªÒ»¿é±È½Ï´óµÄEden¿Õ¼äºÍÁ½¿é½ÏÐ¡µÄSurvivor¿Õ¼ä£¬Ã¿´ÎÊ¹ÓÃEdenºÍÆä  ÖÐÒ»¿éSurvivor£¬8:1:1
+µ±»ØÊÕÊ±£¬½«EdenºÍSurvivorÖÐ»¹´æ»î×ÅµÄ¶ÔÏóÒ»´ÎÐÔµØ¸´ÖÆµ½ÁíÍâÒ»¿éSurvivor¿Õ¼äÉÏ£¬×îºóÇåÀíµôEdenºÍ¸Õ²ÅÓÃ¹ýµÄ Survivor¿Õ¼ä,HotSpotÐéÄâ»úÄ¬ÈÏEdenºÍSurvivorµÄ´óÐ¡±ÈÀýÊÇ8:1£¬
+Ã¿´ÎÐÂÉú´úÖÐ¿ÉÓÃÄÚ´æ¿Õ¼äÎªÕû¸öÐÂÉú´úÈÝÁ¿µÄ90%£¨80%+10%£©£¬Ö»ÓÐ10%µÄ¿Õ¼ä»á±»ÀË·Ñ
 
 ÐÂÉú´úÖÐµÄ¶ÔÏó98%¶¼ÊÇ¡°³¯ÉúÏ¦ËÀ¡±µÄ£¬µ±È»£¬98%µÄ¶ÔÏó¿É»ØÊÕÖ»ÊÇÒ»°ã³¡¾°ÏÂµÄÊý¾Ý£¬ÎÒÃÇÃ»ÓÐ°ì·¨±£Ö¤Ã¿´Î»ØÊÕ¶¼Ö»ÓÐ²»¶àÓÚ10%µÄ¶ÔÏó´æ»î£¬µ±Survivor¿Õ¼ä²»¹»ÓÃÊ±£¬ÐèÒªÒÀÀµÓÚÀÏÄê´ú½øÐÐ·ÖÅäµ£±££¬ËùÒÔÖ±½Ó°Ñ´ó¶ÔÏó½øÈëÀÏÄê´ú
 
@@ -139,7 +142,7 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 
 
-**Full GC£º¶ÔÕû¸ö¶ÑºÍ·½·¨Çø½øÐÐÊÕ¼¯**
+**Full GC£ºÇåÀíÕû¸ö¶Ñ¿Õ¼ä£¬°üÀ¨ÄêÇá´úºÍÓÀ¾Ã´ú**
 
 ###### ³ö·¢Full GCµÄÌõ¼þ£º
 
@@ -153,7 +156,7 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 
 
-4£º·Ö´úÊÕ¼¯£¨Generational Collection)
+**4£º·Ö´úÊÕ¼¯£¨Generational Collection)**
      ·Ö´úÊÕ¼¯ÊÇ¸ù¾Ý¶ÔÏóµÄ´æ»îÊ±¼ä°ÑÄÚ´æ·ÖÎªÐÂÉú´úºÍÀÏÄê´ú£¬¸ù¾Ý¸÷¸ö´ú¶ÔÏóµÄ´æ»îÌØµã£¬Ã¿¸ö´ú²ÉÓÃ²»Í¬µÄÀ¬»ø»ØÊÕËã·¨
 
     Ò»°ãÊÇ°ÑJava¶Ñ·ÖÎªÐÂÉú´úºÍÀÏÄê´ú£º´æ»îÊ±¼ä¶ÌµÄ¶ÔÏó¹éÎªÐÂÉú´ú£¬´æ»îÊ±¼ä³¤µÄ¶ÔÏó¹éÎªÀÏÄê´ú
@@ -169,11 +172,15 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 
 
-### 9£ºÀ¬»øÊÕ¼¯Æ÷£º(STW: Stop The World£º×îÐ¡Í£¶ÙÊ±¼ä)
+### 9£ºÀ¬»øÊÕ¼¯Æ÷£º( STW: Stop The World£º×îÐ¡Í£¶ÙÊ±¼ä )
 
 ![À¬»ø»ØÊÕÆ÷.jpg](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8.jpg?raw=true)
 
-####    1£ºSerial + Serial Old£¨´®ÐÐÊÕ¼¯Æ÷×éºÏ£©
+### Stop-The-World »úÖÆ£º
+
+¼ò³ÆSTW£¬ÊÇÔÚÖ´ÐÐÀ¬»øÊÕ¼¯Ëã·¨Ê±£¬JavaÓ¦ÓÃ³ÌÐòµÄÆäËûËùÓÐÏß³Ì¶¼±»¹ÒÆð£¨³ýÁËÀ¬»øÊÕ¼¯°ïÖúÆ÷Ö®Íâ£©¡£JavaÖÐÒ»ÖÖÈ«¾ÖÔÝÍ£ÏÖÏó£¬È«¾ÖÍ£¶Ù£¬ËùÓÐJava´úÂëÍ£Ö¹£¬native ´úÂë¿ÉÒÔÖ´ÐÐ£¬µ«²»ÄÜÓë JVM ½»»¥
+
+####    1£ºSerial + Serial Old£¨ ´®ÐÐÊÕ¼¯Æ÷×éºÏ £©
 
 ¿ªÆôÑ¡Ïî£º`-XX:+SerialGC`
 
@@ -188,23 +195,19 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ###### ¿ªÆôÑ¡Ïî£º`-XX:+UseParallelGC`»ò`-XX:+UseParallelOldGC`(¿É»¥Ïà¼¤»î)
 
-ÐÐÊÕ¼¯Æ÷Óë´®ÐÐÊÕ¼¯Æ÷¹¤×÷Ä£Ê½ÏàËÆ£¬¶¼ÊÇstop-the-world·½Ê½£¬**Ö»ÊÇÔÝÍ£Ê±²¢ÐÐµØ½øÐÐÀ¬»øÊÕ¼¯**£¬ÒÔ¹Ø×¢ÍÌÍÂÁ¿ÎªÄ¿±ê
+²¢ÐÐÊÕ¼¯Æ÷Óë´®ÐÐÊÕ¼¯Æ÷¹¤×÷Ä£Ê½ÏàËÆ£¬¶¼ÊÇstop-the-world·½Ê½£¬**Ö»ÊÇÔÝÍ£Ê±²¢ÐÐµØ½øÐÐÀ¬»øÊÕ¼¯**£¬ÒÔ¹Ø×¢ÍÌÍÂÁ¿ÎªÄ¿±ê
 
-ÄêÇá´ú²ÉÓÃ¸´ÖÆËã·¨£¬ÀÏÄê´ú²ÉÓÃ±ê¼Ç-ÕûÀí£¬ÔÚ»ØÊÕµÄÍ¬Ê±»¹»á¶ÔÄÚ´æ½øÐÐÑ¹Ëõ¡£¹Ø×¢ÍÌÍÂÁ¿Ö÷ÒªÖ¸ÄêÇá´úµÄParallel ScavengeÊÕ¼¯Æ÷£¬Í¨¹ýÁ½¸öÄ¿±ê²ÎÊý-XX:MaxGCPauseMillsºÍ-XX:GCTimeRatio£¬µ÷ÕûÐÂÉú´ú¿Õ¼ä´óÐ¡£¬À´½µµÍGC´¥·¢µÄÆµÂÊ
+**ÄêÇá´ú²ÉÓÃ¸´ÖÆËã·¨£¬ÀÏÄê´ú²ÉÓÃ±ê¼Ç-ÕûÀí**£¬ÔÚ»ØÊÕµÄÍ¬Ê±»¹»á¶ÔÄÚ´æ½øÐÐÑ¹Ëõ¡£¹Ø×¢ÍÌÍÂÁ¿Ö÷ÒªÖ¸ÄêÇá´úµÄParallel ScavengeÊÕ¼¯Æ÷£¬Í¨¹ýÁ½¸öÄ¿±ê²ÎÊý-XX:MaxGCPauseMillsºÍ-XX:GCTimeRatio£¬µ÷ÕûÐÂÉú´ú¿Õ¼ä´óÐ¡£¬À´½µµÍGC´¥·¢µÄÆµÂÊ
 
 #### 3£ºParNewÊÕ¼¯Æ÷£ºSerialÊÕ¼¯Æ÷µÄ¶àÏß³Ì°æ±¾£¬¶à¸öSerialÊÕ¼¯Æ÷Ïß³ÌÒ»ÆðGC,ÔËÐÐÔÚserverÄ£Ê½ÏÂµÄÊ×Ñ¡ÐÂÉú´úÊÕ¼¯Æ÷
 
 
 
-#### 4£ºCMS ÊÕ¼¯Æ÷£¨Concurrent Mark Sweep£º²¢·¢+±ê¼Ç+Çå³ý£©:Ò»ÖÖÒÔ»ñÈ¡×î¶Ì»ØÊÕÍ£¶ÙÊ±¼äÎªÄ¿±êµÄÊÕ¼¯Æ÷
-
-###### Ó¦ÓÃÓÚÖØÊÓ·þÎñÆ÷µÄÏìÓ¦ËÙ¶È£¬Ï£ÍûÏµÍ³Í£¶ÙÊ±¼ä×î¶Ì£¬ÀýÈçÔÚ»¥ÁªÍøÕ¾»òÕßB/SÏµÍ³µÄ·þÎñÆ÷ÉÏ£¬cmsÊÕ¼¯Ëã·¨Ö»ÊÇÇåÀíÀÏÄê´ú
 
 
+### 4£ºCMS ÊÕ¼¯Æ÷£¨Concurrent Mark Sweep£º²¢·¢+±ê¼Ç+Çå³ý£©£ºÒ»ÖÖÒÔ»ñÈ¡×î¶Ì»ØÊÕÍ£¶ÙÊ±¼äÎªÄ¿±êµÄÊÕ¼¯Æ÷
 
-###  Stop-The-World »úÖÆ:
-
-¼ò³ÆSTW£¬ÊÇÔÚÖ´ÐÐÀ¬»øÊÕ¼¯Ëã·¨Ê±£¬JavaÓ¦ÓÃ³ÌÐòµÄÆäËûËùÓÐÏß³Ì¶¼±»¹ÒÆð£¨³ýÁËÀ¬»øÊÕ¼¯°ïÖúÆ÷Ö®Íâ£©¡£JavaÖÐÒ»ÖÖÈ«¾ÖÔÝÍ£ÏÖÏó£¬È«¾ÖÍ£¶Ù£¬ËùÓÐJava´úÂëÍ£Ö¹£¬native´úÂë¿ÉÒÔÖ´ÐÐ£¬µ«²»ÄÜÓëJVM½»»¥
+###### Ó¦ÓÃÓÚÖØÊÓ·þÎñÆ÷µÄÏìÓ¦ËÙ¶È£¬Ï£ÍûÏµÍ³Í£¶ÙÊ±¼ä×î¶Ì£¬ÀýÈçÔÚ»¥ÁªÍøÕ¾»òÕßB/SÏµÍ³µÄ·þÎñÆ÷ÉÏ£¬cmsÊÕ¼¯Ëã·¨Ö»ÊÇ ÇåÀíÀÏÄê´ú
 
 
 
@@ -212,9 +215,9 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ![CMS.png](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/CMS.png?raw=true)
 
-###### 1£ºInitialMarking£¨³õÊ¼»¯±ê¼Ç£©
+###### 1£ºInitialMarking£¨³õÊ¼»¯±ê¼Ç£¬STW¹ý³Ì £©
 
-¸Ã½×¶Îµ¥Ïß³ÌÖ´ÐÐ£¬Ö÷Òª·Ö·ÖÎªÁ½²½£º±ê¼ÇGC ROOTÄÜ**Ö±½Ó¹ØÁª**µ½µÄ¶ÔÏó
+¸Ã½×¶Îµ¥Ïß³ÌÖ´ÐÐ£¬Ö÷Òª·Ö·ÖÎªÁ½²½£º±ê¼ÇGC ROOTÄÜ**Ö±½Ó¹ØÁª**µ½µÄ¶ÔÏó£¬±ê¼Ç¸ù¶ÔÏó
 
 1. ±ê¼ÇGC Roots¿É´ïµÄÀÏÄê´ú¶ÔÏó£»
 2. ±éÀúÐÂÉú´ú¶ÔÏó£¬±ê¼Ç¿É´ïµÄÀÏÄê´ú¶ÔÏó£»
@@ -235,7 +238,7 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 2. ÔÚ²¢·¢±ê¼Ç½×¶Î£¬Èç¹ûÀÏÄê´úÖÐÓÐ¶ÔÏóÄÚ²¿ÒýÓÃ·¢Éú±ä»¯£¬»á°ÑËùÔÚµÄCard±ê¼ÇÎªDirty£¬Í¨¹ýÉ¨ÃèÕâÐ©Table£¬ÖØÐÂ±ê¼ÇÄÇÐ©ÔÚ²¢·¢±ê¼Ç½×¶ÎÒýÓÃ±»¸üÐÂµÄ¶ÔÏó£¨½úÉýµ½ÀÏÄê´úµÄ¶ÔÏó¡¢Ô­±¾¾ÍÔÚÀÏÄê´úµÄ¶ÔÏó£©
 
-   ##### **CARD TABLE**µÄ¶«Î÷£¨Õâ¸ö¶«Î÷ÆäÊµ¾ÍÊÇ¸öÊý×é,Êý×éÖÐÃ¿¸öÎ»ÖÃ´æµÄÊÇÒ»¸öbyte)
+   ##### CARD TABLE¿¨±í£¨Õâ¸ö¶«Î÷ÆäÊµ¾ÍÊÇ¸öÊý×é,Êý×éÖÐÃ¿¸öÎ»ÖÃ´æµÄÊÇÒ»¸öbyte)
 
    CMS½«ÀÏÄê´úµÄ¿Õ¼ä·Ö³É´óÐ¡Îª512 byte µÄ¿é£¬card tableÖÐµÄÃ¿¸öÔªËØ¶ÔÓ¦×ÅÒ»¸ö¿é,²¢·¢±ê¼ÇÊ±£¬Èç¹ûÄ³¸ö¶ÔÏóµÄÒýÓÃ·¢ÉúÁË±ä»¯£¬¾Í±ê¼Ç¸Ã¶ÔÏóËùÔÚµÄ¿éÎª  **dirty card**,²¢·¢Ô¤ÇåÀí½×¶Î¾Í»áÖØÐÂÉ¨Ãè¸Ã¿é£¬½«¸Ã¶ÔÏóÒýÓÃµÄ¶ÔÏó±êÊ¶Îª¿É´ï
 
@@ -251,7 +254,7 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 2. ÀÏÄê´úµÄÎ´±ê¼Ç¶ÔÏó±»ÐÂÉú´ú¶ÔÏóÒýÓÃ
 3. ÀÏÄê´úÒÑ±ê¼ÇµÄ¶ÔÏóÔö¼ÓÐÂÒýÓÃÖ¸ÏòÀÏÄê´úÆäËü¶ÔÏó
 4. ÐÂÉú´ú¶ÔÏóÖ¸ÏòÀÏÄê´úÒýÓÃ±»É¾³ý
-5. Ò²Ðí»¹ÓÐÆäËüÇé¿ö..
+5. Ò²Ðí»¹ÓÐÆäËüÇé¿ö
 
 ÉÏÊö¶ÔÏóÖÐ**¿ÉÄÜÓÐÒ»Ð©ÒÑ¾­ÔÚPrecleaning½×¶ÎºÍAbortablePreclean½×¶Î±»´¦Àí¹ý£¬µ«×Ü´æÔÚÃ»À´µÃ¼°´¦ÀíµÄ**£¬ËùÒÔ»¹ÓÐ½øÐÐÈçÏÂµÄ´¦Àí£º
 
@@ -273,34 +276,70 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ²¢·¢Ê±GCÏß³ÌÓëÓÃ»§Ïß³ÌÇÀÕ¼CPU,Õâ¿ÉÄÜ»áÔì³ÉÓÃ»§Ïß³ÌÖ´ÐÐÐ§ÂÊÏÂ½µ
 
-
-
 Èç¹û´¥·¢ÁËÖ÷¶¯Old GC£¬ÕâÊ±ÖÜÆÚÐÔOld GCÕýÔÚÖ´ÐÐ£¬ÄÇÃ´»á¶á¹ýÖÜÆÚÐÔOld GCµÄÖ´ÐÐÈ¨£¨Í¬Ò»¸öÊ±¿ÌÖ»ÄÜÓÐÒ»ÖÖÔÚOld  GCÔÚÔËÐÐ£©£¬²¢¼ÇÂ¼ concurrent mode failure »òÕß concurrent mode interrupted
 
 
 
 ### cms gc ºÍ full gc µÄÇø±ð
 
-**cms gc** Í¨¹ýÒ»¸öºóÌ¨Ïß³Ì´¥·¢£¬´¥·¢»úÖÆÊÇÄ¬ÈÏÃ¿¸ô2ÃëÅÐ¶ÏÒ»ÏÂµ±Ç°ÀÏÄê´úµÄÄÚ´æÊ¹ÓÃÂÊÊÇ·ñ´ïµ½ãÐÖµ£¬µ±È»¾ßÌåµÄ´¥·¢Ìõ¼þÃ»ÓÐÕâÃ´¼òµ¥£¬Èç¹ûÊÇÔò´¥·¢Ò»´Îcms gc£¬ÔÚ¸Ã¹ý³ÌÖÐÖ»»á±ê¼Ç³ö´æ»î¶ÔÏó£¬È»ºóÇå³ýËÀÍö¶ÔÏó£¬ÆÚ¼ä»á²úÉúËéÆ¬¿Õ¼ä
+**cms gc** Í¨¹ýÒ»¸öºóÌ¨Ïß³Ì´¥·¢£¬´¥·¢»úÖÆÊÇÄ¬ÈÏ**Ã¿¸ô2ÃëÅÐ¶ÏÒ»ÏÂµ±Ç°ÀÏÄê´úµÄÄÚ´æÊ¹ÓÃÂÊÊÇ·ñ´ïµ½ãÐÖµ**£¬µ±È»¾ßÌåµÄ´¥·¢Ìõ¼þÃ»ÓÐÕâÃ´¼òµ¥£¬Èç¹ûÊÇÔò´¥·¢Ò»´Îcms gc£¬ÔÚ¸Ã¹ý³ÌÖÐÖ»»á±ê¼Ç³ö´æ»î¶ÔÏó£¬È»ºóÇå³ýËÀÍö¶ÔÏó£¬ÆÚ¼ä»á²úÉúËéÆ¬¿Õ¼ä
 
 **full gc** ÊÇÍ¨¹ý vm thread£¨ÐéÄâ»úÏß³Ì£© Ö´ÐÐµÄ£¬µ¥Ïß³ÌµÄ£¬Õû¸ö¹ý³ÌÊÇ stop-the-world£¬ÔÚ¸Ã¹ý³ÌÖÐ»áÅÐ¶Ïµ±Ç° gc ÊÇ·ñÐèÒª½øÐÐcompact£¨Ñ¹Ëõ£©£¬¼´°Ñ´æ»î¶ÔÏóÒÆ¶¯µ½ÄÚ´æµÄÒ»¶Ë£¬¿ÉÒÔÓÐÐ§µÄÏû³ýcms gc²úÉúµÄËéÆ¬¿Õ¼ä
 
 
 
-###    5£ºG1ÊÕ¼¯Æ÷£ºÃæÏò·þÎñ¶ËÓ¦ÓÃµÄÊÕ¼¯Æ÷£¬½â¾öCMSÎÊÌâ¶ø³öÏÖµÄGC
 
-**ÊÇ»ùÓÚ±ê¼Ç-ÕûÀíËã·¨ÊµÏÖµÄ**£¬Ëû**²»ÏñCMS»á²úÉú´óÁ¿ËéÆ¬**£¬¿ÉÒÔ**¾«È·µØ¿ØÖÆÍ£¶Ù£¬**½«¶Ñ»®·ÖÎª¶à¸ö´óÐ¡¹Ì¶¨µÄ¶ÀÁ¢ÇøÓò£¬²¢¸ú×ÙÕâÐ©ÇøÓòµÄÀ¬»ø¶Ñ»ý³Ì¶È£¬ÔÚºóÌ¨Î¬»¤Ò»¸öÓÅÏÈÁÐ±í£¬**Ã¿´Î¸ù¾ÝÔÊÐíµÄÊÕ¼¯Ê±¼ä£¬ÓÅÏÈ»ØÊÕÀ¬»ø×î¶àµÄÇøÓò**
 
-**1£ºÖ§³Ö²¢ÐÐ²¢·¢**£ºG1Ê¹ÓÃ¶à¸öCPUÀ´Ëõ¶ÌStop-The-WorldÍ£¶ÙÊ±¼ä£¬Í¨¹ý²¢·¢¿ÉÒÔÈÃ java ³ÌÐò¼ÌÐøÔËÐÐ
-**2£º·ÖÇø Region**£ºÄ¬ÈÏ½«Õû¶Ñ»®·ÖÎª2048¸ö·ÖÇø,Âß¼­ÉÏÓÖ·ÖÎªÐÂÉú´úºÍÀÏÉú´ú
+###    5£ºG1ÊÕ¼¯Æ÷£ºÉè¼ÆÔ­Ôò¾ÍÊÇ¼òµ¥¿ÉÐÐµÄÐÔÄÜµ÷ÓÅ£¬È¡ÏûÁËÐÂÉú´ú£¬ÀÏÄê´úµÄÎïÀí¿Õ¼ä»®·Ö£¬jdk1.9
+
+**½«¶Ñ»®·ÖÎªÈô¸É¸öÇøÓò£¨Region**£©£¬ËüÈÔÈ»ÊôÓÚ·Ö´úÊÕ¼¯Æ÷¡£²»¹ý£¬ÕâÐ©ÇøÓòµÄÒ»²¿·Ö°üº¬ÐÂÉú´ú£¬**ÐÂÉú´úµÄÀ¬»øÊÕ¼¯ÒÀÈ»²ÉÓÃÔÝÍ£ËùÓÐÓ¦ÓÃÏß³ÌµÄ·½Ê½£¨STW£©**£¬½«´æ»î¶ÔÏó¿½±´µ½ÀÏÄê´ú»òÕßSurvivor¿Õ¼ä¡£**ÀÏÄê´úÒ²·Ö³ÉºÜ¶àÇøÓò£¬G1ÊÕ¼¯Æ÷Í¨¹ý½«¶ÔÏó´ÓÒ»¸öÇøÓò¸´ÖÆµ½ÁíÍâÒ»¸öÇøÓò£¬Íê³ÉÁËÇåÀí¹¤×÷£¬Ïàµ±ÓÚ±ê¼Ç-ÕûÀí**¡£Õâ¾ÍÒâÎ¶×Å£¬²»»á³öÏÖÄÚ´æËéÆ¬
+
+### ÌØµã
+
+**1£ºÖ§³Ö²¢ÐÐ²¢·¢£º**G1Ê¹ÓÃ¶à¸öCPUÀ´Ëõ¶ÌStop-The-WorldÍ£¶ÙÊ±¼ä£¬Í¨¹ý²¢·¢¿ÉÒÔÈÃ java ³ÌÐò¼ÌÐøÔËÐÐ
+**2£º·ÖÇø Region£º**Ä¬ÈÏ½«**Õû¶Ñ»®·ÖÎª2048¸ö·ÖÇø,**Âß¼­ÉÏÓÖ·ÖÎªÐÂÉú´úºÍÀÏÉú´ú
 **3£º¿Õ¼äÕûºÏ£º**½áºÏ¶àÖÖÀ¬»øÊÕ¼¯Ëã·¨£¬²»»á²úÉúÄÚËéÆ¬
 **4£º¿ÉÔ¤²âµÄÍ£¶Ù£º**µÍÍ£¶ÙµÄÍ¬Ê±ÊµÏÖ¸ßÍÌÍÂ£¬¿ÉÒÔÃ÷È·Ö¸¶¨MºÁÃëµÄÊ±¼äÆ¬ÄÚ£¬ÏûºÄÔÚÀ¬»øÊÕ¼¯ÉÏµÄÊ±¼ä²»ÄÜ³¬¹ý N ºÁÃë
 
-**YGC£º²ÉÓÃ¸´ÖÆËã·¨**£ºµ±JVM·ÖÅä¶ÔÏóµ½EdenÇøÓòÊ§°Ü(EdenÇøÒÑÂú)Ê±£¬±ã»á´¥·¢Ò»´ÎSTWÊ½µÄÄêÇá´úÊÕ¼¯
-
-**»ìºÏGC½×¶Î£º**  µ±ÀÏÄê´úÕ¼ÓÃ¿Õ¼ä³¬¹ýÕû¶Ñ±È IHOPãÐÖµ£¬**²ÉÓÃ±ê¼Ç-ÕûÀí£¬ÓëCMS¹ý³ÌÏàËÆ**
+**HumongousÇøÓò£º** Èç¹ûÒ»¸ö¶ÔÏóÕ¼ÓÃµÄ¿Õ¼ä³¬¹ýÁË·ÖÇøÈÝÁ¿50%ÒÔÉÏ£¬G1ÊÕ¼¯Æ÷¾ÍÈÏÎªÕâÊÇÒ»¸ö¾ÞÐÍ¶ÔÏó¡£ÕâÐ©¾ÞÐÍ¶ÔÏó£¬Ä¬ÈÏÖ±½Ó»á±»·ÖÅäÔÚÄêÀÏ´ú£¬µ«ÊÇÈç¹ûËüÊÇÒ»¸ö¶ÌÆÚ´æÔÚµÄ¾ÞÐÍ¶ÔÏó£¬¾Í»á¶ÔÀ¬»øÊÕ¼¯Æ÷Ôì³É¸ºÃæÓ°Ïì¡£ÎªÁË½â¾öÕâ¸öÎÊÌâ£¬G1»®·ÖÁËÒ»¸öHumongousÇø£¬ËüÓÃÀ´×¨ÃÅ´æ·Å¾ÞÐÍ¶ÔÏó¡£Èç¹ûÒ»¸öHÇø×°²»ÏÂÒ»¸ö¾ÞÐÍ¶ÔÏó£¬ÄÇÃ´G1»áÑ°ÕÒÁ¬ÐøµÄH·ÖÇøÀ´´æ´¢¡£ÎªÁËÄÜÕÒµ½Á¬ÐøµÄHÇø£¬ÓÐÊ±ºò²»µÃ²»Æô¶¯Full GC
 
 
 
 
+
+#### Remembered Set£ºÓÃÓÚ¸ú×ÙÖ¸ÏòÄ³¸öheapÇøÄÚµÄ¶ÔÏóÒýÓÃ
+
+G1ÖÐÊ¹ÓÃ**point-inµÄÒâË¼ÊÇÄÄÐ©·ÖÇøÒýÓÃÁËµ±Ç°·ÖÇøÖÐµÄ¶ÔÏó**¡£ÕâÑù£¬½ö½ö½«ÕâÐ©¶ÔÏóµ±×ö¸ùÀ´É¨Ãè¾Í±ÜÃâÁËÎÞÐ§µÄ£¬ÔÚÓÚÃ¿´ÎGCÊ±£¬ËùÓÐÐÂÉú´ú¶¼»á±»É¨Ãè£¬ËùÒÔ**Ö»ÐèÒª¼ÇÂ¼ÀÏÄê´úµ½ÐÂÉú´úÖ®¼äµÄÒýÓÃ**¼´¿É
+
+Èç¹ûÒýÓÃµÄ¶ÔÏóºÜ¶à£¬¸³ÖµÆ÷ÐèÒª¶ÔÃ¿¸öÒýÓÃ×ö´¦Àí£¬¸³ÖµÆ÷¿ªÏú»áºÜ´ó£¬ÎªÁË½â¾ö¸³ÖµÆ÷¿ªÏúÕâ¸öÎÊÌâ£¬Í¨¹ý¿¨±í
+
+ÔÚG1 ÖÐÍ¨¹ý**¿¨±í£¨Card Table£©**£¬**Ò»¸öCard Table½«Ò»¸ö·ÖÇøÔÚÂß¼­ÉÏ»®·ÖÎª¹Ì¶¨´óÐ¡µÄÁ¬ÐøÇøÓò£¬**Ã¿¸öÇøÓò³ÆÖ®Îª¿¨¡£¿¨Í¨³£½ÏÐ¡£¬½éÓÚ128µ½512×Ö½ÚÖ®¼ä¡£**Card TableÍ¨³£Îª×Ö½ÚÊý×é£¬ÓÉCardµÄË÷Òý£¨¼´Êý×éÏÂ±ê£©À´±êÊ¶Ã¿¸ö·ÖÇøµÄ¿Õ¼äµØÖ·**¡£Ä¬ÈÏÇé¿öÏÂ£¬Ã¿¸ö¿¨¶¼Î´±»ÒýÓÃ¡£**µ±Ò»¸öµØÖ·¿Õ¼ä±»ÒýÓÃÊ±£¬Õâ¸öµØÖ·¿Õ¼ä¶ÔÓ¦µÄÊý×éË÷ÒýµÄÖµ±»±ê¼ÇÎª¡±0¡å£¬¼´±ê¼ÇÎªÔà±»ÒýÓÃ**
+
+´ËÍâ RSet Ò²½«Õâ¸öÊý×éÏÂ±ê¼ÇÂ¼ÏÂÀ´£¬Ò»°ãÇé¿öÏÂ£¬Õâ¸öRSetÆäÊµÊÇÒ»¸öHash Table£¬KeyÊÇ±ðµÄRegionµÄÆðÊ¼µØÖ·£¬ValueÊÇÒ»¸ö¼¯ºÏ£¬ÀïÃæµÄÔªËØÊÇCard Table µÄ Index
+
+### Young GC  ½×¶Î£º¸´ÖÆËã·¨
+
+###### 1£ºÉ¨ÃèËùÓÐÐÂÉú´úÇøÓò£¬½øÐÐ¸úÉ¨Ãè
+
+###### 2£º´¦Àí dirty card ¶ÓÁÐ¸üÐÂRSet 
+
+###### 3£º´¦ÀíRSet £¬¼ì²â´ÓÄêÇá´úÖ¸ÏòÄêÀÏ´úµÄ¶ÔÏó
+
+###### 4£º°Ñ´æ»îµÄ¶ÔÏó¿½±´µ½ survivor/old ÇøÓò£¬»ØÊÕÕâ¸öÇøÓò
+
+
+
+### MiXed GC ½×¶Î£º²»½ö½ö½øÐÐÕý³£µÄÐÂÉú´úÀ¬»øÊÕ¼¯£¬Í¬Ê±Ò²»ØÊÕ²¿·ÖºóÌ¨É¨ÃèÏß³Ì±ê¼ÇµÄ·ÖÇø
+
+###### 1£ºÈ«¾Ö²¢·¢±ê¼Ç£¨global concurrent marking£© £ººÍCMSÀàËÆ¹ý³Ì
+
+###### 2£º¿½±´´æ»î¶ÔÏó£¨evacuation£©
+
+
+
+### JVMµ÷ÓÅ
+
+-XX:+UseG1GC -Xmx32g -XX:MaxGCPauseMillis=200
+
+ÆäÖÐ**-XX:+UseG1GC**Îª¿ªÆôG1À¬»øÊÕ¼¯Æ÷£¬**-Xmx32g** Éè¼Æ¶ÑÄÚ´æµÄ×î´óÄÚ´æÎª32G£¬**-XX:MaxGCPauseMillis=200**ÉèÖÃGCµÄ×î´óÔÝÍ£Ê±¼äÎª200ms£¬Èç¹ûÎÒÃÇÐèÒªµ÷ÓÅ£¬ÔÚÄÚ´æ´óÐ¡Ò»¶¨µÄÇé¿öÏÂ£¬ÎÒÃÇÖ»ÐèÒªÐÞ¸Ä×î´óÔÝÍ£Ê±¼ä¼´¿É
 
