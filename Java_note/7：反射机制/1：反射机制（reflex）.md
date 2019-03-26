@@ -1,5 +1,5 @@
 
-RTTI(Run-Time Type Identification)：运行时类型识别,RTTI能在运行时就能够自动识别每个编译时已知的类型
+RTTI(Run-Time Type Identification)：运行时类型识别,RTTI 能在运行时就能够自动识别每个编译时已知的类型
 
 ## JAVA反射机制
 
@@ -45,9 +45,9 @@ Field getDeclaredField(String name)
 Field[] getDeclaredFields() 
       	返回 Field 对象的一个数组，这些对象反映此 Class 对象所表示的类或接口所声明的所有字段 
 
- Method getDeclaredMethod(String name, Class<?>... parameterTypes) 
+Method getDeclaredMethod(String name, Class<?>... parameterTypes) 
           	返回一个 Method 对象，该对象反映此 Class 对象所表示的类或接口的指定已声明方法
- Method[] getDeclaredMethods() 
+Method[] getDeclaredMethods() 
           	返回 Method 对象的一个数组，这些对象反映此 Class 对象表示的类或接口声明的所有方法，包括公共、保护、默认（包）访问和私有方法，但不包括继承的方法 
 
 Field getField(String name) 

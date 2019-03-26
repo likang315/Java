@@ -6,15 +6,15 @@
 4：进行读写操作
 5：关闭IO
 
-### IO流：将数据是读入到内存还是从内存写出分为：输入流（读入） +  输出流（写出）
+### IO 流 ：将数据是读入到内存还是从内存写出分为：输入流（读入） +  输出流（写出）
 
 **输入流：**全部是InputStream/Reader的子类 其类名是以InputStream/Reader结尾    进行读的操作
 **输出流：**全部是OutputStream/Writer的子类 其类名是以OutputStream/Writer结尾  进行写的操作
 
 字节流经常操作二进制的数据，比如图片，视频，音乐等等，文本文件的使用字符流
 	
-字节流（低级流）
-字节流：全部是InputStream、OutputStream的子类 其类名是以OutputStream/InputStream结尾
+字节流（低级流)
+字节流：全部是InputStream、OutputStream的子类 其类名是以 OutputStream/InputStream 结尾
 
 ######  public abstract class InputStream
 
@@ -26,7 +26,7 @@
 
 ###### public class FileInputStream extends InputStream
 
-FileInputStream：从文件系统中的某个文件中获得输入字节，文件输入流（低级流）
+从文件系统中的某个文件中获得输入字节，文件输入流（低级流）
 
 ```java
 构造方法：		
@@ -73,7 +73,7 @@ FileOutputStream：文件字节输出流是用于将数据写入文件中，低级流
 ### 字符流（高级流）
 
 字符流：全部是Reader、Writer的子类，其类名是以Reader、Writer结尾，以char为读写单位
-字符流使用了字节流读到一个或多个字时，先去查指定的编码表，将查到的字符返回
+字符流使用了字节流读到一个或多个字时，**先去查指定的编码表，将查到的字符返回**
 
 ```java
 public abstract class Reader  public abstract class Writer
@@ -128,7 +128,7 @@ public class OutputStreamWriter extends Writer
 
 
 
-###  BufferedOutputStream  :该类实现缓冲的输出流
+###  BufferedOutputStream  ：该类实现缓冲的输出流
 
 ######  public class BufferedOutputStream extends FilterOutputStream
 
@@ -136,7 +136,6 @@ public class OutputStreamWriter extends Writer
 构造方法：
 	BufferedOutputStream(OutputStream out) 
     		创建一个新的缓冲输出流，以将数据写入指定的底层输出流。
-
 方法：
 	 void flush() 
       		刷新此缓冲的输出，强制缓冲区的内容一次性写出
@@ -144,9 +143,11 @@ public class OutputStreamWriter extends Writer
       		将指定 byte 数组中写入此缓冲的输出流
 ```
 
- public class BufferedReader extends Reader
+
 
 ###  BufferedReader	:字符缓冲输入流，按行读取字符串
+
+public class BufferedReader extends Reader
 
 构造方法：
 	BufferedReader(Reader in)
@@ -174,12 +175,12 @@ public class OutputStreamWriter extends Writer
 ```
 
 
- BufferWriter增强版
+
 
 ###  PrintWriter：具有自动刷新，换行功能的缓冲字符输出流，内部会创建BufferWriter作为缓冲功能的叠加
 
 ```java
-构造方法：
+//构造方法：
 	PrintWriter(File file) 
       		使用指定文件创建不具有自动行刷新的新 PrintWriter。
 	PrintWriter(String fileName) 
@@ -187,7 +188,7 @@ public class OutputStreamWriter extends Writer
 	PrintWriter(OutputStream out, boolean autoFlush) 
       		传入其他字节流，创建新的 PrintWriter，同个第二个参数来确定具不具有行刷新
 
-方法：所有的println具有自动行刷功能，每当调用时，自动刷新  
+//方法：所有的println具有自动行刷功能，每当调用时，自动刷新  
 	void println() 
       		通过写入行分隔符字符串终止当前行 
 	void println(String x) 
@@ -201,8 +202,8 @@ public class OutputStreamWriter extends Writer
 常用流类：
    **1：ByteArrayInputStream，ByteArrayOutputStream**  
 
-?	调用 ByteArrayInputStream 或 ByteArrayOutputStream 对象的 close 方法没有任何意义，这两个基于内存的流
-?	 只要垃圾回收器清理对象就能够释放资源，不同于其他流
+调用 ByteArrayInputStream 或 ByteArrayOutputStream 对象的 close 方法没有任何意义，这两个基于内存的流
+只要垃圾回收器清理对象就能够释放资源，不同于其他流
    **2：ImageIO**
 
 
