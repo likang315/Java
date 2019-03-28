@@ -71,6 +71,12 @@ static void	reverse(List<?> list)	返回有序集合
 
 
 
+#### Collection.sort(List<T> list, Comparator<? super T> :底层用Timsort：是一种归并+插入排序
+
+#### Arrays.sort()：如果数组长度大于等于 286 且 连续性好 （连续升序和连续降序）的话，就用归并排序，如果大于等于286 且 连续性不好的话就用 双轴快速排序 。如果长度小于286且大于等于47的话就用双轴快速排序，如果长度小于47的话就用插入排序
+
+
+
 ### 3：List（接口）：序列，有序可重复，允许 多个 null 存在
 
 java.util 

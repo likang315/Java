@@ -1,4 +1,4 @@
-## Spring MVC：基于Model2 实现的技术框架
+## Spring MVC：基于 Model2 实现的技术框架
 
 ![](F:\note\19：SpringMVC\1：Spring MVC.png)
 

@@ -50,7 +50,7 @@ Iterator支持fail-fast机制，当多个线程操作集合时，会抛出异常，而Enumeration不支持
 
 ######  Interface Comparable<T>:强行对它的实现类的每个对象进行整体排序-----------内比较器
 
- 实现Comparable接口，必须重写int compareTo(Object o)方法												  int compareTo(T o) ------------   比较此对象与指定对象进行比较
+实现Comparable接口，必须重写int compareTo(Object o)方法												  int compareTo(T o) ------------   比较此对象与指定对象进行比较
 
 
 

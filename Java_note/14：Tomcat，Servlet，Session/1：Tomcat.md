@@ -1,6 +1,6 @@
 ### Servlet 的运行环境叫做 Servlet容器
 
-### Tomcat：是一个Servlet和JSP容器，独立的 WEB 服务器软件
+### Tomcat：是一个 Servlet 和 JSP 容器，独立的 WEB 服务器软件
 
 ##### 目录结构
 

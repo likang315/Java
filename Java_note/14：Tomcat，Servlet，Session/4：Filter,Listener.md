@@ -22,7 +22,7 @@ void	destroy()
 @WebFilter("/admin/*")  //过滤检查登录
 public class CheckLogedFilter implements Filter {
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)throws IOException, ServletException 
+public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)  throws IOException, ServletException 
 	{
 		 HttpServletRequest  req=(HttpServletRequest)arg0;
 		 HttpServletResponse resp=(HttpServletResponse)arg1;
@@ -49,14 +49,7 @@ public class CheckLogedFilter implements Filter {
 void	doFilter(ServletRequest request, ServletResponse response) 
 	调用下一个过滤器的doFilter()
 
-##### 3：FilterConfig（InterFace）:过滤器配置文件
-
-##### 4：请求，响应包装类(Wrapper)
-
-ServletRequestWrapper（Class） 和 ServletResponseWrapper（Class）
-HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
-
-######  作用：如果想重写 Request 和 Response 中的方法，那么就可以继承以上 4 个包装类
+##### 3：FilterConfig（InterFace）：过滤器配置文件
 
 ```xml
 主要是重写dofilter()
@@ -72,6 +65,60 @@ HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
 
 
 
+##### 4：请求，响应包装类(Wrapper)
+
+ServletRequestWrapper（Class） 和 ServletResponseWrapper（Class）
+HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
+
+######  作用：如果想重写 Request 和 Response 中的方法，那么就可以继承以上 4 个包装类
+
+
+
+### 统一页面的访问量
+
+```java
+   //Web应用程序只有一个ServletContext，且所有的servlet共享
+   ServletContext context = getServletContext();
+   Integer count = null;
+   synchronized(context)
+   {
+   	   count = (Integer) context.getAttribute("counter");
+       if (null == count)
+           count = new Integer(1);
+       else
+           count = new Integer(count.intValue() + 1);
+       
+       context.setAttribute("counter", count);
+   }
+```
+
+### 统计有多少用户的访问量
+
+```java
+ServletContext context = getServletContext();
+Integer count = null;
+synchronized(context)
+{
+    //一个用户对应一个session
+    if(session.isNew())
+	{
+        count = (Integer) context.getAttribute("counter");
+        if (null == count)
+            count = new Integer(1);
+        else
+            count = new Integer(count.intValue() + 1);
+
+        context.setAttribute("counter", count);
+	}
+}
+```
+
+### 统计同一个用户的访问量（JsessionID）
+
+数据库中新建一个表存储和网站访问量相关的数据，最简单的就是一个visitcount表中包含一个字段count，当用户访问网站首页面时候，通过 Session.isNew() 判断是不是新的用户，创建新的记录值设为 1，否则，去对应的字段，更新count+1
+
+
+
 ### 监听器（观察者设计模式）
 
 ######   监听器的配置
@@ -79,7 +126,7 @@ HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
 ​	1：@WebListener 
 ​	2：Web.xml，参考ppt
 
-```java
+```xml
 @WebListener 配制在具体是实现类上
 <web-app>
 	<listener>

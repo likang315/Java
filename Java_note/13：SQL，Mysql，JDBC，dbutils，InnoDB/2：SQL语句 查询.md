@@ -173,7 +173,7 @@ HAVING必须在GROUP BY之后
 
 ##### SELECT dep_id,count(dep_id) FROM emp GROUP BY dep_id HAVING count(dep_id)>1；
 
-
+统计部门的人数
 
 ### 7：分页查询 LIMIT 
 
@@ -182,7 +182,7 @@ SELECT * FROM emp LIMIT 3,5;//从结果的第4条开始，查询5条
 
 ### 8：UNION 操作符用于合并两个或多个 SELECT 语句的结果集，UNION 命令只会选取不同的值
 
-请注意，UNION 内部的 **SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同**，
+请注意，UNION 内部的 **SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同**
 
 ```sql
 SELECT column_name(s) FROM table_name1
@@ -297,9 +297,9 @@ ref：使用**非唯一索引扫描或者唯一索引的前缀扫描，返回匹配某个单独值的记录行**
 
 Using index ：该值表示相应的select操作中使用了**覆盖索引**
 
-Using where：表示mysql服务器将**在存储引擎检索行后再进行过滤**
+Using where：表示 mysql 服务器将**在存储引擎检索行后再进行过滤**
 
-Using temporary：表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询
+Using temporary：表示 MySQL 需要使用临时表来存储结果集，常见于排序和分组查询
 
 #### 10：Table ：执行SQL用到的表名
 
@@ -315,23 +315,19 @@ Using temporary：表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询
 　　6、计算所有的表达式；（select:查看结果集中的哪个列，或列的计算结果 ）
 　　7、使用order by对结果集进行排序
 
-### 12：sql 语句的优化
-
-**from 子句 -- 执行顺序为从后往前、从右到左**
-
-最后面的那个表名为驱动表，执行顺序为从后往前, 所以数据量较少的表尽量放后
+### 12：sql  语句的优化
 
 **where子句--执行顺序为自下而上、从右到左**
 
 Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
 
-**group by--执行顺序从左往右分组**
+**group by--字段加上索引，最左前缀匹配原则**
 
-提高GROUP BY 语句的效率, 可以通过将不需要的记录在GROUP BY 之前过滤掉。即在GROUP BY前使用WHERE来过虑，而尽量避免GROUP BY后再HAVING过滤
+把group by 的字段加上索引，因为符合最左前缀匹配原则，块
 
 **having 子句----很耗资源，尽量少用**
 
-避免使用HAVING 子句, HAVING 只会在检索出所有记录之后才对结果集进行过滤. 这个处理需要排序,总计等操作
+避免使用HAVING 子句, **HAVING 只会在检索出所有记录之后才对结果集进行过滤.** 这个处理需要排序,总计等操作
 
 **select子句--少用*号，尽量取字段名称**
 
@@ -345,13 +341,13 @@ Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
 
 查看有没有走索引
 
-#### count（1）和count（*），count（字段）
+#### count（1）和 count（*），count（字段）
 
-###### 统计有多少条的记录
+###### 统计有多少条的记录 
 
-count（1）：查询遍历的第一个字段，包含null的记录,除非是主键索引，否则没什么区别和count（*）
+count（1）：查询遍历的第一个字段，包含null 的记录,除非是主键索引，否则没什么区别和count（*）
 
-##### count（*）会自己优化指定到哪一个字段，包含值为null的记录
+##### count（*）会自己优化指定到哪一个字段，包含值为 null 的记录
 
 count（字段）：统计该字段在表中出现的次数，不统计null记录
 

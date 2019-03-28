@@ -1,6 +1,6 @@
 ## 文件的上传和下载
 
-  upload:基于RFC1867协议
+upload:基于RFC1867协议
      RFC1867协议主要是**在HTTP协议的基础上为input标签增加了type="file"属性，同时限定了Form的method="post"
      enctype="multipart/form-data"**
 
@@ -33,7 +33,8 @@ HttpServletRequest 增加了对文件上传的支持
 
 ### 3：part (InterFace)：每个 Part 对象封装一个文件上传域，该对象提供访问上传文件的文件类型、大小、输入流等方法，
 
-并提供了一个 write(String file)方法将上传文件写入服务器磁盘，上传域指 type="file" 的input
+###### 并提供了一个 write(String file)方法将上传文件写入服务器磁盘，上传域指 type="file" 的input
+
 java.lang.String   getContentType() 
 		文件的类型（mimetype:根据前几个字节，判断文件类型）
 
@@ -50,9 +51,9 @@ java.lang.String   getContentType()
 
 根据绝对路径，将上传文件写到server磁盘的指定路径位置
 
-### 4： Apache Commons fileupload 文件上传组件，导入jar包
+### 4： Apache Commons  fileupload 文件上传组件，导入 jar 包
 
-其核思想是将用户的请求转换为一个 List<FileItem>的集合，其中 FileItem 就是一个part，文件上传域
+其核思想是将用户的请求转换为一个 List<FileItem> 的集合，其中 FileItem 就是一个part，文件上传域
 
 ###### FileItem(Interface ):
 
@@ -93,7 +94,7 @@ void	write(File file)
 用Servlet 将bit流数据响应(写)给客户端，可以更自由地控制用户下载权限
 
 ```java
-Content-Disposition属性有两种类型：inline 和 attachment inline，作为下载文件字段
+Content-Disposition属性有两种类型：inline 和 attachment，作为下载文件字段
  	 inline：将文件内容直接显示在页面
 	 attachment：弹出对话框让用户下载
 
@@ -103,18 +104,13 @@ Content-Disposition:attachment;filename=文件名;
 resp.setHeader("Content-Disposition", "attachment;filename="+showcname);
 ```
 
-###### ServletOutputStream：servlet的输出字节流，是抽象类，得到他的父类OutputStream
+###### 
 
-ServletOutputStream  out=resp.getOutputStream();
-	
-	
 
 ### 6：图片验证码
 
-   验证码原理
-	由程序随机生成字母、数字或汉字的图片，并将图片上的随机内容记在 session 中，让用户看到图片后将随机值填写在表单项中]提交给服务器，服务端程序将用户填写的信息与 Session 中的信息进行对比，就知道是不是用户填写的，关键在于不让能程序自动识辨出图片上的信息，所以一般我们都加干扰线、点，或旋转、缩放等
-
-
+验证码原理
+	由程序随机生成字母、数字或汉字的图片，并将图片上的随机内容记在 **session** 中，让用户看到图片后将随机值填写在表单项中]提交给服务器，服务端程序将用户填写的信息与 Session 中的信息进行对比，就知道是不是用户填写的，关键在于不让能程序自动识辨出图片上的信息，所以一般我们都加干扰线、点，或旋转、缩放等
 
 
 

@@ -27,9 +27,9 @@ CGI(Common Gateway Interface)：通用网关接口，指Web服务器在接受到
 
 
 
-### 3: ServletContext(Interface)：提供了servlet与其servlet容器(Tomcat)通信的一组方法，环境
+### 3：ServletContext (Interface) ：提供了servlet与 其 servlet 容器(Tomcat)通信的一组方法，环境
 
-  特点：	
+特点：
 
 ###### 1：Tomcat启动时，会为每个 web 应用(网站)实例化一个ServletContext 对象，每个站点的 web.xml 会被解析实例化 ServletContext 对象
 
@@ -87,11 +87,11 @@ java.io.InputStream	getResourceAsStream(java.lang.String path)
 
 
 
-### 5：Servlet (Interface):定义了一些初始化servlet 的方法，以及所有servlet必须实现的接口
+### 5：Servlet (Interface)：定义了一些初始化servlet 的方法，以及所有servlet必须实现的接口
 
 void init(ServletConfig config) 
 	实例化 Servelt 对象后，会调用 init(),用于将 ServletConfig 对象传给 Servlet
- void    destroy() 
+void    destroy() 
 	用于销毁 Servlet 所初始化的资源
 
 ######  void    service(ServletRequest req, ServletResponse resp)  
@@ -108,14 +108,15 @@ String  getServletInfo()
 
 ```java
 @Override
-protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
+{
 		req.setCharacterEncoding("UTF-8");
 		String method= null!=req.getParameter("action")?req.getParameter("action"):"index";
 		Class[] param=new Class[] {HttpServletRequest.class,HttpServletResponse.class};
 	 
 		Class clazz=this.getClass();
 		try {
-			Method m=clazz.getDeclaredMethod(method, new Class[] {});
+			Method m = clazz.getDeclaredMethod(method, new Class[] {});
 			if(null!=m)
 			{
 				this.req=req;
@@ -126,7 +127,7 @@ protected void service(HttpServletRequest req, HttpServletResponse resp) throws 
 			e.printStackTrace();
 			System.out.println("ERROR_001_找不到目标方法！");
 		}
-	}
+}
 ```
 
 
@@ -262,8 +263,6 @@ java.lang.String	getScheme()
 ###### 		设置跳转的页面，重定向
 
 ​	
-
-
 
 ### 10：RequestDispatcher（Interface):请求调度,转发,跳转，只能是自己服务器的资源间转发，而重定向可以重定向到其它服务器的资源
 

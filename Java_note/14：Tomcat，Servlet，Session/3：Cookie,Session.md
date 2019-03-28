@@ -1,6 +1,6 @@
 ###  1：Cookie：服务器把客户状态信息写到客户端硬盘上的一种技术
 
-Cookie信息通过name-value (map)
+Cookie信息通过 name-value (map)
 
 ​	
  Cookie (Class)
