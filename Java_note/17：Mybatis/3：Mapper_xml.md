@@ -78,14 +78,24 @@ resultMap – 用来描述如何从数据库结果集中来加载对象
 
 timeout：抛出异常之前，驱动程序等待数据库返回请求结果的秒数,默认值为 unset（依赖驱动）
 
-statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED							keyColumn：通过生成的键值设置表中的列名，这个设置在某些数据库（像 PostgreSQL）是必须的，当主键列不是表中					的第一列的时候需要设置(仅对 insert 和 update 有用)
-databaseId：如果配置了 databaseIdProvider，MyBatis 会加载所有的不带databaseId 或匹配当前 databaseId 的语句
-	    		如果带或者不带的语句都有，则不带的会被忽略
+statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED	
 
-##### 4：主键回填
+###### keyColumn：通过生成的键值设置表中的列名，这个设置在某些数据库（像 PostgreSQL）是必须的，当主键列不是表中					的第一列的时候需要设置(仅对 insert 和 update 有用)
+
+
+
+### 4：主键回填
 
 ​	 MySQL 中主键自增字段,在插入后我们入往往需要获得这个主键，把获得的主键值给JavaBean的id
 ​		**useGeneratedKeys="true" keyProperty="JavaBean_id"**
+
+```xml
+<insert id="insertUser" parameterType="user" useGeneratedKeys = "true" keyProperty = "id">
+	insert into user(username,note) values (#{username},#{note})
+</insert>
+```
+
+
 
 ##### 5：参数配置
 

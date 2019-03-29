@@ -4,22 +4,21 @@
 
 ##### javaÖĞµÄ×Ö·û´®£ºString, StringBuffer,StringBuilder£¨¶¼±»ÓÃÀ´·û¸¨ÖúString£©
 
-public final class String extends Object implements Serializable, Comparable<String>, CharSequence
-
-charSequence:ÊÇÒ»¸öÖ»¶ÁĞòÁĞ½Ó¿Ú
-
-
-
 ### String £ºÊÇ²»±ä¶ÔÏó£¬²»¹ÜÊÇÔËËã»¹ÊÇÆ´½Ó²úÉúĞÂµÄ½á¹û¶¼ÊÇÒ»¸öĞÂµÄ String ¶ÔÏóµÄ²úÉú£¬×Ö·ûĞÍÊı×é
 
 ```java
-/** The value is used for character storage. */
-private final char value[];
-
-/** Cache the hash code for the string */
-private int hash; // Default to 0
-public String(char value[]) {
-   this.value = Arrays.copyOf(value, value.length);
+//charSequence:ÊÇÒ»¸öÖ»¶ÁĞòÁĞ½Ó¿Ú
+public final class String implements java.io.Serializable, Comparable<String>, CharSequence
+{
+        private final char value[];
+        private int hash; // Default to 0
+        public String(char value[]) {
+            this.value = Arrays.copyOf(value, value.length);
+        }
+        String(char[] value, boolean share) {
+            this.value = value;
+        }
+    
 }
 
 String ÊÇÓÃ value[] ´æ´¢µÄ£¬¶øÕâ¸öÊôĞÔÊÇfinalĞŞÊÎµÄ£¬ÊÇ²»¿É±äµÄ£¬¶øÇÒÊÇÓÃ private ĞŞÊÎµÄ£¬Ã»ÓĞget£¬set·½·¨£¬È·±£Íâ²¿ÎŞ·¨ĞŞ¸Ä£¬¶øÇÒStringµÄ·½·¨¶¼Ã»ÓĞÖ±½Ó¶Ôvalue½øĞĞÖ±½ÓµÄĞŞ¸Ä
@@ -57,9 +56,9 @@ String   replaceFirst(String regex, String replacement)  **Ö»Æ¥ÅäµÚÒ»¸öÏàÆ¥Åä×Ö·
 
 
 
-### String.valueof( ) ºÍ Integer.toString()µÄ²»Í¬
+### String.valueof( ) ºÍ Integer.toString() µÄ²»Í¬
 
-Integer.toString() ½«i×ª»»Îª buf ·ûºÅÊı×é£¬È»ºónew String(buf, true)													String.valueof()·½·¨
+Integer.toString() ½« i ×ª»»Îª buf ·ûºÅÊı×é£¬È»ºó **new String(buf, true)**													String.valueof() ·½·¨
 
 ```java
 public static String valueOf(Object obj) {
@@ -76,12 +75,15 @@ public static String valueOf(char data[]) {
 
 ```java
 public void test(String status) {
-            switch (status) {
-            case "killed":
-                break;
-            case "alive": 
-            	break;
-            }
+    switch (status)
+    {
+        case "killed":
+            break;
+        case "alive": 
+            break;
+        default £º
+            break;
+    }
 }
 ```
 
@@ -128,8 +130,10 @@ int compareTo(String anotherString) ---±È½Ï×Ö·û´®µÄ´óĞ¡
 ?	int lastIndexOf(String s) ----·µ»ØÖ¸¶¨×Ö·û´®ÔÚ±¾×Ö·û´®ÖĞ×îºóÒ»´Î³öÏÖµÄË÷ÒıÖµµÄµØÖ·
 ?	int lastIndexOf(String s, int fromIndex) ----´ÓÖ¸¶¨Î»ÖÃ¿ªÊ¼¼ìË÷Ä¿±ê×Ö·û´®·µ»Ø×îºóÒ»´Î³öÏÖµÄÎ»ÖÃ 
 ?	
-?	String[] split(String sign)  ----Ê¹ÓÃÖ¸¶¨µÄ¸ôÀë×Ö·û½øĞĞ·ÖÀë£¬·µ»ØÈİÄÉ×Ó×Ö·û´®¶ÔÏóµÄÊı×é
-?	split(String sign,int limit)----¸ù¾İÖ¸¶¨µÄ·Ö¸ô·û¶Ô×Ö·û´®½øĞĞ²ğ·Ö£¬²¢ÇÒÏŞ¶¨²ğ·ÖµÄ´ÎÊı£¬×ÜÊÇlimit-1´Î 
+
+###### 	String[] split(String sign)  ----Ê¹ÓÃÖ¸¶¨µÄ¸ôÀë×Ö·û½øĞĞ·ÖÀë£¬·µ»ØÈİÄÉ×Ó×Ö·û´®¶ÔÏóµÄÊı×é
+
+###### ?	split(String sign,int limit)----¸ù¾İÖ¸¶¨µÄ·Ö¸ô·û¶Ô×Ö·û´®½øĞĞ²ğ·Ö£¬²¢ÇÒÏŞ¶¨²ğ·ÖµÄ´ÎÊı£¬×ÜÊÇlimit-1´Î 
 
 ```java
 		String str=("abc,dfg,dfg,sfd,efg");
@@ -149,7 +153,7 @@ int compareTo(String anotherString) ---±È½Ï×Ö·û´®µÄ´óĞ¡
 
 
 
-### StringBuffer £ºÏß³Ì°²È«µÄ¿É±ä×Ö·û´®£¬×Ö·û´®»º³åÇø°²È«µØÓÃÓÚ¶à¸öÏß³Ì
+### StringBuffer £ºÏß³Ì°²È«µÄ¿É±ä×Ö·û´®
 
 ######  public final class StringBuffer  extends AbstractStringBuilder implements java.io.Serializable, CharSequence
 
@@ -162,16 +166,39 @@ int compareTo(String anotherString) ---±È½Ï×Ö·û´®µÄ´óĞ¡
 ¹¹Ôì·½·¨£º
 StringBuffer() 
           ¹¹ÔìÒ»¸öÆäÖĞ²»´ø×Ö·ûµÄ×Ö·û´®»º³åÇø£¬**³õÊ¼ÈİÁ¿Îª 16 ¸ö×Ö·û**	 
-	 
-StringBuffer(CharSequence seq) 
-         ¹¹ÔìÒ»¸ö×Ö·û´®»º³åÇø£¬Ëü°üº¬ÓëÖ¸¶¨µÄ CharSequence ÏàÍ¬µÄ×Ö·û+16
 
 StringBuffer(String str) 
           ¹¹ÔìÒ»¸ö×Ö·û´®»º³åÇø£¬²¢½«Æä**ÄÚÈİ³õÊ¼»¯ÎªÖ¸¶¨µÄ×Ö·û´®ÄÚÈİ£¬+16**
-	 
+
+```java
+public final class StringBuffer  extends AbstractStringBuilder implements java.io.Serializable, CharSequence
+{
+    private transient char[] toStringCache;
+    public StringBuffer() {
+        super(16);
+    }
+    public StringBuffer(String str) {
+        super(str.length() + 16);
+        append(str);
+    }
+    private int newCapacity(int minCapacity) {
+    	//¶ş±¶+2 À©Èİ
+        int newCapacity = (value.length << 1) + 2;
+        if (newCapacity - minCapacity < 0) {
+            newCapacity = minCapacity; //µ±Ç°Êı×é´óĞ¡ºÍĞ¡µÄStringÆ´½Ó³É
+        }
+        return (newCapacity <= 0 || MAX_ARRAY_SIZE - newCapacity < 0)
+            ? hugeCapacity(minCapacity) : newCapacity;
+     }
+}
+```
+
+?	 
 ·½·¨£º
-StringBuffer append(String str) 
-	Ïò×Ö·û´®»º³åÇø×·¼Ó×Ö·û´®
+
+###### StringBuffer append(String str) 
+
+?	Ïò×Ö·û´®»º³åÇø×·¼Ó×Ö·û´®
 
 delete(int start, int end) 
      	É¾³ı´ÓÊ²Ã´Î»ÖÃµ½Ê²Ã´Î»ÖÃ×Ö·û
@@ -198,7 +225,7 @@ String substring(int start)
 
 
 
-### StringBuilder£º ÓÃÔÚ×Ö·û´®»º³åÇø±»µ¥¸öÏß³ÌÊ¹ÓÃµÄÊ±ºò
+### StringBuilder£ºµ¥Ïß³ÌĞ§ÂÊ×î¸ß
 
 ###### public final class StringBuilder  extends AbstractStringBuilder implements java.io.Serializable, CharSequence
 
@@ -217,11 +244,11 @@ StringBuilder(String str)
 ·½·¨£º
  StringBuilder append(String str)  
 
- char charAt(int index) 
+######  char charAt(int index) 
 
- StringBuilder delete(int start, int end) 
+######  StringBuilder delete(int start, int end) 
 
- StringBuilder deleteCharAt(int index)  
+######  StringBuilder deleteCharAt(int index)  
 
  StringBuilder insert(int offset, String str)  
 
@@ -229,9 +256,9 @@ StringBuilder(String str)
 
  int length()  
 
- StringBuilder replace(int start, int end, String str) 
+######  StringBuilder replace(int start, int end, String str) 
 
- StringBuilder reverse() 
+######  StringBuilder reverse() 
 
  String substring(int start) 
 
@@ -243,16 +270,16 @@ StringBuilder(String str)
 
 ####   1£ºÖ´ĞĞĞ§ÂÊ   StringBuilder £¨ºó³öµÄ£©> StringBuffer > String
 
-¡¡¡¡	String×îÂıµÄÔ­Òò£º
+¡¡¡¡	String ×îÂıµÄÔ­Òò£º
 
 ¡¡¡¡	StringÎª×Ö·û´®³£Á¿finalĞŞÊÎµÄ£¬¶øStringBuilderºÍStringBuffer¾ùÎª×Ö·û´®±äÁ¿£¬¼´String¶ÔÏóÒ»µ©´´½¨Ö®ºó¸Ã¶ÔÏóÊÇ
 	²»¿É¸ü¸ÄµÄ£¬¸ü¸ÄµÄ»°¾ÍÊÇÒ»¸öĞÂµÄString³£Á¿£¬µ«ºóÁ½ÕßµÄ¶ÔÏóÊÇ±äÁ¿£¬ÊÇ¿ÉÒÔ¸ü¸ÄµÄ
 
 ####   2:ÔÚÏß³Ì°²È«ÉÏ 
 
-StringBuilderÊÇÏß³Ì²»°²È«µÄ£¬¶øStringBufferÊÇÏß³Ì°²È«µÄ(µ÷ÓÃ·½·¨Ê±¼ÓÈëÍ¬²½Ëø)
+StringBuilderÊÇÏß³Ì²»°²È«µÄ£¬¶øStringBufferÊÇÏß³Ì°²È«µÄ(**µ÷ÓÃ·½·¨Ê±¼ÓÈëÍ¬²½Ëø)**
 
-String£ºÊÊÓÃÓÚ**ÉÙÁ¿µÄ×Ö·û´®²Ù×÷µÄÇé¿ö£¬Ïß³Ì°²È«**£¨finalĞŞÊÎ£©
+String£ºÊÊÓÃÓÚ**ÉÙÁ¿µÄ×Ö·û´®²Ù×÷µÄÇé¿ö£¬Ïß³Ì°²È«**£¨ final ĞŞÊÎ£©
 
 StringBuilder£ºÊÊÓÃÓÚ**µ¥Ïß³ÌÏÂÔÚ×Ö·û»º³åÇø½øĞĞ´óÁ¿²Ù×÷µÄÇé¿ö**
 
@@ -264,8 +291,18 @@ StringBuffer£ºÊÊÓÃ**¶àÏß³ÌÏÂÔÚ×Ö·û»º³åÇø½øĞĞ´óÁ¿²Ù×÷µÄÇé¿ö**
 
 »úÖÆ£ºÖ±½Ó¸³Öµ´´½¨Ò»¸öStringÊ±£¬Ê×ÏÈ¼ì²é×Ö·û´®³ØÊÇ·ñÓĞ×ÖÃæÁ¿ÖµÏàµÈµÄ×Ö·û´®£¬Èç¹ûÓĞ£¬Ôò²»ÔÙ´´½¨£¬Ö±½Ó·µ»Ø×Ö·û´®³ØÖĞ¶ÔÏóµÄÒıÓÃ£¬ÈôÃ»ÓĞ£¬Ôò´´½¨£¬È»ºó·Åµ½×Ö·û´®³ØÖĞ£¬²¢ÇÒ·µ»ØĞÂ½¨¶ÔÏóµÄÒıÓÃ¡£¶ønew Ê±»á¼ì²é³£Á¿³ØÖĞÊÇ·ñÓĞ×ÖÃæÁ¿ÏàµÈµÄ×Ö·û´®£¬ÈôÓĞ²»»á°Ñ¶ÔÏó·ÅÈë³£Á¿³ØÖĞ£¬ÈôÃ»ÓĞÔò·ÅÈë
 
-µ÷ÓÃ intern£¨£©·½·¨£¬»á¼ì²é³£Á¿³ØÖĞÊÇ·ñÓĞºÍµ±Ç°µÄ¶ÔÏó×ÖÃæÁ¿ÏàÍ¬µÄÒıÓÃ¶ÔÏó£¬ÈôÓĞ£¬Ôò·µ»Ø×Ö·û´®³ØÖĞµÄ¶ÔÏó£¬ÈôÃ»ÓĞÔò·Åµ½×Ö·û´®³ØÖĞ£¬²¢·µ»Øµ±Ç°¶ÔÏó
+µ÷ÓÃ intern£¨£©·½·¨£¬»á¼ì²é³£Á¿³ØÖĞÊÇ·ñÓĞºÍµ±Ç°µÄ¶ÔÏó**×ÖÃæÁ¿ÏàÍ¬µÄÒıÓÃ¶ÔÏó**£¬ÈôÓĞ£¬Ôò·µ»Ø×Ö·û´®³ØÖĞµÄ¶ÔÏó£¬ÈôÃ»ÓĞÔò·Åµ½×Ö·û´®³ØÖĞ£¬²¢·µ»Øµ±Ç°¶ÔÏó
 
 #####  public native String intern();
+
+```java
+String s1="123";
+String s2="123";
+String s = new String ("123");
+
+System.out.println(s1==s2); //true  £¬³£Á¿³Ø
+System.out.println(s==s1);  //false £¬¶ÑÖĞ·ÖÅä
+System.out.println(s1.equals(s)); //true £¬±È½ÏÄÚÈİ
+```
 
 

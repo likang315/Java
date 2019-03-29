@@ -295,6 +295,22 @@ ModelAndView的实例是由用户手动创建的，这也是和ModelMap的一个
 
 
 
+### 13：@RequestBody 和@ResponseBody 
+
+**@RequestBody：**作用在形参列表上，用于将**前台发送过来固定格式的数据（json）封装为对应的 JavaBean 对象**，封装时使用到的一个对象是**系统默认配置的 HttpMessageConverter进行解析**，然后封装到形参上
+
+**@ResponseBody ：**配置后返回的值直接作为**响应报文的报体返回**，不会被解析成跳转路径
+
+```java
+@RequestMapping("/login.do")
+@ResponseBody
+public Object login(@RequestBody User loginUuser, HttpSession session) {
+    user = userService.checkLogin(loginUser);
+    session.setAttribute("user", user);
+    return new JsonObject.toString(user);
+}
+```
+
 
 
 
