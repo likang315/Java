@@ -4,11 +4,17 @@
 
 ### Class Vector <E>： 数组序列，Vector 线程安全，给每一个方法加了同步锁，效率低
 
-**扩容机制：**初始容量为10 ，就是根据**capacityIncrement（容量增长因子）**确认扩容大小的，若**capacityIncrement <= 0 则扩大一倍**，否**则在原来容量的基础上加上capacityIncrement** ，当然这个容量的**最大范围为Integer.MAX_VALUE即，2^32 - 1**，所以Vector并不是可以无限扩充的
+**扩容机制：**初始容量为10 ，就是根据**capacityIncrement（容量增长因子）**确认扩容大小的，若**capacityIncrement = 0 则扩大一倍**，否**则在原来容量的基础上加上capacityIncrement** ，当然这个容量的**最大范围为Integer.MAX_VALUE即，2^32 - 1**，所以Vector并不是可以无限扩充的
 
-**扩容过程：**申请newCapacity 新空间，然后将原空间内容拷贝过来,并释放原空间，vector的空间动态增加大小，并不是在原空间之后的相邻地址增加新空间，vector的空间是线性连续分配的
+**扩容过程：**申请newCapacity 新空间，然后将原空间内容拷贝过来,并释放原空间，vector的空间动态增加大小，并不是在原空间之后的相邻地址增加新空间**，vector的空间是线性连续分配的**
 
 ```java
+public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> 
+{
+    //定义在AbstractList
+    protected transient int modCount = 0;	
+}
+
 public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, java.io.Serializable
 {
 	//自增因子
@@ -58,7 +64,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
 
 
 
-### Class ArrayList<E>：线程不安全，但是查找效率高，通过索引查询,本质是Object[] 数组实现的
+### Class ArrayList<E>：本质是Object[] 数组，线程不安全，但是查找效率高，通过索引查询
 
 默认构造方法**生成的空数组并且第一次添加数据时，数组的容量会从0扩容成10，**而后的数组扩容按照当前容量的**1.5倍进行扩容**，初始容量可以指定，但是扩容方式不可以（移位确定的）
 
@@ -154,7 +160,7 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
 
 ###### 	E set(int index, E element) ---------------------  用指定的元素替代此列表中指定位置上的元素
 
-###### 	E get(int index)           ----------------------  返回此列表中指定位置上的元素。			
+###### 	E get(int index)           ----------------------  返回此列表中指定位置上的元素
 
 ###### 	int indexOf(Object o)     -----------------------  返回此列表中首次出现的指定元素的索引，若列表不包含元素,返回-1 
 
@@ -180,14 +186,9 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
 
 LinkedList  实现 List 接口的，可以**通过下标来访问**
 
-当我们调用get(int index)时，首先会比较 **index和“双向链表 size 长度的1/2”**；若前者大，则从链表头开始往后查找，直到 index位置；否则，从链表末尾开始向前查找，直到index位置
+当我们调用get(int index)时，首先会比较 **index和“双向链表 size 长度的1/2”**；若前者大，则从链表头开始往后查找，直到 index位置；否则，从链表末尾开始向前查找，直到 index 位置
 
 ```java
-public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> 
-{
-    //定义在AbstractList
-    protected transient int modCount = 0;	
-}
 public abstract class AbstractSequentialList<E> extends AbstractList<E> {}
 
 
@@ -224,7 +225,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
             l.next = newNode;
         size++;//增加尺寸
         modCount++; //Fast-Fail机制
-     }
+    }
      
      //通过索引得到Node
      public E get(int index) {
@@ -248,13 +249,13 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
     }
 
     
-    //remove 元素指定对象，还可以通过索引删除
+    //remove 第一个元素指定对象，还可以通过索引删除
     public boolean remove(Object o) {
         //如果删除对象为null
         if (o == null) {
             //从前向后遍历
             for (Node<E> x = first; x != null; x = x.next) {
-                //一旦匹配，  调用unlink()方法将该节点从链表中移除并且返回true
+                //一旦匹配，调用unlink()方法将该节点从链表中移除并且返回true
                 if (x.item == null) {
                     unlink(x);
                     return true;
@@ -289,7 +290,7 @@ private static class Node<E> {
 
 ###### 方法：
 
-void addFirst(E e) --------------   将指定元素插入此列表的开头
+void addFirst(E e) --------------    将指定元素插入此列表的开头
 void addLast(E e) ---------------   将指定元素添加到此列表的结尾
 
 ###### E remove(int index)																			
@@ -302,7 +303,7 @@ void addLast(E e) ---------------   将指定元素添加到此列表的结尾
 
 
 
-### CopyOnWriteArrayList：写时复制的容器，读多写少的场景	
+### CopyOnWriteArrayList：写时复制的容器，指向新的引用，读多写少的场景
 
 ```java
 public class CopyOnWriteArrayList<E>  implements List<E>, RandomAccess, Cloneable, java.io.Serializable
@@ -332,6 +333,7 @@ public class CopyOnWriteArrayList<E>  implements List<E>, RandomAccess, Cloneabl
         final ReentrantLock lock = this.lock;
         lock.lock();
         try {
+        	//赋给一个新的数组
             Object[] elements = getArray();
             int len = elements.length;
             Object[] newElements = Arrays.copyOf(elements, len + 1);

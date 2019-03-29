@@ -297,11 +297,11 @@ Condition类的signal 方法和Object类的notify 方法等效													Condi
 
 ###### 2：ReentrantLock可响应中断
 
-当使用synchronized实现锁时,阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了一个可以响应中断的获取锁的方法`lockInterruptibly()`，该方法可以用来解决死锁问题，被中断的线程将抛出异常，而另一个线程将能获取锁后正常结束
+当使用synchronized实现锁时,阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了**一个可以响应中断的获取锁的方法`lockInterruptibly()`**，该方法可以用来解决死锁问题，被中断的线程将抛出异常，而另一个线程将能获取锁后正常结束
 
 ###### 3：获取锁时限时等待
 
-ReentrantLock还给我们提供了获取锁限时等待的方法`tryLock()`,可以选择传入时间参数,表示等待指定的时间,无参则表示立即返回锁申请的结果:true表示获取锁成功,false表示获取锁失败
+ReentrantLock还给我们提供了**获取锁限时等待的方法`tryLock()**`,可以选择传入时间参数,表示等待指定的时间,无参则表示立即返回锁申请的结果:true表示获取锁成功,false表示获取锁失败
 
 
 

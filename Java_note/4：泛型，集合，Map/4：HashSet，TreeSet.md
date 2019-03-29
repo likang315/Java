@@ -1,4 +1,4 @@
-## Set 集合的实现类(Map):
+## Set 集合的实现类(Map)：
 
 ###### Set 类集合 和 Map 类 只能通过迭代器方法来获取 for each循环
 
@@ -25,7 +25,6 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, jav
     public boolean add(E e) {
         return map.put(e, PRESENT) == null ;
     }
-
 }
 ```
 
@@ -47,7 +46,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, jav
 
 ### LinekdHashSet
 
-**LinkedHashSet 继承自 HashSet**，源码更少、更简单，唯一的区别是LinkedHashSe t内部使用的是LinkedHashMap,这样做的意义或者好处就是LinkedHashSet中的元素顺序且唯一是可以保证的，也就是说遍历序和插入序是一致的
+**LinkedHashSet 继承自 HashSet**，源码更少、更简单，唯一的区别是LinkedHashSet 内部使用的是 LinkedHashMap,这样做的意义或者好处就是LinkedHashSet中的元素顺序且唯一是可以保证的，也就是说遍历序和插入序是一致的
 
 底层**采用双向链表实现**，可以保证元素的**插入顺序**，又因为是HashSet的子类，所以插入的元素不能重复
 
@@ -60,7 +59,6 @@ public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, j
     public LinkedHashSet(int initialCapacity, float loadFactor) {
         super(initialCapacity, loadFactor, true);
     }
-    
 }
 ```
 
@@ -97,15 +95,13 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
 
 ###### 	boolean add(E e) ------------------- 将指定的元素添加到此 set（如果该元素尚未存在于 set 中)
 
-​        void clear()      ------------------ 移除此 set 中的所有元素
-​	boolean contains(Object o) --------- 如果此 set 包含指定的元素，则返回 true
- 	boolean remove(Object o)   --------- 将指定的元素从 set 中移除（如果该元素存在于此 set 中）
+void clear()      ------------------ 移除此 set 中的所有元素
+boolean contains(Object o) --------- 如果此 set 包含指定的元素，则返回 true
+boolean remove(Object o)   --------- 将指定的元素从 set 中移除（如果该元素存在于此 set 中）
 
 ######       	Iterator<E> descendingIterator() --- 返回在此 set 元素上按降序进行迭代的迭代器
 
 ######        	Iterator<E> iterator()    ---------- 返回在此 set 中的元素上按升序进行迭代的迭代器 
 
-​       	int size()     --------------------- 返回 set 中的元素数
-
- 	
+int size()     --------------------- 返回 set 中的元素数
 
