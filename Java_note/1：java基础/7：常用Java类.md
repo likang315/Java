@@ -52,8 +52,8 @@ public boolean equals(Object obj)
 若两个对象 equals 相等，但不在一个区间，所以根本没有机会进行比较，会被认为是不同的对象
 
 所以Java对于eqauls方法和hashCode方法是这样规定的： 
-1 如果两个对象相等，那么它们的hashCode值一定要相等。也告诉我们重写equals方法，一定要重写hashCode方法
-2 如果两个对象的hashCode相等，它们并不一定相等，这里的对象相同指的是用eqauls方法比较，拉链法
+1：如果两个对象的equals（）相等，那么它们的hashCode（）一定要相等。也告诉我们重写equals方法，一定要重写hashCode方法
+2：如果两个对象的hashCode相等，它们并不一定相等，这里的对象相同指的是用eqauls方法比较，拉链法
 
 
 

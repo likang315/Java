@@ -48,6 +48,8 @@
 
 ###### Type key：返回存储值得类型
 
+
+
 #### Redis 字符串(String)
 
 SET key value 设置key的值
