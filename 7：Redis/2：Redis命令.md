@@ -1,5 +1,37 @@
 ### Redis 命令：在 Redis 客户端执行命令
 
+
+
+### 安装 Reids
+
+1：**cmd** 窗口  使用 cd 命令切换目录到 **C:\redis**  运行： 
+
+##### redis-server.exe    redis.windows.conf   ， **redis.conf** 是一个默认的配置文件
+
+2：另启一个 cmd 窗口，原来的不要关闭，不然就无法访问服务端了。切换到 redis 目录下运行: 
+
+##### redis-cli.`exe -h 127.0.0.1 -p 6379`
+
+3：设置键值对：**set myKey abc** ，取出键值对：**get myKey**
+
+
+
+### Redis 配置
+
+Redis 的配置文件位于 Redis 安装目录下，文件名为 redis.conf，
+
+##### 通过 CONFIG 命令查看或设置配置项
+
+###### CONFIG   GET    CONFIG_SETTING_NAME     //获取指定 CONFIG_SETTING_NAME的值，配置信息
+
+###### CONFIG   GET  *       // * 号获取所有配置项
+
+##### 使用 CONFIG set 修改配置信息
+
+CONFIG  SET    CONFIG_SETTING_NAME    NEW_CONFIG_VALUE
+
+
+
 ###### 1：连接Redis服务：
 
  **redis-cli**：该命令会连接本地的 redis 服务

@@ -16,31 +16,7 @@ Redis作为内存数据库，所有数据都**保存在内存中**, 一旦程序
 -  Redis 支持数据的备份，即 master-slave 模式的数据备份
 - Redis 的所有操作都是原子性的，意思就是要么成功执行要么失败完全不执行。单个操作是原子性的。多个操作也支持事务，即原子性，通过MULTI和EXEC指令包起来
 
-### 安装 Reids
 
-1：**cmd** 窗口  使用 cd 命令切换目录到 **C:\redis**  运行： 
-
-##### 	redis-server.exe    redis.windows.conf   ， **redis.conf** 是一个默认的配置文件
-
-2：另启一个 cmd 窗口，原来的不要关闭，不然就无法访问服务端了。切换到 redis 目录下运行: 
-
-##### 	redis-cli.`exe -h 127.0.0.1 -p 6379`
-
-3：设置键值对：**set myKey abc** ，取出键值对：**get myKey**
-
-### Redis 配置
-
-Redis 的配置文件位于 Redis 安装目录下，文件名为 redis.conf，
-
-##### 通过 CONFIG 命令查看或设置配置项
-
-###### CONFIG   GET    CONFIG_SETTING_NAME     //获取指定 CONFIG_SETTING_NAME的值，配置信息
-
-###### CONFIG   GET  *       // * 号获取所有配置项
-
-##### 使用 CONFIG set 修改配置信息
-
-CONFIG  SET    CONFIG_SETTING_NAME    NEW_CONFIG_VALUE
 
 ### Redis支持 vualue 的五种 数据类型：
 
@@ -56,7 +32,7 @@ Redis 的字符串是**动态字符串，是可以修改的字符串**，采⽤*
 
 当字符串**⻓度⼩于 1M 时，扩容都是加倍现有的空间，如果超过 1M，扩容时⼀次只会多扩 1M** 的空间。需要注意的是字符串**最⼤⻓度为 512M**
 
-### Hash（哈希，字典）：是一个键值(key：value)对集合
+### Hash（哈希，字典）：是一个键值 (key：value) 对集合
 
 Redis hash 是一个 string 类型的 key和 value 的映射表，hash 特别适合用于存储对象，⽆序字典, 底层使⽤数组 + 链表
 
@@ -80,7 +56,7 @@ rehash 的时候使用
 
 #### Rehash 和渐进式Rehash
 
-![](G:\Java\Redis\Rehash.png)
+
 
 渐进式Rehash操作，将rehash键值对所需的计算，**均摊到对字典的所有操作中**，从而避免了集中式的rehash带来庞大的计算量
 
@@ -118,7 +94,7 @@ redis 127.0.0.1:6379> smembers key
 1) "redis"
 2) "rabitmq"
 3) "mongodb"
-//以上实例中 rabitmq 添加了两次，但根据集合内元素的唯一性，第二次插入的元素将被忽略。
+//以上实例中 rabitmq 添加了两次，但根据集合内元素的唯一性，第二次插入的元素将被忽略
 ```
 
 ### zset (有序集合)：string 类型元素的集合,有序且唯一
