@@ -32,7 +32,9 @@ Redis 的字符串是**动态字符串，是可以修改的字符串**，采⽤*
 
 当字符串**⻓度⼩于 1M 时，扩容都是加倍现有的空间，如果超过 1M，扩容时⼀次只会多扩 1M** 的空间。需要注意的是字符串**最⼤⻓度为 512M**
 
-### Hash（哈希，字典）：是一个键值 (key：value) 对集合
+
+
+### Hash（哈希，字典）：是一个键值 (key：value)  对集合
 
 Redis hash 是一个 string 类型的 key和 value 的映射表，hash 特别适合用于存储对象，⽆序字典, 底层使⽤数组 + 链表
 
@@ -49,16 +51,18 @@ redis> HGET myhash field2
 "World"
 ```
 
-#### Hash的扩容
+#### Hash 的 扩容
 
 属性是包含两个项的数组, 数组中的每个项都⼀个字典, ⼀般情况下, 字典只使⽤ ht[0] 字典, ht[1] 只在 ht[0] 进⾏
 rehash 的时候使用
 
-#### Rehash 和渐进式Rehash
+#### Rehash 和 渐进式 Rehash
 
-
+![](G:\Java and Middleware\7：Redis\Redis\Rehash.png)
 
 渐进式Rehash操作，将rehash键值对所需的计算，**均摊到对字典的所有操作中**，从而避免了集中式的rehash带来庞大的计算量
+
+
 
 ### List：集合：你可以添加一个元素到列表的头部（左边）或者尾部（右边）,列表最多可存储  **232 - 1** 元素 
 
@@ -77,9 +81,11 @@ redis 127.0.0.1:6379> lrange key 0 3
 3) "redis"
 ```
 
-### Set：是 string 类型的无序集合
 
-相当于 Java 中的 HashSet, 它内部的键值对是⽆序，并且唯⼀的, 底层实现相当于⼀个特殊的字典, 字典中所有的 value 都是⼀个 NULL，当集合中的最后⼀个元素被移除后, 数据结构⾃动删除, 内存被回收
+
+### Set：是  string  类型 的 无序集合
+
+相当于 Java 中的 HashSet, 它内部的键值对是⽆序，并且唯⼀的, 底层实现相当于⼀个特殊的字典, 字典中所有的 **value 都是⼀个 NULL**，当集合中的最后⼀个元素被移除后, 数据结构⾃动删除, 内存被回收
 
 ```c
 redis 127.0.0.1:6379> sadd key redis
@@ -97,16 +103,18 @@ redis 127.0.0.1:6379> smembers key
 //以上实例中 rabitmq 添加了两次，但根据集合内元素的唯一性，第二次插入的元素将被忽略
 ```
 
-### zset (有序集合)：string 类型元素的集合,有序且唯一
+
+
+### zset (有序集合)：string 类型元素的集合，有序且唯一
 
 ###### 底层实现是：跳表+Hash
 
-不同的是每个元素都会关联一个double类型的 score ，redis正是通过 score 来为集合中的成员进行从小到大的排序，zset的成员是唯一的,但分数(score)却可以重复
+不同的是每个元素都会关联一个**double类型的 score** ，redis正是通过 score 来为集合中的成员进行从小到大的排序，zset的成员是唯一的,但分数(score)却可以重复
 
-![](G:\Java\Redis\Zset.png)
+![](G:\Java and Middleware\7：Redis\Redis\Zset.png)
 
 ```C
-zadd key score member //添加zset
+zadd key score member    //添加zset
 ZRANGEBYSCORE key 0 1000 //查看
 ```
 

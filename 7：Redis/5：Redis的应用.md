@@ -14,7 +14,7 @@
 
 ### 缓存不一致
 
-![](G:\Java\Redis\缓存不一致.png)
+![](G:\Java and Middleware\7：Redis\Redis\缓存不一致.png)
 
 
 
