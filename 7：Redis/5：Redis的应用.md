@@ -8,13 +8,15 @@
 
 ###### • Redis 的查询⽅式是 Hash, 效率接近于 O(1), ⽽ RDS 的查询⽅式是 B+Tree
 
+###### • Redis 缓存空间大，不想InnoDB只有 256KB
+
 ###### •Redis 只需要缓存热点数据, 并且存在过期时间和内存淘汰, 注定数据量⼩, ⽽ RDS 需要存储全量数据
 
 
 
 ### 缓存不一致
 
-![](G:\Java and Middleware\7：Redis\Redis\缓存不一致.png)
+![缓存不一致.png](https://github.com/likang315/Java-and-Middleware/blob/master/7%EF%BC%9ARedis/Redis/%E7%BC%93%E5%AD%98%E4%B8%8D%E4%B8%80%E8%87%B4.png?raw=true)
 
 
 

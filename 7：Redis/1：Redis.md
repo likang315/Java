@@ -58,7 +58,7 @@ rehash 的时候使用
 
 #### Rehash 和 渐进式 Rehash
 
-![](G:\Java and Middleware\7：Redis\Redis\Rehash.png)
+![Rehash.png](https://github.com/likang315/Java-and-Middleware/blob/master/7%EF%BC%9ARedis/Redis/Rehash.png?raw=true)
 
 渐进式Rehash操作，将rehash键值对所需的计算，**均摊到对字典的所有操作中**，从而避免了集中式的rehash带来庞大的计算量
 
@@ -111,7 +111,7 @@ redis 127.0.0.1:6379> smembers key
 
 不同的是每个元素都会关联一个**double类型的 score** ，redis正是通过 score 来为集合中的成员进行从小到大的排序，zset的成员是唯一的,但分数(score)却可以重复
 
-![](G:\Java and Middleware\7：Redis\Redis\Zset.png)
+![Zset.png](https://github.com/likang315/Java-and-Middleware/blob/master/7%EF%BC%9ARedis/Redis/Zset.png?raw=true)
 
 ```C
 zadd key score member    //添加zset

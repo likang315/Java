@@ -2,7 +2,7 @@
 
 JDBC API：sun 公司定义的一套接口（ java.sql.* ），用这些接口来操作数据库
 
-###### JDBC驱动程序：由驱动类和数据库访问类组成,由数据库厂商提供，可以到Mysql网站下载（mysql-connector-j.jar）
+###### JDBC 驱动程序：由驱动类和数据库访问类组成,由数据库厂商提供，可以到Mysql网站下载（mysql-connector-j.jar）
 
 配置JBDC驱动程序： D:\mysql-connector-java-5.1.20-bin.jar
 IDEA配置：jar包导入
@@ -98,10 +98,10 @@ static Connection getConnection(String url, String user, String password)
  int[] executeBatch() 
       	将一批命令提交给数据库来执行，如果全部命令执行成功，则返回更新计数组成的数组
 
-##### PreparedStatement 接口:Statement 的 子接口，表示预编译的 SQL 语句的对象，不会破坏Sql语句结构
+##### PreparedStatement 接口：Statement 的 子接口，表示预编译的 SQL 语句的对象，不会破坏 Sql 语句结构
 
 ResultSet executeQuery() 
-		在此 PreparedStatement 对象中执行 SQL 查询，并返回该查询生成的 ResultSet 对象 
+		在此 PreparedStatement 对象中执行 SQL 查询，并返回该查询生成的 ResultSet 对象
 
 int executeUpdate() 
     		在此 PreparedStatement 对象中执行 SQL 语句，INSERT、UPDATE 或 DELETE 语句

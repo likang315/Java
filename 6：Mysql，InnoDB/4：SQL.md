@@ -2,10 +2,10 @@
 
 SQL分为：
 	1：数据定义语言（DDL）：用于创建，修改，删除数据库的对象，数据库对象包括：表，视图，索引，序列
-	2：数据操作语言（DML）：用于改变数据表的数据。		增，删，改
-	3：事物控制语言（TCL）： 用于维护数据一致性的语句。	提交，回滚，保存点
+	2：数据操作语言（DML）：用于改变数据表的数据		增，删，改
+	3：事物控制语言（TCL）： 用于维护数据一致性的语句	提交，回滚，保存点
 	4：数据查询语言（DQL）：用于查询所需要的语言
-	5：数据控制语言（DCL）：用于执行权限的授予和回收操作，维护数据库。	授予，回收，创建用户
+	5：数据控制语言（DCL）：用于执行权限的授予和回收操作，维护数据库	授予，回收，创建用户
 
 注意：
        1:SQL语句本身不区分大小写，但是出于可读性的目的，我们通常会将SQL的关键字全部大写，非关键字全部小写
@@ -21,14 +21,14 @@ SQL分为：
 查看表创建的语法    ：SHOW CREATE TABLE 表名 \G；
 查看表的结构	    ：DESC 表名；
 
-#####   创建表（CREATE）  //通常记事本写好直接copy
+#####   创建表（CREATE）  //通常记事本写好直接 copy
 
 ```sql
 CREATE TABLE 表名（
 	id	  数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
 	列名	数据类型（）not null DEFAULT defalut_value，
 	列名	数据类型（），
-	Foreign key( 列名) references 目标表名（列名)											
+	Foreign key( 列名) references 目标表名（列名)
 ）;
 ```
 
@@ -107,7 +107,7 @@ SELECT 子句：后面跟要查询的字段，也可以是表中的具体字段函数或者表达式,直接在其后
 
 例：SELECT DISTINCT column_name as new_name,column_name FROM table_name;  去重
 
-######   FROM子句：用来制定数据表的来源，其后可以加 ORDER BY 字句排序；	
+######   FROM子句：用来制定数据表的来源，其后可以加 ORDER BY 字句排序；
 
 ######   WHERE子句：用来添加限制条件，可以有多个，只将满足条件的记录查询出来
 
@@ -147,10 +147,10 @@ SELECT * FROM stu WHERE id<10;
     1：MAX（），MIN（）：求指定字段的最大值和最小值
     2：AVG，SUM：求平均值和总和
     3：COUNT（）函数：对给定字段的记录进行统计
- 	  COUNT（*）:统计这个表有多少记录，有时候返回long，有时候返回BigInteger
+ 	  COUNT（*）：统计这个表有多少记录，有时候返回long，有时候返回 BigInteger
  	  NVL（），配合进行
 
- select price, count(*) AS 记录数 from A group by price;
+ select price, count(*) AS 记录数 from A group by price；
 
 ### 4：排序
 
@@ -193,7 +193,7 @@ SELECT column_name(s) FROM table_name2
 
 
 
-### 8：多表查询(关联查询)：
+### 8：多表查询 (关联查询) ：
 
 ###  从多张表中查询对应记录的信息，关联查询的重点与这些表中的记录的对应关系，这个关系也称连接条件
 
@@ -213,7 +213,9 @@ N张表就有N-1个连接条件
 
 ### 9：连接查询(JOIN)：用来完成关联查询
 
-![](G:\Java\Java_note\13：SQL，Mysql，JDBC，dbutils，InnoDB\连接查询.png)
+
+
+![连接查询.png](https://github.com/likang315/Java-and-Middleware/blob/master/6%EF%BC%9AMysql%EF%BC%8CInnoDB/InnoDB/%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2.png?raw=true)
 
 ##### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
 
@@ -222,8 +224,6 @@ N张表就有N-1个连接条件
 ###### 	FROM 表名1 表1对象 INNER JOIN 表2名 表2对象 ON 连接条件 WHERE 过滤条件
 
 例： select e.id,d.dname as dep_name,e.name,e.sex,e.age FROM emp e **INNER JOIN** dep d **ON e.dep_id=d.id;** 
-
-
 
 ##### 外链接：所有数据都显示
 
@@ -237,6 +237,8 @@ N张表就有N-1个连接条件
 
   例：select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e RIGHT JOIN dep d ON e.dep_id=d.id;
 
+
+
 ### 10：EXPLAIN：SQL执行计划
 
 ###### 查看运行SQL语句时哪种策略预计会被优化器采用，查看有没有走索引
@@ -249,7 +251,7 @@ N张表就有N-1个连接条件
 +----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
 ```
 
-#### 1：id：包含一组数字，表示查询中执行select子句或操作表的顺序
+#### 1：id：包含一组数字，表示查询中执行 select 子句 或 操作表的顺序
 
 1：id相同，执行顺序由上至下
 
@@ -314,6 +316,8 @@ Using temporary：表示 MySQL 需要使用临时表来存储结果集，常见于排序和分组查询
 　　6、计算所有的表达式；（select:查看结果集中的哪个列，或列的计算结果 ）
 　　7、使用order by对结果集进行排序
 
+
+
 ### 12：sql  语句的优化
 
 **where子句--执行顺序为自下而上、从右到左**
@@ -322,7 +326,7 @@ Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
 
 **group by--字段加上索引，最左前缀匹配原则**
 
-把group by 的字段加上索引，因为符合最左前缀匹配原则，块
+把group by 的字段加上索引，因为符合最左前缀匹配原则
 
 **having 子句----很耗资源，尽量少用**
 
