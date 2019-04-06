@@ -8,13 +8,33 @@
 
 
 
-### 线程同步的方式
+### 线程间通信方式：
 
-**1：互斥量：(加锁)** 采用互斥对象机制，只有**拥有互斥对象的线程才有访问公共资源的权限**。因为互斥对象只有一个，所以可以保证公共资源不会被多个线程同时访问
+**1：线程同步机制：**多个线程需要访问同一个方法时，**谁拿到了锁（synchronized同步锁），谁就可以执行**
 
-**2：信号量：**它允许同一时刻多个线程访问同一资源，但是需要控制**同一时刻访问此资源的最大线程数量**
+**2：wait / notify机制：**Object 类的方法
 
-**3：事件机制：（wait / notify）**则允许一个线程在处理完一个任务后，**主动唤醒另外一个线程执行任务**
+wait()：当线程执行 wait() 时，会把**当前的锁释放，让出CPU（时间片），进入就绪状态**
+
+notify()：**任意唤醒一个处于等待该对象锁的线程**，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized块）后再释放锁
+
+notifyAll()：**会唤醒所有处于等待该对象锁的线程**，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized块 ）后再释放锁
+
+
+
+### 进程间通信方式（ 6 种）：
+
+**1：管道pipe：**管道是一种**半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用**。进程的亲缘关系通常是指父子进程关系
+
+**2：消息队列MessageQueue：**消息队列是**由消息的链表，存放在内核中并由消息队列标识符标识**。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点
+
+**3：共享存储SharedMemory：**共享内存就是映射一段能被其他进程所访问的内存，这**段共享内存由一个进程创建，但多个进程都可以访问**
+
+**4：信号量Semaphore（P,V）：**信号量是**一个计数器，可以用来控制多个进程对共享资源的访问**。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段
+
+**5：套接字Socket：**套解字也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同及其间的进程通信
+
+**6：信号 ( sinal ) ：** 用**于通知接收进程某个事件已经发生**
 
 
 
@@ -30,17 +50,6 @@
 
 
 
-### Synchronized ，Lock 的实现类 和 volatile 变量，CAS 实现 同步机制
-
-多线程并发访问同一资源时，就会形成“抢”的现象，由于线程切换实际不确定，可能导致执行代码顺序的混乱，
-严重时会导致系统瘫痪
-
-实例：上厕所，上锁
-
-![锁.png](https://github.com/likang315/Java/blob/master/Java_note/9%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E9%94%81.png?raw=true)
-
-
-
 ### 乐观锁与悲观锁：线程要不要锁住资源来分类的
 
 **悲观锁：**总是假设最坏的情况，**自己每次取数据时都认为其他线程会修改**，因此**在获取数据的时候会先加锁，确保数据不会被别的线程修改**，当其他线程想要访问数据时，都需要阻塞挂起，去等待持有锁的线程释放锁，synchronized就是悲观锁的实现
@@ -51,7 +60,7 @@
 
 **乐观锁：**认为自己在**使用数据时不会有别的线程修改数据，所以不会添加锁**，只是在**更新数据的时候去判断之前有没有别的线程更新了这个数据**。如果这个数据没有被更新，当前线程将自己修改的数据成功写入。如果数据已经被其他线程更新，则**根据不同的实现方式执行不同的操作**（例如**报错或者自动重试**）
 
-在Java中是**通过使用无锁编程来实现**，最常采用的是**CAS算法**，**Java 原子类中的递增操作就通过CAS自旋实现的**
+在Java中是**通过使用无锁编程来实现**，最常采用的是**CAS算法**，**Java 原子类（Automic）中的递增操作就通过CAS自旋实现的**
 
 ```java
 // ------------------------- 悲观锁的调用方式 -------------------------
@@ -60,7 +69,7 @@ public synchronized void testMethod() {
 	// 操作同步资源
 }
 // ReentrantLock
-private ReentrantLock lock = new ReentrantLock(); // 需要保证多个线程使用的是同一个锁
+private ReentrantLock lock = new ReentrantLock(); //需要保证多个线程使用的是同一个锁
 public void modifyPublicResources() {
 	lock.lock();
 	// 操作同步资源
@@ -68,15 +77,28 @@ public void modifyPublicResources() {
 }
 
 // ------------------------- 乐观锁的调用方式 -------------------------
-private AtomicInteger atomicInteger = new AtomicInteger();// 需要保证多个线程使用的是同一个AtomicInteger
+private AtomicInteger atomicInteger = new AtomicInteger(); //需要保证多个线程使用的是同一个AtomicInteger
 atomicInteger.incrementAndGet(); //执行自增 1
 ```
+
+
+
+### Synchronized ，Lock 的实现类
+
+多线程并发访问同一资源时，就会形成“抢”的现象，由于线程切换实际不确定，可能导致执行代码顺序的混乱，
+严重时会导致系统瘫痪
+
+实例：上厕所，上锁
+
+![锁.png](https://github.com/likang315/Java-and-Middleware/blob/master/5%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E9%94%81.png?raw=true)
 
 
 
 ### synchronized ：
 
 ###### 是Java中的关键字，是一种同步锁，通常称为重量级锁，即锁住了当前对象也把锁给了当前对象
+
+
 
 ### Synchronized 锁 原理
 
@@ -98,20 +120,18 @@ atomicInteger.incrementAndGet(); //执行自增 1
 同一个锁对象可以产生互斥作用，不同锁对象不能产生互斥作用
 
 ```java
-public synchronized void method()
-{
-}
+public synchronized void method(){}
 ```
 
 注意：
 
-1：**synchronized 关键字 不能继承，**若需要同步，在子类的重写方法添加synchronized关键字
+1：**synchronized 关键字 不能继承，**若需要同步，在子类的重写方法添加 synchronized 关键字
 
-2：在定义接口方法时不能使用synchronized关键字，不能被继承
+2：在定义接口方法时不能使用 synchronized 关键字，不能被继承
 
-3：**构造方法不能使用synchronized关键字**，但可以使用synchronized代码块来进行同步
+3：**构造方法不能使用synchronized关键字 **，但可以使用 synchronized 代码块来进行同步
 
-###### synchronized修饰的静态方法锁定的是这个类的所有对象
+###### synchronized 修饰的静态方法锁定的是这个类的所有对象
 
 ```java
 public static synchronized void method()
@@ -178,7 +198,7 @@ public void method()
 ```java
 synchronized(ClassName.class)
 {
-         // todo
+         //todo....
 }
 ```
 
@@ -213,7 +233,7 @@ public class Widget {
 
 
 
-### 为什么支持重复加锁？
+### 为什么支持重复加锁 ？
 
 因为源码中用变量 c 来保存当前锁被获取了多少次，故在释放时，对 c 变量进行减操作，只有 c 变量为 0 时，才算锁的最终释放。所以可以 lock 多次，同时 unlock 也必须与 lock 同样的次数
 
@@ -289,6 +309,8 @@ public class MyService {
 
 Condition类的signal 方法和Object类的notify 方法等效													Condition类的signalAll 方法和Object类的notifyAll 方法等效
 
+
+
 ### ReentranLock 和 Synchronized 的区别
 
 ###### 1：ReentrantLock可以实现公平锁
@@ -312,7 +334,7 @@ Lock lock=new ReentrantLock(true);//公平锁
 Lock lock=new ReentrantLock(false);//非公平锁，设置优先级，使用效率高
 ```
 
-###### 公平锁：指的是线程获取锁的顺序是按照加锁顺序来的，而非公平锁指的是抢锁机制，先lock的线程不一定先获得锁
+###### 公平锁：指的是线程获取锁的顺序是按照申请锁顺序来的，而非公平锁指的是抢锁机制，先lock的线程不一定先获得锁
 
 公平锁是严格的以FIFO的方式进行锁的竞争，但是非公平锁是无序的锁竞争，刚释放锁的线程很大程度上能比较快的获取到锁，队列中的线程只能等待，所以非公平锁可能会有“饥饿”的问题。但是重**复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的影响是比较大的**，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
 
@@ -332,13 +354,13 @@ public interface ReadWriteLock
 
 
 
-### 共享锁排他锁 ：多个线程能不能共享同一把锁
+### 共享锁 和 排他锁 ：多个线程能不能共享同一把锁
 
 **通过AQS来实现的**，通过实现不同的方法，来实现独享或者共享
 
-**独享锁也叫排他锁：**该锁一次只能被一个线程所持有，JDK中的synchronized和 JUC 中Lock的实现类就是互斥锁
+**独享锁也叫排他锁：**该锁一次只能被一个线程所持有，JDK中的 synchronized 和 JUC 中 Lock的实现类就是互斥锁
 
-**共享锁：**指该锁**可被多个线程所持有，如果线程T对数据A加上共享锁后，则其他线程只能对A再加共享锁**，不能加排它锁。获得共享锁的线程只能读数据，不能修改数据。
+**共享锁：**指该锁**可被多个线程所持有，如果线程T对数据A加上共享锁后，则其他线程只能对A再加共享锁**，不能加排它锁，获得共享锁的线程只能读数据，不能修改数据
 
 
 

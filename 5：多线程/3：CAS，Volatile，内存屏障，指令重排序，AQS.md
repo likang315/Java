@@ -14,7 +14,7 @@ CAS 算法涉及到**三个操作数：**
 
 ###### ​	进行比较的值 （预期值）A
 
-###### 					要写入的新值（新值）      B
+###### 						要写入的新值（新值）      B
 
 当且仅当 V 的值等于 A 时，CAS通过原子方式用新值B来更新V的值（“比较+更新”整体是一个原子操作），否则不会执行任何操作。一般情况下，“更新”是一个不断重试的操作
 
@@ -127,13 +127,11 @@ AQS（AbustactQueuedSynchronizer），它是一个 Java 提高的底层同步的
 
 是AQS很重要的组成部分，它是一个**双端队列，遵循FIFO原则**，主要作用是用来**存放阻塞的线程**，当一个线程尝试获取锁时，如果已经被占用，那么当前线程就会**被构造成一个Node节点放入到同步队列的尾部**，**队列的头节点是成功获取锁的节点，当头节点线程释放锁时，会唤醒后面的节点并释放当前头节点的引用**
 
-![同步队列.png](https://github.com/likang315/Java/blob/master/Java_note/9%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%90%8C%E6%AD%A5%E9%98%9F%E5%88%97.png?raw=true)
-
-
-
-### 独占锁的获取和释放
+![同步队列.png](https://github.com/likang315/Java-and-Middleware/blob/master/5%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%90%8C%E6%AD%A5%E9%98%9F%E5%88%97.png?raw=true)
 
 ##### 获取锁
+
+### 独占锁的获取和释放
 
 ​	1：调用入口方法acquire(arg)
 ​	2：调用模版方法tryAcquire(arg)尝试获取锁，若成功则返回，若失败则走下一步
@@ -148,9 +146,9 @@ AQS（AbustactQueuedSynchronizer），它是一个 Java 提高的底层同步的
 
 ​	4：利用 LockSupport.unpark(currentNode.next.thread) 唤醒后继节点
 
-![独占锁的获取与释放.png](https://github.com/likang315/Java/blob/master/Java_note/9%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%8B%AC%E5%8D%A0%E9%94%81%E7%9A%84%E8%8E%B7%E5%8F%96%E4%B8%8E%E9%87%8A%E6%94%BE.png?raw=true)
+![独占锁的获取与释放.png](https://github.com/likang315/Java-and-Middleware/blob/master/5%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%8B%AC%E5%8D%A0%E9%94%81%E7%9A%84%E8%8E%B7%E5%8F%96%E4%B8%8E%E9%87%8A%E6%94%BE.png?raw=true)
 
-### 共享锁 的 获取 和 释放 时
+### 共享锁 的 获取 和 释放时
 
 ##### 获取锁
 
