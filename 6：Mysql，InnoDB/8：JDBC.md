@@ -20,7 +20,7 @@ IDEA配置：jar包导入
 
 ###### 1：加载驱动：    得到class对象
 
-Class.forName("com.mysql.jdbc.Driver");
+Class.forName("com.mysql.jdbc.Driver")；
 
 ###### 2：连接数据库（三种重载）：
 
@@ -116,15 +116,15 @@ void setDate(int parameterIndex, Date x)
 String sql="insert into person(id,name,sex,age) values(?,?,?,?)";
 PreparedStatement ps=con.prepareStatement(sql);
 		
-		for(int i=1;i<10;i++)
-		{
-			ps.setInt(1, i);
-			ps.setString(2, "name"+i);
-			ps.setString(3, i%2==0?"M":"F");
-			ps.setInt(4, 20+i);
-			ps.addBatch();  //添加到命令执行列表
-		}
-		int[] re=ps.executeBatch();
+for(int i=1;i<10;i++)
+{
+    ps.setInt(1, i);
+    ps.setString(2, "name"+i);
+    ps.setString(3, i%2==0?"M":"F");
+    ps.setInt(4, 20+i);
+    ps.addBatch();  //添加到命令执行列表
+}
+int[] re=ps.executeBatch();
 ```
 
 
@@ -167,9 +167,9 @@ int getInt(String columnLabel)
 
 ##### ResultSetMetaData接口：封装了 ResultSet 结果表结构的原数据信息
 
-getColunmCount()：取结果集总共有几列
+getColunmCount()： 取结果集总共有几列
 getColumnName(i)：取指定列的名字称
-getColumnType(i)：取指定列的类型
+getColumnType(i)：  取指定列的类型
 
 ##### DatabaseMetaData接口：封装了数据库的原数据 
 
