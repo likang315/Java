@@ -39,7 +39,7 @@ resp.addCookie(cookie);
 
 ###  2：Session： Http通过令牌的机制完成和客户端的会话（查图），是基于Cookie 技术实现的，当然是在服务器端，但不是保存在内存中，而是保存在文件或数据库中
 
-![](F:\note\14 Tomcat，Servlet\Session.png)
+![Session.png](https://github.com/likang315/Java-and-Middleware/blob/master/8%EF%BC%9AServlet%EF%BC%8CSession%EF%BC%8CFileUpload,FileDownLoad/Servlet/Session.png?raw=true)
 
 ### 原理：
 
