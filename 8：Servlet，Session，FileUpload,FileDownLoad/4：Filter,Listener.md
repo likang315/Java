@@ -1,5 +1,3 @@
-## 过滤器和监听器
-
 ###  过滤器的配置：
 
 ​	1：@WebFilter("/admin/*")，通过调用顺序决定过滤顺序
@@ -10,7 +8,7 @@
 ​	作用：主要在访问 Servlet 之前和之后，可以增加一些我们的业务
 
 void	destroy() 
-    		销毁Filter
+    		销毁 Filter
 
 ######  void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
 
@@ -21,24 +19,24 @@ void	destroy()
 ```java
 @WebFilter("/admin/*")  //过滤检查登录
 public class CheckLogedFilter implements Filter {
-	@Override
+@Override
 public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)  throws IOException, ServletException 
-	{
-		 HttpServletRequest  req=(HttpServletRequest)arg0;
-		 HttpServletResponse resp=(HttpServletResponse)arg1;
-		 
-		 String url=req.getRequestURL().toString();
-		 
-		 HttpSession hs=req.getSession();
-		 Admin admin=(Admin)hs.getAttribute("loged");
-		if(null!=admin||url.indexOf("admin/login")!=-1)
-		{
-			arg2.doFilter(req, resp);
-		}else
-		{
-			resp.sendRedirect("login");
-		}
-	}
+    {
+        HttpServletRequest  req=(HttpServletRequest)arg0;
+        HttpServletResponse resp=(HttpServletResponse)arg1;
+
+        String url=req.getRequestURL().toString();
+
+        HttpSession hs=req.getSession();
+        Admin admin=(Admin)hs.getAttribute("loged");
+        if(null!=admin||url.indexOf("admin/login")!=-1)
+        {
+            arg2.doFilter(req, resp);
+        }else
+        {
+            resp.sendRedirect("login");
+        }
+    }
 }
 ```
 
@@ -65,57 +63,25 @@ void	doFilter(ServletRequest request, ServletResponse response)
 
 
 
-##### 4：请求，响应包装类(Wrapper)
+##### 4：请求，响应包装类( Wrapper )
 
 ServletRequestWrapper（Class） 和 ServletResponseWrapper（Class）
 HttpServletRequestWrapper（Class）和 HttpServletResponseWrapper(Class)
 
 ######  作用：如果想重写 Request 和 Response 中的方法，那么就可以继承以上 4 个包装类
 
-
-
-### 统一页面的访问量
-
 ```java
-   //Web应用程序只有一个ServletContext，且所有的servlet共享
-   ServletContext context = getServletContext();
-   Integer count = null;
-   synchronized(context)
-   {
-   	   count = (Integer) context.getAttribute("counter");
-       if (null == count)
-           count = new Integer(1);
-       else
-           count = new Integer(count.intValue() + 1);
-       
-       context.setAttribute("counter", count);
-   }
-```
+public class MyRequest extends HttpServletRequestWrapper {
+	public MyRequest(HttpServletRequest request) {
+		super(request);
+	}
 
-### 统计有多少用户的访问量
-
-```java
-ServletContext context = getServletContext();
-Integer count = null;
-synchronized(context)
-{
-    //一个用户对应一个session
-    if(session.isNew())
-	{
-        count = (Integer) context.getAttribute("counter");
-        if (null == count)
-            count = new Integer(1);
-        else
-            count = new Integer(count.intValue() + 1);
-
-        context.setAttribute("counter", count);
+	@Override
+	public String getParameter(String name) {
+		return "&lt;&lt;"+super.getParameter(name)+"&gt;&gt;";
 	}
 }
 ```
-
-### 统计同一个用户的访问量（JsessionID）
-
-数据库中新建一个表存储和网站访问量相关的数据，最简单的就是一个visitcount表中包含一个字段count，当用户访问网站首页面时候，通过 Session.isNew() 判断是不是新的用户，创建新的记录值设为 1，否则，去对应的字段，更新count+1
 
 
 
@@ -139,6 +105,23 @@ synchronized(context)
 
 ​	事件：ServletContextEvent
 ​	事件处理器：
+
+```java
+@WebListener 
+public class WebInitListener implements ServletContextListener{
+    	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		 System.out.println("------------------ServletContext contextDestroyed....."+arg0);
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		  System.out.println("------------------ServletContext init....."+arg0);
+	}
+}
+```
+
+
 
 ##### ServletContextListener（Interface）
 

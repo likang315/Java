@@ -4,21 +4,21 @@
 
 URL：http://kindeditor.net
 
-```
+```javascript
 使用方法：（Jsp）
 1：先部署KindEditor文件到---Web-Content
 
 2：<textarea id="editor_id" name="content" style="width:700px;height:300px;">
-   </textarea>
+</textarea>
 
 3：<script charset="utf-8" src="/editor/kindeditor.js"></script>
-  
-  <script charset="utf-8" src="/editor/lang/zh-CN.js"></script>
-   <script>
-   		 KindEditor.ready(function(K) {
-            	window.editor = K.create('#editor_id');
-    	 });
-   </script>
+
+<script charset="utf-8" src="/editor/lang/zh-CN.js"></script>
+<script>
+KindEditor.ready(function(K) {
+window.editor = K.create('#editor_id');
+});
+</script>
 ```
 
 
