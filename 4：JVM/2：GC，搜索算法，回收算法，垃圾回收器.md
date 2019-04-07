@@ -1,6 +1,6 @@
 ### 1£ºÀ¬»ø£ºÃ»ÓÐÈÎºÎÒýÓÃËùÖ¸ÏòµÄ¶ÔÏó
 
-»ØÊÕ¹ý³ÌÊÇÍ¸Ã÷µÄ£¬²¢²»Ò»¶¨¿´µ½À¬»ø¾Í»ØÊÕ£¬ÈôÏë¿ìÒ»Ð©£¬¿ÉÒÔµ÷ÓÃSystem.gc();
+»ØÊÕ¹ý³ÌÊÇÍ¸Ã÷µÄ£¬²¢²»Ò»¶¨¿´µ½À¬»ø¾Í»ØÊÕ£¬ÈôÏë¿ìÒ»Ð©£¬¿ÉÒÔµ÷ÓÃ System.gc();
 
 ### 2£ºÀ¬»ø»ØÊÕÆ÷£¨Garbage Collection£©
 
@@ -27,7 +27,7 @@ JVM×Ô´øµÄÒ»¸öÓÅÏÈ¼¶ºÜµÍµÄÏß³Ì£¬ÓÃÓÚ»ØÊÕÃ»ÓÐÈÎºÎÒýÓÃËùÖ¸ÏòµÄ¶ÔÏó£¬²»Í¬µÄÐéÄâ»úÆ½Ì
 
 
 
-### 4£ºJavaÖÐµÄÒýÓÃÀàÐÍ
+### 4£ºJava ÖÐµÄÒýÓÃÀàÐÍ
 
    ¸ù¾Ý¶ÔÒýÓÃµÄ²»Í¬ÐèÇó£¬ÓÖ·Ö³ÉÁË4ÖÖÒýÓÃ£¬Ã¿ÖÖÒýÓÃµÄ»ØÊÕ»úÖÆ¶¼ÊÇ²»Í¬µÄ
    JavaÖÐ¶ÔÏóµÄÒýÓÃ·ÖÎªËÄÖÖ¼¶±ð£¬ÕâËÄÖÖ¼¶±ðÓÉ¸ßµ½µÍÒÀ´ÎÎª£ºÇ¿ÒýÓÃ¡¢ÈíÒýÓÃ¡¢ÈõÒýÓÃºÍÐéÒýÓÃ
@@ -128,7 +128,9 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ÐÂÉú´úÖÐµÄ¶ÔÏó98%¶¼ÊÇ¡°³¯ÉúÏ¦ËÀ¡±µÄ£¬µ±È»£¬98%µÄ¶ÔÏó¿É»ØÊÕÖ»ÊÇÒ»°ã³¡¾°ÏÂµÄÊý¾Ý£¬ÎÒÃÇÃ»ÓÐ°ì·¨±£Ö¤Ã¿´Î»ØÊÕ¶¼Ö»ÓÐ²»¶àÓÚ10%µÄ¶ÔÏó´æ»î£¬µ±Survivor¿Õ¼ä²»¹»ÓÃÊ±£¬ÐèÒªÒÀÀµÓÚÀÏÄê´ú½øÐÐ·ÖÅäµ£±££¬ËùÒÔÖ±½Ó°Ñ´ó¶ÔÏó½øÈëÀÏÄê´ú
 
-![ÐÂÉú´ú£¬ÀÏÄê´ú£¬ÓÀ¾Ã´ú.jpg](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/%E6%96%B0%E7%94%9F%E4%BB%A3%EF%BC%8C%E8%80%81%E5%B9%B4%E4%BB%A3%EF%BC%8C%E6%B0%B8%E4%B9%85%E4%BB%A3.jpg?raw=true)
+![ÐÂÉú´ú£¬ÀÏÄê´ú£¬ÓÀ¾Ã´ú.jpg](https://github.com/likang315/Java-and-Middleware/blob/master/4%EF%BC%9AJVM/JVM/%E6%96%B0%E7%94%9F%E4%BB%A3%EF%BC%8C%E8%80%81%E5%B9%B4%E4%BB%A3%EF%BC%8C%E6%B0%B8%E4%B9%85%E4%BB%A3.jpg?raw=true)
+
+
 
 ##### ÐÂÉú´úÓÖ·ÖÎª EdenÇø¡¢ServivorFrom¡¢ServivorToÈý¸öÇø
 
@@ -174,7 +176,9 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ### 9£ºÀ¬»øÊÕ¼¯Æ÷£º( STW: Stop The World£º×îÐ¡Í£¶ÙÊ±¼ä )
 
-![À¬»ø»ØÊÕÆ÷.jpg](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8.jpg?raw=true)
+![À¬»ø»ØÊÕÆ÷.jpg](https://github.com/likang315/Java-and-Middleware/blob/master/4%EF%BC%9AJVM/JVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8.jpg?raw=true)
+
+
 
 ### Stop-The-World »úÖÆ£º
 
@@ -207,13 +211,13 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 ### 4£ºCMS ÊÕ¼¯Æ÷£¨Concurrent Mark Sweep£º²¢·¢+±ê¼Ç+Çå³ý£©£ºÒ»ÖÖÒÔ»ñÈ¡×î¶Ì»ØÊÕÍ£¶ÙÊ±¼äÎªÄ¿±êµÄÊÕ¼¯Æ÷
 
-###### Ó¦ÓÃÓÚÖØÊÓ·þÎñÆ÷µÄÏìÓ¦ËÙ¶È£¬Ï£ÍûÏµÍ³Í£¶ÙÊ±¼ä×î¶Ì£¬ÀýÈçÔÚ»¥ÁªÍøÕ¾»òÕßB/SÏµÍ³µÄ·þÎñÆ÷ÉÏ£¬cmsÊÕ¼¯Ëã·¨Ö»ÊÇ ÇåÀíÀÏÄê´ú
+###### Ó¦ÓÃÓÚÖØÊÓ·þÎñÆ÷µÄÏìÓ¦ËÙ¶È£¬Ï£ÍûÏµÍ³Í£¶ÙÊ±¼ä×î¶Ì£¬ÀýÈçÔÚ»¥ÁªÍøÕ¾»òÕßB/SÏµÍ³µÄ·þÎñÆ÷ÉÏ£¬cms ÊÕ¼¯Ëã·¨Ö»ÊÇÇåÀíÀÏÄê´ú
 
 
 
-##### CMSµÄÖ´ÐÐ¹ý³Ì¿ÉÒÔ·ÖÎªÒÔÏÂ¼¸¸ö½×¶Î
+##### CMS µÄÖ´ÐÐ¹ý³Ì¿ÉÒÔ·ÖÎªÒÔÏÂ¼¸¸ö½×¶Î
 
-![CMS.png](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/CMS.png?raw=true)
+![CMS.png](https://github.com/likang315/Java-and-Middleware/blob/master/4%EF%BC%9AJVM/JVM/CMS.png?raw=true)
 
 ###### 1£ºInitialMarking£¨³õÊ¼»¯±ê¼Ç£¬STW¹ý³Ì £©
 
@@ -290,22 +294,22 @@ GC roots£¨GC¸ù£©£¬ÔÚJAVAÓïÑÔÖÐ£¬¿ÉÒÔµ±×öGC rootsµÄ¶ÔÏóÓÐÒÔÏÂ¼¸ÖÖ£º
 
 
 
-###    5£ºG1ÊÕ¼¯Æ÷£ºÉè¼ÆÔ­Ôò¾ÍÊÇ¼òµ¥¿ÉÐÐµÄÐÔÄÜµ÷ÓÅ£¬È¡ÏûÁËÐÂÉú´ú£¬ÀÏÄê´úµÄÎïÀí¿Õ¼ä»®·Ö£¬jdk1.9
+###    5£ºG1 ÊÕ¼¯Æ÷£ºÉè¼ÆÔ­Ôò¾ÍÊÇ¼òµ¥¿ÉÐÐµÄÐÔÄÜµ÷ÓÅ£¬È¡ÏûÁËÐÂÉú´ú£¬ÀÏÄê´úµÄÎïÀí¿Õ¼ä»®·Ö£¬jdk1.9
 
 **½«¶Ñ»®·ÖÎªÈô¸É¸öÇøÓò£¨Region**£©£¬ËüÈÔÈ»ÊôÓÚ·Ö´úÊÕ¼¯Æ÷¡£²»¹ý£¬ÕâÐ©ÇøÓòµÄÒ»²¿·Ö°üº¬ÐÂÉú´ú£¬**ÐÂÉú´úµÄÀ¬»øÊÕ¼¯ÒÀÈ»²ÉÓÃÔÝÍ£ËùÓÐÓ¦ÓÃÏß³ÌµÄ·½Ê½£¨STW£©**£¬½«´æ»î¶ÔÏó¿½±´µ½ÀÏÄê´ú»òÕßSurvivor¿Õ¼ä¡£**ÀÏÄê´úÒ²·Ö³ÉºÜ¶àÇøÓò£¬G1ÊÕ¼¯Æ÷Í¨¹ý½«¶ÔÏó´ÓÒ»¸öÇøÓò¸´ÖÆµ½ÁíÍâÒ»¸öÇøÓò£¬Íê³ÉÁËÇåÀí¹¤×÷£¬Ïàµ±ÓÚ±ê¼Ç-ÕûÀí**¡£Õâ¾ÍÒâÎ¶×Å£¬²»»á³öÏÖÄÚ´æËéÆ¬
 
-### ÌØµã
+### ÌØ µã
 
 **1£ºÖ§³Ö²¢ÐÐ²¢·¢£º**G1Ê¹ÓÃ¶à¸öCPUÀ´Ëõ¶ÌStop-The-WorldÍ£¶ÙÊ±¼ä£¬Í¨¹ý²¢·¢¿ÉÒÔÈÃ java ³ÌÐò¼ÌÐøÔËÐÐ
-**2£º·ÖÇø Region£º**Ä¬ÈÏ½«**Õû¶Ñ»®·ÖÎª2048¸ö·ÖÇø,**Âß¼­ÉÏÓÖ·ÖÎªÐÂÉú´úºÍÀÏÉú´ú
-**3£º¿Õ¼äÕûºÏ£º**½áºÏ¶àÖÖÀ¬»øÊÕ¼¯Ëã·¨£¬²»»á²úÉúÄÚËéÆ¬
-**4£º¿ÉÔ¤²âµÄÍ£¶Ù£º**µÍÍ£¶ÙµÄÍ¬Ê±ÊµÏÖ¸ßÍÌÍÂ£¬¿ÉÒÔÃ÷È·Ö¸¶¨MºÁÃëµÄÊ±¼äÆ¬ÄÚ£¬ÏûºÄÔÚÀ¬»øÊÕ¼¯ÉÏµÄÊ±¼ä²»ÄÜ³¬¹ý N ºÁÃë
+**2£º·ÖÇø Region£º**Ä¬ÈÏ½«**Õû¶Ñ»®·ÖÎª2048¸ö·ÖÇø,*£¬Âß¼­ÉÏÓÖ·ÖÎªÐÂÉú´úºÍÀÏÉú´ú
+**3£º¿Õ¼äÕûºÏ£º**½áºÏ¶àÖÖÀ¬»øÊÕ¼¯Ëã·¨£¬²»»á²úÉúÄÚËéÆ¬**
+4£º¿ÉÔ¤²âµÄÍ£¶Ù£ºµÍÍ£¶ÙµÄÍ¬Ê±ÊµÏÖ¸ßÍÌÍÂ£¬¿ÉÒÔÃ÷È·Ö¸¶¨MºÁÃëµÄÊ±¼äÆ¬ÄÚ£¬ÏûºÄÔÚÀ¬»øÊÕ¼¯ÉÏµÄÊ±¼ä²»ÄÜ³¬¹ý N ºÁÃë
 
 **HumongousÇøÓò£º** Èç¹ûÒ»¸ö¶ÔÏóÕ¼ÓÃµÄ¿Õ¼ä³¬¹ýÁË·ÖÇøÈÝÁ¿50%ÒÔÉÏ£¬G1ÊÕ¼¯Æ÷¾ÍÈÏÎªÕâÊÇÒ»¸ö¾ÞÐÍ¶ÔÏó¡£ÕâÐ©¾ÞÐÍ¶ÔÏó£¬Ä¬ÈÏÖ±½Ó»á±»·ÖÅäÔÚÄêÀÏ´ú£¬µ«ÊÇÈç¹ûËüÊÇÒ»¸ö¶ÌÆÚ´æÔÚµÄ¾ÞÐÍ¶ÔÏó£¬¾Í»á¶ÔÀ¬»øÊÕ¼¯Æ÷Ôì³É¸ºÃæÓ°Ïì¡£ÎªÁË½â¾öÕâ¸öÎÊÌâ£¬**G1»®·ÖÁËÒ»¸öHumongousÇø£¬ËüÓÃÀ´×¨ÃÅ´æ·Å¾ÞÐÍ¶ÔÏó**¡£Èç¹ûÒ»¸öHÇø×°²»ÏÂÒ»¸ö¾ÞÐÍ¶ÔÏó£¬ÄÇÃ´G1»áÑ°ÕÒÁ¬ÐøµÄH·ÖÇøÀ´´æ´¢¡£ÎªÁËÄÜÕÒµ½Á¬ÐøµÄHÇø£¬ÓÐÊ±ºò²»µÃ²»Æô¶¯Full GC
 
-![G1ÄÚ´æ»®·Ö.png](https://github.com/likang315/Java/blob/master/Java_note/8%EF%BC%9AJVM/G1%E5%86%85%E5%AD%98%E5%88%92%E5%88%86.png?raw=true)
 
 
+![G1ÄÚ´æ»®·Ö.png](https://github.com/likang315/Java-and-Middleware/blob/master/4%EF%BC%9AJVM/JVM/G1%E5%86%85%E5%AD%98%E5%88%92%E5%88%86.png?raw=true)
 
 #### Remembered Set£ºÓÃÓÚ¸ú×ÙÖ¸ÏòÄ³¸öheapÇøÄÚµÄ¶ÔÏóÒýÓÃ
 
@@ -316,6 +320,8 @@ G1ÖÐÊ¹ÓÃ**point-inµÄÒâË¼ÊÇÄÄÐ©·ÖÇøÒýÓÃÁËµ±Ç°·ÖÇøÖÐµÄ¶ÔÏó**¡£ÕâÑù£¬½ö½ö½«ÕâÐ©¶ÔÏó
 ÔÚG1 ÖÐÍ¨¹ý**¿¨±í£¨Card Table£©**£¬**Ò»¸öCard Table½«Ò»¸ö·ÖÇøÔÚÂß¼­ÉÏ»®·ÖÎª¹Ì¶¨´óÐ¡µÄÁ¬ÐøÇøÓò£¬**Ã¿¸öÇøÓò³ÆÖ®Îª¿¨¡£¿¨Í¨³£½ÏÐ¡£¬½éÓÚ128µ½512×Ö½ÚÖ®¼ä¡£**Card TableÍ¨³£Îª×Ö½ÚÊý×é£¬ÓÉCardµÄË÷Òý£¨¼´Êý×éÏÂ±ê£©À´±êÊ¶Ã¿¸ö·ÖÇøµÄ¿Õ¼äµØÖ·**¡£Ä¬ÈÏÇé¿öÏÂ£¬Ã¿¸ö¿¨¶¼Î´±»ÒýÓÃ¡£**µ±Ò»¸öµØÖ·¿Õ¼ä±»ÒýÓÃÊ±£¬Õâ¸öµØÖ·¿Õ¼ä¶ÔÓ¦µÄÊý×éË÷ÒýµÄÖµ±»±ê¼ÇÎª¡±0¡å£¬¼´±ê¼ÇÎªÔà±»ÒýÓÃ**
 
 ´ËÍâ RSet Ò²½«Õâ¸öÊý×éÏÂ±ê¼ÇÂ¼ÏÂÀ´£¬Ò»°ãÇé¿öÏÂ£¬Õâ¸öRSetÆäÊµÊÇÒ»¸öHash Table£¬KeyÊÇ±ðµÄRegionµÄÆðÊ¼µØÖ·£¬ValueÊÇÒ»¸ö¼¯ºÏ£¬ÀïÃæµÄÔªËØÊÇCard Table µÄ Index
+
+
 
 ### Young GC  ½×¶Î£º¸´ÖÆËã·¨
 
