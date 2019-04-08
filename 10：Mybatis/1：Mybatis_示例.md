@@ -1,10 +1,10 @@
 ## Mybatis ：
 
-通过抽像底层的JDBC代码，自动化 SQL 结果集产生 Java 对象，Java 对象的数据持久化数据库中的过程，使得对 SQL 的使用变的容易，也是一个半自动化的 ORM 框架，需要手工匹配提供 POJO、SQL 和映射关系
+通过抽像底层的JDBC代码，**自动化 SQL 结果集产生 Java 对象，Java 对象的数据持久化数据库中的过程**，使得对 SQL 的使用变的容易，也是一个半自动化的 ORM 框架，需要手工匹配提供 POJO、SQL 和映射关系
 
 ##### ORM 是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系数据库中
 
-##### 1：inport jar包
+##### 1：import jar包
 
 mybatis-3.x.x.jar
 mysql-connector-java-5.1.22.jar
@@ -59,10 +59,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	//加载mybatis的配置文件
 	InputStream inputStream = Resources.getResourceAsStream("/mybatis-config.xml");
 	//相当于根据mybatis-config.xml构建连接池
-	SqlSessionFactory sqlSessionFactory =new SqlSessionFactoryBuilder().build(inputStream);
+	SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 	// SqlSession相当于我们的Connection
 	SqlSession sqlSession = sqlSessionFactory.openSession();
-	StudentMapper sm=session.getMapper(StudentMapper.class);
+	StudentMapper sm = sqlsession.getMapper(StudentMapper.class);
 ```
 
 

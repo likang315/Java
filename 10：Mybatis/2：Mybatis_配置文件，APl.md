@@ -1,10 +1,10 @@
 ### 1：核心API
 
-##### 1>:SqlSessionFactoryBuilder.build(InputStream in)------------有重载的
+##### 1>：SqlSessionFactoryBuilder.build(InputStream in)------------有重载的
 
 ​		根据xml配置信息或代码构建 SqlSessionFactory
 
-##### 	2>:SqlSessionFactory(会话工厂)
+##### 	2>：SqlSessionFactory(会话工厂)
 
 ​	 生成 SqlSession(会话)工厂,两个实现类 DefaultSqlSessionFactory 和SqlSessionManager（目前没有使用），
 ​	 默认使用 DefaultSqlSessionFactory，可以使用 XML和代码构建
@@ -15,7 +15,7 @@
 ​    		3:事务隔离级别将会使用驱动或数据源的默认设置
 ​    		4:预处理语句不会被复用,也不会批量处理更新
 
-#####  	3>:SqlSession (相当于Connection)
+#####  	3>：SqlSession (相当于Connection)
 
  		包含所有执行语句的方法并返回结果,提交或回滚事务,还有获取映射器实例
 		通用的方式来执行映射语句是使用映射器类,映射器类就是简单的接口,其中的方法定义匹配于 SqlSession 方法
@@ -32,13 +32,15 @@
 ​	int update(String statement, Object parameter)
 ​	int delete(String statement, Object parameter)
 
-##### 4>:SQL Mapper是MyBatis新设计的组件，它是由一个 java 接口和XML文件(或注解)构成的，需要给出对应的SQL和映射规则，			它负责发送 SQL,并返回结果
+##### 4>：SQL Mapper是 MyBatis 新设计的组件，它是由一个 java 接口和 XML文件 (或注解) 构成的，需要给出对应的SQL和映射规则，它负责发送 SQL,并返回结果
 
-##### 5>:.Configuration ：将 xml 解析到 Configuration 对像中，以便复用
+
+
+##### 5>：Configuration ：将 xml 解析到 Configuration 对像中，以便复用
 
 ### 2：映射器（Mapper）
 
-​      由java接口(定以操作数据库的方法)和Mapper.xml文件共同组成,其实就是通过 XML 和反射来动态实现的java接口的实现类
+​      由java接口(定以操作数据库的方法)和Mapper.xml文件共同组成,其实就是**通过 XML 和反射来动态实现的java接口的实现类**
 ​	作用：定义参数类型
 ​		  描述缓存
 ​		  描述 SQL 语句
@@ -59,6 +61,8 @@
 	<mapper class="com.mybatis3.mappers.TutorMapper"/>
 </mappers>
 ```
+
+
 
 ### 3：mybatis-config.xml 配置文件
 
@@ -99,7 +103,7 @@
 
 ###### 4:类型处理器(typeHandler) 
 
-​	将参数从 javaType 转化为 jdbcType 或者从数据库取出结果时把jdbcType 转化为 javaType
+​	将参数从 javaType 转化为 jdbcType 或者从数据库取出结果时把 jdbcType 转化为 javaType
 
 ​      系统定义的TypeHandler 
 ​	类型处理器		javaType		jdbcType
@@ -128,7 +132,7 @@
 
 ##### 6:对象工厂(ObjectFactory)
 
-​	当 MyBatis 构建一个结果返回时，都会使用（ObjectFactory）去构建 POJO,需要做的仅仅是实例化目标类，要么通过默认构造方法，要么在参数映射存在的时候通过参数构造方法来实例化
+​	当 MyBatis 构建一个结果返回时，都会使用（ObjectFactory）去构建 POJO,需要做的仅仅是实例化目标类，要么通过默认构造方法，要么在参数映射存在的时候**通过参数构造方法来实例化**
 默认的：org.apache.ibatis.reflection.factory.DefaultObjectFactory
 
 ##### 7:配置环境（environments）

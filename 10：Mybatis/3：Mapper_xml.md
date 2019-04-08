@@ -4,11 +4,11 @@
 
 cache -------给定命名空间的缓存配置
 cache-ref – 其他命名空间缓存配置的引用
-sql -------  可被其他语句引用的可重用sql语句
+sql -------     可被其他语句引用的可重用sql语句
 
 ```xml
 <!-- sql元素包含 -->
-<!--<sql id="role_columns">
+<sql id="role_columns">
 	id,name,note
 </sql>
 <select id="getRole" parameterType="int" resultMap="map">
@@ -16,11 +16,11 @@ sql -------  可被其他语句引用的可重用sql语句
 </select>
 ```
 
-resultMap – 用来描述如何从数据库结果集中来加载对象
-	select – 映射查询语句
-	insert – 映射插入语句
-	update – 映射更新语句
-	delete – 映射删除语句	
+​	resultMap – 用来描述如何从数据库结果集中来加载对象
+​	select – 映射查询语句
+​	insert – 映射插入语句
+​	update – 映射更新语句
+​	delete – 映射删除语句
 
 ### 2：select 映射 
 
@@ -46,7 +46,7 @@ resultMap – 用来描述如何从数据库结果集中来加载对象
 
 ###### 3>:使用Map 传递多个参数或返回Map
 
-​	使用 MyBatis 提供的 Map 接口作为参数来实现它，parameterType="map"，实现时直接把map传过去
+​	使用 MyBatis 提供的 Map 接口作为参数来实现它，parameterType="map"，实现时直接把 map 传过去
    	传参时，Map的key 时参数，value是参数值
 ​	map 作为返回值时，返回一个map或者返回map集合： resultMap="map"
 
@@ -105,7 +105,7 @@ statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED
 
 ##### 6：特殊字符串替换和处理(#和$)：占位
 
-​	使用${}会自动加上""，用于字符串
+​	使用${}会自动加上 ' ' ，用于字符串，会出现Sql注入问题
 ​	使用#{}不会
 
 ##### 7：支持存储过程
@@ -147,7 +147,7 @@ statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED
 
 ​	
 
-## ​10：resultMap :映射结果集的
+### ​10：resultMap ：映射结果集的
 
 ##### 一对一映射(one to one)
 
@@ -163,9 +163,9 @@ statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED
 ###### 3>:<association> 引入ResultMap
 
 ​	被用来导入“有一个”(has-one)类型的关联
-   		<association property="score" resultMap="ScoreResult" />
+   		<association property="score" resultMap="ScoreResult"/>
 
-4:>:<association>内联的 resultMap
+4:>:<association> 内联的 resultMap
 
 ```xml
  <resultMap type="stu" id="stusMap">
@@ -186,9 +186,9 @@ statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED
 
 ​	property="Type值的属性"---column="表中的列",对应stu的score
 
-###### 5>:resultMap嵌套select查询
+###### 5>:resultMap 嵌套 select查询
 
-​	select属性设置成了 id 为 <select>属性id,column的值将作为参数传递给select
+​	select 属性设置成了 id 为 <select>属性id,column的值将作为参数传递给select
 
 ```xml
 <association property="score" select="findScorebyid" column="id"> </association>
@@ -204,6 +204,7 @@ statementType :STATEMENT，PREPARED 或 CALLABLE,默认值：PREPARED
 
 ```xml
 <association property="stus" javaType="ArrayList" select="findStuByClassId" column="id" fetchType="lazy"> </association> 
+
 <collection property="stus" javaType="ArrayList" select="findStuByClassId" column="id" fetchType="lazy"></collection>
 ```
 
@@ -214,7 +215,7 @@ fetchType.EAGER：急加载，加载一个实体时，定义（饿）急加载�
 
 ​	1>:嵌套select 语句，主要是三个表之间的关联
 ​		<select id="findStuByTeacherId" resultMap="stusMap">
- 			select s.*,st.* from stu_tea st,stu s where st.tea_id=#{id} and st.stu_id=s.id
+ 			select s，st from stu_tea st,stu s where st.tea_id=#{id} and st.stu_id=s.id
  		</select>
 
 ```xml
@@ -230,12 +231,12 @@ fetchType.EAGER：急加载，加载一个实体时，定义（饿）急加载�
 
 
 
-## 11：缓存(buffer):存储内容访问命中率
+### 11：缓存(buffer)：存储内容访问命中率
 
 一级缓存：默认情况下，开启一级缓存，一级缓存只是相对于同一个 SqlSession 
 二级缓存：默认情况下，不开启二级缓存，二级缓存是SqlSessionFactory 层面上的缓存,MyBatis要求返回的POJO必须是
-	  可序列化的，也就是要求实现Serializable接口
-开启配置方法：在映射 XML 文件配置<cache>就可以开启二级缓存,useCache="true"
+	  	  可序列化的，也就是要求实现Serializable接口
+开启配置方法：在映射 XML 文件配置 <cache> 就可以开启二级缓存,useCache="true"
 
    <cache />像这样配置，很多设置是默认的，如果我们只是这样配置，那么就意味着：
 例：<cache eviction="LRU" flushInterval="100000" size="1024" readOnly="true"></cache>
@@ -244,6 +245,6 @@ fetchType.EAGER：急加载，加载一个实体时，定义（饿）急加载�
 		FIFO,先进先出，按对像进入缓存的顺序来移除它们
 	flushInterval:刷新间隔时间，单位为毫秒，如果你不配置它，那么当 SQL 被执行的时，才会去刷新缓存
 	size：引用数目，一个正整数，代表缓存最多可以存储多个对象，不宜设置过大，设置过大会导致内存溢出
-	Readonly:只读，意味着缓存数据只能读取而不能修改，它的默认值为 false,不允许我们修改
+	Readonly:只读，意味着缓存数据只能读取而不能修改，它的默认值为 false,允许我们修改
 
 
