@@ -1,8 +1,10 @@
-## Spring MVC：基于 Model2 实现的技术框架
+## Spring MVC：
 
-![](F:\note\19：SpringMVC\1：Spring MVC.png)
+![Spring MVC.png](https://github.com/likang315/Java-and-Middleware/blob/master/12%EF%BC%9ASpringMVC/SpringMVC/Spring%20MVC.png?raw=true)
 
-### 1：MVC request 流程（六大步）
+
+
+### 1：MVC Request 流程（六大步）
 
 ######  1：前端控制器：请求第一个访问Spring 的 DispatcherServlet(前端控制器)
 
@@ -30,7 +32,7 @@ Spring MVC 所有的请求都会通过一个前端控制器（front controller�
 
 
 
-##### 2：Spring MVC 配置（两种Java config 和xml）
+### 2：Spring MVC 配置（两种Java config 和xml）
 
 xml：
 
@@ -66,6 +68,8 @@ xml：
 <context-param>：加载全局化配置文件
 ```
 
+
+
 ### 3：配置视图解析器（xxx-servlet.xml）
 
 ```XML
@@ -96,7 +100,7 @@ public class HelloWorldController {
 
 
 
-### 4：@RequestMapping：使用在控制器的类定义 及方法定义处，定义在方法的是在类的URL下的下一层url
+### 5：@RequestMapping：使用在控制器的类定义 及方法定义处，定义在方法的是在类的URL下的下一层url
 
  @RequestMapping 不旦支持标准的 URL，还支持 Ant 风格（？、*和**字符）
 
@@ -108,7 +112,7 @@ DispacherServlet 截获请求后，就通过控制器上@RequestMapping 提供�
 3：Headers 报头过滤           ：@RequestMapping(headers = {"content-type=text/plain"})  可以是数组 
 4：params 参数过滤 	      ：@RequestMapping(params = {"personId=10"})  可以是数组
 
-### 5：获取请求携带的参数
+### 6：获取请求携带的参数
 
  @PathVariable：用来获得请求url中的动态参数的
  @RequestParam和@PathVariable：Spring能够根据名字自动赋值对应的函数参数值
@@ -130,14 +134,14 @@ http://localhost:8080/handle1?userName=zhangsan&password=123&realName=jack
 
 
 
-### 6： @MatrixVariable：用矩阵变量绑定参数
+### 7： @MatrixVariable：用矩阵变量绑定参数
 
 ​	能够将请求中的矩阵变量，绑定到处理器的方法参数中，在 Matrix Variable 中，多个变量可以使用”;”（分号）分隔
 ​		例如:/books;author=Tom;year=2016
 ​	如果一个变量对应多个值，那么可以使用”,”(逗号)分隔，
 ​		例如: author=smart1,smart2,smart3 或者使用重复变量名：使如：author=smar1;author=smart2;author=smart3
 
-### 7：乱码问题（过滤器）
+### 8：乱码问题（过滤器）
 
 ```xml
 <filter>
@@ -161,7 +165,7 @@ http://localhost:8080/handle1?userName=zhangsan&password=123&realName=jack
 
 
 
-### 8：Spring mvc 支持的方法参数
+### 9：Spring mvc 支持的方法参数
 
 ###### 使用 Servlet API 传入参数时，Spring mvc 将 web 层的 Servlet 对象传递给处理方法，参数顺序没有特殊要求
 
@@ -179,9 +183,11 @@ public void handle1(HttpServletRequest request,HttpServletResponse response)
 }
 ```
 
-### 9：HttpMessageConverter<T>：Spring 的接口，它负责将请求信息转换为一个对象（类型为 T）,将对象（类型为 T）输出为响应信息
 
-   org.springframework.http.converter
+
+### 10：HttpMessageConverter<T>：Spring 的接口，它负责将请求信息转换为一个对象（类型为 T）,将对象（类型为 T）输出为响应信息
+
+org.springframework.http.converter
 
 DispatcherServlet 默认安装了 RequestMappingHandlerAdpter 作为 HandlerAdapter 的组件实现类，
 HttpMessageConverter 通过使用 RequestMappingHandlerAdapter 使用，将请求信息转换为对象，或将对象转换为响应信息
@@ -215,99 +221,97 @@ SpringMVC 两种方式：
 
 
 
-### 10：处理模型数据
+### 11：SpringMVC 对 Model ，@ModelAttribute 及@SessionAttributes 和处理流程
 
-​	控制器（C）是为了产生模型数据(M)，而视图(V)则是为了渲染模型数据，使MV而分离
+###### @ModelAttribute  的用法
 
-   将模型数据暴露给视图 
-
-##### 1:ModelAndView: 处理方法返回,其中封装了视图字符串，模型相当于request.setArrtibut(),，里面有个modelMap和view
-
-###### 	1：返回指定页面
-
-​	ModelAndView构造方法可以指定返回的页面名称，也可以通过**setViewName()方法**跳转到指定的页面 
-
-###### 	2：返回所需数值
-
-​	使用**addObject()设置**需要返回的值，addObject()有几个不同参数的方法，可以默认和指定返回对象的名字
-
-##### 2:@ModelAttribute:处理方法参数使用该注解后，参数会放到模型中相当于request.setArrtibute()
-
-##### 3:Map 和 Model:
-
-​		处理方法参数为 Model,ModelMap,map 时,Map中的数据会自动加到模型中，相当于 request.setArrtibut()
-
-##### 4:@SessionAttributes：将模型中的某个属性放入 HttpSession
-
-
-
-### 11：SpringMVC 对Model ，@ModelAttribute 及@SessionAttributes 和处理流程
+1. 运用在参数上，会将客户端传递过来的参数按名称注入到指定对象中，并且会将这个对象自动加入ModelMap中，便于View层使用；
+2. 运用在方法上，会在每一个@RequestMapping标注的方法前执行，如果有返回值，则自动将该返回值加入到ModelMap中；
 
 1:Spring MVC 在调用（controller）处理的方法前，在请求线程中自动创建一个隐含的模型对象(Model)
 2:**调用所有标注了@ModelAttribute的方法，将在所有controller的方法调用前，调用此方法，将方法返回值添加到隐含模型中**
 
 3:查看Session中是否存中@SessionAttributes("xx")所指定的xx属性，如果有，则将其添加到隐含模型中，如果隐含模型中已经有xx属性，则该步操作会覆盖模型中已有的属性值
 
-4:对标注@ModelAttribute(“xx”)处理方法的入参,按如下流程处理(标注在参数)
+###### 4：对标注@ModelAttribute(“xx”) 处理方法的入参的流程(标注在参数)
 
 1:如果隐含模型拥有名为xx的属性,则将隐含模型中的其属性赋给该入参，再用请求消息填充该入参对象直接返回,否则转到2
 2:如果 xx是会话属性，即在处理类定义处标注了@SessionAttributes(“xxx”),则尝试从会话中获取该属性，并将其赋给该
  入参，然后再用请求消息填充该入参对象,如果在会话中找不到对应的属性，则抛出 HttpSessionRequiredException 异常，否则转到3
 3:如果隐含模型中不存在 xxx 属性，且 xxx 与不是会话属性，则创建入参的对象实例，然后再用请求消息填充该入参
 
-### 12：controller 的方法的返回值类型
 
-###### 1：ModelMap
+
+### 12：Controller 的方法的返回值类型（三种）
+
+###### 1：void
+
+```java
+//使用此方式进行跳转
+response.sendRedirect("/springmvc-web2/itemEdit.action");
+```
+
+###### 2：String
+
+​	返回对应的逻辑视图名称真实url为：prefix+视图名称 + suffix 组成
+
+注意：
+		1：如果方法声明了注解@ResponseBody ，则会直接将返回值输出到页面
+​		2："redirect:path,重定向
+​		3："forward:path  跳转
+​		4："/admin/views/hello"   视图解析器会解析路径字符串
+
+###### 3：ModelAndView
+
+###### 通过setViewName()方法跳转到指定的页面，通过addObject()设置需要返回的值，将值设置到一个名为ModelMap的类属性
+
+ModelAndView的实例是由用户手动创建的，这也是和ModelMap的一个区别	
+
+```java
+ModelAndView model = new ModelAndView();
+model.addObject("itemList", list);
+model.setViewName("/WEB-INF/jsp/itemList.jsp");
+return model;
+```
+
+
+
+### 13：Controller 作为参数
+
+###### 1：ModelMap 作为 参数
 
 ###### public class ModelMap extends LinkedHashMap<String, Object>
 
-ModelMap对象主要用于传递控制方法处理数据到结果页面，也就是说我们把结果页面上需要的数据放到ModelMap对象中即可，他的作用类似于request对象的setAttribute方法的作用:用来在一个请求过程中传递处理的数据。
+ModelMap 对象主要用于传递控制方法处理数据到结果页面，也就是说我们把结果页面上需要的数据放到ModelMap对象中即可，他的作用类似于request对象的setAttribute方法的作用：用来在一个请求过程中传递处理的数据
 
 ```java
-public ModelMap addAttribute(String attributeName, Object attributeValue){...}
+public ModelMap addAttribute (String attributeName, Object attributeValue) {...}
 ```
 ###### 2：Model
 
 ###### public class ExtendedModelMap extends ModelMap implements Model
 
-**返回值直接写跳转页面名**，用addAttribute（）添加们key-value
+**返回值 String 直接写跳转页面名**，用addAttribute（）添加们key-value
 
-###### 	3：ModelAndView
 
-###### 通过构造方法以指定返回的页面名称，也可以通过setViewName()方法跳转到指定的页面
-
-###### 使用addObject()设置需要返回的值,将值设置到一个名为ModelMap的类属性，返回ModelAndView
-
-ModelAndView的实例是由用户手动创建的，这也是和ModelMap的一个区别
-
-###### 	2：String
-
-​		指定返回的视图页面名称，结合设置的返回地址路径加上页面名称后缀即可访问到	
-​	   注意：
-​		1：如果方法声明了注解@ResponseBody ，则会直接将返回值输出到页面
-​		2："redirect:path,重定向
-​		3："forward:path  跳转
-​		4："/admin/views/hello"   视图解析器会解析路径字符串
-
-###### 	3：void,map,Model ,ModelMap,String
-
-​		返回对应的逻辑视图名称真实url为：prefix+视图名称 + suffix 组成
 
 
 
 ### 13：@RequestBody 和@ResponseBody 
 
-**@RequestBody：**作用在形参列表上，用于将**前台发送过来固定格式的数据（json）封装为对应的 JavaBean 对象**，封装时使用到的一个对象是**系统默认配置的 HttpMessageConverter进行解析**，然后封装到形参上
+**@RequestBody：**作用在形参列表上，用于将**前台发送过来固定格式的数据（json）转换为对应的 JavaBean 对象**，封装时使用到的一个对象是**系统默认配置的 HttpMessageConverter进行解析**，然后封装到形参上
 
 **@ResponseBody ：**配置后返回的值直接作为**响应报文的报体返回**，不会被解析成跳转路径
 
 ```java
 @RequestMapping("/login.do")
 @ResponseBody
-public Object login(@RequestBody User loginUuser, HttpSession session) {
+public ModelAndView login(@RequestBody User loginUuser, HttpSession session) {
     user = userService.checkLogin(loginUser);
     session.setAttribute("user", user);
-    return new JsonObject.toString(user);
+    ModelAndView model = new ModelAndView();
+	model.addObject("Object", new JsonObject.toString(user));
+    return model;
 }
 ```
 
