@@ -78,7 +78,7 @@ Spring 在确定哪个 profile 处理激活状态时，需要依赖两个独立�
 
 ##### 3：条件化 Bean（@Conditional("xxx.class")）
 
-​	Spring 4引入了一个新的**@Conditional 注解，它可以用到带 @Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean**
+Spring 4引入了一个新的**@Conditional 注解，它可以用到带 @Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean**
 
 设置给@Conditional 的类可以是任意实现了 Condition 接口的类型,实现 Condition 接中的matches 方法，返回 boolean 类型的结果
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {}

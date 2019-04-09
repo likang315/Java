@@ -22,26 +22,30 @@
 </bean>
 ```
 
-##### 2：实例化Bean
 
-###### 	1：使用类构造器实例化，默认使用不带参数的构造方法实例化 Bean 对像
 
+### 2：实例化Bean
+
+###### 	1：使用类构造器实例化，默认使用无参的构造方法实例化 Bean 对像
+
+```java
 <bean id="exampleBean" class="com.xupt.ExampleBean"/>
+```
 
 ###### 	2：使用静态工厂方法实例化，该方法必须返回一个
 
 ```XML
-<bean id="对象名"class="com.xupt.ExampleBean" factory-method="静态方法名"/>
-	public class ClientService {
-		private static ClientService clientService = new ClientService();
-		private ClientService() {}
-		public static ClientService createInstance() {
-			return clientService;
-		}
-	}
+<bean id="对象名"class="com.xupt.ClientService" factory-method="静态方法名"/>
+public class ClientService {
+    private static ClientService clientService = new ClientService();
+    private ClientService() {}
+    public static ClientService createInstance() {
+    	return clientService;
+    }
+}
 ```
 
-###### 3：.使用实例工厂方法实例化
+###### 3：使用实例工厂方法实例化
 
 ```xml
 <bean id="serviceLocator" class="com.xupt.DefaultServiceLocator">
@@ -50,9 +54,13 @@
 </bean>
 ```
 
-##### 3：依赖注入（DI）
 
-  1：构造方法注入
+
+### 3：依赖注入（DI）
+
+
+
+#### 1：构造方法注入
 
 ###### 	  1：对象型属性从容器中获取
 
@@ -70,24 +78,24 @@
 
 ```XML
     <bean id="exampleBean" class="examples.ExampleBean">
-	<constructor-arg type="int" value="7500000"/>
-	<constructor-arg type="java.lang.String" value="42"/>
+        <constructor-arg type="int" value="7500000"/>
+		<constructor-arg type="java.lang.String" value="42"/>
     </bean>
 或
      <bean id="exampleBean" class="examples.ExampleBean">
-	<constructor-arg index="0" value="7500000"/>
-	<constructor-arg index="1" value="42"/>
+		<constructor-arg index="0" value="7500000"/>
+		<constructor-arg index="1" value="42"/>
      </bean>
 或
     <bean id="exampleBean" class="examples.ExampleBean">
-	<constructor-arg name="years" value="7500000"/>
-	<constructor-arg name="ultimateAnswer" value="42"/>
+		<constructor-arg name="years" value="7500000"/>
+		<constructor-arg name="ultimate" value="42"/>
     </bean>
 ```
 
 
 
-#####  2：Setter 方法注入
+####  2：Setter 方法注入
 
 ```xml
 <bean id="exampleBean" class="examples.ExampleBean">
@@ -111,27 +119,27 @@
 
 
 
-##### 3：IDREF 配置
+#### 3：IDREF 配置
 
 ```xml
 <bean id="theTargetBean" class="..."/>
 
 <bean id="theClientBean" class="...">
-	<property name="targetName">
-		<idref bean="theTargetBean" />
-	</property>
+    <property name="targetName">
+        <idref bean="theTargetBean" />
+    </property>
 </bean>
 ```
 
+区别：
+
+###### 	Ref：不带有验证功能,注入的是 bean 的实例 
+
+###### 	Idref：带有验证功能,注入的是string
 
 
-###### 4：Ref:不带有验证功能,注入的是bean的实例 
 
-###### 	Idref:带有验证功能,注入的是string
-
-
-
-##### 5：Inner beans
+#### 5：Inner beans
 
 ```xml
 <bean id="outer" class="...">
@@ -146,7 +154,7 @@
 
 
 
-##### 6：集合类型的装配
+#### 6：集合类型的装配
 
 ```xml
 	<bean id="order" class="com.service.OrderServiceBean">
@@ -173,7 +181,9 @@
 	</bean>
 ```
 
-##### 7：空配置
+
+
+#### 7：空配置
 
 ```xml
 <bean class="ExampleBean">
@@ -189,35 +199,32 @@
 
 
 
-##### 8：延迟初始化
+### 3：延迟初始化
 
 ```xml
 <bean id="lazy" class="com.foo.ExpensiveToCreateBean" lazy-init="true"/>
 ```
 
-##### 9：自动装配（Autowiring modes）
+?	
 
-<beans><beans />中配置自动装配类型
-	
-
-##### 10：Bean作用域（scope）的三种方式：
+### 4：Bean作用域（scope）的三种方式：
 
 ```java
-	@Bean
-	@Scope(ConfigurableBeanFactory.Scope_PROTOTYPE) 
-	Public Notepad notepad()
-	{
-		return new Notepad();
-	}
+@Bean
+@Scope(ConfigurableBeanFactory.Scope_PROTOTYPE) 
+Public Notepad notepad()
+{
+    return new Notepad();
+}
 ```
 
 ```java
-	@Bean
- 	@Scope(“prototype”)
-	Public Notepad notepad()
-	{
-		return new Notepad();
-	}
+@Bean
+@Scope(“prototype”)
+Public Notepad notepad()
+{
+    return new Notepad();
+}
 ```
 
 ```xml
@@ -227,18 +234,26 @@
 1：singleton ：单例模式
 2：prototype ：原型模式
 3：request
-4：session ：购物车时应用	
+4：session ：购物车时应用，验证登录
 5：globalSession	
 6：application ：上下文环境
 7：websocket 
 
-## 11：Bean 的生命周期
 
-1：Spring 对 **bean 进行实例化**
+
+### 5：Bean 的生命周期
+
+1：Spring 对 **bean 进行实例化**，调用构造器
 2：**init-method="方法名"**     初始化对象之前调用此方法
-3：Spring 将**值和 bean的引用注入到 bean 对应的属性**中，PostConstruct 
+3：Spring 将 **值 和 bean 的引用注入到 bean 对应的属性**中
 4：bean 已经准备就绪， 可以被应用程序使用了， 它们**将一直驻留在应用上下文中， 直到该应用上下文被销毁**
 5：**destory-method="方法名"**  销毁对象之前调用此方法
-	
+
+### 6：Bean的线程安全
+
+虽然 Spring 的 Bean 是单例的但是，它内部采用ThreadLocal 这种方式，每一个线程对应一个变量副本，所以是线程安全的
+
+
+
 
 

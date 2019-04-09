@@ -1,11 +1,13 @@
 ## Spring AOP（Aspect Oriented Programming）
 
-##### 1：面向切面编程：定义一个通用的功能，可以通过注解声明的方式定义这个功能要以何种方式在何处应用，而无需修改受影响的类
 
-软件开发中，散布于应用中多处的功能被称为横切关注点（cross-cutting concern），如：安全，事务
+
+### 1：面向切面编程：在补修改原类的基础上，动态的统一的添加一些逻辑代码（动态代理）
+
+应用中多处的功能被称为横切关注点（cross-cutting concern），如：安全，事务
 横切关注点可以被描述为影响应用多处的功能
 
-##### 2：AOP 相关术语（Dynamic Proxy）
+### 2：AOP 相关术语（ Dynamic Proxy ）
 
 1 ）连接点（Joinpoint）
 	一个类或一段程序执行的某个特定的位置，这个特定的位置就称为“连接点”
@@ -19,11 +21,12 @@
 
 ###### 3 ）增强（Advice）
 
-​	增强是织入到目标类连接点上的一段程序代码，并且还拥有一个和连接点相关的信息，这便是执行点的方位
+​	增强是**织入到目标类连接点上的一段程序代码**，并且还拥有一个和连接点相关的信息，这便是执行点的方位
 ​	结合执行点方位信息（excution(xxx)）和切点信息，我们就可以找到特定的连接点
 
-4 ）引介（Introduction）
-	引介是一种特殊的增强，它为类添加一些属性和方法
+###### 4 ）引介（Introduction）
+
+​	引介是一种特殊的增强，它为类添加一些属性和方法
 
 5 ）目标对象（Target）
 	增强逻辑的织入目标类
@@ -31,16 +34,18 @@
 	动态织入到特定的连接点上
 
 6 ）织入（Weaving ）
-	织入：将增强添加对目标类具体连接点上的过程,Spring 采用动态代理织入,而AspectJ 采用编译期织入和类装载期织入
+织入：将增强添加对目标类具体连接点上的过程,**Spring 采用动态代理织入,而AspectJ 采用编译期织入和类装载器织入**
 	三种织入的方式：
 		a、编译期织入，这要求使用特殊的 Java 编译器
-		b、类装载期织入，这要求使用特殊的类装载器
+		b、类装载器织入，这要求使用特殊的类装载器
 		c、动态代理织入，在运行期为目标类添加增强生成子类的方式
 
 ###### 7 ）切面（Aspect ）
 
-​	切面由切点和增强（引介）组成类
+​	切面由切点和增强组成类
 ​	Spring AOP  就是负责实施切面的框架，它将切面所定义的横切逻辑程序织入到切面所指定的连接点中
+
+
 
 ### 3：Spring 与 AspectJ 关系
 
@@ -73,16 +78,19 @@ public class NotVeryUsefulAspect {
 }
 ```
 
-### 6：增强(Advice)的类型与声明，添加到方法上
+### 6：增强 (Advice) 的类型与声明，添加到方法上
 
-​	首先配置@Aspect
-​	Before (advice)：
-​		1:@Before：方法执行前
-​		2: @After :方法执行后
+首先配置@Aspect
 
-​		3:@AfterReturning：方法返回后
+###### ​		1:@Before：方法执行前
 
-​		4:@AfterThrowing：方法抛出异常后
+###### 		2: @After  ：方法执行后
+
+###### ​		3:@AfterReturning：方法返回后
+
+###### ​		4:@AfterThrowing：方法抛出异常后
+
+
 
 ```java
 After returning (advice)：
@@ -90,11 +98,10 @@ After returning (advice)：
 2:@AfterReturning( pointcut="com.xyz.myapp.SystemArchitecture.dataAccessOperation()",returning="retVal")
 
 After throwing  (advice)：
-	1:@AfterThrowing("com.xyz.myapp.SystemArchitecture.dataAccessOperation()")
-	2:@AfterThrowing(pointcut="com.xyz.myapp.SystemArchitecture.dataAccessOperation()",throwing="ex")
+1:@AfterThrowing("com.xyz.myapp.SystemArchitecture.dataAccessOperation()")
+2:@AfterThrowing(pointcut="com.xyz.myapp.SystemArchitecture.dataAccessOperation()",throwing="ex")
 
 After (finally) (advice)：
-	
 Around (advice)：执行前后（围绕）
 	@Around("com.xyz.myapp.SystemArchitecture.businessService()")
 	public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable
@@ -106,22 +113,25 @@ Around (advice)：执行前后（围绕）
 	}
 ```
 
-### 7：定义切点来选择连接点,在 Execution表达式中也可以使用&& || !
 
-​	execution()：用于匹配连接点的执行方法
-​	this()：限制连接点匹配AOP，代理的 Bean 引用为指定类型的类
-​	target()：限制连接点匹配目标对象为指定类型的类
-​	arg()： 限制连接点匹配参数为指定类型的参数
 
-	within()：限制连接点匹配指定的类型
-	@args()：限制连接点匹配参数由指定注解标注的执行方法
-	@target：限制连接点匹配特定的执行对象，这些对象的类要具有指定类型的注解
-	@within()：限制匹配带有指定注解所标注的类型（当使用 Spring AOP 时，方法定义在由指定的注解所标注的类里）
-	@annotation：限制匹配带有指定注解的连接点
+### 7：定义切点来选择连接点,在 Execution表达式中也可以使用  &&   ||   !
 
-  Execution 语法：* 任意和 ..子包
+```java
+execution()：用于匹配连接点的执行方法
+this()：限制连接点匹配AOP，代理的 Bean 引用为指定类型的类
+target()：限制连接点匹配目标对象为指定类型的类
+arg()： 限制连接点匹配参数为指定类型的参数
+
+within()：限制连接点匹配指定的类型
+@args()：限制连接点匹配参数由指定注解标注的执行方法
+@target：限制连接点匹配特定的执行对象，这些对象的类要具有指定类型的注解
+@within()：限制匹配带有指定注解所标注的类型（当使用 Spring AOP 时，方法定义在由指定的注解所标注的类里）
+@annotation：限制匹配带有指定注解的连接点
+```
+
+Execution 语法：* 任意和 ..子包
 	execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern (param-pattern) throws-pattern?)
- 
 	execution(public * *(..)) // 任意 public 的方法，访问权限修饰符可有可无
  	execution(* set*(..)) //任意以 set 开始的方法
  	execution(* com.xyz.service.AccountService.*(..)) //AccountService 接口下的任意方法
@@ -139,21 +149,26 @@ Around (advice)：执行前后（围绕）
  	@annotation(org.springframework.transaction.annotation.Transactional)//有 Transactional注解的方法
 	@args(com.xyz.security.Classified) //方法参数上有 Classified Annotatoin
 
+
+
 ### 8：定义切点
 
 ```java
-@Pointcut("within(com.xyz.someapp.web..*)")  //定义一个空方法，来定义 Pointcut
+@Pointcut("within(com.xyz.web..*)")  //定义一个空方法，来定义 Pointcut
 public void pointCut() {}
 
 @Before("pointCut()")
 ```
 
-9：处理增强中的参数
-	在运行此dataAccessOperation(int)时，先把他的参数传给account执行
-	@Before("com.xyz.myapp.SystemArchitecture.dataAccessOperation(int) && args(account)")
-	public void validateAccount(int account) {
-		// ...
-	}
+
+
+### 9：处理增强中的参数
+
+​	在运行此dataAccessOperation(int)时，先把他的参数传给account执行
+​	@Before("com.xyz.myapp.SystemArchitecture.dataAccessOperation(int) && args(account)")
+​	public void validateAccount(int account) {
+​		// ...
+​	}
 
 ### 10：AOP 的xml配置
 

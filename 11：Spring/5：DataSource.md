@@ -1,6 +1,6 @@
 ### DataSource：Spring 中提供了 5 种不同的数据源
 
-spring 自带的数据源(DriverManagerDataSource)，druid，JNDI数据，DBCP 数据源，C3P0 数据源
+spring 自带的数据源 (DriverManagerDataSource)，druid，JNDI数据，DBCP 数据源，C3P0 数据源
 
 ##### 1：DriverManagerDataSource
 
@@ -57,6 +57,7 @@ Druid 连接池及监控在 spring 配置如下：
 
 <!-- 配置监控统计拦截的 filters，去掉后监控界面 sql 无法统计 -->
 <property name="filters" value="stat" />
+        
 </bean>
 ```
 
@@ -95,28 +96,5 @@ filter 可以监控 webURl 访问
 ```
 
 该配置可以访问监控界面，配置好后，访问 http://ip:端口号/项目名/druid/index.html 即可监控数据库访问性能
-
-##### 3：JNDI：Spring 为此专门提供引用 JNDI 资源的 JndiObjectFactoryBean 类
-
-```xml
-<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-	<property name="jndiName" value="java:comp/env/jdbc/orclight"/>
-</bean>
-
-<beans  xmlns=http://www.springframework.org/schema/beans
-	xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance
-	xmlns:jee=http://www.springframework.org/schema/jee
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-	http://www.springframework.org/schema/jee
-	http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
-
-	<jee:jndi-lookup id="dataSource" jndi-name=" java:comp/env/jdbc/orclight"/>
-</beans>
-```
-
-
-
-
 
 

@@ -1,8 +1,6 @@
-TransactionManager：Spring 提供了灵活方便的事务管理功能，基于底层数据库本身的事务处理机制工作
+### Spring 的 事务管理机制实现的原理：基于底层数据库本身的事务处理机制工作
 
-### Spring 的 事务管理机制实现的原理：
-
-通过 **动态代理** 对所有需要事务管理的 Bean 进行加载，并根据配置在 invoke 方法中对当前调用的方法名进行判定，并在method.invoke方法前后为其加上合适的事务管理代码
+通过 **动态代理** 对所有需要事务管理的 Bean 进行加载，并根据**配置在 invoke 方法中**对当前调用的方法名进行判定，并在method.invoke方法前后为其加上合适的事务管理代码
 
 ### 1：JDBC 对事务的支持
 
@@ -27,7 +25,11 @@ supportsTransactions()、supportsTransactionIsolationLevel(int level) 方法查�
 	
 **TransactionDefinition：**用于**事物的属性配置,描述事务的隔离级别、超时时间、是否为只读事务和事务传播规则**等控制事务具体行为的事务属性，这些事务属性可以通过 XML 配置或注解描述提供
 
-Spring 在 TransactionDefinition接口中规定了7种类型的事务传播行为，它们规定了**事务方法**和**事务方法发生嵌套调用时**事务如何进行传播：
+Spring 在 TransactionDefinition接口中规定了7种类型的事务传播行为，它们规定了**事务方法**和**事务方法发生嵌套调用时**事务如何进行传播
+
+**TransactionStatus：**描述**激活事务的状态**
+
+
 
 ### 事务传播（propagation）行为类型 (7种)
 
@@ -35,7 +37,7 @@ Spring 在 TransactionDefinition接口中规定了7种类型的事务传播行�
 
 **2：propagation_required_new ：**新建事务，如果**当前存在事务，把当前事务挂起**
 
-**3：** propagation_supports ：支持当前事务**，如果当前没有事务，就以非事务方式执行  
+**3：** propagation_supports ：支持当前事务，如果当前没有事务，就以非事务方式执行
 
 **4：propagation_not_supported**  ：以**非事务方式执行操作**，如果当前存在事务，就把当前事务挂起
 
@@ -46,8 +48,6 @@ Spring 在 TransactionDefinition接口中规定了7种类型的事务传播行�
 **7：propagation_mandatory：** 使用当前的事务，如果**当前没有事务，就抛出异常** 
 
 
-
-**TransactionStatus：**描述**激活事务的状态**
 
 
 
@@ -82,6 +82,8 @@ p:dataSource-ref="dataSource"/>
 </bean>
 ```
 
+
+
 ### 5：编程式事务管理
 
 ​	Spring 事务管理提供了模板类(org.springframework.transaction.support.TransactionTemplate),封装了对数据库的操作
@@ -90,9 +92,9 @@ p:dataSource-ref="dataSource"/>
 
 ### 6：XML 配置声明式事务：Spring的事务是基于AOP实现的，因此必须先配AOP
 
-​	通过事务的声明性信息，**Spring负责将事务管理增强逻辑，动态织入到业务方法相应连接点中,这些逻辑包括获取线程绑定资源,开始事务、提交/回滚事务、进行异常转换和处理等工作**
+​	通过事务的声明性信息，**Spring 负责将事务管理增强逻辑，动态织入到业务方法相应连接点中,这些逻辑包括获取线程绑定资源,开始事务、提交/回滚事务、进行异常转换和处理等工作**
 
-1:使用原始的 TransactionProxyFactoryBean 进行声明式事务配置,参考TransactionProxyFactoryBean.xm文件
+1:使用原始的 TransactionProxyFactoryBean 进行声明式事务配置，参考 TransactionProxyFactoryBean.xm 文件
 2:基于 tx/aop 命名空间的配置(使用)
 
 ### 7：配置声明式事务
@@ -105,7 +107,7 @@ p:dataSource-ref="dataSource"/>
 
 
 
-**1：使用@Transactional 注解声明事务**，可以应用于接口定义和接口方法、类定义和类的public 方法上
+**1：使用 @Transactional 注解声明事务**，可以应用于接口定义和接口方法、类定义和类的public 方法上
 
 属性：
 ​	① 传播行为
@@ -116,13 +118,17 @@ p:dataSource-ref="dataSource"/>
 
 ###### propagation：事务的传播行为
 
+
+
 ###### 只读事务：
 
 readOnly = true ：用于客户代码只读但不修改数据的情形，只读事务
 @Transactional(readOnly = true)
 
+###### 回滚策略
+
 rollbackFor：对于**增删改查时的回滚**,默认情况下 checked exceptions 不进行回滚，仅uncheckedexceptions(RuntimeException,的子类) 才进行事务回滚,需直接抛出RuntimeException及其子类
-	@Transactional(rollbackFor = { RuntimeException.class })
+@Transactional(rollbackFor = { RuntimeException.class })
 
 ###### 隔离级别
 
@@ -135,7 +141,7 @@ timeout： 以秒为单位，一个事务所**允许执行的最长时间**，�
 ```xml
 <!-- 是事务注解生效-->
 <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
-   		<property name="dataSource" ref="dataSource"/>  
+   		<property name="dataSource" ref="dataSource"/>
 </bean>  
 <!--对标注@Transaction 注解的 Bean 进行加工处理，以织入事务管理切面-->
 <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
@@ -150,26 +156,26 @@ timeout： 以秒为单位，一个事务所**允许执行的最长时间**，�
 ```xml
 <!--事务增强-->
 <tx:advice id="txAdvice" transaction-manager="txManager">
-	<tx:attributes>
-		<!--事务属性定义-->
-		<tx:method name="get*" read-only="false"/>
-		<tx:method name="add*" rollback-for="PessimisticLockingFailureException"/>
-		<tx:method name="update*"/>
-	</tx:attributes>
+    <tx:attributes>
+        <!--事务属性定义-->
+        <tx:method name="get*" read-only="false"/>
+        <tx:method name="add*" rollback-for="PessimisticLockingFailureException"/>
+        <tx:method name="update*"/>
+    </tx:attributes>
 </tx:advice>
 
 <!-- 使用强大的切点表达式语言轻松定义目标方法 -->
 <aop:config>
-	<!--通过 aop 定义事务增强切面-->
-	<aop:pointcut id="serviceMethod" expression="execution(*com.yyq.service.*Forum.*(..))"/>
-	<!--引用事务增强-->
-	<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
+    <!--通过 aop 定义事务增强切面-->
+    <aop:pointcut id="serviceMethod" expression="execution(*com.yyq.service.*Forum.*(..))"/>
+    <!--引用事务增强-->
+    <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
 </aop:config>
 ```
 
 
 
-### Spring提供的@Transaction注解事务管理，内部同样是利用环绕通知 TransactionInterceptor 实现事务的开启及关闭
+### 8：@Transaction 注解事务管理，利用环绕通知 TransactionInterceptor 实现事务的开启及关闭
 
 使用 @Transactional 注意点：
 

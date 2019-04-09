@@ -15,7 +15,7 @@
 			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 <context:annotation-config />
-<context:component-scan base-package="com.xupt"></context:component-scan>
+<context:component-scan base-package="com.xupt" />
 <aop:aspectj-autoproxy />
 
 <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -56,7 +56,7 @@
 <!--使用强大的切点表达式语言轻松定义目标方法-->
 <aop:config>
 	<!--通过 aop 定义事务增强切面-->
-	<aop:pointcut id="serviceMethod" expression="execution(*com.yyq.service.*Forum.*(..))"/>
+	<aop:pointcut id="serviceMethod" expression="execution(com.xupt.service.*Forum.*(..))"/>
 	<!--引用事务增强-->
 	<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
 </aop:config>
