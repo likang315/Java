@@ -1,6 +1,6 @@
-##  JSP(Java Server Pages)：
+##  JSP (Java Server Pages)：
 
-### Jsp 就是在 html 文件中嵌入 java 代码 jsp=html+java，其实就是运行时的 servlet
+### Jsp 就是在 html 文件中嵌入  java 代码  jsp=html+java，其实就是运行时的 servlet
 
 **Jsp 在运行时，自动转换为一个 Servlet 类**
 Jsp 在运行时，是**运行对应的 Servlet 的 _jspservice 方法** 	
@@ -8,27 +8,30 @@ Jsp 在运行时，是**运行对应的 Servlet 的 _jspservice 方法**
 
 ### 1：Jsp 转换为  Servlet：JSP文件在 Jsp 网页被访问时，会被Jsp引擎生成Java文件，Index.jsp--index_jsp.java
 
-​	1：html的代码会自动拼成 out.write(“html 代码”);
-​	2：<% %> 中的代码原样输出
+###### ​	1：html的代码会自动拼成 out.write(“html 代码”);
+
+###### 				2：<%   %> 中的代码原样输出
 
 ###### ​	3：Jsp 转为 java 类有一定模版，按照模板固定的加载方式
 
-###### 	4：Jsp 代码会转为 java 文件中 _jspservice() 的一部分
+###### 					4：Jsp 代码会转为 java 文件中 _jspservice() 的一部分
 
 
 
-### 转换的Java类：
+### 转换的 Java 类：
 
-1：会继承org.apache.jasper.runtime.HttpJspBase 这个类由 tomcat 提供，它继承于 HttpSevlet,实现了HttpJspPage 接口，所以说 HttpJspBase 是一个符合 jsp 规范的 Servlet
+1：会继承org.apache.jasper.runtime.HttpJspBase 这个类由 tomcat 提供，它继承于 HttpSevlet,实现了HttpJspPage 接口，所以说 **HttpJspBase 是一个符合 jsp 规范的 Servlet**
 2：Jsp 转换成的 java 类默认导入了四个包：
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import java.lang.*;
+import java.lang.* ;
+
+
 
 ### 2：Jsp的规范
 
-jsp 转换成的java 类时，一定要实现 javax.servlet.jsp.JspPage 接口，这个接口就是实现了Servlet 接口（子接口)
+jsp 转换成的 java 类时，一定要实现 javax.servlet.jsp.JspPage 接口，这个接口就是实现了 Servlet 接口（子接口)
 
 JspPage(Interface):实现了Servlet接口
 void	jspInit() 
@@ -80,8 +83,7 @@ Step8:Tomcat 宕机时，才调用 jspdestroy(),销毁对象
 
 ```jsp
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
- <c:set value="${stu.name}" var="sname"></c:set>
+<c:set value="${stu.name}" var="sname"></c:set>
 ```
 
 ###### 4：Jsp异常处理,page 指令中
@@ -116,7 +118,6 @@ Step8:Tomcat 宕机时，才调用 jspdestroy(),销毁对象
 ###### 8：Jsp 动作元素
 
 ​	< jsp:forward/>  < jsp:include/>    < jsp:param/>   -----传参数的
-	
 
 ```jsp
 	<jsp:forward page="welcome.jsp">

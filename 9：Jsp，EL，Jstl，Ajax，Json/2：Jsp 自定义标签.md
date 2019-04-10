@@ -111,12 +111,12 @@ void	doInitBody()
 	
  void	release() 
 
-### 9：SimpleTagSupport(class):实现SimpleTag ，输出实体内容时，使用最为方便
+### 9：SimpleTagSupport (class)：实现 SimpleTag ，输出实体内容时，使用最为方便
 
-?	void	doTag() 
-?		处理标签
-?	protected  JspContext	getJspContext() 
-?		得到其JspContext
+void	doTag() 
+	处理标签
+protected  JspContext	getJspContext() 
+	得到其JspContext
 
 
 
