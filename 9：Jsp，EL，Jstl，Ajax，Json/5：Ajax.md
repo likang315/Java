@@ -1,6 +1,6 @@
 ## Ajax(Asynchronous JavaScript And XML)：异步的js和xml请求
 
- 使用DOM实现动态显示和交互,使用HTML和CSS标准呈现,使用XMLHttpRequest（内置对象）进行异步数据读取
+ 使用DOM实现动态显示和交互,使用HTML和CSS标准呈现,使用**XMLHttpRequest（内置对象）**进行异步数据读取
 ,最后用JavaScript 绑定事件和处理所有数据
 
 传统的WEB页面:
@@ -8,9 +8,11 @@
 AJAX异步交互方式:
 	采用异步的方式，交互数据，与服务器交换数据并更新部分网页的技术，不重新加载整个页面
 
-![5+：Ajax.png](https://github.com/likang315/Java/blob/master/Java_note/15%EF%BC%9AJsp%EF%BC%8CEL%EF%BC%8CJstl%EF%BC%8CAjax%EF%BC%8CJson/5+%EF%BC%9AAjax.png?raw=true)
+![Ajax.png](https://github.com/likang315/Java-and-Middleware/blob/master/9%EF%BC%9AJsp%EF%BC%8CEL%EF%BC%8CJstl%EF%BC%8CAjax%EF%BC%8CJson/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/Ajax.png?raw=true)
 
-### 1:AJAX工作流程
+
+
+### 1：AJAX 工作流程
 
 1:用户在页面**上执行了某个操作**，例如鼠标移动、点击某个区域等
 
@@ -26,7 +28,9 @@ AJAX异步交互方式:
 
 其中使用DOM对象树进行数据的修改
 
-### 2:XMLHttpRequest 对象
+
+
+### 2：XMLHttpRequest 对象
 
 #####    属性
 
