@@ -179,7 +179,7 @@ public void s21();
 
    
 
-### 8：instanceof 
+### 9：instanceof 
 
 通过返回一个布尔值来表明这个对象**是否是这个特定类本身 或者 是它的子类的一个实例**
 
@@ -194,6 +194,8 @@ public void s21();
 说明： 
 
 ###### 如果 object 是 class 的一个实例，则 instanceof 运算符返回 true。如果 object 不是指定类的一个实例，或者 object 是 null，则返回 false
+
+
 
 ##### instanceof 在 Java的 编译状态和 运行状态是有区别的：
 
