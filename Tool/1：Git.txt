@@ -13,6 +13,9 @@ Git：分布式版本控制系统，控制代码版本，可回退，提交，合并
 	1：--system:会把配置信息写到最高级别的配置文件中(Git安装目录/etc/config)，系统上每个用户和仓库都会用这个配置文件
 	2：--global:会把配置信息写到只针对当前用户的配置文件中(c:/User/用户名/.gitconfig)
 
+查看git用户信息
+git config user.name
+git config user.email 
 添加自己的信息
 git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
@@ -30,7 +33,7 @@ git config --global user.name "Your Name"
 5：git status 
 	查看仓库的状态
 6：git diff 文件名
-	git diff 比较暂存区和工作区的区别
+	git diff 比较工作区和暂存区的区别
 	--- a/readme.txt
 	+++ b/readme.txt
 	@@ -3,7 +3,7 @@
