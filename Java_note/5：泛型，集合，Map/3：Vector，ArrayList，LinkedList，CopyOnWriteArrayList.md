@@ -307,7 +307,7 @@ public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>,
 
 
 
-### 4：java.util.concurrent.CopyOnWriteArrayList：
+### 4：java.util.concurrent   Class   CopyOnWriteArrayList：
 
 ​	  写时复制的容器，指向新的引用，读多写少的场景
 

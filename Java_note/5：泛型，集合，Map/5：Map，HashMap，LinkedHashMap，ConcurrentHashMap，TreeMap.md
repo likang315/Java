@@ -8,7 +8,7 @@
 public interface Map<K,V> 
 {
     V get(Object key);
-	V put(K key, V value);
+		V put(K key, V value);
 	boolean containsKey(Object key);
 	...
 	interface Entry<K,V> 
