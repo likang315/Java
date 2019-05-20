@@ -377,140 +377,153 @@ final Node<K,V>[] resize() {
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/Java_note/5%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/LinkedHashMap.jpg?raw=true)
 
 ```java
-public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V>
-{
-	// 用于指向双向链表的头部
+public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
+	  //用于指向双向链表的头部
     transient LinkedHashMap.Entry<K,V> head;
     //用于指向双向链表的尾部
     transient LinkedHashMap.Entry<K,V> tail;
-    //用来指定LinkedHashMap的迭代顺序，true则表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链		表的最末尾,false则表示按照插入顺序来，插入到尾部
-    //创建对象默认为False,使用插入实现有序，若传入ture，使用访问顺序进行有序 如果传入用来实现 LAU 算法
+    //用来指定 LinkedHashMap 的迭代顺序，true 则表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链表的最末尾,false则表示按照插入顺序来，插入到尾部,默认为 False
     final boolean accessOrder;
     public LinkedHashMap(int initialCapacity,float loadFactor,boolean accessOrder) {
-   		super(initialCapacity, loadFactor) ;//HashMap
+   		super(initialCapacity, loadFactor) ;
    		this.accessOrder = accessOrder ;
     }
-    //取值
-    public V get(Object key) {
-          Node<K,V> e;
-          //调用HashMap的getNode的方法
-          if ((e = getNode(hash(key), key)) == null)
-            return null;
-          //在取值后对参数accessOrder进行判断，如果为true，执行afterNodeAccess
-          if (accessOrder)
-            afterNodeAccess(e);  //将最近使用的Entry，放在链表的最末尾
-          return e.value;
-	}
-	void afterNodeInsertion(boolean evict) { // possibly remove eldest
-        LinkedHashMap.Entry<K,V> first;
-        if (evict && (first = head) != null && removeEldestEntry(first)) {
-            K key = first.key;
-            removeNode(hash(key), key, null, false, true);
-        }
+  //取值
+  public V get(Object key) {
+    Node<K,V> e;
+    //调用 HashMap 的 getNode的方法
+    if ((e = getNode(hash(key), key)) == null)
+      return null;
+    //在取值后对参数 accessOrder 进行判断，如果为true，执行afterNodeAccess
+    if (accessOrder)
+      afterNodeAccess(e);  //将最近使用的Entry，放在链表的最末尾
+    return e.value;
+  }
+  //移除头结点
+  void afterNodeInsertion(boolean evict) { 
+    LinkedHashMap.Entry<K,V> first;
+    if (evict && (first = head) != null && removeEldestEntry(first)) {
+      K key = first.key;
+      removeNode(hash(key), key, null, false, true);
     }
-	//移除此结点到尾部
-    void afterNodeAccess(Node<K,V> e) { 
-        LinkedHashMap.Entry<K,V> last;
-        if (accessOrder && (last = tail) != e) {
-            LinkedHashMap.Entry<K,V> p =
-                (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
-            p.after = null;
-            if (b == null)
-                head = a;
-            else
-                b.after = a;
-            if (a != null)
-                a.before = b;
-            else
-                last = b;
-            if (last == null)
-                head = p;
-            else {
-                p.before = last;
-                last.after = p;
-            }
-            tail = p;
-            ++modCount;  //属性+1
-        }
+  }
+  //移除此结点到尾部
+  void afterNodeAccess(Node<K,V> e) { 
+    LinkedHashMap.Entry<K,V> last;
+    if (accessOrder && (last = tail) != e) {
+      LinkedHashMap.Entry<K,V> p =
+        (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
+      p.after = null;
+      if (b == null)
+        head = a;
+      else
+        b.after = a;
+      if (a != null)
+        a.before = b;
+      else
+        last = b;
+      if (last == null)
+        head = p;
+      else {
+        p.before = last;
+        last.after = p;
+      }
+      tail = p;
+      ++modCount;  //Fail-fast
     }
-    
-    static class Entry<K,V> extends HashMap.Node<K,V> {
-            //用于维护双向链表
-            Entry<K,V> before, after;
-            Entry(int hash, K key, V value, Node<K,V> next) {
-                super(hash, key, value, next);
-            }
+  }
+	//静态内部类
+  static class Entry<K,V> extends HashMap.Node<K,V> {
+    //用于维护双向链表
+    Entry<K,V> before, after;
+    Entry(int hash, K key, V value, Node<K,V> next) {
+      super(hash, key, value, next);
     }
-    
-    abstract class LinkedHashIterator {
-          //记录下一个Entry
-          LinkedHashMap.Entry<K,V> next;
-          //记录当前的Entry
-          LinkedHashMap.Entry<K,V> current;
-          //记录是否发生了迭代过程中的修改
-          int expectedModCount;
+  }
 
-          LinkedHashIterator() {
-            //初始化的时候把head给next
-            next = head;
-            expectedModCount = modCount;   //Fail-Fast
-            current = null;
-          }
+  abstract class LinkedHashIterator {
+    //记录下一个Entry
+    LinkedHashMap.Entry<K,V> next;
+    //记录当前的Entry
+    LinkedHashMap.Entry<K,V> current;
+    //记录是否发生了迭代过程中的修改
+    int expectedModCount;
 
-          public final boolean hasNext() {
-            return next != null;
-          }
+    LinkedHashIterator() {
+      //初始化的时候把head给next
+      next = head;
+      //每一个迭代器对应自己的 expectModCount
+      expectedModCount = modCount;   //Fail-Fast
+      current = null;
+    }
 
-          //这里采用的是链表方式的遍历方式
-          final LinkedHashMap.Entry<K,V> nextNode() {
-            LinkedHashMap.Entry<K,V> e = next;
-            if (modCount != expectedModCount)
-              throw new ConcurrentModificationException();
-            if (e == null)
-              throw new NoSuchElementException();
-            //记录当前的Entry
-            current = e;
-            //直接拿after给next
-            next = e.after;
-            return e;
-          }
+    public final boolean hasNext() {
+      return next != null;
+    }
 
-          public final void remove() {
-                Node<K,V> p = current;
-                if (p == null)
-                  throw new IllegalStateException();
-                if (modCount != expectedModCount)
-                  throw new ConcurrentModificationException();
-                current = null ;
-                K key = p.key;
-                removeNode(hash(key), key, null, false, false);
-                expectedModCount = modCount;
-          }
-	}
+    //采用的是链表方式的遍历方式
+    final LinkedHashMap.Entry<K,V> nextNode() {
+      LinkedHashMap.Entry<K,V> e = next;
+      if (modCount != expectedModCount)
+        throw new ConcurrentModificationException();
+      if (e == null)
+        throw new NoSuchElementException();
+      //记录当前的Entry
+      current = e;
+      //直接拿after给next
+      next = e.after;
+      return e;
+    }
+
+    public final void remove() {
+      Node<K,V> p = current;
+      if (p == null)
+        throw new IllegalStateException();
+      if (modCount != expectedModCount)
+        throw new ConcurrentModificationException();
+      current = null ;
+      K key = p.key;
+      removeNode(hash(key), key, null, false, false);
+      //给当前的饭ExpectedModCount 重新赋值
+      expectedModCount = modCount;
+    }
+  }
 }
 ```
 
-**HashMap 和 双向链表 合二为一** 即是LinkedHashMap 它是将所有Entry节点链入一个双向链表的HashMap,每次 **put 进来 Entry映射关系，除了将其保存到哈希表中对应的位置上之外，还会将其插入到双向链表的尾部**，内部类额外增加的两个属性来维护的一个双向链表**：before、After**是用于维护Entry插入的先后顺序的
+即 LinkedHashMap 它是在原来的基础上维护了一个双向链表保证有序的HashMap,每次 **put 进来 Entry映射关系，除了将其保存到哈希表中对应的位置上之外，还会将其插入到双向链表的尾部**，内部类额外增加的两个属性来维护的一个双向链表**：before、After **是用于维护Entry插入的先后顺序的
 
-### 4：Class Hashtable<K,V> ：HashMap 的升级版，并发,多线程的情况下，使用Hashmap进行put操作会引起死循环,导致CPU利用率接近100%
 
+
+### 4：Class Hashtable<K,V> ：
+
+​	HashMap 的升级版，并发,多线程的情况下，使用 Hashmap 进行 put 操作会引起死循环,导致CPU利用率接近100%
+
+```java
 public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneable, java.io.Serializable
+```
 
-###### 1：线程安全(synchronized)和非线程安全的
+1. 线程安全(synchronized)和非线程安全的
 
-**Hashtable是线程安全给每个方法加了同步锁**，所以在单线程环境下它比HashMap要慢，效率低，而HashMap没有
+   Hashtable 是线程安全给每个方法加了同步锁，所以在单线程环境下它比HashMap要慢，效率低
 
-###### 2：支不支持null值和null键
+2. 支不支持 null 值和 null 键
 
-**HashTable不支持null值和null键**,而HashMap是因为对null做了特殊处理**，将null的hashCode值定为了0**，从而将其存放在哈希表的第0个bucket中
+   HashTable 不支持null值和null键 ，而HashMap是因为对null做了特殊处理，将 null 的hashCode值定为了0，从而将其存放在哈希表的第0个bucket中
 
-###### 3：遍历方式不同：HashMap的迭代器(Iterator)是fail-fast迭代器，而Hashtable 是 enumerator迭代器
+3. 遍历方式不同：
 
-###### 4：初始容量和扩容机制不同
+   HashMap的迭代器(Iterator)是fail-fast迭代器，而 Hashtable 是 enumerator迭代器
 
-HashTable的初始容量是11，HashMap的初始容量是16.两者的填充因子默认都是0.75 **HashMap扩容时 ：当前容量X2。**在扩大容量时须要重新计算hash **Hashtable扩容时：当前容量X2+1**
+4. 初始容量和扩容机制不同
 
-### 5：ConcurrentHashMap：HashTable的升级版，HashTable容器使用synchronized来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下
+   HashTable的初始容量是11，HashMap的初始容量是16.两者的填充因子默认都是0.75 **HashMap扩容时 ：当前容量X2 **，在扩容时须要重新计算hash **Hashtable扩容时：当前容量X2+1**
+
+
+
+### 5：ConcurrentHashMap：
+
+HashTable的升级版，HashTable容器使用synchronized来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下
 
 当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态
 
@@ -567,7 +580,3 @@ TreeMap基于**红黑树（Red-Black tree）实现**。该映射根据**其键�
 ### 8：Map的遍历（三种）：转成Set集合，用迭代器遍历
 
 1：遍历key键，利用 Set **keySet()** ，返回的set集合 2：遍历所有的value，利用 Collection **values()** ，返回collection集合 3：遍历键值对，利用 Set<Map.Entry<K,V>> **entrySet()** 方法，返回每一组键值对的set集合， **entry.getKey(), entry.getValue()**
-
-<details class="details-reset details-overlay details-overlay-dark" style="box-sizing: border-box; display: block;"><summary data-hotkey="l" aria-label="Jump to line" aria-haspopup="dialog" style="box-sizing: border-box; display: list-item; cursor: pointer; list-style: none;"></summary></details>
-
- 
