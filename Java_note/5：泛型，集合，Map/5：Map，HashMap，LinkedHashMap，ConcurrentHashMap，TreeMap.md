@@ -521,62 +521,83 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
 
 
-### 5：ConcurrentHashMap：
+### 5：java.util.concurrent   Class   ConcurrentHashMap：
 
-HashTable的升级版，HashTable容器使用synchronized来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下
+HashTable 容器使用 synchronized 来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下的，当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态
 
-当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态
+```java
+public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>  implements ConcurrentMap<K,V>, Serializable {
+  private static final long serialVersionUID = 7249069246763182397L;
+	//刨析源码
+  	
+}
 
-public class ConcurrentHashMap<K,V> extends AbstractMap<K,V> implements ConcurrentMap<K,V>, Serializable
+```
 
-###### JDK1.7实现 ConcurrentHashMap 的锁分段技术
+###### 1：JDK1.7 实现 ConcurrentHashMap 的锁分段技术
 
-将数据分成一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问
+将数据分成一段一段的存储，然后给每一段数据配一把锁（Segment），当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问，提高了并发性
 
-HashTable容器在并发环境下表现出效率低下的原因，是因为**所有访问HashTable的线程都必须竞争同一把锁**，如果容器里有多把锁每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效的提高并发访问效率，这就是ConcurrentHashMap所使用的锁分段技术结构 由Segment(段)数组结构和HashEntry数组结构组成
+HashTable 容器在并发环境下表现出效率低下的原因，是因为**所有访问HashTable的线程都必须竞争同一把锁**，如果容器里有多把锁每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效的提高并发访问效率，这就是 ConcurrentHashMap 所使用的锁分段技术结构 由Segment(段) 数组结构 和 HashEntry 数组结构组成
 
-###### Segment是一种可重入锁，在ConcurrentHashMap里扮演锁的角色，HashEntry则用于存储键值的映射关系
+###### 2：Segment 锁
 
-Segment的结构和HashMap类似，是一种数组和链表结构， 一个Segment里包含一个HashEntry数组，每个HashEntry是一个链表结构的元素,每个Segment守护着一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁
+是一种可重入锁，在 ConcurrentHashMap 里扮演锁的角色，HashEntry 则用于存储键值的映射关系
 
-###### JDK1.8实现ConcurrentHashMap
+Segment 的结构 和 HashMap 类似，是一种数组和链表结构， 一个 Segment 里包含一个 HashEntry 数组，每个HashEntry 是一个链表结构的元素,每个 Segment 守护着一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的 Segment 锁
 
-**用 Node数组+链表+红黑树的数据结构来实现，并发控制使用Synchronized和CAS来操作**，整个看起来就像是优化过且线程安全的HashMap，虽然在JDK1.8中还能看到Segment的数据结构，但是已经简化了属性，只是为了兼容旧版本
+默认是 16，也就是说 ConcurrentHashMap 有 16 个 Segments，所以理论上，这个时候，最多可以同时支持 16 个线程并发写，只要它们的操作分别分布在不同的 Segment 上。这个值可以在初始化的时候设置为其他值，但是一旦初始化以后，它是不可以扩容的
 
-###### 默认是 16，也就是说 ConcurrentHashMap 有 16 个 Segments，所以理论上，这个时候，最多可以同时支持 16 个线程并发写，只要它们的操作分别分布在不同的 Segment 上。这个值可以在初始化的时候设置为其他值，但是一旦初始化以后，它是不可以扩容的
-
-###### 构造函数进行初始化的，那么初始化完成后：
+###### 3：构造函数进行初始化的，那么初始化完成后：
 
 - Segment 为 16个，不可以扩容
-- Segment[i] 的默认大小为 2，负载因子是 0.75，得出初始阈值为 1.5，也就是以后插入第一个元素不会触发扩容，插入第二个会进行第一次扩容
-- 这里初始化了 segment[0]，其他位置还是 null，至于为什么要初始化 segment[0]
+- Segment[ i ] 的默认大数组大小为 2，负载因子是 0.75，得出初始阈值为 1.5，也就是以后插入第一个元素不会触发扩容，插入第二个会进行第一次扩容
+- segment 不能扩容，扩容的是 segment 内部的数组 HashEntry[] 进行扩容，扩容后，容量为原来的 2 倍
 
-###### 扩容机制：
+###### 4：JDK1.8 实现 ConcurrentHashMap
 
-**segment 不能扩容，扩容是 segment 数组内部的数组 HashEntry[] 进行扩容，扩容后，容量为原来的 2 倍**
+Node 数组+链表+红黑树 的数据结构来实现，并发控制使用Synchronized和CAS来操作，整个看起来就像是优化过且线程安全的HashMap，虽然在JDK1.8中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本
 
-### WeakHashMap
+### 6：java.util  Class   WeakHashMap：
 
-当某个“弱键”不再正常使用时，会被从WeakHashMap中被自动移除，被垃圾回收器所回收
+​	当某个“弱键”不再正常使用时（弱引用），会被从 WeakHashMap 中被自动移除，被垃圾回收器所回收
 
-### 6：Interface SortedMap<K,V>：map的子接口，增加了排序的功能(comparator), TreeMap实现了它的继承接口
 
-### 7：Class TreeMap<K,V>：该映射根据其键的自然顺序(升序)进行排序，或者根据创建映射时提供的 Comparator 进行排序
 
-TreeMap 不支持null键，但是 支持null值，排序时，每个结点都是一个Entry<K,V>
+### 7：Interface SortedMap<K,V>：
 
-**TreeMap本质是一颗红黑树 , R-B Tree是一种二叉查找树，所有符合二叉查找树的特点**
+​	map 的子接口，增加了排序的功能(comparator), TreeMap 实现了它的继承接口
 
-TreeMap基于**红黑树（Red-Black tree）实现**。该映射根据**其键的自然顺序进行排序**，或者根据**创建映射时提供的 Comparator 进行排序**，具体取决于使用的构造方法
 
-构造方法： TreeMap()	-------------使用键的自然顺序构造一个新的、空的树映射 TreeMap(Comparator<? super K> comparator) ------------ 构造一个新的、空的树映射，该映射根据给定比较器进行排序 TreeMap(Map<? extends K,? extends V> m) ------------ 构造一个与给定映射具有相同映射关系的新的树映射， 该映射根据其键的自然顺序 进行排序
 
-方法：提供一些对键值对进行关于顺序的操作方法
+### 8：Class TreeMap<K,V>：
 
-###### SortedMap<K,V> subMap(K fromKey, K toKey) --------------返回键值的范围从 fromKey（包括）到 toKey（不包括）的部分视图
+TreeMap 基于 **红黑树（Red-Black tree）实现**，该映射根据**其键的自然顺序进行排序**，或者根据**创建映射时提供的 Comparator 进行排序**，具体取决于使用的构造方法
 
-###### SortedMap<K,V> tailMap(K fromKey) ---------------返回此映射的部分Entry，其键大于等于 fromKey
+```java
+public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>, Cloneable, java.io.Serializable {
+	//源码刨析
+}
+```
 
-### 8：Map的遍历（三种）：转成Set集合，用迭代器遍历
+1：TreeMap 不支持null键，但是 支持null值，排序时，每个结点都是一个Entry<K,V>
 
-1：遍历key键，利用 Set **keySet()** ，返回的set集合 2：遍历所有的value，利用 Collection **values()** ，返回collection集合 3：遍历键值对，利用 Set<Map.Entry<K,V>> **entrySet()** 方法，返回每一组键值对的set集合， **entry.getKey(), entry.getValue()**
+- TreeMap()：使用键的自然顺序构造一个新的、空的树映射 
+
+- TreeMap(Comparator<? super K> comparator) ：构造一个新的、空的树映射，该映射根据给定比较器进行排序 
+
+  
+
+- SortedMap<K,V>   subMap(K fromKey, K toKey)  ：返回键值的范围从 fromKey（包括）到 toKey（不包括）的部分视图
+- SortedMap<K,V> tailMap(K fromKey) ：返回此映射的部分Entry，其键大于等于 fromKey
+
+
+
+### 9：Map的遍历（三种）：转成 Set 集合，用迭代器遍历
+
+- 遍历 key 键，利用 Set **keySet()** ，返回的 set 集合 
+- 遍历所有的value，利用 Collection **values()** ，返回collection集合 
+- 遍历键值对，利用 Set<Map.Entry<K,V>> **entrySet()** 方法，返回每一组键值对的set集合， entry.getKey(), entry.getValue()
+
+
+
