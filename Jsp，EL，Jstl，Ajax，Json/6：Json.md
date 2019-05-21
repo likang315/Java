@@ -202,5 +202,46 @@ document.getElementById("url").innerHTML=obj.sites[0].url
 
 
 
+### 8：Google 的 Gson
 
+```；；xml
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.5</version>
+</dependency>
+```
+
+###### 1：Gson 的茶创建方式
+
+​	Gson  gson = new Gson();
+
+###### 2：JavaBean 和 Json 字符串相互转换
+
+- public String toJson(Object obj )：将Java Bean 转换为 Json 字符串
+- public T fromJson（String jsonStr，T class）：将Json字符串转化为JavaBean对象
+
+###### 3：JsonElement 为其父类
+
+​	JsonObject 为其子类
+
+###### 4：Json 字符串的序列化和反序列化：Java Bean转换为Json 字符串
+
+​	使用TypeAdapter 对象转换
+
+```java
+Gson gson = new GsonBuilder().create();
+TypeAdapter<Person> typeAdapter = gson.getAdapter(Person.class);
+
+String json = "{\"name\":\"栗霖\",\"age\":\"18\",\"hobby\":\"我很是很喜欢FromSoftWare的。大爱宫崎英高，赞美太阳\"}";
+PersonJson p = new PersonJson("栗霖",18,"混系列忠实粉丝");
+
+System.out.println(typeAdapter.toJson(p));
+try {
+  System.out.println(typeAdapter.fromJson(json));
+}catch (Exception e) {
+  e.printStackTrace();
+}
+```
 

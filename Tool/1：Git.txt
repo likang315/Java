@@ -86,6 +86,9 @@ git config --global user.name "Your Name"
 	远端自动创建于本地分支同名分支
 17：git push origin --delete 远程分支名
 	删除远程分支名，本地分支没有影响
+	git branch -d 分支名
+	删除本地分支
+
 18：git checkout -b 本地分支名 origin/远程分支名
 	创建本地分支，把远程指定分支拉到此分支上
 19：git pull origin 远端分支
@@ -110,8 +113,7 @@ master主分支
 	查看所有分支，当前分支前有 *
 21：git merge 分支名
 	合并指定分支到当前分支
-22：git branch -d 分支名
-	删除分支
+
 
 
 分支策略
@@ -119,8 +121,7 @@ master主分支
 	把commit描述写进去
 23：git merge --no-ff -m "XXX" 分支名
 24：git checkout -b branch-name origin/branch-name
-	clone后，本地只能看见master分支，因此在本地创建和远程分支对应的分支branch-name（分支名）
-
+	从远端把分支拉下来，并且在本地创建对应的分支
 25：git branch --set-upstream branch-name origin/branch-name
 	关联本地分支和远程分支
 26：git pull
