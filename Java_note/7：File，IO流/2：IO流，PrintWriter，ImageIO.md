@@ -1,20 +1,24 @@
-### IO操作的步骤（5步）：
+### 1：IO 操作的步骤（5步）：
 
-1：封装File对象 2：选择io对象 3：加缓冲 4：进行读写操作 5：关闭IO
+1. 封装File对象
+2. 选择io对象
+3. 加缓冲
+4. 进行读写操作
+5. 关闭IO
 
-### IO 流 ：将数据是读入到内存还是从内存写出分为：输入流（读入） + 输出流（写出）
+### 2：IO 流 ：将数据是读入到内存还是从内存写出分为：输入流（读入） + 输出流（写出）
 
 **输入流：**全部是InputStream/Reader的子类 其类名是以InputStream/Reader结尾 进行读的操作 **输出流：**全部是OutputStream/Writer的子类 其类名是以OutputStream/Writer结尾 进行写的操作
 
 字节流经常操作二进制的数据，比如图片，视频，音乐等等，文本文件的使用字符流
 
-字节流（低级流) 字节流：全部是InputStream、OutputStream的子类 其类名是以 OutputStream/InputStream 结尾
+字节流（低级流) 字节流：全部是InputStream、OutputStream 的子类 其类名是以 OutputStream/InputStream 结尾
 
 ###### public abstract class InputStream
 
 ###### public abstract class OutputStream
 
-[![IO流.png](https://github.com/likang315/Java/raw/master/Java_note/6%EF%BC%9AFile%EF%BC%8CIO%E6%B5%81/IO%E6%B5%81.png?raw=true)](https://github.com/likang315/Java/blob/master/Java_note/6：File，IO流/IO流.png?raw=true)
+
 
 ### java.io.FileInputStream 类
 
