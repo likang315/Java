@@ -8,7 +8,7 @@ public interface EventListener {
 }
 ```
 
-
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Java_note/8%EF%BC%9AGUI%EF%BC%8CEventListener/Photos/%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E5%99%A8%E6%A8%A1%E5%9E%8B.png?raw=true)
 
 ### 1：MouseListener：鼠标（按下、释放、单击、进入或离开）事件的监听器接口 		
 
