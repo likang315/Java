@@ -10,9 +10,9 @@
 <body>
 <center>
   <form action="checkLogin.jsp" method="post">
-    	用户名:<input type="text" name="uname"/><br/>
-    	密码:<input type="password" name="upwd"/><br/>
-        <input type="submit" value="Ok"/>
+    	用户名:  <input type="text" name="uname"/> <br/>
+    	密码:    <input type="password" name="upwd"/> <br/>
+                <input type="submit" value="Ok"/>
   </form>
  
   <hr/>

@@ -1,35 +1,34 @@
-##  JSP (Java Server Pages)：
+###  JSP (Java Server Pages)：
 
-### Jsp 就是在 html 文件中嵌入  java 代码  jsp=html+java，其实就是运行时的 servlet
+​	Jsp 就是在 html 文件中嵌入  java 代码  jsp = html+java，其实就是运行时的 servlet
 
-**Jsp 在运行时，自动转换为一个 Servlet 类**
-Jsp 在运行时，是**运行对应的 Servlet 的 _jspservice 方法** 	
- <%--  Jsp注释  --%>
+- Jsp 在运行时，自动转换为一个 Servlet 类
+- Jsp 在运行时，是运行对应的 Servlet 的 XXX_jspservice 方法 	
+  <%--  Jsp注释  --%>
 
-### 1：Jsp 转换为  Servlet：JSP文件在 Jsp 网页被访问时，会被Jsp引擎生成Java文件，Index.jsp--index_jsp.java
+### 1：Jsp 转换为  Servlet 
 
-###### ​	1：html的代码会自动拼成 out.write(“html 代码”);
+JSP文件在 Jsp 网页被访问时，会被 Jsp 引擎生成对应的 Java 文件，Index.jsp--index_jsp.java
 
-###### 				2：<%   %> 中的代码原样输出
-
-###### ​	3：Jsp 转为 java 类有一定模版，按照模板固定的加载方式
-
-###### 					4：Jsp 代码会转为 java 文件中 _jspservice() 的一部分
-
-
-
-### 转换的 Java 类：
-
-1：会继承org.apache.jasper.runtime.HttpJspBase 这个类由 tomcat 提供，它继承于 HttpSevlet,实现了HttpJspPage 接口，所以说 **HttpJspBase 是一个符合 jsp 规范的 Servlet**
-2：Jsp 转换成的 java 类默认导入了四个包：
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import java.lang.* ;
+1. html 的代码会自动拼成 out.write(“html 代码”);
+2. <%   %> 中的代码原样输出
+3. Jsp 转为 java 类有一定模版，按照模板固定的加载方式
+4. Jsp 代码会转为 java 文件中 _jspservice( ) 的一部分
 
 
 
-### 2：Jsp的规范
+### 2：Jsp 转换对应的 Java 类
+
+- 会继承 org.apache.jasper.runtime.HttpJspBase 这个类由 tomcat 提供，它继承于 HttpSevlet,实现了HttpJspPage 接口，所以说 **HttpJspBase 是一个符合 jsp 规范的 Servlet**
+- Jsp 转换成的 java 类 默认导入了四个包：
+  - import javax.servlet.* ;
+  - import javax.servlet.http. *;
+  - import javax.servlet.jsp. *;
+  - import java.lang. *;
+
+
+
+### 3：Jsp 的规范
 
 jsp 转换成的 java 类时，一定要实现 javax.servlet.jsp.JspPage 接口，这个接口就是实现了 Servlet 接口（子接口)
 
@@ -129,7 +128,7 @@ Step8:Tomcat 宕机时，才调用 jspdestroy(),销毁对象
 	Rd.forward(request,response)
 ```
 
-###### ​9：Jsp:usebean 	
+###### 9：Jsp:usebean 	
 
 ​	当页面上表单项比较多时，提交给 jsp，jsp 需要很多条 request.getParamter 方法来获取这些值，很麻烦	<jsp:userbean id="" class="类名">   这个标签是实例对象的
 < jsp:setProperty>   是将用户请求参数绑定到指定对象的相应属性上
@@ -150,7 +149,7 @@ Jsp 内置对象：就是 jspService 方法模版中定义的形参和局部变�
  		javax.servlet.jsp.JspWriter **out**
  		java.lang.Object page = this;
 
-###### ​	         	Exception 	Exception类的对象，代表发生错误的JSP页面中对应的异常对象
+###### 	         	Exception 	Exception类的对象，代表发生错误的JSP页面中对应的异常对象
 
 **记 住 ： 我 们 在 jsp 文 件 中 可 以 直 接 使 用 上 以 对 象**
 
