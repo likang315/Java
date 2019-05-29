@@ -364,6 +364,20 @@ System.out.println("password = "+rb1.getString("password"));
 
 ​	
 
+### 10：MessageFormat：用来格式化一个消息，通常是一个字符串
 
+```java
+public class MessageFormat extends Format {
+  public static String format(String pattern, Object ... arguments) {
+        MessageFormat temp = new MessageFormat(pattern);
+        return temp.format(arguments);
+    }
+}
+//格式化字符串，常用于打印日志
+String s1 = MessageFormat.format("oh, {0} is 'a' pig", "lisi");
+System.out.println(s1);
+String s2 = MessageFormat.format("oh, {0} is 'a' pig {1}", "lisi","!");
+System.out.println(s2);
+```
 
 ​	  
