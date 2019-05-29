@@ -24,9 +24,16 @@
 
 javax.servlet.jsp.tagext
 
-### 1：Interface    JspTag ：所有自定义标签必须实现的接口
+### 1：Interface    JspTag ：所有自定义标签必须实现的接口（类图）
 
-![]()
+- JspTag
+  - Tag
+    - IterationTag
+      - BodyTag
+        - BodySupport
+      - TagSupport
+  - Simple
+    - SimpleTagSupport
 
 ### 2：Interface    Tag： JspTag 的子接口
 
@@ -103,6 +110,9 @@ public void doTag() throws JspException, IOException {
 
 ​	实现了BodyTag 接口，写标签处理器时，直接继承它，重写我们需要的方法
 
-### 10：实现其接口时，参考
+### 10：实现其接口时，参考，选择相应的接口
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/Jsp%EF%BC%8CEL%EF%BC%8CJstl%EF%BC%8CAjax%EF%BC%8CJson/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/BodyTag.png?raw=true)
+
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Jsp%EF%BC%8CEL%EF%BC%8CJstl%EF%BC%8CAjax%EF%BC%8CJson/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/IterationTag.png?raw=true)
+
