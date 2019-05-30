@@ -4,8 +4,6 @@
 
 传统的WEB页面: 每次请求期间不能再次操作 AJAX异步交互方式: 采用异步的方式，交互数据，与服务器交换数据并更新部分网页的技术，不重新加载整个页面
 
-[![Ajax.png](https://github.com/likang315/Java-and-Middleware/raw/master/9%EF%BC%9AJsp%EF%BC%8CEL%EF%BC%8CJstl%EF%BC%8CAjax%EF%BC%8CJson/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/Ajax.png?raw=true)](https://github.com/likang315/Java-and-Middleware/blob/master/9：Jsp，EL，Jstl，Ajax，Json/新建文件夹/Ajax.png?raw=true)
-
 ### 1：AJAX 工作流程
 
 1:用户在页面**上执行了某个操作**，例如鼠标移动、点击某个区域等
