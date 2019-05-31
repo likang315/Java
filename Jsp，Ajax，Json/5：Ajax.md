@@ -15,7 +15,7 @@
 
 ### 2：Ajax 工作原理
 
-![]()
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Jsp%EF%BC%8CAjax%EF%BC%8CJson/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/ajax.png?raw=true)
 
 ### 3 ：XMLHttpRequest 对象
 
