@@ -7,7 +7,7 @@
 - Lib：存放了tomcat 用到的 java 库 *.jar 
 - Logs：存放所有日志 
 - Temp ：临时目录 
-- Webapps ：布署 web 应用（网站）的目录 
+- Webapps ：布署 web 应用（网站）的目录 ，web应用放置到此目录下浏览器可以直接访问
 - Work ：工作目录，jsp 将来生成 java 文件都放在此目录
 
 ###### 配置 tomcat
