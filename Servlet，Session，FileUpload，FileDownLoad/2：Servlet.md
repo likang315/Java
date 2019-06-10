@@ -11,9 +11,7 @@
 ​	1: 没有 main 方法，它的生命周期由 Servlet 容器 (Tomcat) 来管理
 ​	2: 必须实现 javax.servlet.Servlet 接口，重写 services 方法
 
-![]()
-
-
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Servlet%EF%BC%8CSession%EF%BC%8CFileUpload%EF%BC%8CFileDownLoad/Servlet/Servlet_%E4%BD%BF%E7%94%A8.png?raw=true)
 
 ### 2：Servlet 作用
 
@@ -52,16 +50,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/XMLSchema-instance" metedata-complete="false" >
 <display-name>Servlet</display-name>
-  <!-- servlet 和 servlet-mappping 映射-->
+  <!-- servlet 和 servlet-mappping 映射 ，就是一个ServletConfig-->
   <servlet>
        <servlet-name>CheckLoginServlet</servlet-name>
        <servlet-class>com.xupt.MySecondServlet</servlet-class>
+       <init-param>
+         <param-name>driver</param-name>
+         <param-value>com.mysql.jdbc.Driver</param-value>
+       </init-param>
+       <load-on-startup>0</load-on-startup>
   </servlet>
   
   <servlet-mapping>
        <servlet-name>CheckLoginServlet</servlet-name>
        <url-pattern>/checklogin</url-pattern>
   </servlet-mapping>
+  
   <!-- 按顺序默认访问-->
   <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -96,7 +100,7 @@ public class CheckLoginServlet extends HttpServlet
 2. 读取 Servlet 类上的 Annotation ,为**每一组 Servlet 的配置都生成一个 ServletConfig** 对象,共享ServletContext对象
 3. 用户第一次通过 url 访问 web 资源
 4. Servlet 容器（tomcat）会检查用户访问的 url 是不是对应一个 Servlet，请求会比对服务器上每一个 **ServletConfig 对象所封装的 url 是不是和你请求的 url 相同**，如果相同就找到了目标 Servlet 对应的 ServletConfig 对象
-5. 实例化 Servlet 对象，并调用 init（）把对应的 ServletConfig 对象传给 Servlet
+5. 实例化 Servlet 对象(调用构造)，并调用 init（）把对应的 ServletConfig 对象传给 Servlet
 6. 自动调用 Servlet 对象的 service（）
 7. 第二次访问的 URL 对应 Servlet 时，直接调用 Servlet 对象的 service 方法，**Servlet 是单实例长驻服务器内存的，只有第一次访问才实例对象，并调用 init 方法**
 8. 当服务器宕机时，会调用 Servlet 的 destory（），销毁 Servlet

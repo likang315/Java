@@ -282,12 +282,6 @@ out.println("<script> alert('yes');window.location='success.html';</script>");
 - void	include(ServletRequest request, ServletResponse response) 
   - 包含，在响应中包含请求资源的内容，注意跳转的输出流不能关闭，否则无法输出
 
-![]()
-
-![]()
-
-
-
 ### 11：GET ，POST 传参
 
 ##### get 方法传参：在请求路径后追加请求参数
