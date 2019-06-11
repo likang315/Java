@@ -24,8 +24,7 @@ import com.utils.MD5;
 public class CheckLoginServlet extends HttpServlet 
 {
 	@Override
-	public void service( HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
-	{
+	public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		 req.setCharacterEncoding("utf-8");
 		 resp.setContentType("text/html;charset=utf-8");
 		 PrintWriter out=resp.getWriter();
@@ -35,29 +34,24 @@ public class CheckLoginServlet extends HttpServlet
 
 		 try {
 			 Class.forName("com.mysql.jdbc.Driver");
-			 Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt", "root", "mysql");
-			 PreparedStatement ps=con.prepareStatement("select * from mysql where name=? and pwd=?");
+			 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt", "root", "mysql");
+			 PreparedStatement ps = con.prepareStatement("select * from mysql where name=? and pwd=?");
 			 ps.setString(1, uname);
 			 ps.setString(2, mipwd);
-			 ResultSet rs=ps.executeQuery();
+			 ResultSet rs = ps.executeQuery();
 			 
-			 if(rs.next())
-			 {
+			 if(rs.next()) {
 				  //相对路径
-				  RequestDispatcher rd=req.getRequestDispatcher("success");
+				  RequestDispatcher rd = req.getRequestDispatcher("success");
 				  rd.forward(req, resp);//ִ跳转输出
-			 }else
-			 {
-				  out.println("*********************************************");
-				  RequestDispatcher rd=req.getRequestDispatcher("index.html");
+			 }else {
+				  RequestDispatcher rd = req.getRequestDispatcher("index.html");
 				  rd.include(req, resp);
-				  
-				  out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-			 }	 
-			 con.close();
+			 }
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 	out.close();
+		out.close();
 	}
 }
