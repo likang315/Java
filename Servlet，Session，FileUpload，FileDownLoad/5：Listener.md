@@ -1,30 +1,82 @@
-### 监听器（观察者设计模式）
+### 1：Listener ：监听器配置（观察者设计模式）
 
-###### 监听器的配置
-
-​	1：@WebListener 
-​	2：Web.xml，参考ppt
+1. @WebListener 
+2. Web.xml
 
 ```xml
-@WebListener 配制在具体是实现类上
+<!-- 注册其监听器 -->
 <web-app>
 	<listener>
-		<listener-class>com.oracle.WebinitListener</listener-class>
+		<listener-class>com.xupt.WebinitListener</listener-class>
 	</listener>
 </web-app>
 ```
 
-###### 1：事件源：事件发生的厂所，tomcat
+### 2：Servlet Listener API :实现其接口，重写起方法
 
-​	事件：ServletContextEvent
-​	事件处理器：
+###### javax.servlet  
+
+##### Interface ServletContextListener	
+
+​	 用于接收关于 ServletContext 生命周期更改的通知事件的接口	
+
+- void	contextDestroyed(ServletContextEvent sce) 
+  - 只要 Servlet 容器，销毁 ServletContext 对象，contextDestroyed () 自动调用
+- void	contextInitialized(ServletContextEvent sce)
+  - 只要 servlet 容器，实列化 ServletContext 对象，contextInitialized() 自动调用 
+
+###### javax.servlet  
+
+##### Interface ServletContextAttributeListener	
+
+​	 接收关于ServletContext属性更改的通知事件的接口
+
+- void	attributeAdded(ServletContextAttributeEvent event) 
+  - 添加属性自动调用
+- void	attributeRemoved(ServletContextAttributeEvent event) 
+  - 移除属性时自动调用
+- void attributeReplaced(ServletContextAttributeEvent event)
+  - 属性改变时，自动调用
+
+###### javax.servlet  
+
+##### Interface ServletRequestListener
+
+​	用于接收关于进入和超出Web应用程序范围的请求的通知事件的接口
+
+- void	requestDestroyed(ServletRequestEvent sre) 
+  - 有 ServletRequest 超出Web应用范围时自动调用
+- void	requestInitialized(ServletRequestEvent sre) 
+  - 有 ServletRequest 进入Web应用范围时自动调用
+
+###### javax.servlet  
+
+##### Interface ServletRequestAttributeListener
+
+​	接收关于ServletRequest属性更改的通知事件的接口
+
+- void   attributeAdded   (ServletRequestAttributeEvent srae) 
+- void   attributeRemoved  (ServletRequestAttributeEvent srae)
+- void   attributeReplaced  (ServletRequestAttributeEvent srae)
+
+###### javax.servlet.http 
+
+##### Interface HttpSessionAttributeListener
+
+​	用于接收关于HttpSession属性更改的通知事件的接口
+
+- void	attributeAdded (HttpSessionBindingEvent event) 
+- void	attributeRemoved (HttpSessionBindingEvent event) 
+- void	attributeReplaced (HttpSessionBindingEvent event) 
+
+###### 示例：
 
 ```java
 @WebListener 
 public class WebInitListener implements ServletContextListener{
-    	@Override
+  @Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		 System.out.println("------------------ServletContext contextDestroyed....."+arg0);
+		 System.out.println(arg0.getServletContext().toString());
 	}
 
 	@Override
@@ -33,45 +85,4 @@ public class WebInitListener implements ServletContextListener{
 	}
 }
 ```
-
-
-
-##### ServletContextListener（Interface）
-
-​		void	contextDestroyed(ServletContextEvent sce) 
-​			只要 Servlet 容器，销毁 ServletContext 对象，contextDestroyed（）自动调用
-​    		void	contextInitialized(ServletContextEvent sce)
-​			只要 servlet 容器，实列化 ServletContext 对象，contextInitialized()方法自动调用 
-
-##### ServletContextAttributeListener(Interface）
-
-​		void	attributeAdded(ServletContextAttributeEvent event) 
-​          		添加属性自动调用
- 		void	attributeRemoved(ServletContextAttributeEvent event) 
-​         		移除属性时自动调用
-​		void attributeReplaced(ServletContextAttributeEvent event)
-​			属性改变时，自动调用
-
-##### ServletRequestListener
-
-​	 void	requestDestroyed(ServletRequestEvent sre) 
-​	 void	requestInitialized(ServletRequestEvent sre) 
-
-##### HttpSessionBindingListener(Interface )
-
-​	void	valueBound(HttpSessionBindingEvent event) 
-​     		属性key-value被绑定时通知
-​	void	valueUnbound(HttpSessionBindingEvent event) 	
-​		属性key-value被解绑（移除）通知
-
-##### HttpSessionAttributeListener(Interface)
-
-​	void	attributeAdded(HttpSessionBindingEvent event) 
-  		void	attributeRemoved(HttpSessionBindingEvent event) 
-​	void	attributeReplaced(HttpSessionBindingEvent event) 
-
-###### 实现：	
-
-Step1：实现处理器接口,编写事件处理器
-Step2: 注册给 Servlet 容器
 

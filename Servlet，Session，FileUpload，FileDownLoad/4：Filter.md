@@ -48,7 +48,7 @@ public class CheckLogedFilter implements Filter {
 
 ### 3：Interface FilterChain：
 
-​	过滤链，用来调用services（）
+​	过滤链，用来调用 Servlet 的 services（）
 
 void	doFilter (ServletRequest request, ServletResponse response) 
 	调用下一个过滤器的doFilter()
@@ -129,10 +129,10 @@ FilterConfig 的对象封装了：ServletContext 对象和 Filter 的配置参�
 
 ```java
 public class MyRequest extends HttpServletRequestWrapper {
-	public MyRequest(HttpServletRequest request) {
+	public MyRequest (HttpServletRequest request) {
 		super(request);
 	}
-
+  // 重写了getParameter
 	@Override
 	public String getParameter(String name) {
 		return "&lt;&lt;"+super.getParameter(name)+"&gt;&gt;";
