@@ -78,19 +78,19 @@ public interface StudentMapper {
     	select * from students where stud_id = #{id}
 	</select>
 
-<!-- 返回Map 是一个数据时，根据数据库的字段和值生成map-->
+<!-- 返回 Map 是一个数据时，根据数据库的字段和值生成map-->
   <select id="findById" parameterType="int" resultType="map">
-    select * from students where stud_id=#{id}
+    select * from students where stud_id = #{id}
   </select>
  
- <!-- 返回map 对个对象时，-->
+ <!-- 返回map 对个对象-->
  <select id="findById2" parameterType="int" resultType="map">
-    select * from students where stud_id>#{id}
+    select * from students where stud_id > #{id}
  </select>
  
  <!-- Map用于传多个参数 -->
  <select id="findBy03" parameterType="map" resultType="students">
-    select * from students where stud_id>#{id} and name like #{name};
+    select * from students where stud_id > #{id} and name like #{name};
  </select>
 
 </mapper>
