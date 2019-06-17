@@ -1,173 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis06/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis07/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis08/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis09/target/test-classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis10/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/java/com/xzy/pojo/Clazz.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis11/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Clazz.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Score.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Stu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Teacher.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis12/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/java/com/xzy/pojo/Students.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis14/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/java/com/xzy/edu/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/java/com/xzy/pojo/Students.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/java/com/zxy/mapper/StudentMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/resources/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/resources/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/resources/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/test/java/com/xzy/edu/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/target/classes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/target/classes/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/target/classes/mapper/StudentMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/10：Mybatis/edu-mybatis15/target/classes/mybatis-config.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Mybatis/3：Mapper_xml.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Mybatis/3：Mapper_xml.md" afterDir="false" />
-    </list>
+    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,22 +13,7 @@
     <option name="delegatedBuild" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/10：Mybatis/mybatis01/src/mybatis-config.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="21" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/10：Mybatis/mybatis02/src/mybatis-config.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -230,43 +49,6 @@
               <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
               <item name="Java_code" type="462c0819:PsiDirectoryNode" />
               <item name="10：Mybatis" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="10：Mybatis" type="462c0819:PsiDirectoryNode" />
-              <item name="mybatis01" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="10：Mybatis" type="462c0819:PsiDirectoryNode" />
-              <item name="mybatis01" type="462c0819:PsiDirectoryNode" />
-              <item name="jars" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="10：Mybatis" type="462c0819:PsiDirectoryNode" />
-              <item name="mybatis01" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="10：Mybatis" type="462c0819:PsiDirectoryNode" />
-              <item name="mybatis01" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="10：Mybatis" type="462c0819:PsiDirectoryNode" />
-              <item name="mybatis01" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="zxy" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -313,16 +95,15 @@
       <option name="presentableId" value="Default" />
       <updated>1560652805151</updated>
       <workItem from="1560652806539" duration="487000" />
-      <workItem from="1560663778567" duration="2375000" />
+      <workItem from="1560663778567" duration="2460000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2862000" />
+    <option name="totallyTimeSpent" value="2947000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="833" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -541,13 +322,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/mybatis01/src/mybatis-config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="21" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/10：Mybatis/mybatis02/src/com/xzy/mapper/StudentMapper.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -612,6 +386,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/10：Mybatis/mybatis02/src/mybatis-config.xml">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/10：Mybatis/mybatis01/src/mybatis-config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="21" selection-end-column="15" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">

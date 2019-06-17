@@ -1,65 +1,129 @@
-## 动态SQL：
+### 动态 SQL 元素：
 
-   元素和使用 JSTL 或其他类似基于 XML 的文本处理器相似，MyBatis 采用功能强大的基于 OGNL 的表达式来消除其他元素，**通常要做的是有条件地包含 where 子句的一部分**
+​	动态SQL是MyBatis 的强大特性之一，作用：根据条件包含 where 子句的一部分
 
-##### 1：if元素
+##### 1：if
 
 ```xml
-<select id="findAllStudents" resultType="com.xzy.pojo.Students" parameterType="Students" 		useCache="true">
+<select id="findAllStudents" resultType="com.xzy.pojo.Students" parameterType="Students" 	useCache="true">
     select * from students where stud_id>#{stud_id} 
     <if test="email!=null"> 
-      and email=#{email}
+      AND email=#{email}
     </if>
+  	<if test="name != null and email != null">
+   	  AND name like #{email}
+  	</if>
  </select>
 ```
 
-##### 2：choose, when, otherwise,有时不想用到所有的条件语句，而只想从中择其一二,选择判断
+##### 2：choose, when, otherwise
+
+​	有时不想用到所有的条件语句，而只想从中择其一项，类似于 switch
 
 ```XML
-<choose>
-		<when test="title != null">
-			AND title like #{title}
-		</when>
-		<when test="author != null and author.name != null">
-			AND author_name like #{author.name}
-		</when>
-		<otherwise>
-			AND featured = 1
-		</otherwise>
-</choose>
+<select id="findActiveBlogLike" resultType="Blog">
+  SELECT * FROM BLOG WHERE state = ‘ACTIVE’
+  <choose>
+    <when test="title != null">
+      AND title like #{title}
+    </when>
+    <when test="author != null and author.name != null">
+      AND author_name like #{author.name}
+    </when>
+    <otherwise>
+      AND featured = 1
+    </otherwise>
+  </choose>
+</select>
 ```
 
-### 3：where
+##### 3：where
 
-​	sql 语句中限定条件语句 where 必须写成元素 <where>，否则会导致SQL预计错误
+​	SQL 语句中限定条件语句 where 必须写成元素 <where>，否则会导致SQL预计错误
 
-where 元素知道只有在一个以上的 if 条件有值的情况下才去插入“WHERE”子句,而且若最后的内容是“AND”或“OR”开头的， where 元素也知道如何去除他们
+< where>  元素只会在至少有一个子元素的条件返回 SQL 子句的情况下才去插入“WHERE”子句。而且，若语句的开头为“AND”或“OR”，*where* 元素也会将它们去除多余的AND或者OR
 
 ```xml
 <select id="selectByParams" parameterType="map" resultType="user">
-    select * from user
+    select * from user 
     <where>
-        <if test="id != null ">id=#{id}</if>
-        <if test="name != null and name.length()>0" >and name=#{name}</if>
-        <if test="gender != null and gender.length()>0">and gender = #{gender}</if>
+        <if test="id != null ">
+          id=#{id}
+        </if>
+        <if test="name != null and name.length()>0" >
+          and name=#{name}
+        </if>
+        <if test="gender != null and gender.length()>0">
+          and gender = #{gender}
+        </if>
     </where>
-</select>　　　　　
+</select>
 ```
 
-在上述SQL中加入ID的值为null的话，那么打印出来的SQL为：select * from user where name="xx" and gender="xx"
+在上述SQL中加入ID的值为null的话，那么打印出来的SQL为：select * from user where name="xx" and gender="xx" ，解决了select * from user where 这种情况的问题
 
-###### where 标记会自动将其后第一个条件的 and 或者是 or 给忽略掉
+##### 4：trim
+
+用于去除 SQL 语句中**多余的 AND 关键字，逗号，或者给 SQL 语句前拼接 “where“、“set“以及“values(“ 等前缀，或者添加“)“等后缀**
+
+- **prefix**：给sql语句拼接的前前缀
+- **suffix**：给sql语句拼接的后缀
+- **prefixesToOverride**：去除SQL语句前面的关键字或者字符，该关键字由prefixesToOverride 属性指定
+  - 假设该属性指定为”AND”，当sql语句的开头为”AND”，trim标签将会去除该”AND”
+- **suffixesToOverride**：去除SQL语句后面的关键字或者字符，该关键字或者字符由suffixesToOverride属性指定
+
+```xml
+<!-- 和where 标签相同的功能 -->
+<trim prefix="WHERE" prefixOverrides="AND">
+  <if test="state != null">
+    state = #{state}
+  </if> 
+  <if test="title != null">
+    AND title like #{title}
+  </if>
+  <if test="author != null and author.name != null">
+    AND author_name like #{author.name}
+  </if>
+</trim>
+
+<insert  id="insertBlog" parameterType="blog">
+    INSERT INTO blog
+    <trim prefix="("  suffix=")" suffixOverrides=",">\
+      <if test="state != null">
+        state
+      </if> 
+      <if test="title != null">
+        title
+      </if>
+    </trim>
+    <trim prefix="values("  suffix=")" suffixOverrides=",">
+      <if test="state != null">
+        #{state}
+      </if> 
+      <if test="title != null">
+        #{title}
+      </if>
+    </trim>
+</insert>
+```
 
 
 
-### 4：Set
+##### 4：Set：update  语句
 
-set 元素用于动态更新语句的解决方案,**被用于动态包含需要更新的列,set 元素会动态前置 SET关键字**，同时也会消除无关的逗号
+​	用于SQL动态更新语句的解决方案，**用于动态包含需要更新的列,set 元素会动态前置 SET关键字**，同时也会消除无关的逗号
 
 ```XML
-<set>
-		<if test="username != null">username=#{username},</if>	
-</set>
+<update id="updateAuthorIfNecessary">
+  update Author
+    <set>
+      <if test="username != null">username=#{username},</if>
+      <if test="password != null">password=#{password},</if>
+      <if test="email != null">email=#{email},</if>
+      <if test="bio != null">bio=#{bio}</if>
+    </set>
+  where id=#{id}
+</update>
 ```
 
 
@@ -85,8 +149,6 @@ set 元素用于动态更新语句的解决方案,**被用于动态包含需要�
 ​	MyBatis 也支持使用注解来配置映射语句,当我们使用基于注解的映射器接口时，我们不再需要在 XML 配置文件中配置
 
   @Insert,@Update,@Delete,@Select 
-
- 
 
 
 
