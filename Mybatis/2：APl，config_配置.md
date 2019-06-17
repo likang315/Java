@@ -274,4 +274,15 @@ environments 可以注册多个数据源（DataSource），尽管可以配置多
 
 
 
+##### 8：使用注解配置Mapper接口
+
+​	MyBatis 也支持使用注解来配置映射语句,当我们使用基于注解的映射器接口时，我们不再需要在 XML 配置文件中配置
+
+  @Insert,@Update,@Delete,@Select 
+
+```java
+@Insert
+("INSERT INTO user (id, username, passwd) VALUES (#{id}, #{username}, #{passwd})")
+int insertUser(User user);
+```
 
