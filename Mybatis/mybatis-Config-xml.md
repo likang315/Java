@@ -4,11 +4,13 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!--配置-->
 <configuration>
+  
 	<!--从propertise文件中取值-->
   <properties resource="application.properties">
     <property name="username" value="db_user"/>
     <property name="password" value="verysecurepwd"/>
   </properties>
+  
   <!--全局设置-->
   <settings>
     <setting name="cacheEnabled" value="true"/>
@@ -25,6 +27,7 @@
     <setting name="jdbcTypeForNull" value="OTHER"/>
     <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
   </settings>
+  
   <!--类型别名-->
   <typeAliases>
     <typeAlias alias="Tutor" type="com.mybatis3.domain.Tutor"/>

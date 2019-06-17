@@ -248,7 +248,7 @@
 ### 5：缓存：存储内容访问命中率
 
 - 一级缓存：默认情况下，开启一级缓存，一级缓存只是相对于同一个 SqlSession
-- 二级缓存：默认情况下，不开启二级缓存，二级缓存是 SqlSessionFactory 层面上的缓存，关闭会话连接仍然有值
+- 二级缓存：默认情况下，不开启二级缓存，二级缓存是 SqlSessionFactory 层面上的缓存，关闭会话连接仍然缓存值
   - MyBatis要求返回的POJO必须是可序列化的，也就是要求实现Serializable接口
   - 开启配置：在mapper.xml 文件中 配置 <cache>  就可以开启二级缓存,useCache="true"
   - <cache /> 全局配置开启，很多设置是默认的，如下
