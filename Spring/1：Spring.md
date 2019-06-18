@@ -1,43 +1,58 @@
-### Spring ：是 一个容器，由容器来负责控制对象的生命周期和对象间的关系
+### Spring ：其实就是一个容器，由容器来负责控制对象的生命周期和对象间的关系
 
-支持声明式事务管理，通过RMI 或 Web服务远程访问您的逻辑，以及用于持久保存数据的各种选项
+- 独立于各种应用服务器，基于Spring框架的应用，可以真正实现Write Once，Run Anywhere
+- Spring的IoC容器降低了业务对象替换的复杂性，提高了组件之间的**解耦**
+- Spring的AOP支持允许将一些通用任务如**安全、事务、日志**等进行集中式管理，从而提供了更好的复用
+- Spring的ORM和DAO提供了与第三方持久层框架的良好整合，并简化了底层的数据库访问
 
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Spring/Spring/spring-module.png?raw=true)
 
+### 1：Spring Module
 
-### 1：LOC：控制反转（Inversion of Control）
+###### 	大约20个模块功能组成，核心模块为：
 
-​	应用本身**不负责依赖对象的创建及维护**，依赖对象的创建及维护是由外部容器负责的,控制权就由应用转移到了外部容器，**控制权的转移**就是所谓反转
+​		数据访问(持久层)，Web，AOP（面向切面编程），核心容器，消息传递和测试
 
-反射（reflection），它允许程序在运行的时候动态的生成对象、执行对象的方法、改变对象的属性，**spring就是通过反射来实现注入的**
+###### 	核心容器需导入的Jar：
 
-因为IOC是通过反射机制来实现的，当我们的需求出现变动时，**工厂模式会需要进行相应的变化，就要就修改代码，但是IOC的反射机制允许我们不重新编译代码，因为它的对象都是动态生成的**，其实就是解耦，而且不用频繁的创建和销毁对象，消耗资源
+- spring-core
+- spring-beans
+- spring-context
+- spring-context-support
+- spring-expression
 
-#####    DI：依赖注入（Dependency Injection）
+### 2：IoC（Inversion of Control）：控制反转
 
-​	在运行期，由外部容器动态地将依赖对象注入到组件中，就是在运行时能对Bean对象设置属性值
+​		应用本身不负责依赖对象的创建及维护，依赖对象的创建及维护是由外部容器负责的，控制权就由应用转移到了外部容器，控制权的转移就是所谓控制反转
 
-### 2：AOP：面向切面编程(Aspect Oriented Programming) ：
+###### 原理：
 
-​	在不修改源代码的情况下给方法的进出口，动态的统一添加功能的一种技术
+​	Spring 就是通过反射来实现注入的
 
-##### 通过动态代理 和 cglib代理实现的
+###### 作用：
 
+​	因为当我们的需求出现变动时，工厂模式会需要进行相应的变化，就要就修改代码，而IoC是通过反射机制来实现的，它的对象都是动态生成的，允许我们不重新编译代码，其实就是解耦，不用频繁的创建和销毁对象，消耗资源
 
+###### DI（Dependency Injection）：依赖注入
 
-### 3：Spring Module
+​	在运行期，由外部容器动态地将依赖对象注入到组件中，就是在运行时能对Bean对象修改属性值
 
-​	大约20个模块组成的功能组成,这些模块分为核心容器，数据访问/集成，Web，AOP（面向方面​​编程），仪器，消息传递和测试
+### 3：AOP (Aspect Oriented Programming) ：面向切面编程
 
-核心容器：spring-core， spring-beans，spring-context，spring-context-support，spring-expression （弹簧表达式语言）
+​	在不修改源代码的情况下给方法的进出口，动态的统一添加功能（日志，安全）的一种技术
+
+###### 原理：
+
+​	通过动态代理 和 cglib代理实现的
 
 ### 4：Spring 三种配置方式
 
-######    1>:用 XML 配置容器
+######    1：用 XML 配置容器
 
 ```xml
-<bean id="fe" class="com.sp01.FlashEmail"/>
-<bean id="cp" class="com.sp01.CellPhone">
-    <property name="name" value="XXPHONE"/>
+<bean id="fe" class="com.xupt.FlashEmail"/>
+<bean id="cp" class="com.xupt.CellPhone">
+    <property name="name" value="lisi"/>
     <property name="email" ref="fe"/>
 </bean>
 ```
@@ -77,5 +92,4 @@ context.getBean("对象名");
 //或者
 @ContextConfiguration(value={"/ApplicationContext.xml"})
 ```
-
 
