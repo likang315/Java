@@ -1,10 +1,41 @@
-### 1：Bean 标签的定义
+### xmlns：表示默认的XML Namespace的缩写
 
-##### Property:
+使用语法： xmlns:namespace-prefix="namespaceURI"，其中namespace-prefix为自定义前缀，只要在这个XML文档中保证前缀不重复即可；namespaceURI是这个前缀对应的XML Namespace的定义
 
-1：id="对象名" 2：class="实例化类，放入Spring容器中" **3：scope= "作用域"** singleton：单例模式,Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例 prototype：原型模式,每一次请求（将其注入到另一个bean中，或者以程序的方式调用容器的getBean()方法）都会产生一个新的bean实例，相当与一个new的操作，克隆操作
+###### xsi:schemaLocation
 
-4：lazy-init="true" 懒加载，初始化容器的时候不会立刻加载，用时在加载 5：init-method="方法名" 初始化对象之前调用此方法 6：destory-method="方法名" 销毁对象之前调用此方法 7：abstract="true" 抽象的被用来继承 8：parent="id值" 继承bean，与abstract联用 9：primary="true" 首选的，有两个相同对象时，优先选择 10：factory-bean="实例化工厂对象名" factory-method="实例化对象的方法名"
+- xsi:schemaLocation 属性值其实是namespace为 http://www.w3.org/2001/XMLSchema-instance 里的schemaLocation 属性值
+
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+```
+
+- xsi:schemaLocation：它定义了XML Namespace和对应的XSD（Xml Schema Definition）文档的位置的关系。它的值由一个或多个URI引用对组成，**两个URI之间以空白符分隔（空格和换行均可）**
+  - 第一个URI：定义的XML Namespace的值
+  - 第二个URI：指出 Schema 文档的位置，Schema 处理器将从这个位置读取Schema文档
+
+### 1：Bean 的定义
+
+​	bean 是一个被实例化，组装，并通过 Spring IoC 容器所管理的对象，是由用容器提供的配置元数据创建的
+
+##### 构成Bean 的属性（property）：
+
+- id="对象名"
+- class="实例化此类，放入Spring容器中" 
+- scope= "作用域" 
+  - singleton：单例模式，Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例，默认的
+  - prototype：原型模式,每次都会产生一个新的bean实例，克隆操作
+- lazy-init="true" ：懒加载，初始化容器的时候不会立刻加载，用时再加载 
+- init-method="方法名" ：初始化对象之前调用此方法
+- destory-method="方法名" ：销毁对象之前调用此方法
+- abstract="true" ：抽象的被用来继承
+- parent="id值" ：继承bean的id，与abstract联用 
+- primary="true" ：首选的，有两个相同对象时，优先选择
+- factory-bean="实例化工厂对象名" 
+- factory-method="实例化对象的方法名"
 
 ```
 <bean id="aa" class="com.xzy.pojo.Tear" lazy-init="true" scope="prototype" init-method="init">
