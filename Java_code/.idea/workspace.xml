@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Spring/1：Spring.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring/1：Spring.md" afterDir="false" />
-    </list>
+    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,11 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="7" column="4" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="14" selection-end-column="5" />
-              <folding>
-                <element signature="method#main#0;class#Main#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="220">
+              <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -307,12 +302,12 @@
       <updated>1560652805151</updated>
       <workItem from="1560652806539" duration="487000" />
       <workItem from="1560663778567" duration="2460000" />
-      <workItem from="1560907340885" duration="449000" />
+      <workItem from="1560907340885" duration="846000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3396000" />
+    <option name="totallyTimeSpent" value="3793000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="833" extended-state="0" />
@@ -518,11 +513,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="7" column="4" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="14" selection-end-column="5" />
-          <folding>
-            <element signature="method#main#0;class#Main#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="220">
+          <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
         </state>
       </provider>
     </entry>
