@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="" />
+    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/bin/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/jars/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/jars/spring-beans-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/jars/spring-context-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/jars/spring-core-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/jars/spring-expression-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/src/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/CellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/FlashEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/bin/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/jars/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/jars/spring-aop-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/jars/spring-beans-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/jars/spring-context-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/jars/spring-core-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/jars/spring-expression-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/src/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/CellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/FlashEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/bin/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/spring-aop-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/spring-beans-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/spring-context-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/spring-core-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/spring-expression-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/jars/spring-test-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/src/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/src/com/sp01/CellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/src/com/sp01/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/src/com/sp01/FlashEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring03/test/com/sp01/TestCellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Spring/2：Bean XML.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring/2：Bean XML.md" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -9,68 +68,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#main#0;class#Main#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/ApplicationContext.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/11：Spring/spring03/src/ApplicationContext.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/11：Spring/spring03/test/com/sp01/TestCellPhone.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="15" column="17" lean-forward="true" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
-              <folding>
-                <element signature="method#testRun#0;class#TestCellPhone#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/11：Spring/spring04/src/com/MyConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+            <state relative-caret-position="200">
+              <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+              <folding>
+                <element signature="method#newcellphone#0;class#MyConfig#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -113,120 +122,6 @@
               <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
               <item name="Java_code" type="462c0819:PsiDirectoryNode" />
               <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring01" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring01" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring01" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring01" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="sp01" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring02" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring02" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring02" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring02" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="sp01" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="sp01" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java_code" type="462c0819:PsiDirectoryNode" />
-              <item name="11：Spring" type="462c0819:PsiDirectoryNode" />
-              <item name="spring03" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="sp01" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Java_code" type="b2602c69:ProjectViewProjectNode" />
@@ -302,12 +197,12 @@
       <updated>1560652805151</updated>
       <workItem from="1560652806539" duration="487000" />
       <workItem from="1560663778567" duration="2460000" />
-      <workItem from="1560907340885" duration="846000" />
+      <workItem from="1560907340885" duration="1148000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3793000" />
+    <option name="totallyTimeSpent" value="4095000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="833" extended-state="0" />
@@ -342,6 +237,36 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Database" order="8" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25679544" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Maven" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Database" order="8" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -446,26 +371,8 @@
     <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Email.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/ApplicationContext.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/CellPhone.java">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Main#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/11：Spring/spring03/src/com/sp01/CellPhone.java">
       <provider selected="true" editor-type-id="text-editor" />
@@ -480,41 +387,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/ApplicationContext.xml">
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/ApplicationContext.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="220">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/11：Spring/spring03/src/ApplicationContext.xml">
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+        <state relative-caret-position="240">
+          <caret line="13" column="17" lean-forward="true" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/com/sp01/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#main#0;class#Main#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/ApplicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/11：Spring/spring03/test/com/sp01/TestCellPhone.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="15" column="17" lean-forward="true" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
           <folding>
             <element signature="method#testRun#0;class#TestCellPhone#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/11：Spring/spring04/src/com/MyConfig.java">
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring03/src/ApplicationContext.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+        <state relative-caret-position="140">
+          <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/11：Spring/spring01/src/com/sp01/Main.java">
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring04/src/com/MyConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="12" column="15" lean-forward="true" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
+        <state relative-caret-position="200">
+          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+          <folding>
+            <element signature="method#newcellphone#0;class#MyConfig#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
