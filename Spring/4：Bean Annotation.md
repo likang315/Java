@@ -1,4 +1,6 @@
-## Bean Annotation (Spring 和 JSR 的 Annotaion 两套Annotation，用Spring)
+### Spring Annotation：基于注解的配置
+
+ Spring 和 JSR 的 Annotaion 两套Annotation，用Spring
 
 
 
@@ -13,7 +15,7 @@
 ​	四个Annotation 功能相同都是用在类上的 Annotation，说明让 spring 实例化此类，并把对象放入 spring 容器中
 （@Repository 声明 Dao,@Service 声明 Service，@controller 声明控制器, @componet(“id”)其中 id 声明 bean 对像的名字)
 
-### 3：设置扫描 的 基础包 ( 四种方式 )
+### 3：设置扫描的基础包 ( 四种方式 )
 
 @Configuration
 @ComponentScan(“基包名”)

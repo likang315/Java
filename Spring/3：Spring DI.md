@@ -67,12 +67,12 @@
 
 使用内部 bean 为基于 setter 方法注入进行配置的配置文件 Beans.xml 
 
-```
+```xml
 <bean id="textEditor" class="com.tutorialspoint.TextEditor">
 	<property name="spellChecker">
 		<bean id="spellChecker" class="com.tutorialspoint.SpellChecker"/>
 	</property>
-</bean>	
+</bean>
 ```
 
 
@@ -112,7 +112,7 @@ Spring 提供了四种类型的集合的配置元素，如下所示：
     <map>
       <entry key="1" value="INDIA"/>
       <entry key="2" value="Pakistan"/>
-      <entry key ="3" value-ref="address2"/>
+      <entry key="3" value-ref="address2"/>
     </map>
   </property>
 
@@ -144,11 +144,29 @@ Spring 提供了四种类型的集合的配置元素，如下所示：
 </bean>
 ```
 
+
+
 ### 5：Bean 的自动装配
 
+Spring 容器可以在不使用`<constructor-arg>`和`<property>` 元素的情况下**自动装配**相互协作的 bean 之间的关系，这有助于减少编写一个大的基于 Spring 的应用程序的 XML 配置的数量
 
+| 模式        | 描述                                                         |
+| ----------- | ------------------------------------------------------------ |
+| byName      | 由属性名自动装配。Spring 容器看到在 XML 配置文件中 bean 的自动装配的属性设置为 byName。然后尝试匹配，并且将它的属性与在配置文件中被定义为相同名称的 beans 的属性进行连接。 |
+| byType      | 由属性数据类型自动装配。Spring 容器看到在 XML 配置文件中 bean 的自动装配的属性设置为 byType。然后如果它的**类型**匹配配置文件中的一个确切的 bean 名称，它将尝试匹配和连接属性的类型。如果存在不止一个这样的 bean，则一个致命的异常将会被抛出。 |
+| constructor | 类似于 byType，但该类型适用于构造函数参数类型。如果在容器中没有一个构造函数参数类型的 bean，则一个致命错误将会发生。 |
 
-
+```xml
+<bean id="textEditor" class="com.tutorialspoint.TextEditor" autowire="byName">
+  <property name="name" value="Generic Text Editor" />
+</bean>
+<!-- TextEditor 中有属性名为spellChecker 的属性-->
+<bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+</bean>
+<!--TextEditor 中有个属性类型为SpellChecker 的属性-->
+<bean id="SpellChecker" class="com.tutorialspoint.SpellChecker">
+</bean>
+```
 
 
 
