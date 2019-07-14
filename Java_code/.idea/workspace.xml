@@ -4,7 +4,104 @@
     <option name="GROUP_BY_SEVERITY" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="" />
+    <list default="true" id="c691c46e-87d7-40fb-bc0e-e75a3f57b895" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/spring-aop-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/spring-beans-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/spring-context-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/spring-core-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/spring-expression-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/jars/spring-test-4.3.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/src/com/MyConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/src/com/sp01/CellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/src/com/sp01/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/src/com/sp01/FlashEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/src/com/sp01/Student.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring04/test/com/sp01/TestCellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_springframework_spring_aop_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_springframework_spring_beans_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_springframework_spring_context_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_springframework_spring_core_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_springframework_spring_expression_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/libraries/Maven__org_springframework_spring_test_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/MyConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/xzy/CellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/xzy/Email.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/xzy/FlashEmail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/xzy/Student.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/src/test/java/com/xzy/TestCellPhone.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/study-spring05-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/surefire-reports/TEST-com.xzy.TestCellPhone.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring05/target/surefire-reports/com.xzy.TestCellPhone.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__junit_junit_4_12.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_springframework_spring_aop_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_springframework_spring_beans_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_springframework_spring_context_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_springframework_spring_core_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_springframework_spring_expression_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/libraries/Maven__org_springframework_spring_test_4_3_7_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/dao/AdminDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/dao/ArticleDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/dao/imp/AdminDaoImp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/dao/imp/ArticleDaoImp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/main/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/pojo/Admin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/pojo/Article.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/AdminService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/imp/AdminServiceImp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/imp/ServiceBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/imp/UserServiceImp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/main/resources/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/src/test/java/com/xzy/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/target/classes/ApplicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/11：Spring/spring06/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Spring/7：Spring TransactionManager.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring/7：Spring TransactionManager.md" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +112,7 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -41,7 +138,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -58,6 +154,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -100,16 +197,17 @@
       <workItem from="1560663778567" duration="2460000" />
       <workItem from="1560907340885" duration="1148000" />
       <workItem from="1562981580338" duration="1633000" />
+      <workItem from="1563074090707" duration="523000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5728000" />
+    <option name="totallyTimeSpent" value="6251000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="833" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26037195" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2639485" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -173,46 +271,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/resources/mybatis-config.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/zxy/mapper/StudentMapper.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/test/java/com/xzy/edu/AppTest.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/xzy/pojo/Stu.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/java/com/xzy/pojo/Score.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis08/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis07/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis06/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis09/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis10/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis11/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Stu.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Teacher.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/zxy/mapper/StudentMapper.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Clazz.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/pojo/Score.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/java/com/xzy/edu/App.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/test/java/com/xzy/edu/AppTest.java" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis12/src/main/resources/mapper/StudentMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis13/src/main/java/com/zxy/mapper/StudentMapper.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis13/src/main/resources/mapper/StudentMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis13/src/test/java/com/xzy/edu/AppTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="4" />
-          <folding>
-            <element signature="method#manytomany#0;class#AppTest#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/main/resources/mapper/StudentMapper.xml" />
     <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis14/src/test/java/com/xzy/edu/AppTest.java" />
     <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/test/java/com/xzy/edu/AppTest.java" />
     <entry file="file://$PROJECT_DIR$/10：Mybatis/edu-mybatis15/src/main/resources/mapper/StudentMapper.xml" />
@@ -269,13 +327,132 @@
     <entry file="file://$PROJECT_DIR$/11：Spring/spring02/src/ApplicationContext.xml" />
     <entry file="file://$PROJECT_DIR$/11：Spring/spring03/test/com/sp01/TestCellPhone.java" />
     <entry file="file://$PROJECT_DIR$/11：Spring/spring03/src/ApplicationContext.xml" />
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring04/src/com/sp01/CellPhone.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring04/src/com/sp01/Student.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/11：Spring/spring04/src/com/MyConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="240">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="23" />
           <folding>
             <element signature="method#newcellphone#0;class#MyConfig#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/xzy/Student.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring05/src/main/java/com/MyConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+          <folding>
+            <element signature="method#newcellphone#0;class#MyConfig#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/dao/ArticleDao.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/dao/AdminDao.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="16" column="8" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/AdminService.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/imp/ServiceBase.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/imp/UserServiceImp.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring06/src/main/java/com/xzy/service/imp/AdminServiceImp.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring07/src/main/java/com/xzy/dao/AdminDao.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring07/src/main/resources/ApplicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring07/src/main/java/com/hq/db/Db.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2696">
+          <caret line="95" column="30" lean-forward="true" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+          <folding>
+            <element signature="initializer##0;class#Db#0" expanded="true" />
+            <element signature="method#getConnection#0;class#Db#0" expanded="true" />
+            <element signature="method#rollbackTransaction#0;class#Db#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/spring07/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/Spring_01_01/src/main/java/com/xupt/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/Spring_01_01/src/main/java/com/xupt/dao/imp/ArticleDaoImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="9" column="30" lean-forward="true" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+          <folding>
+            <element signature="method#add#0;class#ArticleDaoImp#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/Spring_01_01/src/main/resources/ApplicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/Spring_01_01/src/main/java/com/xupt/dao/imp/AdminDaoImp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="method#checklogin#0;class#AdminDaoImp#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/spring_01_02/src/main/resources/ApplicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/Spring_01_03/src/main/resources/ApplicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/11：Spring/Spring_01/Spring_01_04/src/main/resources/ApplicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>

@@ -33,6 +33,9 @@
 	申请 -->
 	<property name="minIdle" value="1"/>
 </bean>
+ 
+<!-- 用来加载jdbc.properties 配置文件-->
+<context:property-placeholder location="classpath:jdbc.properties"/>
     
 <bean id="TransactionManager"
 	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
