@@ -1,4 +1,6 @@
-### Spring Resource(访问资源,org.springframework.core.io)
+### Spring Resource
+
+访问资源,org.springframework.core.io
 
   Spring 为资源访问提供了一个 Resource 接口，该接口提拱了更强的资源访问能力，Spring框架本身大量使用Resource来访问底层资源
 

@@ -176,3 +176,42 @@ public class InitHelloWorld implements BeanPostProcessor {
 ### 7：Bean 是线程安全的
 
 虽然 Spring 的 Bean 是单例的，但是它内部采用ThreadLocal 这种方式，每一个线程对应一个变量副本，所以是线程安全的
+
+### 8：条件化 Bean
+
+- @Conditional 使用在方法上
+  - 可以用到带 @Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean
+- @Conditional 使用在类上
+  - 任意实现了 Condition 接口，重写 matches 方法，返回 boolean 类型的结果
+
+```java
+@Conditional({ProfileCondition.class})
+public @interface Profile {
+    String[] value();
+}
+//返回true ，则实例化，反之不实例化
+public class ProfileCondition implements Condition {
+		@Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        if(context.getEnvironment() != null) {
+						return true;
+        }
+        return false;
+    }
+}
+```
+
+###### ConditionContext ：
+
+- getRegistry()：返回的 BeanDefinitionRegistry 检查 Bean 定义
+- getBeanFactory()：返回 ConfigurableListableBeanFactory 检查 Bean 是否存在
+- getEnvironments()：返回 Environment 检查环境变量是否存在以及它的值是什么
+- getResourceLoader()：返回 ResourceLoader 所加载的资源
+- getClassLoader()：返回 ClassLoder 加载并检查是否存在
+
+###### AnnotatedTypeMetadata 
+
+- 可以让我们检查带@Bean 注解的方法上还有什么其它注解，它也是一个接口
+
+
+
