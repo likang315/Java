@@ -1,10 +1,12 @@
 ### Spring Resource
 
-访问资源,org.springframework.core.io
+​	获取外部资源，处理URL资源、File资源资源、ClassPath相关资源、服务器相关资源
 
-  Spring 为资源访问提供了一个 Resource 接口，该接口提拱了更强的资源访问能力，Spring框架本身大量使用Resource来访问底层资源
+#####  1：Resource ：一个接口，所有资源访问类必须实现的接口
 
-##### 1：Resource ：一个接口，所有资源访问类必须实现的接口
+ Spring 为资源访问提供了一个 Resource 接口，该接口提拱了更强的资源访问能力，Spring框架本身大量使用Resource来访问底层资源
+
+##### ![image-20190721101019909](/Users/likang/Library/Application Support/typora-user-images/image-20190721101019909.png)
 
 方法:
 	getInputStream();定位并打开资源，返回资源对应的输入流，每次调用都返回新的输入流，调用者必须关闭输入流
