@@ -1,64 +1,63 @@
-### 1：SpringMVC 数据绑定流程
+### SpringMVC 数据绑定
 
-![数据绑定.png](https://github.com/likang315/Java-and-Middleware/blob/master/12%EF%BC%9ASpringMVC/SpringMVC/%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A.png?raw=true)
+------
 
-######     1：产生 WebDataBinderFactory
+![](/Users/likang/Code/Git/Java-and-Middleware/SpringMVC/SpringMVC/DataBinder.png)
 
-​	 Spring MVC 框架将 ServletRequest 对象及目标方法的入参实例传递给 WebDataBinderFactory实例,以创建**DataBinder实例**
+##### 1：DataBinder 流程
 
-######     2：DataBiner 调用 ConversionService 
+1. ######     通过WebDataBinderFactory，产生DataBinder 实例
 
-​	DataBinder 调用装配在 Spring MVC 上下文中的 **ConversionService 组件**进行数据类型转换、数据格式化工作,将Servlet 中的请求信息填充到入参对象中
+   - Spring MVC 框架将 ServletRequest 对象及目标方法的入参实例传递给 WebDataBinderFactory实例,以创建DataBinder实例
 
-###### 3：调用Validator 组件生成BindingResult
+2. ###### 调用 ConversionService 
 
-调用 Validator 组件对已经绑定了请求消息的入参对象进行**数据合法性校验，并最终生成数据绑定结果 BindingResult 对象**
+   - DataBinder 调用装配在 Spring MVC 上下文中的 ConversionService 组件进行数据类型转换、数据格式化工作,将Servlet 中的请求信息填充到入参对象中
 
-###### 4：Spring MVC 抽取 BindingResult 中的入参对象和校验错误对象，将它们赋给处理方法的响应入参
+3. ###### 调用Validator 进行校验
 
-Spring MVC 通过反射机制对目标处理方法进行解析，将请求消息绑定到处理方法的入参中
+   - 调用 Validator 组件对已经绑定了请求消息的入参对象进行数据合法性校验，并最终生成数据绑定结果 BindingResult 对象
 
-###### 数据绑定的核心部件是 DataBinder
+4. ###### BindingResult 中的入参对象和校验错误对象，将它们赋给处理方法的入参
 
+   - Spring MVC 通过反射机制对目标处理方法进行解析，将请求消息绑定到处理方法的入参中
 
+##### 2：ConvertionService
 
-### 2：数据转换 (ConversionService , org.springframework.core.convert )
+HttpMessageConvert<T> 和 ConversionService 是不同的两种东西，前者用于转换请求信息和响应信息，后者用于对象间的转换
 
-​	Spring MVC 上下文中内建了很多转换器，可完成大多数 Java 类型的转换工作
+1. ###### ConversionService ：类型转换的核心接口
 
-###### 	ConversionService 接口是类型转换的核心接口
+   - boolean canConvert(Class sourceType, Class targetType)
+     - 判断是否可以将一个 java 类转换为另一个 java 类
+   - boolean canConvert(TypeDescriptor sourceType, TypeDescriptor targetType)
+     - 需转换的类将以成员变量的方式出现在宿主类中，TypeDescriptor 不但描述了需转换类的信息，还描述了从宿主类的上下文信息，如成员变量上的注解，成员是否是数组、集合或 Map 的方式呈现等
+   - T convert(Object source, ClassT targetType)
+     - 将原类型对象转换为目标类型对象
+   - Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)
+     - 将对象从原类型对象转换为目标类型对象，此时往往会用到所在宿主类的上下文信息
 
-###### ​	boolean canConvert(Class sourceType, Class targetType)
+2. ###### ConversionServiceFactoryBean
 
-​		判断是否可以将一个 java 类转换为另一个 java 类
-​	boolean canConvert(TypeDescriptor sourceType, TypeDescriptor targetType)
-​		需转换的类将以成员变量的方式出现在宿主类中，TypeDescriptor 不但描述了需转换类的信息，还描述了从宿主类的上下文信息，如成员变量上的注解，成员是否是数组、集合或 Map 的方式呈现等
-
-###### ​	 T convert(Object source, ClassT targetType)
-
-​		将原类型对象转换为目标类型对象.
-​	Object convert(Object source, TypeDescriptor sourceType, TypeDescriptor targetType)
-​		将对象从原类型对象转换为目标类型对象，此时往往会用到所在宿主类的上下文信息
-
-######    ConversionServiceFactoryBean
-
-​	利用ConversionServiceFactoryBean在Spring容器中定义一个ConversionService. Spring 将自动识别出容器中的 
-​	ConversionService，并在 Bean 属性配置及 Spring MVC 处理方法入参绑定等场合使用它进行数据的转换
+​	利用 ConversionServiceFactoryBean 在 Spring 容器中定义一个ConversionService，Spring 将自动识别出容器中的ConversionService，并在 Bean 属性配置及 Spring MVC 处理方法入参绑定等场合使用它进行数据的转换
 
 ######    ConversionServiceFactoryBean 的 converters 属性注册自定义的类型转换器
 
 ```xml
-<!-- 配置自定义转换器-->
-<bean id=conversionService class=org.springframework.context.support.ConversionServiceFactoryBean>
+<!--配置自定义转换器-->
+<bean id=conversionService
+      class=org.springframework.context.support.ConversionServiceFactoryBean>
 		<property name=converters>
 			<list>
-				<bean class="me.mritd.mvc.model.UserConverterbean" />
+				<bean class="com.xupt.mvc.model.UserConverterbean" />
 			</list>
 		</property>
 </bean>
 
-<!--该标签会创建并注册一个默认的 DefaultAnnotationHandlerMapping(映射器) 和 一个ReqeustMappingHandlerAdpter（适配器）实现，除此之外
-<mvc:annotaion-driven /> 标签还会注册一个默认的 ConversionService 即（FormattingConversionServiceFactoryBean）以满足大多数类型转换的需求，当用到自定义类型转换器时，需要用<mvc:annotation-driven conversion-service=”xxx”>覆盖默认
+<!--
+		该标签默认注册 DefaultAnnotationHandlerMapping(映射器) 和
+		ReqeustMappingHandlerAdpter（适配器）实现，还会注册一个默认的 ConversionService 即（FormattingConversionServiceFactoryBean）以满足大多数类型转换的需求
+当用到自定义类型转换器时，需要 <mvc:annotation-driven conversion-service=”xxx”> 覆盖默认的
 -->
 <mvc:annotation-driven conversion-service=conversionService /> 
 ```
@@ -146,12 +145,12 @@ public void setAsText(String text) throws IllegalArgumentException {
 
 Public interface Formatter <T> extends Printer <T> , Parse<T> {}
 
-###### ​	Printer<T>：接口负责对象的格式化输出 
+###### 	Printer<T>：接口负责对象的格式化输出 
 
 ​		String print(T fieldValue , Locale locale)
 ​			将类型为 T 的成员对象根据本地化不同输出为不同的格式化字符串
 
-###### ​	Parse<T>：负责对象格式化输入
+###### 	Parse<T>：负责对象格式化输入
 
 ​		T  parse(String clientValue,Locale locale) throws ParseException
 ​			参考本地化信息将一个格式化的字符串转换为 T 对象，即完成格式化对象的输入
