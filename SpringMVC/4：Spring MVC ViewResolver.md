@@ -1,6 +1,8 @@
-## 视图解析器
+### 视图解析器
 
-### 1：MVC 一次请求流程流程
+------
+
+##### 1：MVC 一次请求流程流程
 
 Spring MVC 控制的资源发起请求时，所有请求都会被 DispatcherServlet 处理，接着 Spring 会分析看哪一个**Handler Mapping**，定义的所有请求映射中存在对该请求的最合理的映射,然后通过该HandlerMapping 取得其对应的 **Handler(处理程序映射)**，接着再通过相应的 **HandlerAdapter 处理该 Handler**，处理之后会返回一个 **ModelAndView** 对象(逻辑视图名),获得ModelAndView 对象之后，Spring 就需要把该 View 渲染后返回给用户，即返回给浏览器
 
