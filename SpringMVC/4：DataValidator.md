@@ -1,31 +1,35 @@
-### 数据校验（ 声明式数据验证 ）
+### 数据校验（DataValidator）
+
+------
 
 ​	Spring 3 开始支持 JSR-303 验证框架，JSR 303 用于对 Java Bean 中的字段的值进行验证
 
-Spring应用
-	1：添加jar包
-		validation-api-1.0.0.GA.jar ：JSR-303 规范 API 包
-		hibernate-validator-4.3.0.Final.jar Hibernate 参考实现
-	2：在 Spring xml 配置
+##### Sprint 配置	
+
+1. 添加jar包
+   - validation-api-1.0.0.GA.jar ：JSR-303 规范 API 包
+   - hibernate-validator-4.3.0.Final.jar Hibernate 参考实现
+2. 在 Spring xml 配置
 
 ```xml
-<!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册-->
-<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+<!--实例化validator-->
+<bean id="validator"
+      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 	<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
- 	<!-- 如果不加默认到 使用 classpath 下的 ValidationMessages.properties -->
 	<property name="validationMessageSource" ref="messageSource"/>
 </bean>
 ```
 
-   此处使用 Hibernate validator 实现：
-	validationMessageSource 属性：指定国际化错误消息从哪里取，此处使用之前定义的
-	messageSource 来获取国际化消息；如果此处不指定该属性，则默认到 classpath 下的
-	ValidationMessages.properties 取国际化错误消息。
-	
+此处使用 Hibernate validator 实现：
+
+- validationMessageSource ：指定国际化错误消息从哪里取，此处使用之前定义的
+- messageSource： 来获取国际化消息
+  - 如果不指定该属性，则默认到classpath 下的 ValidationMessages.properties 取国际化错误消息
 
 ```xml
-通过 ConfigurableWebBindingInitializer 注册 validator：
-<bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+<!--通过 ConfigurableWebBindingInitializer 注册 validator-->
+<bean id="webBindingInitializer"
+      class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
 		<property name="conversionService" ref="conversionService"/>
 		<property name="validator" ref="validator"/>
 </bean>
