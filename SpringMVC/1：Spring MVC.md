@@ -2,7 +2,7 @@
 
 ------
 
-![](/Users/likang/Code/Git/Java-and-Middleware/SpringMVC/SpringMVC/Spring MVC.png)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/SpringMVC/SpringMVC/Spring%20MVC.png?raw=true)
 
 ##### 1：MVC Request 流程（五步）
 

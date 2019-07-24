@@ -1,8 +1,8 @@
-### SpringMVC 数据绑定
+###  SpringMVC 数据绑定
 
 ------
 
-![](/Users/likang/Code/Git/Java-and-Middleware/SpringMVC/SpringMVC/DataBinder.png)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/SpringMVC/SpringMVC/DataBinder.png?raw=true)
 
 ##### 1：DataBinder 流程
 
@@ -164,23 +164,24 @@ public class MyFormatter implements Formatter<Date> {
 
 ##### 6：启动数据转换和格式化功能
 
-FormattingConversionService(class)  extends GenericConversionService implments ConversionService:
-​		既具有类型转换功能，又具有格式化功能
+###### FormattingConversionService(class)  extends GenericConversionService implments ConversionService
+
+- ###### 既具有类型转换功能，又具有格式化功能
 
 在Spring 上下文中通过 FormattingConversionServiceFactoryBean 工厂类构造 FormattingConversionService
 通过工厂类，既可以注册,删除自定义的转换器，还可注册自定义的注解驱动格式化逻辑功能
 
 由于 FormattingConversionServiceFactoryBean 在内部会自动注册
-NumberFormatAnnotationFormatterFactory 和JodaDateTimeFormatAnnotationFormatterFactory,因此装配了
+NumberFormatAnnotationFormatterFactory 和JodaDateTimeFormatAnnotationFormatterFactory，因此装配了
 FormattingConversionServiceFactoryBean 后，就可以在 Spring MVC 入参绑定及模型数据输出时使用注解驱动和格式化功能
 
 ```xml
-在 Spring 上下文中装配 FormattingConversionServiceFactoryBean
 <mvc:annotation-driven conversion-service="conversionService"/>
-<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+<bean id="conversionService"
+     class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
     <property name="converters">
         <list>
-            <bean class="com.smart.domain.StringToUserConverter"/>
+            <bean class="com.xupt.StringToUserConverter"/>
         </list>
     </property>
 </bean>
@@ -188,18 +189,16 @@ FormattingConversionServiceFactoryBean 后，就可以在 Spring MVC 入参绑�
 
 注意：< mvc:annotation-driven/>  标签内部默认创建的 ConversionService 实例就是一个FormattingConversionServiceFactoryBean，装配好 FormattingConversionServiceFactoryBean后,SpringMVC 对处理方法的入参绑定就支持注解驱动功能了
 
+##### 7：<mvc:annotation-driven />
 
+###### HandlerMapping的实现类的作用
 
-### 8：< mvc:annotation-driven  /> ：自动注册这两个类
+实现类RequestMappingHandlerMapping，它会处理 @RequestMapping 注解，并将其注册到请求映射表中
 
-#### HandlerMapping的实现类的作用
+###### HandlerAdapter的实现类的作用
 
-实现类RequestMappingHandlerMapping，它会处理 @RequestMapping 注解，**并将其注册到请求映射表中**
+实现类RequestMappingHandlerAdapter，则是处理请求的适配器，确定调用哪个类的哪个方法，并且构造，方法参数，返回值
 
-#### HandlerAdapter的实现类的作用
+###### 简而言之：
 
-实现类RequestMappingHandlerAdapter，则是处理请求的适配器，**确定调用哪个类的哪个方法**，并且构造方法参数，返回值
-
-
-
-
+HandlerMapping把配置Controller，注册到请求映射表中，然后HandlerAdapter处理请求，确定调用哪一个Controller方法
