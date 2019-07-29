@@ -2,7 +2,9 @@
 
 ------
 
-​	线程安全的核心就是对共享且可变状态的资源访问进行管理，例如加锁、final、volitile
+​	多线程并发访问同一资源时，就会形成“抢”的现象，由于线程切换实际不确定，可能导致执行代码顺序的混乱，严重时会导致系统瘫痪，例：上厕所、上锁
+
+- 线程安全的核心：对共享且可变状态的资源访问进行管理，例：加锁、final、volitile
 
 ##### 1：并发编程的的三个特性
 
@@ -12,229 +14,187 @@
    - 当一个变量被 volatile 修饰后，当一个线程在私有内存中修改此共享变量后，共享变量会立即被更新到主内存中，同时使其他线程缓存的此变量无效，其他线程读取共享变量时，会直接从主内存中读取
    - synchronized和Lock都可以保证可见性。synchronized和Lock能保证同一时刻只有一个线程获取锁然后执行同步代码，并且在释放锁之前会将对变量的修改刷新到主存当中，因此可以保证可见性
 
-##### 2：乐观锁与悲观锁：线程要不要锁住资源来分类的
+##### 2：乐观锁与悲观锁：
 
-**悲观锁：**总是假设最坏的情况，**自己每次取数据时都认为其他线程会修改**，因此**在获取数据的时候会先加锁，确保数据不会被别的线程修改**，当其他线程想要访问数据时，都需要阻塞挂起，去等待持有锁的线程释放锁，synchronized就是悲观锁的实现
-
-###### 通过Synchronized 和Lock的实现类来体现
-
-
-
-**乐观锁：**认为自己在**使用数据时不会有别的线程修改数据，所以不会添加锁**，只是在**更新数据的时候去判断之前有没有别的线程更新了这个数据**。如果这个数据没有被更新，当前线程将自己修改的数据成功写入。如果数据已经被其他线程更新，则**根据不同的实现方式执行不同的操作**（例如**报错或者自动重试**）
-
-在Java中是**通过使用无锁编程来实现**，最常采用的是**CAS算法**，**Java 原子类（Automic）中的递增操作就通过CAS自旋实现的**
+- 分类依据：线程要不要锁住资源
+- 悲观锁：假设最坏的情况，自己每次取数据时都认为其他线程会修改，因此在获取数据的时候会先加锁，确保数据不会被别的线程修改，当其他线程想要访问数据时，都需要阻塞挂起，等待持有锁的线程释放锁
+  - synchronized
+  - Lock 的实现类
+- 乐观锁：认为自己在使用数据时不会有别的线程修改数据，所以不会添加锁，只是在更新数据的时候去判断之前有没有别的线程更新了这个数据。如果这个数据没有被更新，当前线程将自己修改的数据成功写入。如果数据已经被其他线程更新，则根据不同的实现方式执行不同的操作（例如报错或者自动重试）
+  - 通过使用无锁编程来实现
+    - CAS算法，Java 原子类（Automic）中的递增操作就通过CAS自旋实现的
 
 ```java
-// ------------------------- 悲观锁的调用方式 -------------------------
-// synchronized
+// 悲观锁:synchronized
 public synchronized void testMethod() {
 	// 操作同步资源
 }
-// ReentrantLock
-private ReentrantLock lock = new ReentrantLock(); //需要保证多个线程使用的是同一个锁
+// Lock 的实现类：ReentrantLock
+private ReentrantLock lock = new ReentrantLock();
 public void modifyPublicResources() {
 	lock.lock();
 	// 操作同步资源
 	lock.unlock();
 }
 
-// ------------------------- 乐观锁的调用方式 -------------------------
-private AtomicInteger atomicInteger = new AtomicInteger(); //需要保证多个线程使用的是同一个AtomicInteger
-atomicInteger.incrementAndGet(); //执行自增 1
+// 乐观锁：需要保证多个线程使用的是同一个AtomicInteger
+private AtomicInteger atomicInteger = new AtomicInteger(); 
+// 执行自增
+atomicInteger.incrementAndGet();
 ```
 
+##### 3：synchronized
 
+​	Java中的关键字，是一种同步锁，为重量级锁，即锁住了当前对象也把锁给了当前对象
 
-### Synchronized ，Lock 的实现类
+###### 锁原理
 
-多线程并发访问同一资源时，就会形成“抢”的现象，由于线程切换实际不确定，可能导致执行代码顺序的混乱，
-严重时会导致系统瘫痪
+- synchronized：是通过**字节码指令**来实现的
+  - synchronized 同步块：编译后会在同步块前后形成 monitorenter 和 monitorexit 两个字节码指令
+    - 执行 monitorenter 指令时需要先获得对象的锁(每个对象有一个监视器锁monitor)，如果这个对象获取锁或者当前线程已经获得此锁（可重入锁），那么锁的计数器+1。如果获取失败，那么当前线程阻塞，直到锁被另一个线程释放，执行monitorexit指令时，计数器 -1，当为 0 的时候锁释放
+  - synchronize 同步方法：编译后会在方法访问处，添加字节码指令 ACC_SYNCHRONIZED  标志
+    - 不管是monitorenter，还是ACC_SYNCHRONIZED都是用于获取对象锁
 
-实例：上厕所，上锁
+###### synchronized：同步块
 
-![锁.png](https://github.com/likang315/Java-and-Middleware/blob/master/5%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E9%94%81.png?raw=true)
+​	要求多个线程对该块内的代码依次排队执行，前提条件是同步监视器对象，可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
 
-
-
-### synchronized ：
-
-###### 是Java中的关键字，是一种同步锁，通常称为重量级锁，即锁住了当前对象也把锁给了当前对象
-
-
-
-### Synchronized 锁 原理
-
-###### synchronized 关键字是通过 字节码指令 来实现的
-
-###### synchronized 关键字编译后会在同步块前后形成 monitorenter 和 monitorexit 两个字节码指令
-
-###### 执行monitorenter指令时需要先获得对象的锁（每个对象有一个监视器锁monitor），如果这个对象获取锁或者当前线程已经获得此锁（也就是重入锁），那么锁的计数器+1。如果获取失败，那么当前线程阻塞，直到锁被对另一个线程释放
-
-###### 执行monitorexit指令时，计数器减一，当为 0 的时候锁释放
-
-
-
-### synchronized 修饰方法时，该方法为同步方法，即：多个线程不能同时进入方法内部执行
-
-对于方法而言，synchronized 锁会在一个线程调用该方法时将该方法所属对象加锁，其他线程在执行此方法时
-由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁，所以，**解决多线程并发问题的办法就是讲“抢”变为“排队”**
-
-同一个锁对象可以产生互斥作用，不同锁对象不能产生互斥作用
+- 当一个线程访问对象中的synchronized(this)同步代码块时，另一个线程仍然可以访问该对象中的非synchronized(this)同步代码块，因为非synchronized不需要monitor锁
 
 ```java
-public synchronized void method(){}
-```
-
-注意：
-
-1：**synchronized 关键字 不能继承，**若需要同步，在子类的重写方法添加 synchronized 关键字
-
-2：在定义接口方法时不能使用 synchronized 关键字，不能被继承
-
-3：**构造方法不能使用synchronized关键字 **，但可以使用 synchronized 代码块来进行同步
-
-###### synchronized 修饰的静态方法锁定的是这个类的所有对象
-
-```java
-public static synchronized void method()
-{
+// this锁：指monitor对象
+synchronized(this) {
+	// ...
 }
-```
 
-注意：若修饰静态方法：属于类的，具有同步效果，按顺序执行，与对象无关
-	
-
-### synchronized 块（同步块）：
-
-要求多个线程对该块内的代码排队执行，但是前提条件是同步监视器对象，可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
-
-#### this 锁
-
-```java
-synchronized(this) //监视器对象
-{
-	需要同步的代码
-}
-```
-
-##### synchronized 块 this锁 之间具有同步性
-
-即：当一个线程访问对象的一个synchronized  同步块，**其他线程仍对同一个对象中所有的其他synchronized 同步块的访问将被阻塞**，因为在**执行synchronized代码块时会锁定当前的对象**，只有执行完该代码块才能释放该对象锁，下一个线程才能执行并锁定该对象
-
-###### 当一个线程访问对象的一个synchronized(this)同步代码块时，另一个线程仍然可以访问该对象中的非synchronized(this)同步代码块
-
-
-
-#### 非this
-
-当有一个明确的对象作为锁时
-
-```java
-public void  method3(SomeObject obj)
-{
-   //obj 锁定的对象
-   synchronized(obj)
-   {
+// 有一个明确的对象作为锁时
+public void  method3(SomeObject obj) {
+   //非this锁：monitor对象
+   synchronized(obj) {
       // todo
    }
 }
-```
 
-当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁：
-
-```java
-public void method()
+// 当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁
+private Byte[] local= new Byte[0];
+synchronized(local)
 {
-    private Byte[] local= new Byte[0];
-    synchronized(local)
-    {
-        //todo...
-    }
+  // todo...
+}
+```
+
+###### synchronized：同步方法
+
+​	为同步方法，即：多个线程不能同时进入方法内部执行
+
+- synchronized 同步方法：在一个线程调用该方法时将该方法所属对象加锁，其他线程在执行此方法时，由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁
+- 线程同步：解决多线程并发问题的办法就是讲"抢"变为"排队"
+- **同一个锁对象可以产生互斥作用，不同锁对象不能产生互斥作用**
+- 若修饰静态方法：属于类的，具有同步效果，与对象无关
+
+```java
+public synchronized void synchronizedMethod() {
+  // ...
+}
+// synchronized 修饰的静态方法锁定的是这个类的所有对象
+public static synchronized void method() {
+	// ...
+}	
+```
+
+###### 注意：
+
+1. 被 synchronized修饰方法，不能被继承，若需要同步，在子类的重写该方法添加 synchronized 关键字
+2. 在接口中定义方法时不能使用 synchronized 关键字
+3. 构造方法不能使用 synchronized关键字，但可以使用 synchronized 代码块来进行同步
+
+###### synchronized 类锁：Class锁
+
+- synchronized 作用于一个类时，每个类有且只有一个Class对象，即类的 Class 对象锁，类的所有对象都是同一把锁
+
+```java
+synchronized(ClassName.class) {
+	// todo....
 }
 ```
 
 
 
-### synchronized 可以作用于类，通过反射，class 锁
+##### 4：重入锁(Lcok)：根据一个线程中的多个流程能不能获得同一把锁
+
+- 重进入：指任意线程在获取到锁之后能够再次获取该锁而不会被锁阻塞
+- 可重入锁：指的是可重复递归调用的锁，在外层使用锁之后，在内层仍然可以获得此锁，并且不发生死锁（前提得是同一个对象或者class）
+  - ReentrantLock 和synchronized 都是可重入锁
+- 不可重入锁：与可重入锁相反，不可递归调用，递归调用就发生死锁
 
 ```java
-synchronized(ClassName.class)
-{
-         //todo....
+public class Solution {
+  // 同步方法，时同一个对象锁
+  public synchronized void firstInvoke() {
+    System.out.println("方法1执行...");
+    doOthers();
+  }
+	// 同一个对象锁
+  public synchronized void secondInvoke() {
+    System.out.println("方法2执行...");
+  }
 }
 ```
 
-synchronized 作用于一个类<T>时，是给这个类<T>加锁，T的所有对象用的是同一把锁
+###### 为什么支持重复加锁 ？
 
+​	因为源码中用变量 c (计数器)来保存当前锁被获取了多少次，故在释放时，对 c 变量进行减操作，只有 c 变量为 0 时，才算锁的最终释放。所以可以 lock() 多次，同时 unlock 也必须与 lock 同样的次数
 
-
-### java.util.concurrent.locks;
-
-### 重入锁（Lock）：根据一个线程中的多个流程能不能获得同一把锁
-
-重进入：是指任意线程在获取到锁之后能够再次获取该锁而不会被锁阻塞
-
-###### 可重入锁：指的是可重复递归调用的锁，在外层使用锁之后，在内层仍然可以获得此锁，并且不发生死锁（前提得是同一个对象或者class），ReentrantLock 和synchronized 都是可重入锁
-
-###### 不可重入锁：与可重入锁相反，不可递归调用，递归调用就发生死锁
-
-
+##### 5：Lock (JUC)
 
 ```java
-public class Widget {
-    public synchronized void doSomething() {
-        System.out.println("方法1执行...");
-        doOthers();
-    }
-
-    public synchronized void doOthers() {
-        System.out.println("方法2执行...");
-    }
+public interface Lock {
+    // 获得当前线程的对象锁
+    void	lock();
+    // 两个线程分别执行以上两个方法，但此时中断这两个线程，前者不会抛出异常，而后者会抛出异常
+    void	lockInterruptibly();
+    // 用于让线程 wait 或者 唤醒
+    Condition	newCondition();
+    boolean	tryLock()
+    boolean	tryLock(long time, TimeUnit unit);
+    // 能获得锁就返回true，不能就立即返回false，tryLock(long timeout,TimeUnit unit)，可以增加等待时间限制时间限制，如果超过该时间段还没获得锁，返回false
+    // 释放锁
+    void	unlock();
 }
 ```
 
-
-
-### 为什么支持重复加锁 ？
-
-因为源码中用变量 c 来保存当前锁被获取了多少次，故在释放时，对 c 变量进行减操作，只有 c 变量为 0 时，才算锁的最终释放。所以可以 lock 多次，同时 unlock 也必须与 lock 同样的次数
-
-### public  interface  Lock
+##### 6：Condition （JUC）
 
 ```java
-void	lock()  //能获得锁就返回true，不能的话一直等待获得锁
-void	lockInterruptibly()
-//如果两个线程分别执行以上两个方法，但此时中断这两个线程，前者不会抛出异常，而后者会抛出异常
-
-Condition	newCondition() //返回锁的状态
-    
-boolean	tryLock()
-boolean	tryLock(long time, TimeUnit unit)
-//tryLock能获得锁就返回true，不能就立即返回false，tryLock(long timeout,TimeUnit unit)，可以增加时间限制，如果超过该时间段还没获得锁，返回false
-    
-void	unlock()  //释放锁
+public interface Condition {
+  // 处于等待状态，中断时，会抛出异常
+  void await() throws InterruptedException;
+  // 让其等待，中断时，不会抛出异常
+  void awaitUninterruptibly();
+  // 任意唤醒一个处于等待状态的线程
+  void signal();
+  // 唤醒所有处于等待状态的线程
+  void signalAll();
+}
 ```
 
+##### 7：ReentrantLock：
 
+​	是可重入锁、实现了Lock接口的锁，与synchronized作用一致，并且扩展了其能力
 
+###### 原理：
 
+- ReenTrantLock 是一种自旋锁，通过循环调用CAS操作来实现加锁
 
-### Class ReentrantLock：可重入锁
-
-###### 是可重入、实现了Lock接口的锁，它与使用 synchronized 方法和块具有相同的基本行为和语义，并且扩展了其能力
-
-### ReenTrantLock原理：
-
-ReenTrantLock 是 **JDK 实现，是一种自旋锁，通过循环调用CAS操作来实现加锁**
 
 ```java
-public class MyService {
-    private final Reentrantlock lock=new Reentrantlock（）；
+public class Test {
+    private final Reentrantlock lock = new Reentrantlock()；
     public void testMethod() {
         lock.lock(); //先获得锁，再处理业务
         for (int i = 0; i < 5; i++) {
-            System.out.println("ThreadName=" + Thread.currentThread().getName()
-                    + (" " + (i + 1)));
+            System.out.println("ThreadName =" + Thread.currentThread().getName()
+                     + (i + 1));
         }
         lock.unlock();
     }
@@ -242,9 +202,9 @@ public class MyService {
 ```
 
 ```java
-//创建Condition对象来使线程 wait 或者 唤醒，必须先执行 lock.lock 方法获得锁
+//创建Condition对象来使线程 wait 或者 唤醒，必须先执行 lock.lock()获得锁
 public class MyService {
-    private final Reentrantlock lock=new Reentrantlock（）；
+    private final Reentrantlock lock = new Reentrantlock（）；
     private Condition condition = lock.newCondition();
     public void testMethod() {
         try {
@@ -253,27 +213,19 @@ public class MyService {
             condition.await();
             for (int i = 0; i < 5; i++) {
                 System.out.println("ThreadName=" + Thread.currentThread().getName()
-                        + (" " + (i + 1)));
+                       + (i + 1));
             }
         } catch (InterruptedException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
-        finally
-        {
+        finally {
             lock.unlock();
         }
     }
 }
 ```
 
-###### condition对象的 signal()方法可以唤醒wait线程，ReentrantLock类可以唤醒指定条件的线程，而object的wait()的唤醒是随机的
-
-Condition类的signal 方法和Object类的notify 方法等效													Condition类的signalAll 方法和Object类的notifyAll 方法等效
-
-
-
-### ReentranLock 和 Synchronized 的区别
+##### 8：ReentranLock 和 Synchronized 的区别
 
 ###### 1：ReentrantLock可以实现公平锁
 
@@ -373,9 +325,8 @@ public class ReentrantReadWriteLock implements ReadWriteLock, java.io.Serializab
         public void unlock() {
             sync.releaseShared(1);
         }
-
      }
-    
+  
      //inner class WriteLock
      public static class WriteLock implements Lock, java.io.Serializable {
         private static final long serialVersionUID = -4992448646407690164L;
@@ -390,15 +341,3 @@ public class ReentrantReadWriteLock implements ReadWriteLock, java.io.Serializab
      }
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
