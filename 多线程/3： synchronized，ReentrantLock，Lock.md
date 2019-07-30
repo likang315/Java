@@ -262,7 +262,15 @@ Lock lock = new ReentrantLock(false);
 - 公平锁：严格的以FIFO的方式进行锁的竞争，但是非公平锁是无序的锁竞争，刚释放锁的线程很大程度上能比较快的获取到锁，队列中的线程只能等待，所以非公平锁可能会有“饥饿”的问题
 - 重复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的影响是比较大的，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
 
-##### 10：ReadWriteLock：管理一组锁，一个是只读的锁，一个是写锁
+##### 10：共享锁、独享锁 ：多个线程能不能共享同一把锁
+
+​	通过AQS来实现的，通过实现不同的方法，来实现独享或者共享
+
+- 独享锁(排他锁)：该锁一次只能被一个线程所持有，synchronized 和 JUC 中 Lock的实现类基本都是互斥锁
+- 共享锁：指该锁可被多个线程所持有，如果线程T对数据A加上共享锁后，则其他线程只能对A再加共享锁，不能加排它锁，获得共享锁的线程只能读数据，不能修改数据
+  - ReadWriteLock，其读锁是共享锁，其写锁是独享锁
+
+##### 11：ReadWriteLock：管理一组锁，一个是只读的锁，一个是写锁
 
 ```java
 public interface ReadWriteLock {
@@ -273,76 +281,33 @@ public interface ReadWriteLock {
 }
 ```
 
-##### 11：共享锁、排他锁 ：多个线程能不能共享同一把锁
+##### 12：ReentrantReadWriteLock
 
-**通过AQS来实现的**，通过实现不同的方法，来实现独享或者共享
-
-**独享锁也叫排他锁：**该锁一次只能被一个线程所持有，JDK中的 synchronized 和 JUC 中 Lock的实现类就是互斥锁
-
-**共享锁：**指该锁**可被多个线程所持有，如果线程T对数据A加上共享锁后，则其他线程只能对A再加共享锁**，不能加排它锁，获得共享锁的线程只能读数据，不能修改数据
-
-
-
-### ReentrantReadWriteLock 有两把锁：
-
-ReadLock和WriteLock，一个读锁一个写锁，合称“读写锁”。再进一步观察可以发现ReadLock和WriteLock是靠内部类Sync实现的锁，Sync是AQS的一个子类
-
-在ReentrantReadWriteLock里面，读锁和写锁的锁主体都是Sync，但读锁和写锁的加锁方式不一样
-
-读锁是共享锁，写锁是独享锁。读锁的共享锁可保证并发读非常高效，而读写、写读、写写的过程互斥，因为读锁和写锁是分离的
-
-当有**读锁时，写锁就不能获得**，而当**有写锁时，除了获得写锁的这个线程可以获得读锁外，其他线程不能获得读锁**
+- ReadLock和WriteLock是靠内部类Sync实现的锁，Sync是AQS的一个子类
+- 读锁是共享锁，写锁是独享锁。读锁的共享锁可保证并发读非常高效，而读写、写读、写写的过程互斥，因此读锁和写锁是分离的
+- 当有读锁时，写锁就不能获得，而当有写锁时，除了获得写锁的这个线程可以获得读锁外，其他线程不能获得读锁
 
 ```java
 public class ReentrantReadWriteLock implements ReadWriteLock, java.io.Serializable {
-    private static final long serialVersionUID = -6992448646407690164L;
-    /** Inner class providing readlock */
-    private final ReentrantReadWriteLock.ReadLock readerLock;
-    /** Inner class providing writelock */
-    private final ReentrantReadWriteLock.WriteLock writerLock;
-	//Sync是AQS的一个子类
-    final Sync sync;
-
-    public ReentrantReadWriteLock() {
-        this(false);//默认时非公平锁
-    }
-
-    public ReentrantReadWriteLock(boolean fair) {
-        sync = fair ? new FairSync() : new NonfairSync();
-        readerLock = new ReadLock(this);
-        writerLock = new WriteLock(this);
-    }
-
-    public ReentrantReadWriteLock.WriteLock writeLock() { return writerLock; }
-    public ReentrantReadWriteLock.ReadLock  readLock()  { return readerLock; }
-    
-     //inner class ReadLock
-     public static class ReadLock implements Lock, java.io.Serializable {
-        private static final long serialVersionUID = -5992448646407690164L;
-        private final Sync sync;
-
-        protected ReadLock(ReentrantReadWriteLock lock) {
-            sync = lock.sync;
-        }
-        public void lock() {
-            sync.acquireShared(1);
-        }
-        public void unlock() {
-            sync.releaseShared(1);
-        }
-     }
+  // Inner class providing readlock
+  private final ReentrantReadWriteLock.ReadLock readerLock;
+  // Inner class providing writelock
+  private final ReentrantReadWriteLock.WriteLock writerLock;
+  //Sync是AQS的一个子类
+  final Sync sync;
   
-     //inner class WriteLock
-     public static class WriteLock implements Lock, java.io.Serializable {
-        private static final long serialVersionUID = -4992448646407690164L;
-        private final Sync sync;
-
-        protected WriteLock(ReentrantReadWriteLock lock) {
-            sync = lock.sync;
-        }
-        public void lock() {
-            sync.acquire(1);
-        }
-     }
+	// Inner class
+  public static class ReadLock implements Lock, java.io.Serializable {
+    private final Sync sync;
+    // 实现的Lock接口的方法
+    
+    // 返回获取了几次读锁，读锁特有的
+    public String toString() {
+            int r = sync.getReadLockCount();
+            return super.toString() +
+                "[Read locks = " + r + "]";
+    }
+  }
 }
 ```
+
