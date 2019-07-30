@@ -1,4 +1,4 @@
-### 并发编程
+并发编程
 
 ------
 
@@ -99,7 +99,7 @@ public synchronized void synchronizedMethod() {
 // synchronized 修饰的静态方法锁定的是这个类的所有对象
 public static synchronized void method() {
 	// ...
-}	
+}
 ```
 
 ###### 注意：
@@ -149,7 +149,7 @@ public class Solution {
 
 ```java
 public interface Lock {
-    // 获得当前线程的对象锁
+    // 获得当前线程的对象锁，如果不能获取等待直到获取成功返回
     void	lock();
     // 两个线程分别执行以上两个方法，但此时中断这两个线程，前者不会抛出异常，而后者会抛出异常
     void	lockInterruptibly();
@@ -209,7 +209,7 @@ public class MyService {
     public void testMethod() {
         try {
             lock.lock();
-            System.out.println("开始wait");
+            System.out.println("开始wait...");
             condition.await();
             for (int i = 0; i < 5; i++) {
                 System.out.println("ThreadName=" + Thread.currentThread().getName()
@@ -227,38 +227,45 @@ public class MyService {
 
 ##### 8：ReentranLock 和 Synchronized 的区别
 
-###### 1：ReentrantLock可以实现公平锁
+###### 1：ReentrantLock 可以实现公平锁
 
-​	Lock lock=new ReentrantLock(true);//公平锁
+```java
+// Lock 实现公平锁
+public ReentrantLock(boolean fair) {
+	sync = fair ? new FairSync() : new NonfairSync();
+}
 
-###### 2：ReentrantLock可响应中断
+Lock lock = new ReentrantLock(true);
+```
 
-当使用synchronized实现锁时,阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了**一个可以响应中断的获取锁的方法`lockInterruptibly()`**，该方法可以用来解决死锁问题，**被中断的线程将抛出异常，而另一个线程将能获取锁后正常结束**
+###### 2：ReentrantLock 可中断响应
+
+当使用 synchronized 实现锁时，阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了一个可以中断响应的获取锁的方法lockInterruptibly()，该方法可以用来解决死锁问题，被中断的线程将抛出异常，而另一个线程将获取锁后正常结束
 
 ###### 3：获取锁时限时等待
 
-ReentrantLock还给我们提供了**获取锁限时等待的方法`tryLock()**`,可以选择传入时间参数,表示等待指定的时间,无参则表示立即返回锁申请的结果:true表示获取锁成功,false表示获取锁失败
+​	ReentrantLock 还提供了获取锁限时等待的方法
 
+- tryLock(long time, TimeUnit unit)
+  - 传入时间参数：表示等待指定的时间
+  - 无参则表示立即返回锁申请的结果，true表示获取锁成功,false表示获取锁失败
 
-
-### 公平锁和 非公平锁：多个线程竞争锁时需不需要排队
+##### 9：公平锁、非公平锁：多个线程竞争锁时需不需要排队
 
 ```java
-Lock lock=new ReentrantLock(true);//公平锁
-Lock lock=new ReentrantLock(false);//非公平锁，设置优先级，使用效率高
+Lock lock = new ReentrantLock(true);
+// 非公平锁，设置优先级，效率高
+Lock lock = new ReentrantLock(false);
 ```
 
-###### 公平锁：指的是线程获取锁的顺序是按照申请锁顺序来的，而非公平锁指的是抢锁机制，先lock的线程不一定先获得锁
+- 公平锁：指的是线程获取锁的顺序是按照申请锁顺序来的，而非公平锁指的是抢锁机制，先lock的线程不一定先获得锁
+- 公平锁：严格的以FIFO的方式进行锁的竞争，但是非公平锁是无序的锁竞争，刚释放锁的线程很大程度上能比较快的获取到锁，队列中的线程只能等待，所以非公平锁可能会有“饥饿”的问题
+- 重复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的影响是比较大的，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
 
-公平锁是严格的以FIFO的方式进行锁的竞争，但是非公平锁是无序的锁竞争，刚释放锁的线程很大程度上能比较快的获取到锁，队列中的线程只能等待，所以非公平锁可能会有“饥饿”的问题。但是重**复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的影响是比较大的**，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
-
-
-
-### ReadWriteLock：管理一组锁，一个是只读的锁，一个是写锁
+##### 10：ReadWriteLock：管理一组锁，一个是只读的锁，一个是写锁
 
 ```java
-public interface ReadWriteLock
-{
+public interface ReadWriteLock {
     //Returns the lock used for reading
     Lock readLock();
     // Returns the lock used for writing
@@ -266,9 +273,7 @@ public interface ReadWriteLock
 }
 ```
 
-
-
-### 共享锁 和 排他锁 ：多个线程能不能共享同一把锁
+##### 11：共享锁、排他锁 ：多个线程能不能共享同一把锁
 
 **通过AQS来实现的**，通过实现不同的方法，来实现独享或者共享
 
