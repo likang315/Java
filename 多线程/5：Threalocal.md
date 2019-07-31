@@ -2,7 +2,9 @@
 
 ##### Class ThreadLocal<T>
 
-即线程变量，一个以ThreadLocal对象为键、任意对象为值的存储结构，这个结构被附在线程上
+------
+
+即线程变量，一个以ThreadLocal对象为键、任意对象为值的存储结构，这个结构被附在线程上，每个线程都有一个ThreadLocal用于维护共享变量
 
 - 被其修饰的变量在多线程环境下访问时，能保证各个线程里的变量相对独立于其他线程内的变量
 - 锁一般是以时间换空间，而ThreadLocal是以空间换时间
@@ -39,14 +41,14 @@ public class ThreadLocal<T> {
     return t.threadLocals;
   }
   
-  // 获取当前线程的所有变量值
+  // 获取当前线程的存储的T
 	public T get() {
   		Thread t = Thread.currentThread();
     	ThreadLocalMap map = getMap(t);
     	if (map != null) {
       	ThreadLocalMap.Entry e = map.getEntry(this);
       	if (e != null) {
-          // 将线程的所有变量都返回
+          // 将线程的T返回，只有这个T是共享的
         	@SuppressWarnings("unchecked")
         	T result = (T)e.value;
         	return result;
