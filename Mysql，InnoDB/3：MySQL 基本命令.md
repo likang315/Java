@@ -17,6 +17,35 @@
   - service mysqld stop
   - service mdsqld start
 
+3：Mac 配置数据库
+
+###### 环境变量
+
+- etc/profile、/etc/paths：是系统级别的，系统启动就会加载
+- ～/.bash_profile：用户的环境变量，该文件包含专用于你的账户bash shell的bash信息,当登录时以及每次打开新的shell时,该文件被读取
+
+###### 查看PATH
+
+-  echo  $PATH：查看环境变量
+- /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/likang/Code/Java/Maven/apache-maven-3.6.1/bin
+  - ：为path分隔符
+
+###### 修改PATH 
+
+1. sudo vi ～/.bash_profile :使用vi打开.bash_profile ,必须使用sudo ，否则没有权限保存
+2. export Maven_HOME=/Users/likang/Code/Java/Maven/apache-maven-3.6.1/bin
+3. 
+
+1. ```shell
+   export PATH=$PATH:$Maven_HOME:$MySQL_HOME
+   # 配置多个时用：分割
+   # 在PATH变量后面加多一个目录Maven_HOME
+   ```
+
+4：source ~/.bash_profile ：立即生效
+
+
+
 ##### 3：MySQL登录、退出
 
 - 登录： mysql -uroot -pmysql(密码) 
