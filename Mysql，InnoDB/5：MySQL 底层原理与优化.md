@@ -3,7 +3,7 @@
 ![mysql 体系结构.png](https://github.com/likang315/Java-and-Middleware/blob/master/6%EF%BC%9AMysql%EF%BC%8CInnoDB/InnoDB/mysql%20%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
 
 - 数据库驱动
-- ​管理服务和工具组件
+- 管理服务和工具组件
 - SQL 接口组件
 - 查询分析器
 - 优化器
@@ -190,5 +190,11 @@
 
 
 
+MySQL事务
 
+InnoDB存储引擎提供事务**的隔离级别有**READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ和SERIALIZABLE MySQL中只有使用了 Innodb 数据库引擎的数据库或表才支持事务，事务默认自动提交的
+
+1：BEGIN或START TRANSACTION; 显式地开启一个事务 2：COMMIT; 提交事务，并使已对数据库进行的所有修改成为永久性的 3：ROLLBACK; 回滚会结束用户的事务，并撤销正在进行的所有未提交的修改 4：SET TRANSACTION；用来设置事务的隔离级别 5：SET AUTOCOMMIT=0 禁止自动提交 SET AUTOCOMMIT=1 开启自动提交
+
+### 
 
