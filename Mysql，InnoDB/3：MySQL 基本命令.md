@@ -17,7 +17,7 @@
   - service mysqld stop
   - service mdsqld start
 
-3：Mac 配置数据库
+##### 3：Mac 配置数据库
 
 ###### 环境变量
 
@@ -44,9 +44,17 @@
 
 4：source ~/.bash_profile ：立即生效
 
+##### 4：修改密码
 
+1. 关闭mysql服务
+2. cd /usr/local/mysql/bin/
+   - sudo su
+   - ./mysqld_safe --skip-grant-tables & ：关闭mysql验证功能
+3. ./mysql
+4. FLUSH PRIVILEGES;  
+5. SET PASSWORD FOR 'root'@'localhost' = PASSWORD('你的新密码');
 
-##### 3：MySQL登录、退出
+##### 5：MySQL登录、退出
 
 - 登录： mysql -uroot -pmysql(密码) 
 - 退出：\q 
@@ -57,7 +65,7 @@
 
 - show databases：查看当前服务器上管理的所有数据库 
 - create database 数据库名; 
-- 创建数据库 use 数据库名; 
+- use 数据库名; 
 - 修改编码格式：alter database 数据库名 character set gbk;  
 - 删除数据库：drop database 数据库名; 
 - 导入数据库：mysql -uroot -p 数据库名 < sql的URL 
@@ -68,6 +76,3 @@
 - ？...
 
 
-##### 6：修改密码
-
-- set password=password('mysql')；
