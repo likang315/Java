@@ -1,4 +1,4 @@
-### Mysql 的体系结构
+### MySQL 的体系结构
 
 ![mysql 体系结构.png](https://github.com/likang315/Java-and-Middleware/blob/master/6%EF%BC%9AMysql%EF%BC%8CInnoDB/InnoDB/mysql%20%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
 

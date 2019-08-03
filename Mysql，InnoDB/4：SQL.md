@@ -161,7 +161,16 @@ CREATE TABLE 表名（
 - SELECT column_name(s) FROM table_name1  UNION ALL  SELECT column_name(s) FROM table_name2
 - UNION ALL：命令会列出所有的值，不去重，效率高
 
-##### 11：多表查询（关联查询）：
+##### 11：SELECT 语句的执行过程（ from--where--group by--having--select--order by ）
+
+1. FROM 子句：组装来自不同数据源的数据
+2. WHERE 子句：基于指定的条件对记录行进过滤
+3. GROUP BY子句：将数据划分为多个分组，使用聚集函数进行计算
+4. HAVING 子句：根据过滤条件，对分组进行过滤
+5. 计算所有的表达式，例：select:查看结果集中的哪个列，或列的计算结果 
+6. OERDER BY ：对结果集进行排序
+
+##### 12：多表查询（关联查询）：
 
 ​	从多张表中查询信息，关联查询的重点与这些表中的记录的对应关系，这个关系也称连接条件，N张表就有N-1个连接条件
 
@@ -170,126 +179,104 @@ CREATE TABLE 表名（
 - 连接条件全部写在WHERE中
 - SELECT e.id,e.name FROM emp e,dep d WHERE e.dep_id=d.dep_id;    没有意义，只是学习写法
 
-##### 12：连接查询(JOIN)：用来完成关联查询
+##### 13：连接查询(JOIN)：用来完成关联查询
 
-[![连接查询.png](https://github.com/likang315/Java-and-Middleware/raw/master/6%EF%BC%9AMysql%EF%BC%8CInnoDB/InnoDB/%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2.png?raw=true)](https://github.com/likang315/Java-and-Middleware/blob/master/6：Mysql，InnoDB/InnoDB/连接查询.png?raw=true)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2.png?raw=true)
 
-##### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
+###### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
 
-会自动优化成小表驱动大表，大表加索引提高查找速度
+- FROM 表名1 表1对象 INNER JOIN 表2名 表2对象 ON 连接条件 WHERE 过滤条件
+- select e.id,d.dname as dep_name,e.name,e.sex,e.age FROM emp e **INNER JOIN** dep d **ON e.dep_id=d.id;**
+- 会自动优化成小表驱动大表，大表加索引提高查找速度
 
-###### FROM 表名1 表1对象 INNER JOIN 表2名 表2对象 ON 连接条件 WHERE 过滤条件
+###### 外链接：所有数据都显示
 
-例： select e.id,d.dname as dep_name,e.name,e.sex,e.age FROM emp e **INNER JOIN** dep d **ON e.dep_id=d.id;**
+- 左外连（LEFT JOIN）：以JOIN左侧作为驱动表，获取左表所有记录，即使右表没有对应匹配的记录，用NULL 填充
+- select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e LEFT JOIN dep d ON e.dep_id=d.id;
+- 右外连（RIGHT JOIN）：与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录，用NULL填充
+- select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e RIGHT JOIN dep d ON e.dep_id=d.id;
 
-##### 外链接：所有数据都显示
+##### 14：EXPLAIN：SQL执行计划
 
-外连接分为：
+查看运行SQL语句时哪种策略预计会被优化器采用，查看有没有走索引
 
-###### 左外连接：（LEFT JOIN）以JOIN左侧作为驱动表，获取左表所有记录，即使右表没有对应匹配的记录，用NULL 填充
-
-例：select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e LEFT JOIN dep d ON e.dep_id=d.id;
-
-###### 外链接：（RIGHT JOIN）右外连：与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录，用NULL填充
-
-例：select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e RIGHT JOIN dep d ON e.dep_id=d.id;
-
-### 10：EXPLAIN：SQL执行计划
-
-###### 查看运行SQL语句时哪种策略预计会被优化器采用，查看有没有走索引
-
-```
- +----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
-| id | select_type | table | type  | possible_keys | key  | key_len | ref  | rows | Extra                    |
-+----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
+```shell
+# EXPLAIN select * from student;
+| id | select_type | table | type  | possible_keys | key  | key_len | ref  | rows | Extra										 |
 |  1 | SIMPLE      | t1    | index | PRIMARY       | name | 63      | NULL |    4 | Using where; Using index |
-+----+-------------+-------+-------+---------------+------+---------+------+------+--------------------------+
 ```
 
-#### 1：id：包含一组数字，表示查询中执行 select 子句 或 操作表的顺序
+1. ###### id：包含一组数字，表示查询中执行 select 子句 或 操作表的顺序	
 
-1：id相同，执行顺序由上至下
+   - id相同，执行顺序由上至下
+   - id 如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，先执行
 
-2：如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行
+2. ###### select_type 示查询中每个select子句的类型（简单OR复杂）
 
-3：id 如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行
+   - SIMPLE：查询中不包含子查询或者UNION
+   - 查询中若包含任何复杂的子部分，最外层查询则被标记为：PRIMARY 
+   - 在SELECT或WHERE列表中包含了子查询，该子查询被标记为：SUBQUERY
+   - 在FROM列表中包含的子查询被标记为：DERIVED（派生）用来表示包含在from子句中的子查询语句
+   - 若第二个SELECT出现在UNION之后，则被标记为UNION；若UNION包含在FROM子句的子查询中，外层SELECT将被标记为：DERIVED 
+   - 从UNION表获取结果的SELECT被标记为：UNION RESULT
 
-#### 2：select_type 示查询中每个select子句的类型（简单OR复杂）
+3. ###### table ：执行SQL用到的表名
 
-?	a. SIMPLE：查询中不包含子查询或者UNION ?	b. 查询中若包含任何复杂的子部分，最外层查询则被标记为：PRIMARY ? c. 在SELECT或WHERE列表中包含了子查询，该子查询被标记为：SUBQUERY ?	d. 在FROM列表中包含的子查询被标记为：DERIVED（衍生）用来表示包含在from子句中的子查询的select，mysql会递归执行并将结果放到一个临时表中。服务器内部称为"派生表"，因为该临时表是从子查询中派生出来的 ?	e. 若第二个SELECT出现在UNION之后，则被标记为UNION；若UNION包含在FROM子句的子查询中，外层SELECT将被标记为：DERIVED ?	f. 从UNION表获取结果的SELECT被标记为：UNION RESULT
+4. ###### type ：表示MySQL在表中找到所需行使用的方式方式，又称“访问类型”
 
-#### 3：type ：表示MySQL在表中找到所需行的方式，又称“访问类型”，常见类型如下:
+   - ALL, index, range, ref, eq_ref, const, system, NULL，从左到右，性能从最差到最好
+     - ALL：全表扫描
+     - index：只遍历索引树
+     - range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的
+     - ref：使用非唯一索引扫描或者唯一索引的前缀扫描，返回匹配某个单独值的记录行
+     - NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引（覆盖索引）
 
-**ALL, index, range, ref, eq_ref, const, system, NULL**
+5. ###### possible_keys ：
 
-**从左到右，性能从最差到最好**
+   - 指出MySQL可能使用哪个索引在表中找到记录的，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用
 
-ALL：全表扫描
+6. ###### key：
 
-index：只遍历索引树
+   - 显示MySQL在查询中实际使用的索引，若没有使用索引，显示为NULL
 
-range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的行
+7. ###### key_len：
 
-ref：使用**非唯一索引扫描或者唯一索引的前缀扫描，返回匹配某个单独值的记录行**
+   - 表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度（key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的）
 
-NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引（覆盖索引）
+8. ###### ref：
 
-#### 4：possible_keys ：指出MySQL能使用哪个索引在表中找到记录，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用
+   - 表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
 
-#### 5：key：显示MySQL在查询中实际使用的索引，若没有使用索引，显示为NULL
+9. ###### rows：
 
-#### 6：key_len：表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度（key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的）
+   - 估算的找到所需的记录所需要读取的行数
 
-#### 7：ref：表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值
+10. ###### Extra：
 
-#### 8：rows：估算的找到所需的记录所需要读取的行数
+    - 包含不适合在其他列中显示但十分重要的额外信息
+    - Using index ：该值表示相应的select操作中使用了覆盖索引
+    - Using where：表示 mysql 服务器将在存储引擎检索行后再进行过滤
+    - Using temporary：表示 MySQL 需要使用临时表来存储结果集，常见于排序和分组查询
 
-#### 9： Extra：包含不适合在其他列中显示但十分重要的额外信息
+##### 15：SQL 语句的优化
 
-Using index ：该值表示相应的select操作中使用了**覆盖索引**
+1. WHERE子句：执行顺序为自下而上、从右到左
+   - WHERE 条件之前, 可以过滤掉最大数量记录的条件，必须写在WHERE 子句的末尾
+2. GOROUP BY：字段加上索引，最左前缀匹配原则
+   - 把GROUP BY 的字段加上索引，因为符合最左前缀匹配原则
+3. HAVING子句：很耗资源，尽量少用
+   - 所有记录之后才对结果集进行过滤，非常消耗资源
+4. SELECT子句：少用\*号，尽量取字段名称
+   - 在解析的过程中, 会将依次转换成所有的列名
+5. LIMIT 1：查询一条符合时终止
+   - 避免全表扫描，找到即返回
+6. 使用EXPLAIN 查看执行计划
+   - 查看有没有走索引
 
-Using where：表示 mysql 服务器将**在存储引擎检索行后再进行过滤**
+##### 16：count（1）和 count（*），count（字段） 的区别
 
-Using temporary：表示 MySQL 需要使用临时表来存储结果集，常见于排序和分组查询
+​	统计有多少条的记录，效率上
 
-#### 10：Table ：执行SQL用到的表名
-
-### 11：select 语句的执行过程（ from--where--group by--having--select--order by ）
-
-　　1、from子句组装来自不同数据源的数据； 　　2、where子句基于指定的条件对记录行进行筛选； 　　3、group by子句将数据划分为多个分组； 　　4、使用聚集函数进行计算； 　　5、使用having子句筛选分组； 　　6、计算所有的表达式；（select:查看结果集中的哪个列，或列的计算结果 ） 　　7、使用order by对结果集进行排序
-
-### 12：sql 语句的优化
-
-**where子句--执行顺序为自下而上、从右到左**
-
-Where 条件之前, 可以过滤掉最大数量记录的条件必须写在Where 子句的末尾
-
-**group by--字段加上索引，最左前缀匹配原则**
-
-把group by 的字段加上索引，因为符合最左前缀匹配原则
-
-**having 子句----很耗资源，尽量少用**
-
-避免使用HAVING 子句, **HAVING 只会在检索出所有记录之后才对结果集进行过滤.** 这个处理需要排序,总计等操作
-
-**select子句--少用\*号，尽量取字段名称**
-
-在解析的过程中, 会将依次转换成所有的列名, 这个工作是通过查询数据字典完成的, 使用列名意味着将减少消耗时间
-
-**limit 1 只查询一条语句时**
-
-避免全表扫描，找到即返回
-
-**使用Explain 取查看执行计划**
-
-查看有没有走索引
-
-#### count（1）和 count（*），count（字段）
-
-###### 统计有多少条的记录
-
-count（1）：查询遍历的第一个字段，包含null 的记录,除非是主键索引，否则没什么区别和count（*）
-
-##### count（*）会自己优化指定到哪一个字段，包含值为 null 的记录
-
-count（字段）：统计该字段在表中出现的次数，不统计null记录
+- count（1）：查询遍历的第一个字段，包含null 的记录，除非是主键索引，否则和count（*）没有区别
+- count（*）：会自己优化指定到使用索引的字段，包含值为 null 的记录
+- count（字段名）：统计该字段在表中出现的次数，不统计null记录
