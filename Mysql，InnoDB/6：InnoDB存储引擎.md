@@ -97,7 +97,7 @@
 
 - 联合索引也是一棵 B+ 树, 不同的是联合索引的键值数量大于2，此外, 逻辑上和单键值的 B+ 树并没有什么区别, 键值依旧是有序的,只不过这个有序是一个前提的: 遵循最左前缀匹配原则
 
-![](/Users/likang/Code/Git/Java-and-Middleware/Mysql，InnoDB/InnoDB/联合索引.png)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95.png?raw=true)
 
 - 联合索引的规则：
   - 首先会对复合索引的最左边的，也就是第一个字段的数据进行排序，在第一个字段的有序基础上，然后再对后面第二个的字段进行排序，其实就相当于实现了类似 order by name,cid 这样一种排序规则
