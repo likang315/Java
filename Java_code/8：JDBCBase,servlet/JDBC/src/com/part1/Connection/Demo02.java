@@ -14,11 +14,11 @@ public class Demo02 {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Properties p=new Properties();
+			Properties p = new Properties();
 			p.setProperty("user", "root");
 			p.setProperty("password", "mysql");
 			
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",p);
+			Connection con =D riverManager.getConnection("jdbc:mysql://localhost:3306/xupt",p);
 			Statement stat=con.createStatement();
 			int a=13;
 			String b="lihui";

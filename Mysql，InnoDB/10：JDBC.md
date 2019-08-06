@@ -1,18 +1,23 @@
-s
+### JDBC ( java database connectivty )
 
-## JDBC ( java database connectivty )： Java 连接数据库的一种技术
+------
 
-JDBC API：sun 公司定义的一套接口（ java.sql.* ），用这些接口来操作数据库
+JDBC API：Sun 公司定义的一套接口（Java SE： java.sql.* ），谁想使用我们的语言，实现我们的定义的接口即可，用这些接口来操作数据库
 
-###### JDBC 驱动程序：由驱动类和数据库访问类组成,由数据库厂商提供，可以到Mysql网站下载（mysql-connector-j.jar）
+##### 1：JDBC 驱动：
 
-配置JBDC驱动程序： D:\mysql-connector-java-5.1.20-bin.jar IDEA配置：jar包导入
+​	由驱动类和数据库访问类组成，由数据库厂商提供，可以到MySQL网站下载（mysql-connector-j.jar）
 
-驱动类：JDBC 实现了 Java.SQL.Drive 接口 数据库访问类分别实现了JDBC规范中,定义的数据库访问接口，主要包含有Connection(连接接口)，Statement(语句接口）和 ResultSet (结果集接口) 三种接口
+- 配置JBDC驱动程序：mysql-connector-java-5.1.20-bin.jar IDEA配置：jar包导入
+- 驱动类：JDBC 实现了 Java.SQL.Drive 接口
+- 数据库访问类：分别实现了数据库访问接口，主要包含有
+  - Connection：连接接口
+  - Statement：语句接口
+  - ResultSet：结果集接口
 
-##### Java.SQL.Drive 接口：每个驱动程序类必须实现的接口
+##### 2：JDBC 驱动程序工作过程
 
-##### JDBC 驱动程序工作过程可分为 加载阶段、建立连接阶段 和 数据访问阶段
+​	分为加载阶段、建立连接阶段和数据访问阶段
 
 建立连接阶段将驱动类实例注册到DriverManager(驱动程序管理器)中，建立数据库连接
 
