@@ -17,80 +17,109 @@ JDBC API：Sun 公司定义的一套接口（Java SE： java.sql.* ），谁想�
 
 ##### 2：JDBC 驱动程序工作过程
 
-​	分为加载阶段、建立连接阶段和数据访问阶段
-
-建立连接阶段将驱动类实例注册到DriverManager(驱动程序管理器)中，建立数据库连接
-
-###### DriverManager：是一个JDBC驱动程序管理器，所有的驱动程序使用前都必须在其上登记注册，它对所有已注册驱动程序的管理
+1. 加载阶段
+2. 建立连接阶段
+   - 将驱动类实例注册到 DriverManager (驱动程序管理器) 中，建立数据库连接
+3. 数据访问阶段
 
 ###### 1：加载驱动： 得到class对象
 
-Class.forName("com.mysql.jdbc.Driver")；
+- Class.forName("com.mysql.jdbc.Driver")；
+
 
 ###### 2：连接数据库（三种重载）：
 
-```
-1：Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt?user=root&password=mysql");
-2：Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt","root","mysql");
-3：	    Properties p=new Properties();  //Map<String,String>
+```java
+Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt?user=root&password=mysql");
+Connection con =
+DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt","root","mysql");
+		Properties p = new Properties(); 
 		p.setProperty("user","root");
 		p.setProperty("password","mysql");
-   Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",p);
+Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",p);
+Statement stat = con.createStatement(); 
 ```
 
 ###### 3：数据访问
 
-1：建立一个语句对象，是用于发送sql语句给数据库的 Statement stat=con.createStatement(); 2：发送 sql语句给数据库
+​	建立一个语句对象，是用于发送sql语句给数据库ßß
 
-### DriverManager 类：驱动管理器类，用于管理驱动，也用于得到数据库的链接对象 Connection
+##### 3：java.sql
 
-static Connection getConnection(String url) 试图建立到给定数据库 URL 的连接 static Connection getConnection(String url, Properties info) 试图建立到给定数据库 URL 的连接 static Connection getConnection(String url, String user, String password) 试图建立到给定数据库 URL 的连接
+###### 	 Class DriverManager
+
+​	驱动管理器类，用于管理驱动、得到数据库的链接对象（ Connection）
+
+- static Connection getConnection(String url) 
+  - 试图建立到给定数据库 URL 的连接 
+- static Connection getConnection(String url, String user, String password) 
+  - 试图建立到给定数据库 URL 的连接
+- MySQL： jdbc:mysql://computerName或IP:端口/数据库名称
 
 注意：jdbc连接不同的数据库，方法全部一样，只是两个地方不一样，驱动类和url不一样
 
-###### 常用的数据库对应的JDBC驱动
+##### 4：java.sql
 
-?	Oracle:oracle.jdbc.driver.OracleDriver ?	MySQL:com.mysql.jdbc.Driver
+###### 	 Interface Connection：得到实现此接口的实例，表示已建立链接
 
-常见数据库的URL Oracle：jdbc:oracle:thin:@computerName或IP地址:端口:数据库名称 MySQL： jdbc:mysql://computerName或IP地址:端口/数据库名称
+- Statement createStatement() ：创建一个 Statement 对象来将 SQL 语句发送到数据库 
+- PreparedStatement prepareStatement(String sql) 
+  - 创建一个 PreparedStatement 对象来将参数化的 SQL 语句发送到数据库 
+- CallableStatement，prepareCall(String sql) 
+  - 创建一个 CallableStatement 对象来调用数据库存储过程
+- void close() 
+  - 立即释放此 Connection 对象的数据库和 JDBC 资源，而不是等待它们被自动释放
+- DatabaseMetaData getMetaData() 
+  - 获取一个 DatabaseMetaData 对象，该对象包含关于此 Connection 对象所连接的数据库的原数据
 
-### Connection 接口：得到实现此接口的实例，表示已和数据库建立链接
+##### 5：java.sql
 
-方法： Statement createStatement() 创建一个 Statement 对象来将 SQL 语句发送到数据库 PreparedStatement prepareStatement(String sql) 创建一个 PreparedStatement 对象来将参数化的 SQL 语句发送到数据库 CallableStatement prepareCall(String sql) 创建一个 CallableStatement 对象来调用数据库存储过程
-void close() 立即释放此 Connection 对象的数据库和 JDBC 资源，而不是等待它们被自动释放 DatabaseMetaData getMetaData() 获取一个 DatabaseMetaData 对象，该对象包含关于此 Connection 对象所连接的数据库的原数据
+###### 	 Interface Statement ：用于执行静态 SQL 语句并返回它所生成结果的对象
 
-特别： Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) 创建一个可以修改，保存ResultSet 对象 的Statement 对象，参数为ResultSet的常量
+- ResultSet executeQuery(String sql) ：SELECT语句
+- int executeUpdate(String sql) ：INSERT、UPDATE 或 DELETE 语句
+- void addBatch(String sql) 
+  - 将 SQL 语句添加到 Statement 对象的当前命令列表中，调executeBatch() 批量执行此列表中的语句
+- int[] executeBatch() 
+  - 将一批SQL语句提交给数据库来执行，如果全部命令执行成功，则返回更新计数组成的数组
 
-##### Statement 接口：用于执行 静态 SQL 语句 并返回它所生成结果的对象
+##### 6：Java.sql
 
-ResultSet executeQuery(String sql) SELECT语句 int executeUpdate(String sql) INSERT、UPDATE 或 DELETE 语句
+###### 	public interface PreparedStatement extends Statement
 
-void addBatch(String sql) 将给定的 SQL 命令添加到此 Statement 对象的当前命令列表中，调用executeBatch()可以批量执行此列表中的命令 int[] executeBatch() 将一批命令提交给数据库来执行，如果全部命令执行成功，则返回更新计数组成的数组
+​	表示预编译的 SQL 语句的对象，不会破坏 SQL 语句结构，不会导致SQL注入问题
 
-##### PreparedStatement 接口：Statement 的 子接口，表示预编译的 SQL 语句的对象，不会破坏 Sql 语句结构
+- ResultSet executeQuery() 
+  - 在此 PreparedStatement 对象中执行 SQL 查询，并返回该查询生成的 ResultSet 对象
+- int executeUpdate()
+  - 在此 PreparedStatement 对象中执行 SQL 语句，INSERT、UPDATE 或 DELETE 语句
+- void setInt(int parameterIndex, int x) 
+  - 将指定参数设置为给定int 值
+- void setString(int parameterIndex, String x) 
+- void setTime(int parameterIndex, Time x) 
+- void setDate(int parameterIndex, Date x)
 
-ResultSet executeQuery() 在此 PreparedStatement 对象中执行 SQL 查询，并返回该查询生成的 ResultSet 对象
-
-int executeUpdate() 在此 PreparedStatement 对象中执行 SQL 语句，INSERT、UPDATE 或 DELETE 语句
-
-void setInt(int parameterIndex, int x) 将指定参数设置为给定int 值 void setString(int parameterIndex, String x) void setTime(int parameterIndex, Time x) void setDate(int parameterIndex, Date x)
-
-```
-String sql="insert into person(id,name,sex,age) values(?,?,?,?)";
-PreparedStatement ps=con.prepareStatement(sql);
-		
-for(int i=1;i<10;i++)
-{
+```java
+String sql = "insert into person(id,name,sex,age) values(?,?,?,?)";
+PreparedStatement ps = con.prepareStatement(sql);
+	
+for(int i=1;i<10;i++) {
     ps.setInt(1, i);
     ps.setString(2, "name"+i);
     ps.setString(3, i%2==0?"M":"F");
     ps.setInt(4, 20+i);
-    ps.addBatch();  //添加到命令执行列表
+    ps.addBatch(); 
 }
-int[] re=ps.executeBatch();
+int[] re = ps.executeBatch();
 ```
 
-##### ResultSet 接口：表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet 中有一个记录指针
+
+
+##### 7：java.sql
+
+###### 	 Interface ResultSet 
+
+​	 表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet 中有一个记录指针
 
 ###### 默认情况下，记录指针被置于第一行之前
 
