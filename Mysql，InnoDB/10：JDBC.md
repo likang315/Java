@@ -30,6 +30,7 @@ JDBC API：Sun 公司定义的一套接口（Java SE： java.sql.* ），谁想�
 ###### 2：连接数据库（三种重载）：
 
 ```java
+Class.forName("com.mysql.jdbc.Driver");
 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt?user=root&password=mysql");
 Connection con =
 DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt","root","mysql");
@@ -119,37 +120,60 @@ int[] re = ps.executeBatch();
 
 ###### 	 Interface ResultSet 
 
-​	 表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet 中有一个记录指针
+​	 表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet 中有一个记录指针，默认情况下，记录指针被置于第一行之前
 
-###### 默认情况下，记录指针被置于第一行之前
+- boolean next() 
+  - 将光标从当前位置向下移一行 
+- boolean previous() 
+  - 将光标移动到此 ResultSet 对象的上一行
+- boolean absolute(int row) 
+  - 把记录指针移到指定行号
+- boolean first() 
+  - 将光标移动到此 ResultSet 对象的第一行
+- boolean last() 
+  - 将光标移动到此 ResultSet 对象的最后一行 
+- void deleteRow() 
+  - 从此 ResultSet 对象和底层数据库中删除当前行
 
-```
-    boolean next() 
-      	将光标从当前位置向前移一行。 
-    boolean absolute(int row) 
-	把记录指针移到指定行号
-    boolean previous() 
-      	将光标移动到此 ResultSet 对象的上一行
-    boolean first() 
-      	将光标移动到此 ResultSet 对象的第一行
-    boolean last() 
-      	将光标移动到此 ResultSet 对象的最后一行 
-    void deleteRow() 
-            从此 ResultSet 对象和底层数据库中删除当前行，得到的对象要给对Statement 参数给对
-```
+###### ResultSetMetaData getMetaData()
 
-#### ResultSetMetaData getMetaData()
+- 获取此 ResultSet 对象的结果集数据表元数据，**列号**、类型和属性
+- getColunmCount()： 获取结果集总共有几列 
+- getColumnName(i)：取指定列的名字称 
+- getColumnType(i)： 取指定列的类型
+  - 通过列数和每列类型可以遍历整个结果集
+- int getInt(int columnIndex) ：以int 的形式获取此 ResultSet 对象的当前行中**指定列序号的值** 
+- int getInt(String columnLabel) 以String的形式获取此 ResultSet 对象的当前行**中指定列名的值**
 
-获取此 ResultSet 对象的结果集数据表元数据，列号、类型和属性
+###### 注意： 
 
-getXXX方法。。。。 setXXX方法。。。。 例： int getInt(int columnIndex) 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行中**指定列序号的值** int getInt(String columnLabel) 以 Java 编程语言中 int 的形式获取此 ResultSet 对象的当前行**中指定列名的值**
+- ResultSet 和 表没有关系，只和 select 语句有关系
 
-注意： 1：ResultSet 和 表没有关系，只和 select 语句有关系 2：SQL语句中拼接："+ +" 3：带有 ' 符号的字符串可能会改变SQL语句的结构，所以使用PreparedStatement接口，先发送预编译的格式，再发参数，安全
+- SQL语句中拼接："+ +" 
 
-##### ResultSetMetaData接口：封装了 ResultSet 结果表结构的原数据信息
+- 带有 ' 符号的字符串可能会改变SQL语句的结构，所以使用PreparedStatement接口，先发送预编译的格式，再发参数
 
-getColunmCount()： 取结果集总共有几列 getColumnName(i)：取指定列的名字称 getColumnType(i)： 取指定列的类型
+  ```java
+  public static void main(String[] args) throws Exception {
+    Class.forName("com.mysql.jdbc.Driver");
+    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",
+                                                 "root", "mysql");
+  	//Statement  stat = con.createStatement();
+    String sql="select * from stu where name like ?";
+    PreparedStatement  ps = con.prepareStatement(sql);
+    ps.setString(1, "li%");
+    ResultSet rs = ps.executeQuery();
+    while(rs.next()) {
+      // 通过列序号或者列名获取值
+      System.out.println(rs.getString(2)+"\t"+rs.getString("name"));
+    }
+    con.close();
+  }
+  ```
 
-##### DatabaseMetaData接口：封装了数据库的原数据
+##### 8：java.sql
 
-ResultSet getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types) 获取可在给定类别中使用的表的描述，其他参数直接传null
+###### 	 Interface DatabaseMetaData：封装了数据库的原数据
+
+- ResultSet getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)
+  - 获取可在给定类别中使用的表的描述，其他参数直接传null
