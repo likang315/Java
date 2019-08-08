@@ -29,5 +29,36 @@
 
 
 
+## Java使用Redis
+
+1:下载驱动包 **下载 jedis.jar**,确保下载最新驱动包
+
+2：在你的 classpath 中包含该驱动
+
+```java
+import redis.clients.jedis.Jedis;
+public class RedisStringJava {
+    public static void main(String[] args) {
+        //连接本地的 Redis 服务
+        Jedis jedis = new Jedis("localhost");
+        System.out.println("连接成功");
+        //设置 redis 字符串数据
+        jedis.set("runoobkey", "www.runoob.com");
+        // 获取存储的数据并输出
+        System.out.println("redis 存储的字符串为: "+ jedis.get("runoobkey"));
+    }
+}
+ // 获取数据并输出
+ Set<String> keys = jedis.keys("*"); 
+ //列表设置key-value 
+ jedis.lpush("site-list", "Runoob");
+```
+
+
+
+
+
+
+
 
 
