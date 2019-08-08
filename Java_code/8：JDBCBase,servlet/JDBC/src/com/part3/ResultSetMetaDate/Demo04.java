@@ -41,7 +41,6 @@ public class Demo04 {
 				case Types.INTEGER:
 					System.out.print(rs.getInt(i+1)+"\t");
 					break;
-				case Types.VARCHAR:
 				case Types.CHAR:
 					System.out.print(rs.getString(i+1)+"\t");
 					break;
