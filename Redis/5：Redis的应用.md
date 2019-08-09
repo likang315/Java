@@ -1,24 +1,33 @@
-## Redis 的应用
+### Redis 应用
 
-### 1：缓存
+------
 
-相比基于内存的 Redis, 基于磁盘存储的关系型数据库读取⽤时会⾮常⻓, 主要有⼀下⼏个原因:
+##### 1：缓存
 
-###### • Redis 的数据存储在内存中, RDS 的数据主要存储于磁盘
+相比基于内存的 Redis，基于磁盘存储的关系型数据库读取⽤时会⾮常⻓, 主要有⼀下⼏个原因:
 
-###### • Redis 的查询⽅式是 Hash, 效率接近于 O(1), ⽽ RDS 的查询⽅式是 B+Tree
+- Redis 的数据存储在内存中，RDS 的数据主要存储于磁盘
+- Redis 的查询⽅式是 Hash, 效率接近于 O(1), ⽽ RDS 的查询⽅式是 B+Tree
+- Redis 缓存空间大，不像InnoDB只有 256KB 缓存空间
+- Redis 只缓存热点数据，并且存在过期时间和内存淘汰，注定数据量⼩, ⽽ RDS 需要存储全量数据
 
-###### • Redis 缓存空间大，不想InnoDB只有 256KB
+##### 2：缓存穿透、缓存雪崩
 
-###### •Redis 只需要缓存热点数据, 并且存在过期时间和内存淘汰, 注定数据量⼩, ⽽ RDS 需要存储全量数据
+- 缓存穿透：多次请求缓存中不存在的数据
+- 缓存雪崩：redis 缓存大量失效
 
+###### 解决穿透：
 
+1. 布隆过滤或压缩filter提前拦截
+2. 数据库找不到也将空对象进行缓存
 
-### 缓存不一致
+###### 解决雪崩：
 
-![缓存不一致.png](https://github.com/likang315/Java-and-Middleware/blob/master/7%EF%BC%9ARedis/Redis/%E7%BC%93%E5%AD%98%E4%B8%8D%E4%B8%80%E8%87%B4.png?raw=true)
+- 惰性删除【贪心策略】、定期删除
 
+##### 3：缓存不一致
 
+![](https://github.com/likang315/Java-and-Middleware/blob/master/Redis/Redis/%E7%BC%93%E5%AD%98%E4%B8%8D%E4%B8%80%E8%87%B4.png?raw=true)
 
 ### 2：分布式锁
 
