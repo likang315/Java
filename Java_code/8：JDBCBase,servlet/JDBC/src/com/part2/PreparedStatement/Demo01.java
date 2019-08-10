@@ -23,8 +23,6 @@ public class Demo01 {
 			System.out.println("OK");
 		
 		con.close();
-		
-
 	}
 
 }
