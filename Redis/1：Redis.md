@@ -42,7 +42,7 @@ rehash 的时候使用，作为临时载体
 
 ![Rehash.png](https://github.com/likang315/Java-and-Middleware/blob/master/Redis/Redis/Rehash.png?raw=true)
 
-##### 3：List：集合
+##### 3：List：序列
 
 - 可以添加一个元素到列表的头部或者尾部列表，最多可存储  2^32 - 1 元素，底层是双向链表
 
