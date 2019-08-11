@@ -19,12 +19,47 @@
 - 当且仅当 V 的值等于 A 时，CAS通过原子方式用新值B来更新V的值（“比较+更新”是一个原子操作），若有一方失败，不会执行任何操作，“更新”是一个不断重试的操作
 - 通过 自旋  CAS 的方式来实现原子操作
 
-###### Java中 java.util.concurrent.atomic 包下相关类就是 CAS的实现
+###### Java中 java.util.concurrent.atomic 包下相关类就是 CAS的实现，这些类存在的目的是对相应的数据进行原子操作
 
 - AtomicBoolean：可以用原子方式更新的 `boolean` 值
 - AtomicInteger：可以用原子方式更新的 `int` 值
 - AtomicLong：可以用原子方式更新的 `long` 值
 - AtomicIntegerFieldUpdater<T>：基于反射的实用工具，可以对指定类的指定 `volatile int` 字段进行原子更新
+- AtomicIntegerArray：数组类型
+
+```java
+// value 是 AtomicLong对应的当前值，保证可见性，不保证原子性
+private volatile long value;
+// 内存位置的值
+private static final long valueOffset;
+
+// 返回AtomicLong对应的long值
+public final long get() {
+  return value;
+}
+// 比较AtomicLong的原始值是否与expect相等，若相等的话，则设置AtomicLong的值为update。
+public final boolean compareAndSet(long expect, long update) {
+  // 当前值变为预期值，会重新读取当前值进行比较
+  return unsafe.compareAndSwapLong(this, valueOffset, expect, update);
+}
+/*
+	使用一个死循环，先得到当前的值value，然后再把当前的值加一，加完之后使用cas原子操作让当前值加一处理正确。当然cas原子操作不一定是成功的，所以做了一个死循环，当cas操作成功的时候返回数据。这里由于使用了cas原子操作，所以不会出现多线程处理错误的问题*/
+public final long incrementAndGet() {
+  for (;;) {
+    // 获取AtomicLong当前对应的long值
+    long current = get();
+    // 将current + 1
+    long next = current + 1;
+    // 通过CAS函数，更新current的值，若更新失败，则一直更新
+    if (compareAndSet(current, next))
+      return next;
+  }
+}
+```
+
+- 例：线程A得到current为1，线程B也得到current为1；线程A的next值为2，进行cas操作并且成功的时候，将value修改成了2；这个时候线程B也得到next值为2，当进行cas操作的时候由于expected值已经是2，而不是1了；所以cas操作会失败，下一次循环的时候得到的current就变成了2；也就不会出现多线程处理问题了：
+
+
 
 ###### 示例：
 
