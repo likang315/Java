@@ -574,24 +574,248 @@ Node 数组+链表+红黑树 的数据结构来实现，并发控制使用Synchr
 
 TreeMap 基于 **红黑树（Red-Black tree）实现**，该映射根据**其键的自然顺序进行排序**，或者根据**创建映射时提供的 Comparator 进行排序**，具体取决于使用的构造方法
 
+- 默认大小：size = 0；
+- TreeMap 基本操作 containsKey、get、put 和 remove 的时间复杂度是 log(n) ，TreeMap是**非同步**的，它的iterator()，返回的**迭代器是fail-fastl**的
+- TreeMap 不支持null键，但是 支持null值，排序时，每个结点都是一个Entry<K,V>
+  - TreeMap()：使用键的自然顺序构造一个新的、空的树映射
+  - TreeMap(Comparator<? super K> comparator) ：构造一个新的、空的树映射，该映射根据给定比较器进行排序 
+  - SortedMap<K,V>   subMap(K fromKey, K toKey)  ：返回键值的范围从 fromKey（包括）到 toKey（不包括）的部分视图
+  - SortedMap<K,V> tailMap(K fromKey) ：返回此映射的部分Entry，其键大于等于 fromKey
+
 ```java
+// ToDo(likang):待深入红黑树时吗，在以此为例对照学习
 public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>, Cloneable, java.io.Serializable {
-	//源码刨析
+	// extends AbstractMap ：表明其是一个MaP
+  // implements NavigableMap<K,V> :实现了此接口，意味着支持一系列导航方法，返回有序的key集合
+  // 实现了Cloneable接口，意味着它能被克隆
+  // 实现了java.io.Serializable，意味着它支持序列化
+  
+  // 使用该构造函数，TreeMap 中的元素按照自然排序进行排列
+  public TreeMap() {
+    comparator = null;
+  }
+	// 指定排序器
+  public TreeMap(Comparator<? super K> comparator) {
+    this.comparator = comparator;
+  }
+	// 添加Map
+  public TreeMap(Map<? extends K, ? extends V> m) {
+    comparator = null;
+    putAll(m);
+  }
+  // 比较器
+	private final Comparator<? super K> comparator;
+	// 红黑树的根节点
+  private transient Entry<K,V> root;
+  // 红黑树的数量
+  private transient int size = 0;
+	// 修改红黑树结构的数量
+ 	private transient int modCount = 0;
+  // 返回TreeMap中是否保护“键(key)”
+	public boolean containsKey(Object key) {
+  	return getEntry(key) != null;
+  }
+  // 返回TreeMap中是否保护"值(value)"
+  public boolean containsValue(Object value) {
+ 		// getFirstEntry() 是返回红黑树的第一个节点
+    // successor(e) 是获取节点e的后继节点
+    for (Entry<K,V> e = getFirstEntry(); e != null; e = successor(e))
+      if (valEquals(value, e.value))
+        return true;
+    return false;
+  }
+	// 获取后继节点
+  static <K,V> TreeMap.Entry<K,V> successor(Entry<K,V> t) {
+    if (t == null)
+      return null;
+    else if (t.right != null) {
+      Entry<K,V> p = t.right;
+      while (p.left != null)
+        p = p.left;
+      return p;
+    } else {
+      Entry<K,V> p = t.parent;
+      Entry<K,V> ch = t;
+      while (p != null && ch == p.right) {
+        ch = p;
+        p = p.parent;
+      }
+      return p;
+    }
+  }
+  // 获取前驱节点
+  static <K,V> Entry<K,V> predecessor(Entry<K,V> t) {
+    if (t == null)
+      return null;
+    else if (t.left != null) {
+      Entry<K,V> p = t.left;
+      while (p.right != null)
+        p = p.right;
+      return p;
+    } else {
+      Entry<K,V> p = t.parent;
+      Entry<K,V> ch = t;
+      while (p != null && ch == p.left) {
+        ch = p;
+        p = p.parent;
+      }
+      return p;
+    }
+  }
+
+  // 获取TreeMap中键为key的节点
+  final Entry<K,V> getEntry(Object key) {
+    // 若"比较器"为null，则通过getEntryUsingComparator()获取"健"为key的节点
+    if (comparator != null)
+      return getEntryUsingComparator(key);
+    if (key == null)
+      throw new NullPointerException();
+    Comparable<? super K> k = (Comparable<? super K>) key;
+    // 将p设为根节点，开始比较大小遍历
+    Entry<K,V> p = root;
+    while (p != null) {
+      int cmp = k.compareTo(p.key);
+      // 若“p的key” < key，则p=“p的左孩子”
+      if (cmp < 0)
+        p = p.left;
+      // 若“p的key” > key，则p=“p的右孩子”
+      else if (cmp > 0)
+        p = p.right;
+      // 若“p的key” = key，则返回节点p
+      else
+        return p;
+    }
+    return null;
+  }
+  
+
 }
 ```
 
-1：TreeMap 不支持null键，但是 支持null值，排序时，每个结点都是一个Entry<K,V>
+###### NavigableMap<K,V> ：一些方法
 
-- TreeMap()：使用键的自然顺序构造一个新的、空的树映射 
+```java
+// 获取TreeMap中不小于key的最小的节点，若不存在(即TreeMap中所有节点的键都比key小)，就返回null
+final Entry<K,V> getCeilingEntry(K key) {
+  Entry<K,V> p = root;
+  while (p != null) {
+    int cmp = compare(key, p.key);
+    // 情况一：若“p的key” > key。
+    // 若 p 存在左孩子，则设 p=“p的左孩子”；
+    // 否则，返回p
+    if (cmp < 0) {
+      if (p.left != null)
+        p = p.left;
+      else
+        return p;
+      // 情况二：若“p的key” < key。
+    } else if (cmp > 0) {
+      // 若 p 存在右孩子，则设 p=“p的右孩子”
+      if (p.right != null) {
+        p = p.right;
+      } else {
+        // 若 p 不存在右孩子，则找出 p 的后继节点，并返回
+        // 这里返回的 “p的后继节点”有2种可能性：第一，null；第二，TreeMap中大于key的最小的节点
+        //   理解这一点的核心是，getCeilingEntry是从root开始遍历的
+        //   若getCeilingEntry能走到这一步，那么，它之前“已经遍历过的节点的key”都 > key
+        //   能理解上面所说的，那么就很容易明白，为什么“p的后继节点”又2种可能性了
+        Entry<K,V> parent = p.parent;
+        Entry<K,V> ch = p;
+        while (parent != null && ch == parent.right) {
+          ch = parent;
+          parent = parent.parent;
+        }
+        return parent;
+      }
+      // 情况三：若“p的key” = key。
+    } else
+      return p;
+  }
+  return null;
+}
 
-- TreeMap(Comparator<? super K> comparator) ：构造一个新的、空的树映射，该映射根据给定比较器进行排序 
+// 获取TreeMap中不大于key的最大的节点，若不存在(即TreeMap中所有节点的键都比key小)，就返回null
+final Entry<K,V> getFloorEntry(K key) {
+  Entry<K,V> p = root;
+  while (p != null) {
+    int cmp = compare(key, p.key);
+    if (cmp > 0) {
+      if (p.right != null)
+        p = p.right;
+      else
+        return p;
+    } else if (cmp < 0) {
+      if (p.left != null) {
+        p = p.left;
+      } else {
+        Entry<K,V> parent = p.parent;
+        Entry<K,V> ch = p;
+        while (parent != null && ch == parent.left) {
+          ch = parent;
+          parent = parent.parent;
+        }
+        return parent;
+      }
+    } else
+      return p;
 
-  
+  }
+  return null;
+}
+// 获取TreeMap中大于key的最小的节点，和getCeilingEntry等于时的处理不一样，若不存在，就返回null
+final Entry<K,V> getHigherEntry(K key) {
+  Entry<K,V> p = root;
+  while (p != null) {
+    int cmp = compare(key, p.key);
+    if (cmp < 0) {
+      if (p.left != null)
+        p = p.left;
+      else
+        return p;
+    } else {
+      if (p.right != null) {
+        p = p.right;
+      } else {
+        Entry<K,V> parent = p.parent;
+        Entry<K,V> ch = p;
+        while (parent != null && ch == parent.right) {
+          ch = parent;
+          parent = parent.parent;
+        }
+        return parent;
+      }
+    }
+  }
+  return null;
+}
+// 获取TreeMap中小于key的最大的节点，若不存在，就返回null
+final Entry<K,V> getLowerEntry(K key) {
+  Entry<K,V> p = root;
+  while (p != null) {
+    int cmp = compare(key, p.key);
+    if (cmp > 0) {
+      if (p.right != null)
+        p = p.right;
+      else
+        return p;
+    } else {
+      if (p.left != null) {
+        p = p.left;
+      } else {
+        Entry<K,V> parent = p.parent;
+        Entry<K,V> ch = p;
+        while (parent != null && ch == parent.left) {
+          ch = parent;
+          parent = parent.parent;
+        }
+        return parent;
+      }
+    }
+  }
+  return null;
+}
 
-- SortedMap<K,V>   subMap(K fromKey, K toKey)  ：返回键值的范围从 fromKey（包括）到 toKey（不包括）的部分视图
-- SortedMap<K,V> tailMap(K fromKey) ：返回此映射的部分Entry，其键大于等于 fromKey
-
-
+```
 
 ### 9：Map的遍历（三种）：转成 Set 集合，用迭代器遍历
 

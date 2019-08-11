@@ -82,8 +82,7 @@ public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, j
 保证 Set 集合的**元素唯一, 而且有序**，底层是 TreeMap，元素被排序后放入该容器元素的类，必须实现 Comparator<T>  ，因为在元素进行排序时需要按照此原则本质是一个  TreeMap
 
 ```java
-public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Cloneable, java.io.Serializable
-{
+public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Cloneable, java.io.Serializable {
 			//当前对象的引用
       private transient NavigableMap<E,Object> m;
 	    //作为Value值固定存储
