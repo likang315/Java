@@ -84,9 +84,8 @@
 
    - reference 存储的直接是对象的直接地址（对象的实例数据地址），还需要类型数据指针
 
-   ![image-20190812193141846](/Users/likang/Library/Application Support/typora-user-images/image-20190812193141846.png)
+   ![](https://github.com/likang315/Java-and-Middleware/blob/master/JVM/JVM/%E5%8F%A5%E6%9F%84%E6%B1%A0.png?raw=true)
 
-   
 
 ##### 5：内存泄漏和内存溢出
 
@@ -126,7 +125,15 @@
 - 栈上分配：
   - 就是把没发生逃逸的对象，分配栈空间中，若逃逸，则分配在堆上
 
+##### 7：JVM 调优
 
+​	一般调整垃圾回收器，和堆大小以及最大停顿时间
+
+- -XX:+UseG1GC -Xmx32g -XX:MaxGCPauseMillis = 200
+  - -XX:+UseG1GC：为开启G1垃圾收集器
+  - -Xmx32g：设计堆内存的最大内存为32G
+  - -XX:MaxGCPauseMillis=200：设置GC的最大暂停时间为200ms
+- 如果我们需要调优，在内存大小一定的情况下，我们只需要修改最大暂停时间即可
 
 
 
