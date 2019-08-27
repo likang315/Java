@@ -1,13 +1,14 @@
-###### java中的字符串：String, StringBuffer,StringBuilder（都被用来符辅助String）
+### String
 
-### 1：String 
+------
+
+##### 1：String 
 
 ​	不可变对象，本质字符型数组 ，不管是运算还是拼接产生新的结果都是一个新的 String 对象的产生
 
 ```java
 //charSequence:只读序列接口
-public final class String implements java.io.Serializable, Comparable<String>, CharSequence
-{
+public final class String implements java.io.Serializable, Comparable<String>, CharSequence {
 				//基定了不可变的因素，无get，set方法
         private final char value[];
         private int hash; //Default to 0
@@ -22,7 +23,7 @@ public final class String implements java.io.Serializable, Comparable<String>, C
         }
 }
 //String 的 不可变原因
-String 是用 value[] 存储的，而这个属性是final修饰的，是不可变的，而且是用 private 修饰的，没有get，set方法，确保外部无法修改，而且String的方法都没有直接对value进行直接的修改
+String 是用 value[] 存储的，而这个属性是final修饰的，是不可变的，而且是用 private 修饰的，没有get，set方法，确保外部无法修改，而且String的方法中都没有直接对value进行修改,多种原因共同保证了它的不可变性
 ```
 
 ###### 构造方法： 	
@@ -64,9 +65,9 @@ String 是用 value[] 存储的，而这个属性是final修饰的，是不可�
 
 - String substring(int beginIndex) 
 
-  
+##### 2：String 的拼接方式，四种
 
-### 2：String 拼接几种方式的区别
+​	原理都是new一个新的数组，然后拷贝过去
 
 ###### 1：直接用“+”号
 
@@ -98,7 +99,7 @@ void getChars(char dst[], int dstBegin) {
 ###### 3：StringBuilder 的 append（String str）
 
 ```java
-//创建一个新数组，拷贝过去
+// 创建一个新数组，拷贝过去
 public AbstractStringBuilder append(String str) {
     if (str == null) str = "null";
     int len = str.length();
@@ -113,9 +114,7 @@ public AbstractStringBuilder append(String str) {
 
 ​	append（）都是调用父类AbstractStringBuilder的append方法，只不过StringBuffer是的append方法加了sychronized关键字，因此是线程安全的
 
-
-
-### 3：rerplace，replaceAll，replaceFirst() 的区别
+##### 3：rerplace，replaceAll，replaceFirst() 的区别
 
 - String replace(char oldChar, char newChar) 
   - 用新的字符或者字符串替换旧的字符或者字符串（可以用来删除所有空格），基于字符串的替换
@@ -125,9 +124,7 @@ public AbstractStringBuilder append(String str) {
 - String replaceFirst(String regex, String replacement) 
   - 只匹配第一个相匹配字符串，基于表达式的
 
-
-
-### 4：String.valueof( ) 和 Integer.toString() 的不同
+##### 4：String.valueof( ) 和 Integer.toString() 的不同
 
 Integer.toString() 将 i 转换为 buf 符号数组，然后 new String(buf, true)
 
@@ -140,31 +137,24 @@ public static String valueOf(char data[]) {
 }
 ```
 
-
-
-### 5：Switch 对String的支持
+##### 5：Switch对String的支持
 
 ```java
 public void test(String status) {
-    switch (status)
-    {
-        case "killed":
-            break;
-        case "alive": 
-            break;
-        default ：
-            break;
-    }
+  switch (status) {
+    case "killed":
+      break;
+    case "alive": 
+      break;
+    default ：
+  }
 }
 ```
 
+##### 6：String 的分割
 
-
-### 6：String 的分割
-
-###### String[] split(String sign) ----使用指定的隔离字符进行分离，返回容纳子字符串对象的数组
-
-###### split(String sign,int limit)----根据指定的分隔符对字符串进行拆分，并且限定拆分的次数，总是limit-1次
+- String[] split(String sign) ----使用指定的隔离字符进行分离，返回容纳子字符串对象的数组
+- split(String sign,int limit)----根据指定的分隔符对字符串进行拆分，并且限定拆分的次数，总是limit-1次
 
 ```java
 String str=("abc,dfg,dfg,sfd,efg");
@@ -172,14 +162,9 @@ String[] p=str.split(",");
 for(String i:p) {
   System.out.println(i);
 }
-	
-String  static String valueOf(int i)   -----将int参数返回String对象，或者和空字符串拼接
-Integet  static int parseInt(String s)  -----将满足要求的字符串对象转换成其所对应的基本数据类型
 ```
 
-
-
-### 7：equals() 重写后
+##### 7：equals() 重写后
 
 ```java
 public boolean equals(Object anObject) {
@@ -208,15 +193,12 @@ public boolean equals(Object anObject) {
 }
 ```
 
+##### 8：字符串池（字符串常量池）：为了避免大量创建相同 String 对象，浪费资源问题
 
+机制：直接赋值创建一个String时，首先检查字符串池是否有字面量值相等的字符串，如果有，则不再创建，直接返回字符串池中对象的引用，若没有，则创建，然后放到字符串池中，并且返回新建对象的引用，但是如果是new 的则直接在堆中分配
 
-### 8：字符串池（字符串常量池）：为了避免大量创建相同 String 对象，浪费资源问题
-
-机制：直接赋值创建一个String时，首先检查字符串池是否有字面量值相等的字符串，如果有，则不再创建，直接返回字符串池中对象的引用，若没有，则创建，然后放到字符串池中，并且返回新建对象的引用。而new 时直接在堆中分配
-
-调用 intern（）方法，会检查常量池中是否有和当前的对象**字面量相同的引用对象**，若有，则返回字符串池中的对象，若没有则放到字符串池中，并返回当前对象
-
-##### public native String intern();
+- 调用 intern（）方法，会检查常量池中是否有和当前的对象**字面量相同的引用对象**，若有，则返回字符串池中的对象，若没有则放到字符串池中，并返回当前对象
+- public native String intern();
 
 ```java
 String s1="123";
@@ -228,13 +210,11 @@ System.out.println(s==s1);  //false ，堆中分配
 System.out.println(s1.equals(s)); //true ，比较内容
 ```
 
-
-
-### 9：字符串的排序
+##### 9：字符串的排序
 
 ​		根据字典编排的顺序排序的，数字在字母之前，大写字母在小写字母的前面
 
-### 10：format (String format，object... args)/SimpleDateFormat
+##### 10：format (String format，object... args)/SimpleDateFormat
 
 ​	使用指定的格式字符串，和参数返回一个格式化的字符串
 
@@ -259,10 +239,9 @@ public static String format(String format, Object... args) {
   return new Formatter().format(format, args).toString();
 }
 
-Date date=new Date();
-String year=String.format("%tc", date);
+Date date = new Date();
+String year = String.format("%tc", date);
 System.out.println(year);
 ```
-
 
 

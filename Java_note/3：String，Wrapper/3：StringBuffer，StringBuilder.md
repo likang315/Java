@@ -1,6 +1,10 @@
-### 1：StringBuffer ：线程安全的可变字符串
+### StringBuffer、StringBuilder
 
-​	每个字符串缓冲区都有一定的容量，只要字符串缓冲区所包含的字符序列的长度没有超出此容量，就无需分配新的内部缓冲区数组如果内部缓冲区溢出，则此容量自动增大
+------
+
+##### 1：StringBuffer ：线程安全的可变字符串
+
+​	每个字符串缓冲区都有一定的容量，只要字符串缓冲区所包含的字符序列的长度没有超出此容量，就无需分配新的内部缓冲区数组，如果内部缓冲区溢出，则此容量自动增大
 
 ###### 构造方法：
 
@@ -8,8 +12,7 @@
 - StringBuffer(String str) ：构造一个字符串缓冲区，并将其内容初始化为**（str + 16）**
 
 ```java
-public final class StringBuffer  extends AbstractStringBuilder implements java.io.Serializable, CharSequence
-{
+public final class StringBuffer extends AbstractStringBuilder implements java.io.Serializable, CharSequence {
     private transient char[] toStringCache;
     public StringBuffer() {
         super(16);
@@ -18,13 +21,12 @@ public final class StringBuffer  extends AbstractStringBuilder implements java.i
         super(str.length() + 16);
         append(str);
     }
-    
 		// 重写AbstractStringBuffer ，每个方法加synchronized 锁
 		@Override
-    public synchronized char charAt(int index) {
-        if ((index < 0) || (index >= count))
-            throw new StringIndexOutOfBoundsException(index);
-        return value[index];
+    public synchronized StringBuffer append(String str) {
+        toStringCache = null;
+        super.append(str);
+        return this;
     }
 }
 ```
@@ -47,11 +49,11 @@ public final class StringBuffer  extends AbstractStringBuilder implements java.i
   - 把后面的字符替在前面的位置替换
 - String substring(int start)
 
-### 2：StringBuilder 单线程效率最高
+##### 2：StringBuilder 单线程效率最高
 
 ```java
 public final class StringBuilder extends AbstractStringBuilder
-   implements java.io.Serializable, CharSequence{
+   implements java.io.Serializable, CharSequence {  
     //默认初始容量
     public StringBuilder() {
         super(16);
@@ -72,19 +74,16 @@ public final class StringBuilder extends AbstractStringBuilder
 
 ###### 原因：
 
-​	String类型的对象经过操作都只是一个新的对象，会导致系统内存的浪费，而使用StringBuilder类会在字符串生成器里操作，然后用toString 转为String类型 减少了执行时内存的浪费
+​	String类型的对象经过操作都是一个新的对象，会导致系统内存的浪费，而使用StringBuilder类会在字符串生成器里操作，然后用toString 转为String类型 减少了执行时内存的浪费
 
 ###### 构造方法：
 
 - StringBuilder() 构造一个其中不带字符的字符串生成器，**初始容量为 16 个字符**
-- StringBuilder(CharSequence seq) 构造一个字符串生成器，包含与指定的 CharSequence 相同的字符，seq+16
 - StringBuilder(String str) 构造一个字符串生成器，并初始化为str +16 
 
+##### 3：扩容机制
 
-
-### 3：扩容机制
-
-###### StringBuffer 和 StringBuilder 一样继承 AbstractStringxxx
+###### StringBuffer 和 StringBuilder 一样继承 AbstractStringBuilder
 
 根据**当前数组长度的 2倍+2 和 新增加字符串长度+原有数组长度 进行比较，**谁大就是谁
 
@@ -100,9 +99,7 @@ private int newCapacity(int minCapacity) {
 }
 ```
 
-
-
-### 4：三者的区别：
+##### 4：三者的区别：
 
 ###### 1：执行效率 StringBuilder（后出的）> StringBuffer > String
 
@@ -116,6 +113,4 @@ StringBuilder 是线程不安全的，而 StringBuffer 是线程安全的 (**大
 
 - String：适用于**少量的字符串操作的情况，线程安全**
 - StringBuilder：适用于**单线程下在字符缓冲区进行大量操作的情况**
-- StringBuffer：适用**多线程下在字符缓冲区进行大量操作的情况**
-
-### 
+- StringBuffer：适用**多线程下在字符缓冲区进行大量操作的情况** 
