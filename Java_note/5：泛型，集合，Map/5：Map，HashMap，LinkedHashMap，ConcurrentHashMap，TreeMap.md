@@ -1,8 +1,11 @@
-### 1：Interface Map<K,V>：
+### Map< K，V>
 
-​		一种映射关系，将 键 映射到 值的对象，存储键和值这样的双列数据的集合
+------
 
-###### 一个映射不能包含重复的键，每个键最多只能映射到一个值，K - 映射键的类型，V - 映射值的类型
+##### 1：Interface Map<K,V>：
+
+- 一种映射关系，将**键映射到值的对象**，存储键和值这样的双列数据的集合
+- 映射不能包含重复的键，每个键最多只能映射到一个值，K - 映射键的类型，V - 映射值的类型
 
 ```java
 public interface Map<K,V> {
@@ -10,6 +13,7 @@ public interface Map<K,V> {
 		V put(K key, V value);
 	  boolean containsKey(Object key);
 	  ...
+    // Java 8
 	  interface Entry<K,V> {
         K getKey();
         V getValue();
@@ -18,149 +22,157 @@ public interface Map<K,V> {
 ```
 
 - V put(K key, V value) ：将指定的值与此映射中的指定键关联，想象成放入了集合
-- V get(Object key)： 返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回 null V
-- remove(Object key) ：如果存在一个键的映射关系，则将其从此映射中移除,返回值为被删除的value
-- void clear() ：从此映射中移除所有映射关系 、
+
+- V get(Object key)： 返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回 null
+
+- V remove(Object key) ：如果存在一个键的映射关系，则将其从此映射中移除,返回值为被删除的value
+
+- void clear() ：从此映射中移除所有映射关系
+
 - boolean isEmpty() ：如果此映射未包含键-值映射关系，则返回 true 
+
 - int size()：返回此映射中的键-值映射关系数
-- 
-- Set<Map.Entry<K,V>>   entrySet() ：返回此映射中包含的映射关系的 Set集合
-- Set keySet() ：返回此映射中只包含的键的 Set 集合 
+
+  
+
+- Set<Map.Entry<K,V>>   entrySet() ：返回此映射中包含的映射关系的 Set 集合
+
+- Set keySet() ：返回此映射中只包含的键的 Set 集合
+
 - Collection values() ：返回此映射中包含的值的collection集合
-- 
-- boolean containsKey(Object key) ：-如果此映射包含指定键的映射关系，则返回 true 
+
+- boolean containsKey(Object key) ：如果此映射包含指定键的映射关系，则返回 true 
 - boolean containsValue(Object value) ：如果此映射将一个或多个键映射到指定值，则返回 true
 
-### 2：Class HashMap<K,V>：
+##### 2：Class HashMap<K,V>：
 
-基于哈希表的 Map 接口的实现类,非线程安全的类，并且不保证映射的顺序，但是查找高效，允许 null 值 和 null 键的存在
+​	基于哈希表的 Map 接口的实现类，非线程安全的类，并且不保证映射的顺序，但是查找高效，允许 null 值 和 null 键的存在
 
 ###### 1：实现原理
 
-jdk1.7：采用数组+链表，jdk1.8：数组,链表和红黑树来实现，引入红黑树来增加查找效率
+- JDK1.7：数组+链表
+- JDK1.8：数组+链表+红黑树，引入红黑树来提高查找效率   
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
-	  //存储 key-value 键值对
+	  // 存储 key-value 键值对
     transient Node<K,V>[] table;
-    //map大小
+    // map大小
     transient int size;
-    //Fail-fast
+    // Fail-fast
     transient int modCount;
-	  //阈值.扩容
+	  // 阈值.扩容
     int threshold;
-    //加载因子
+    // 加载因子
     final float loadFactor;
-    //默认的加载因子
+    // 默认的加载因子
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;  //初始容量 16
-    
+ 	  // 初始容量 16
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;  
+
     public HashMap() {
         this.loadFactor = DEFAULT_LOAD_FACTOR; 
     }
-    
-    //静态内部类 Node<K,V>
+    // 静态内部类 Node<K,V>
     static class Node<K,V> implements Map.Entry<K,V> {
-            final int hash;   //rehash 时不会在计算 hash
-            final K key;
-            V value;
-            Node<K,V> next;
-            .....
+   		// rehash时不会再计算hash
+      final int hash; 
+      final K key;
+      V value;
+      Node<K,V> next;
+      public final int hashCode() {
+        return Objects.hashCode(key) ^ Objects.hashCode(value);
+      }
+      .....
     }
-     
-     //指定初始容量和加载因子
-     public HashMap(int initialCapacity, float loadFactor) {
-        if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
-        if (initialCapacity > MAXIMUM_CAPACITY)
-            initialCapacity = MAXIMUM_CAPACITY;
-        if (loadFactor <= 0 || Float.isNaN(loadFactor))
-            throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
-        this.loadFactor = loadFactor;
-        this.threshold = tableSizeFor(initialCapacity);
-     }
-     
-    //指定的新的阈值
-    static final int tableSizeFor(int cap) {
-        int n = cap - 1;
-        n |= n >>> 1;
-        n |= n >>> 2;
-        n |= n >>> 4;
-        n |= n >>> 8;
-        n |= n >>> 16;
-        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
-    }
+  // 指定初始容量和加载因子
+  public HashMap(int initialCapacity, float loadFactor) {
+    if (initialCapacity < 0)
+      throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
+    if (initialCapacity > MAXIMUM_CAPACITY)
+      initialCapacity = MAXIMUM_CAPACITY;
+    if (loadFactor <= 0 || Float.isNaN(loadFactor))
+      throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
+    this.loadFactor = loadFactor;
+    this.threshold = tableSizeFor(initialCapacity);
+  }
+  // 指定的新的阈值
+  static final int tableSizeFor(int cap) {
+    int n = cap - 1;
+    n |= n >>> 1;
+    n |= n >>> 2;
+    n |= n >>> 4;
+    n |= n >>> 8;
+    n |= n >>> 16;
+    return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+  }
 }
 ```
 
 ###### 2：hash冲突
 
-通过 key 的 hashCode（）来计算hash值，在位与运算产生分布相对均匀的位置，如果存储的对象对多了，就有可能不同的对象所算出来的hash值是相同的，这就出现了所谓的 hash 冲突
+​	通过 key的 hashCode() 值，再进行位与运算产生分布相对均匀的位置，如果存储的对象对多了，就有可能不同的对象所算出来的hash值是相同的，这就出现了所谓的 hash 冲突
 
-HashMap 底层是通过链表来解决hash冲突的，**拉链法，桶的深度** ，开放地址法，再哈希法
+- HashMap 底层是通过链表来解决hash冲突的，**拉链法（桶的深度）** ，开放地址法，再哈希法
 
-###### 3：影响 hashmap 的性能：Capacity 和 loadFactor
 
-当节点数大于 (threshold) 阀值就需要扩容，这个值的计算方式是 **capacity \* load factor**
+###### 3：影响 HashMap 的性能：Capacity 和 loadFactor
 
-###### 4：扩容机制：HashMap扩容时 ：当前容量X2，在扩大容量时须要再 hash
+​	当节点数大于 (threshold) 阀值就需要扩容，这个值的计算方式是 **capacity * load factor**
 
-产生一个新的数组把原来的数组赋值过去，在原来数组的区间基础上的按照索引存储
+###### 4：扩容机制：当前容量X2，在扩大容量时须要再hash
+
+​	产生一个新的数组把原来的数组赋值过去，在原来数组的区间基础上的按照索引存储
+
+- 扩容时，索引(下标)改变
+- newTab[e.hash & (newCap - 1)] = e; 虽然Hash值不变，但是用的是新的容量相与
 
 ###### 5：Hash()
 
-用了异或，移位等运算，对 key.hashcode() 进一步进行计算来保证最终获取的存储位置**尽量分布均匀**
+​	用了异或，移位等运算，对 key.hashcode() 进一步进行计算来保证最终获取的存储位置**尽量分布均匀**
 
 ```java
 static final int hash(Object key) {
   int h;
-  //无符号右移，低12位和高12位异或，取低12位的，对null键特殊处理
+  // 无符号右移，低12位和高12位异或，取低12位的，对null键特殊处理
   return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
 }
 ```
 
-###### 6：扩容时，索引改变
+###### 6：HashMap 为什么初始容量为 16或者2的幂次方
 
-​	newTab[e.hash & (newCap - 1)] = e; 虽然Hash值不变，但是用的是新的容量相与
-
-###### 6：HashMap 为什么初始容量为 16或者2 的幂次方
-
-​	1：**为了降低hash值的碰撞**，在 HashMap 的索引， 公式: index = e.hash & (newCap - 1)
-
-​	反观**长度16或者其他2的幂次方**, newCap - 1 的值是所有最后二进制位全为1,这种情况下,index 的结果等同于hash值的后几位的值，只要输入的 hashcode 本身分布均匀,hash算法的结果就是均匀的，所以,HashMap的默认长度为16,是为了降低 hash 碰撞的几率
-
-​	2：**移位运算符，对于二进制运算非常快**
+1. 为了降低hash值的碰撞，在 HashMap 的索引， 公式: index = e.hash & (newCap - 1)
+   - 反观长度16或者其他2的幂次方, newCap - 1 的值是所有最后二进制位全为1,这种情况下,index 的结果等同于hash值的后几位的值，只要输入的 hashcode 本身分布均匀,hash算法的结果就是均匀的，HashMap的默认长度为16,是为了降低 hash 碰撞的几率
+2. 移位运算符，对于二进制运算非常快
 
 ###### 7：什么时候用红黑树什么时候用链表
 
-在桶元素（桶的深度）超过8个并且表长超过 64 会将链表转化为红黑树（两个条件），当红黑树中元素小于6个时、会将红黑树转化为链表
-
-因为红黑树需要进行左旋，右旋操作， 而单链表不需要 如果元**素小于8个**，查询成本高，新增成本低 如果**元素大于8个**，查询成本低，新增成本高
+- 在桶元素（桶的深度）超过8个并且表长超过 64 会将链表转化为红黑树（两个条件），当红黑树中元素小于6个时、会将红黑树转化为链表
+- 因为红黑树需要进行左旋，右旋操作， 而单链表不需要，如果元**素小于8个**，查询成本高，新增成本低，如果**元素大于8个**，查询成本低，新增成本高
 
 ###### 8：为什么要引入红黑树
 
-因为之前hashmap底层结构是数组加链表，但是当数据大到一定程度的时候，用链表存储也比较长，难以查询，红黑树的查找效率高，相当于二分
+​	因为之前hashmap底层结构是数组加链表，但是当数据大到一定程度的时候，用链表存储也比较长，难以查询，红黑树的查找效率高，相当于二分
 
-###### 9：jdk1.7 扩容时，头插造成环形链表 (高并发时)
+###### 9：JDK1.7 扩容时，头插造成环形链表 (高并发时)
 
-并发时，当两个线程同时进行put的操作时，刚好要扩容，一个线程刚扩容就休眠，另一个线程执行扩容，再hash完时，另一个线程继续，此时就导致环形链表
+​	并发时，当两个线程同时进行put的操作时，刚好要扩容，一个线程刚扩容就休眠，另一个线程执行扩容，再hash 完时，另一个线程继续，此时就导致环形链表
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/Java_note/5%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/HashMap%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.png?raw=true)
 
-###### 10：put(K key, V value) 操作（ jdk1.8 ）
+###### 10：put(K key, V value) 操作（ JDK1.8 ）
 
 ```java
 public V put(K key, V value) {
     return putVal(hash(key), key, value, false, true);
 }
-
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict){
-    Node<K,V>[] tab; 
-  	Node<K,V> p; int n, i;
+    Node<K,V>[] tab;
+  	Node<K,V> p;
+  	int n, i;
     // table 是否为null 或者 length等于0, 如果是则调用resize()进行第一次初始化
     if ((tab = table) == null || (n = tab.length) == 0)
         n = (tab = resize()).length;
-    
     // 通过 hash 值计算索引位置, 如果 table 表该索引位置节点为空则新增一个
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null);
@@ -205,9 +217,9 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict){
     afterNodeInsertion(evict);  // 用于LinkedHashMap
     return null;
 }
-//新建 Node 节点
+// 新建 Node 节点
 Node<K,V> newNode(int hash, K key, V value, Node<K,V> next) {
-        return new Node<>(hash, key, value, next);
+	return new Node<>(hash, key, value, next);
 }
 ```
 
@@ -484,7 +496,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
       current = null ;
       K key = p.key;
       removeNode(hash(key), key, null, false, false);
-      //给当前的饭ExpectedModCount 重新赋值
+      //给当前的ExpectedModCount 重新赋值
       expectedModCount = modCount;
     }
   }

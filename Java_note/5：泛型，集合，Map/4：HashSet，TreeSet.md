@@ -1,31 +1,31 @@
 ### Set (Map)：集合
 
-Set 类集合 和 Map 类 只能通过迭代器方法来获取 for each循环
+------
 
-### 1：Class  HashSet<E> ：散列集
+​	Set 集合元素唯一、无序并且只能通过迭代器，再通过for each循环获取元素
 
-元素唯一，但不有序，线程不安全类
+##### 1：Class  HashSet<E> ：散列集
+
+​	元素唯一，因为Map.key 唯一，但不有序，线程不安全类
 
 ```java
 public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, java.io.Serializable {
 	private transient HashMap<E,Object> map;
 	// 作为 value 固定存储
 	private static final Object PRESENT = new Object();
-	
 	// 底层是 Map
   public HashSet() {
-    map = new HashMap<> ();
+    map = new HashMap<>();
   }
-  //可以指定初始容量，加载因子
+  // 指定初始容量，加载因子
   public HashSet(int initialCapacity, float loadFactor) {
     map = new HashMap<>(initialCapacity, loadFactor);
   }
-  //专门用来重写，给linkedHashSet 用的
+  // 专门用来重写，给linkedHashSet 用的
   HashSet(int initialCapacity, float loadFactor, boolean dummy) {
         map = new LinkedHashMap<>(initialCapacity, loadFactor);
-  }
-  
-	//操作的都是 map
+  }  
+	// 操作的都是 map
   public boolean add(E e) {
     return map.put(e, PRESENT) == null ;
   }
@@ -47,11 +47,9 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, jav
 - int size()   ：返回此 set 中的元素的数量，为空时，返回0
 - Iterator<E>  iterator() ：返回对此 set 中元素进行迭代的迭代器
 
+##### 2：Class  LinekdHashSet
 
-
-### 2：Class   LinekdHashSet
-
-LinkedHashSet 继承自 HashSet，源码更少、更简单，唯一的区别是LinkedHashSet 内部使用的是 LinkedHashMap,这样做的意义就是LinkedHashSet中的元素唯一，而且有序，也就是说遍历序和插入序是一致的
+​	继承 HashSet，源码更少、更简单，唯一的区别是LinkedHashSet 内部使用的是 LinkedHashMap，这样做的意义就是LinkedHashSet中的元素唯一，而且有序
 
 ###### 实现原理
 
@@ -75,11 +73,9 @@ public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, j
 }
 ```
 
+##### 3：Class  TreeSet<E>：树集
 
-
-### 3：Class  TreeSet<E>  ：树集
-
-保证 Set 集合的**元素唯一, 而且有序**，底层是 TreeMap，元素被排序后放入该容器元素的类，必须实现 Comparator<T>  ，因为在元素进行排序时需要按照此原则本质是一个  TreeMap
+​	保证 Set 集合的**元素唯一, 而且有序（元素值大小有序）**，底层是 TreeMap，元素被排序后放入该容器元素的类，必须实现 Comparator<T>  ，因为在元素进行排序时需要按照此原则本质是一个  TreeMap
 
 ```java
 public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Cloneable, java.io.Serializable {
@@ -95,15 +91,14 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
       public TreeSet(Comparator<? super E> comparator) {
         this(new TreeMap<>(comparator));
       }
-      
       public boolean add(E e) {
-        return m.put(e, PRESENT)==null;
+        // 返回的当前被插入的值
+        return m.put(e, PRESENT) == null;
       }
 }
 ```
 
-
- 方法：
+######  方法：
 
 - boolean add(E e) ：将指定的元素添加到此 set（如果该元素尚未存在于 set 中)
 - void clear()  ：移除此 set 中的所有元素
@@ -111,3 +106,4 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Clone
 - boolean remove(Object o)  ：将指定的元素从 set 中移除（如果该元素存在于此 set 中）
 - Iterator<E> descendingIterator() ：返回在此 set 元素上按降序进行迭代的迭代器
 - Iterator<E> iterator()    ： 返回在此 set 中的元素上按升序进行迭代的迭代器 
+
