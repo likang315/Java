@@ -52,6 +52,7 @@ public interface Map<K,V> {
 
 - JDK1.7：数组+链表
 - JDK1.8：数组+链表+红黑树，引入红黑树来提高查找效率   
+- 对 null健做了特殊处理，放在table[0]处
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
@@ -69,6 +70,8 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
     static final float DEFAULT_LOAD_FACTOR = 0.75f;
  	  // 初始容量 16
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;  
+  	// 数化值
+  	static final int TREEIFY_THRESHOLD = 8;
 
     public HashMap() {
         this.loadFactor = DEFAULT_LOAD_FACTOR; 
@@ -80,6 +83,12 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
       final K key;
       V value;
       Node<K,V> next;
+      Node(int hash, K key, V value, Node<K,V> next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+      }
       public final int hashCode() {
         return Objects.hashCode(key) ^ Objects.hashCode(value);
       }
@@ -118,7 +127,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
 
 ###### 3：影响 HashMap 的性能：Capacity 和 loadFactor
 
-​	当节点数大于 (threshold) 阀值就需要扩容，这个值的计算方式是 **capacity * load factor**
+​	当节点数大于 (threshold) 阈值就需要扩容，这个值的计算方式是 **capacity * load factor**
 
 ###### 4：扩容机制：当前容量X2，在扩大容量时须要再hash
 
@@ -147,7 +156,7 @@ static final int hash(Object key) {
 
 ###### 7：什么时候用红黑树什么时候用链表
 
-- 在桶元素（桶的深度）超过8个并且表长超过 64 会将链表转化为红黑树（两个条件），当红黑树中元素小于6个时、会将红黑树转化为链表
+- 在桶元素（桶的深度）大于等于8个并且表长超过 64 会将链表转化为红黑树（两个条件），当红黑树中元素小于6个时、会将红黑树转化为链表
 - 因为红黑树需要进行左旋，右旋操作， 而单链表不需要，如果元**素小于8个**，查询成本高，新增成本低，如果**元素大于8个**，查询成本低，新增成本高
 
 ###### 8：为什么要引入红黑树
@@ -160,7 +169,7 @@ static final int hash(Object key) {
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/Java_note/5%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/HashMap%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8.png?raw=true)
 
-###### 10：put(K key, V value) 操作（ JDK1.8 ）
+###### 10：put(K key, V value) （ JDK1.8 ）
 
 ```java
 public V put(K key, V value) {
@@ -173,33 +182,36 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict){
     // table 是否为null 或者 length等于0, 如果是则调用resize()进行第一次初始化
     if ((tab = table) == null || (n = tab.length) == 0)
         n = (tab = resize()).length;
-    // 通过 hash 值计算索引位置, 如果 table 表该索引位置节点为空则新增一个
+    // 通过key的hash值计算索引位置, 如果table表中该索引位置节点为空则new一个
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null);
-    else { 
+    else {
         // table 表该索引位置不为空
         Node<K,V> e; K k;
-        // 判断p节点的hash值和key值是否跟传入的hash值和key值相等
+        // 判断p节点的hash值和key值是否跟传入的hash值和key值相等，代表重复值，需替换
         if (p.hash == hash && ((k = p.key) == key || (key != null && key.equals(k)))) 
             e = p;
         // 判断 p 节点是否为TreeNode, 如果是则调用红黑树的 putTreeVal 方法查找目标节点
         else if (p instanceof TreeNode) 
             e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
         else  {	
-            //走到这代表p节点为普通链表节点,遍历此链表, binCount 用于统计节点数
+            // 代表p节点为普通链表节点,遍历此链表, binCount 用于统计节点数
             for (int binCount = 0; ; ++binCount) {  
-                // p.next 为空代表不存在目标节点则新增一个节点插入链表尾部，并发出现问题
+                // p.next为空代表不存在目标节点则新增一个节点插入链表尾部
+                // 并发可能会出现问题
                 if ((e = p.next) == null) {
                     p.next = newNode(hash, key, value, null);
                     // 计算节点是否超过8个, 减一是因为循环是从p节点的下一个节点开始的
                     if (binCount >= TREEIFY_THRESHOLD - 1)
-                        treeifyBin(tab, hash); // 如果超过8个，调用treeifyBin方法将该链表转换为红黑树
+                        // 如果超过8个，调用treeifyBin方法将该链表转换为红黑树
+                        treeifyBin(tab, hash);
                     break;
                 }
                 // e节点的hash值和key值都与传入的相等, 则e即为目标节点,跳出循环
-                if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k)))) 
+                if (e.hash == hash && ((k = e.key) == key ||
+                   	(key != null && key.equals(k)))) 
                     break;
-                p = e;   //将p指向下一个节点
+                p = e;   // 将p指向下一个节点
              }
         }
         // e不为空则代表根据传入的hash值和key值查找到了节点,将该节点的value覆盖,返回oldValue
@@ -223,41 +235,44 @@ Node<K,V> newNode(int hash, K key, V value, Node<K,V> next) {
 }
 ```
 
-1. 第一次put 的时候，判断是否为null 或者长度为 0，则会触发下面的 resize() **初始就是第一次 resize 和后续的扩容有些不一样，因为这次是数组从 null 初始化到默认的 16 或自定义的初始容量**
+###### 流程：
+
+1. 第一次put 的时候，判断是否为null 或者长度为 0，若是则会触发下面的 resize() **初始就是第一次 resize 和后续的扩容有些不一样，因为这次是数组从 null 初始化到默认的 16 或自定义的初始容量**
 2. 判断**第一个结点是否为空**，为空则插入
 3. 判断**第一个结点的 hash 和 key 是否相等** ，若相等，直接替换新的value
-4. 判断是否为**红黑树的结点**，若为红黑树则调用红黑树的 putTreeVal 方法
-5. 遍历链表，**插入到尾部(尾插)**，同时判断是否为第九个结点，转换为红黑树
-6. 判断是否超出阈值，超出则相应 resize( ) ;
+4. 遍历链表，**插入到尾部(尾插)**，同时判断是否大于等于第九个结点，转换为红黑树
+5. 判断是否为**红黑树的结点**，若为红黑树则调用红黑树的 putTreeVal 方法
+6. 遍历链表中是否有相同的key和Hash值，若有则替换，然后返回
+7. 判断是否超出阈值，超出则相应 resize( ) ;
 
-###### 11：get(Object key) 操作
+###### 11：get(Object key) 
 
 ```java
 public V get(Object key) {
-        Node<K,V> e;
-        return (e = getNode(hash(key), key)) == null ? null : e.value;
+  Node<K,V> e;
+  return (e = getNode(hash(key), key)) == null ? null : e.value;
 }
-
 final Node<K,V> getNode(int hash, Object key) {
-    Node<K,V>[] tab;
-    Node<K,V> first, e; int n; K k;
-  	//判断桶不为 null 
-    if ((tab = table) != null && (n = tab.length) > 0 && (first = tab[(n - 1) & hash]) != null) {
-       //判断是不是桶的第一个结点，先 hash，在 key
-       if (first.hash == hash && ((k = first.key) == key || (key != null && key.equals(k))))
-                return first;
-        if ((e = first.next) != null){
-             //判断是不是红黑树的结点
-             if (first instanceof TreeNode)
-                return ((TreeNode<K,V>)first).getTreeNode(hash, key);
-             //遍历链表，找对应的结点
-             do {
-                  if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k))))
-                        return e;
-                } while ((e = e.next) != null);
-        }
-     }
-     return null;
+  Node<K,V>[] tab;
+  Node<K,V> first, e; int n; K k;
+  // 判断桶不为 null 
+  if ((tab = table) != null
+      && (n = tab.length) > 0 && (first = tab[(n - 1) & hash]) != null) {
+    // 判断是不是桶的第一个结点，先 hash，在 key
+    if (first.hash == hash && ((k = first.key) == key || (key != null && key.equals(k))))
+      return first;
+    if ((e = first.next) != null){
+      // 判断是不是红黑树的结点
+      if (first instanceof TreeNode)
+        return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+      // 遍历链表，找对应的结点
+      do {
+        if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k))))
+          return e;
+      } while ((e = e.next) != null);
+    }
+  }
+  return null;
 }
 ```
 
@@ -265,8 +280,9 @@ final Node<K,V> getNode(int hash, Object key) {
 2. 判断**数组该位置处的元素是否刚好就是我们要找的**，如果不是，走第三步
 3. **判断该元素类型是否是 TreeNode**，如果是，用红黑树的方法取数据，如果不是，走第四步
 4. **遍历链表，直到找到相等**
+5. 若没有找到则返回null
 
-###### 12：resize（）操作
+###### 12：resize( )  
 
 ```java
 final Node<K,V>[] resize() {
@@ -274,97 +290,99 @@ final Node<K,V>[] resize() {
     int oldCap = (oldTab == null) ? 0 : oldTab.length;
     int oldThr = threshold;
     int newCap, newThr = 0;
-    //计算新表的容量和阈值
-    if (oldCap > 0) {// 旧table不为空
-        if (oldCap >= MAXIMUM_CAPACITY) {   // 旧table的容量超过最大容量值
-            threshold = Integer.MAX_VALUE;  // 设置阈值为Integer.MAX_VALUE
-            return oldTab;
-        }
-        // 如果容量*2< 最大容量并且 >=16, 则将阈值设置为原来的两倍
-        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                 oldCap >= DEFAULT_INITIAL_CAPACITY)   
-            newThr = oldThr << 1; 
+    // 计算新表的容量和阈值
+    // 旧table不为空
+  if (oldCap > 0) {
+    // 旧table的容量超过最大容量值
+    if (oldCap >= MAXIMUM_CAPACITY) { 
+      threshold = Integer.MAX_VALUE;
+      return oldTab;
     }
-    else if (oldThr > 0)   //旧表的容量为 0,  旧表表的阈值大于0
-        newCap = oldThr;	 // 则将新表的容量设置为旧表的阈值 
-    else {	
-        // 旧表的容量为0, 旧表的阈值为0, 则为空表，设置默认容量和阈值
-        newCap = DEFAULT_INITIAL_CAPACITY; 
-        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
-    }
-    
-    if (newThr == 0) {  // 如果新表的阈值为空, 则通过新的容量*负载因子获得阈值
-        float ft = (float)newCap * loadFactor;
-        newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
-                  (int)ft : Integer.MAX_VALUE);
-    }
-    threshold = newThr; // 将当前阈值赋值为刚计算出来的新的阈值
-//-------------------------------------------------------------------------------------------------
-    
-    @SuppressWarnings({"rawtypes","unchecked"})
-    // 定义新表,容量为刚计算出来的新容量，出现get（） 问题，oldTab 可能被垃圾回收器回收
-    Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-    table = newTab; // 将当前的表赋值为新定义的表
-    
-    //如果老表不为空, 则需遍历将节点赋值给新表
-    if (oldTab != null) {  
-        for (int j = 0; j < oldCap; ++j) {
-            Node<K,V> e;
-            if ((e = oldTab[j]) != null) {  // 将索引值为j的老表头节点赋值给e
-                oldTab[j] = null; // 将老表的节点设置为空, 以便垃圾收集器回收空间
-                // 如果e.next为空, 则代表老表的该位置只有1个节点, 
-                // 通过hash值计算新表的索引位置, 直接将该节点放在该位置
-                if (e.next == null) 
-                  //扩容后索引位置不一样
-                    newTab[e.hash & (newCap - 1)] = e;
-                else if (e instanceof TreeNode)
-                	 // 调用treeNode的hash分布(跟下面最后一个else的内容几乎相同)
-                    ((TreeNode<K,V>)e).split(this, newTab, j, oldCap); 
-                
-                else { 
-                    Node<K,V> loHead = null, loTail = null; // 存储跟原索引位置相同的节点
-                    Node<K,V> hiHead = null, hiTail = null; // 存储索引位置为:原索引+oldCap的节点
-                    Node<K,V> next;
-                    
-                    do {
-                        next = e.next;
-                 //如果e的hash值与老表的容量进行与运算为0,则扩容后的索引位置跟老表的索引位置一样
-                        if ((e.hash & oldCap) == 0) {   
-                            if (loTail == null) // 如果loTail为空, 代表该节点为第一个节点
-                                loHead = e; // 则将loHead赋值为第一个节点
-                            else    
-                                loTail.next = e;    // 否则将节点添加在loTail后面
-                            loTail = e; // 并将loTail赋值为新增的节点
-                        }
-                 //如果e的hash值与老表的容量进行与运算为1,则扩容后的索引位置为:老表的索引位置＋oldCap
-                        else {  
-                            if (hiTail == null) // 如果hiTail为空, 代表该节点为第一个节点
-                                hiHead = e; // 则将hiHead赋值为第一个节点
-                            else
-                                hiTail.next = e;    // 否则将节点添加在hiTail后面
-                            hiTail = e; // 并将hiTail赋值为新增的节点
-                        }
-                    } while ((e = next) != null);
-                    
-                    if (loTail != null) {
-                        loTail.next = null; // 最后一个节点的next设为空
-                        newTab[j] = loHead; // 将原索引位置的节点设置为对应的头结点
-                    }
-                    if (hiTail != null) {
-                        hiTail.next = null; // 最后一个节点的next设为空
-                        newTab[j + oldCap] = hiHead; // 将索引位置为原索引+oldCap的节点设置为头结点
-                    }
-                }
+    // 如果 capcity * 2 < 最大容量并且 >=16, 则将阈值设置为原来的两倍
+    else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+             oldCap >= DEFAULT_INITIAL_CAPACITY)   
+      newThr = oldThr << 1; 
+  }
+  // 旧表的容量为小于0,  旧表的阈值大于0
+  else if (oldThr > 0) 
+    // 将新表的容量设置为旧表的阈值 
+    newCap = oldThr;
+  else {
+    // 旧表的容量为0, 旧表的阈值为0, 则为空表，设置默认容量和阈值
+    newCap = DEFAULT_INITIAL_CAPACITY; 
+    newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+  }
+  // 如果新表的阈值为空, 则通过新的容量*负载因子获得阈值
+  if (newThr == 0) {  
+    float ft = (float)newCap * loadFactor;
+    newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+              (int)ft : Integer.MAX_VALUE);
+  }
+  // 将当前阈值赋值为刚计算出来的新的阈值
+  threshold = newThr; 
+//--------------------------------------------------------------------------------------
+  @SuppressWarnings({"rawtypes","unchecked"})
+  // 定义新表,容量为刚计算出来的新容量，并发时出现get()问题，oldTab可能被垃圾回收器回收
+  Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+  table = newTab;
+  // 如果老表不为空, 则需遍历将节点赋值给新表
+  if (oldTab != null) {
+    for (int j = 0; j < oldCap; ++j) {
+      Node<K,V> e;
+      if ((e = oldTab[j]) != null) {  
+        // 将老表的节点设置为空，清理整个桶, 以便垃圾收集器回收空间
+        oldTab[j] = null;
+        // 如果e.next为空, 则代表老表的该位置只有1个节点
+        if (e.next == null) 
+          // 通过hash值计算新表的索引位置, 扩容后索引位置不一样，因为Hash值一样，但是容量不一样
+          newTab[e.hash & (newCap - 1)] = e;
+        else if (e instanceof TreeNode)
+          // 调用treeNode的hash分布(跟下面最后一个else的内容几乎相同)
+          ((TreeNode<K,V>)e).split(this, newTab, j, oldCap); 
+        else { 
+          Node<K,V> loHead = null, loTail = null; // 存储跟原索引位置相同的节点
+          Node<K,V> hiHead = null, hiTail = null; // 存储索引位置为:原索引+oldCap的节点
+          Node<K,V> next;
+          do {
+            next = e.next;
+            // 如果e的hash值与老表的容量进行与运算为0，则扩容后的索引位置跟老表的索引位置一样
+            // 取oldCap的最高位
+            if ((e.hash & oldCap) == 0) {
+              if (loTail == null) // 如果loTail为空, 代表该节点为第一个节点
+                loHead = e; // 则将loHead赋值为第一个节点
+              else    
+                loTail.next = e;    // 否则将节点添加在loTail后面
+              loTail = e; // 并将loTail赋值为新增的节点
             }
+            // 如果e的hash值与老表的容量进行与运算为1,则扩容后的索引位置为:老表的索引位置＋oldCap
+            else {  
+              if (hiTail == null) // 如果hiTail为空, 代表该节点为第一个节点
+                hiHead = e;
+              else
+                hiTail.next = e;
+              hiTail = e; 
+            }
+          } while ((e = next) != null);
+
+          if (loTail != null) {
+            loTail.next = null; // 最后一个节点的next设为空
+            newTab[j] = loHead; // 将原索引位置的节点设置为对应的头结点
+          }
+          if (hiTail != null) {
+            hiTail.next = null; // 最后一个节点的next设为空
+            newTab[j + oldCap] = hiHead; // 将索引位置为原索引+oldCap的节点设置为头结点
+          }
         }
+      }
     }
-    return newTab;
+  }
+  return newTab;
 }
 ```
 
 1. 判断**旧表的容量为0, 旧表的阈值为0**, 若是，则为空表，设置默认容量和阈值
-2.  若**旧表的容量为 0, 旧表的阈值大于0**，则新表的容量为旧表的阈值
-3. 若**旧表不为空**，并且 容量*2< 最大容量并且 >=16, 则将阈值设置为原来的两倍
+2.  若**旧表的容量为 0, 旧表的阈值大于0**，则新表的容量为旧表的阈值，阈值为 capacity * loadFactor
+3. 若**旧表不为空**，并且 容量*2< 最大容量则将容量、阈值设置为原来的两倍
 4.  把将当前阈值赋值为刚计算出来的新的阈值，以上都是计算出容量和阈值
 5. 遍历旧表的容量，把每个桶对应的元素，判断是不是红黑树结点，若是，调用红黑树结点对应的方法
 6. 若不是，按照链表的方式，放入新的桶中，每一个元素新的index 可能不一样，不一样，就作为头结点放入，若一样，就和旧表样的Node放入
@@ -377,41 +395,47 @@ final Node<K,V>[] resize() {
 
 ###### 13：并发时可能导致的问题 (都是扩容的问题) ：
 
-1.  put 扩容时，可能会导致某个元素没有给挂在链表上，导致丢失，因为已经第一个线程已经 new了一个新的结点，第二个线程来时判断他为空，也 new 了一个结点，但只挂了一个,**导致丢失**
-2. get（index）元素时可能为空，因为扩容时，把新 new的数组赋给旧的数组，而这时还没再hash计算挂链，这是一个线程来读，可能会导致读到元素为空
+2. get（index）元素时可能为空，因为扩容时，把新 new的数组赋给旧的数组，而这时还没再hash计算挂链，这是一个线程来读，可能会导致读到元素为空，返回null
+2.  put（key，value）时，可能会导致某个元素没有给挂在链表上，导致丢失，因为已经第一个线程已经new一个新的结点（桶），第二个线程来时判断旧表为空，new 了一个结点，挂在了旧表上，导致丢失
 
 
 
-### 3：Class LinkedHashMap<K,V>：
+##### 3：LinkedHashMap<K，V>：
 
-为了解决 hashmap 不保证映射顺序的（无序）问题，迭代顺序
+​	为了解决 HashMap 不保证映射顺序的（无序）问题，迭代顺序
+
+- LinkedHashMap 是在 HashMap 的基础上维护了一个双向链表保证有序的HashMap，每次 **put 进来 Entry映射关系，除了将其保存到哈希表中对应的位置上之外，还会将其插入到双向链表的尾部**，内部类额外增加的两个属性来维护的一个双向链表**：before、After **
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/Java_note/5%EF%BC%9A%E6%B3%9B%E5%9E%8B%EF%BC%8C%E9%9B%86%E5%90%88%EF%BC%8CMap/%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9/LinkedHashMap.jpg?raw=true)
 
 ```java
 public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
-	  //用于指向双向链表的头部
+	  // 用于指向双向链表的头部
     transient LinkedHashMap.Entry<K,V> head;
-    //用于指向双向链表的尾部
+    // 用于指向双向链表的尾部
     transient LinkedHashMap.Entry<K,V> tail;
-    //用来指定 LinkedHashMap 的迭代顺序，true 则表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链表的最末尾,false则表示按照插入顺序来，插入到尾部,默认为 False
+    // 用来指定 LinkedHashMap 的迭代顺序
+  	// true 表示按照基于访问的顺序来排列，意思就是最近使用的entry，放在链表的最末尾
+  	// false 表示按照插入顺序来，插入到尾部,默认为false
     final boolean accessOrder;
     public LinkedHashMap(int initialCapacity,float loadFactor,boolean accessOrder) {
    		super(initialCapacity, loadFactor) ;
    		this.accessOrder = accessOrder ;
     }
-  //取值
+
   public V get(Object key) {
     Node<K,V> e;
-    //调用 HashMap 的 getNode的方法
+    // 调用 HashMap 的 getNode的方法
     if ((e = getNode(hash(key), key)) == null)
       return null;
-    //在取值后对参数 accessOrder 进行判断，如果为true，执行afterNodeAccess
+    // 在取值后对参数 accessOrder 进行判断，如果为true，执行afterNodeAccess
     if (accessOrder)
-      afterNodeAccess(e);  //将最近使用的Entry，放在链表的最末尾
+      // 将最近使用的Entry，放在链表的最末尾
+      afterNodeAccess(e);  
     return e.value;
   }
-  //移除头结点
+
+  // 移除头结点
   void afterNodeInsertion(boolean evict) { 
     LinkedHashMap.Entry<K,V> first;
     if (evict && (first = head) != null && removeEldestEntry(first)) {
@@ -419,7 +443,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
       removeNode(hash(key), key, null, false, true);
     }
   }
-  //移除此结点到尾部
+  // 移除此结点到尾部
   void afterNodeAccess(Node<K,V> e) { 
     LinkedHashMap.Entry<K,V> last;
     if (accessOrder && (last = tail) != e) {
@@ -441,12 +465,13 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
         last.after = p;
       }
       tail = p;
-      ++modCount;  //Fail-fast
+      // Fail-fast
+      ++modCount;
     }
   }
-	//静态内部类
+	// 静态内部类
   static class Entry<K,V> extends HashMap.Node<K,V> {
-    //用于维护双向链表
+    // 用于维护双向链表
     Entry<K,V> before, after;
     Entry(int hash, K key, V value, Node<K,V> next) {
       super(hash, key, value, next);
@@ -454,35 +479,32 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
   }
 
   abstract class LinkedHashIterator {
-    //记录下一个Entry
+    // 记录下一个Entry
     LinkedHashMap.Entry<K,V> next;
-    //记录当前的Entry
+    // 记录当前的Entry
     LinkedHashMap.Entry<K,V> current;
-    //记录是否发生了迭代过程中的修改
+    // 记录是否发生了迭代过程中的修改
     int expectedModCount;
-
     LinkedHashIterator() {
-      //初始化的时候把head给next
+      // 初始化的时候把head给next
       next = head;
-      //每一个迭代器对应自己的 expectModCount
-      expectedModCount = modCount;   //Fail-Fast
+      // 每一个迭代器对应自己的 expectModCount
+      expectedModCount = modCount;
       current = null;
     }
-
     public final boolean hasNext() {
       return next != null;
     }
-
-    //采用的是链表方式的遍历方式
+    // 采用的是链表方式的遍历方式
     final LinkedHashMap.Entry<K,V> nextNode() {
       LinkedHashMap.Entry<K,V> e = next;
       if (modCount != expectedModCount)
         throw new ConcurrentModificationException();
       if (e == null)
         throw new NoSuchElementException();
-      //记录当前的Entry
+      // 记录当前的Entry
       current = e;
-      //直接拿after给next
+      // 直接拿after给next
       next = e.after;
       return e;
     }
@@ -496,20 +518,16 @@ public class LinkedHashMap<K,V> extends HashMap<K,V> implements Map<K,V> {
       current = null ;
       K key = p.key;
       removeNode(hash(key), key, null, false, false);
-      //给当前的ExpectedModCount 重新赋值
+      // 给当前的ExpectedModCount 重新赋值
       expectedModCount = modCount;
     }
   }
 }
 ```
 
-即 LinkedHashMap 它是在原来的基础上维护了一个双向链表保证有序的HashMap,每次 **put 进来 Entry映射关系，除了将其保存到哈希表中对应的位置上之外，还会将其插入到双向链表的尾部**，内部类额外增加的两个属性来维护的一个双向链表**：before、After **是用于维护Entry插入的先后顺序的
+##### 4：Class Hashtable<K,V> ：
 
-
-
-### 4：Class Hashtable<K,V> ：
-
-​	HashMap 的升级版，并发,多线程的情况下，使用 Hashmap 进行 put 操作会引起死循环,导致CPU利用率接近100%
+​	HashMap 的升级版，用于解决HashMap的并发问题
 
 ```java
 public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneable, java.io.Serializable
@@ -517,9 +535,9 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
 1. 线程安全(synchronized)和非线程安全的
 
-   Hashtable 是线程安全给每个方法加了同步锁，所以在单线程环境下它比HashMap要慢，效率低
+   Hashtable 是线程安全，给每个方法加了同步锁，所以在单线程环境下它比HashMap要慢，效率低
 
-2. 支不支持 null 值和 null 键
+2. 不支持 null 值和 null 键
 
    HashTable 不支持null值和null键 ，而HashMap是因为对null做了特殊处理，将 null 的hashCode值定为了0，从而将其存放在哈希表的第0个bucket中
 
@@ -531,9 +549,9 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
    HashTable的初始容量是11，HashMap的初始容量是16.两者的填充因子默认都是0.75 **HashMap扩容时 ：当前容量X2 **，在扩容时须要重新计算hash **Hashtable扩容时：当前容量X2+1**
 
+###### java.util.concurrent   
 
-
-### 5：java.util.concurrent   Class   ConcurrentHashMap：
+##### 5：Class ConcurrentHashMap ：
 
 HashTable 容器使用 synchronized 来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下的，当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态
 
@@ -541,9 +559,7 @@ HashTable 容器使用 synchronized 来保证线程安全，但在线程竞争�
 public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>  implements ConcurrentMap<K,V>, Serializable {
   private static final long serialVersionUID = 7249069246763182397L;
 	//刨析源码
-  	
 }
-
 ```
 
 ###### 1：JDK1.7 实现 ConcurrentHashMap 的锁分段技术
@@ -574,13 +590,9 @@ Node 数组+链表+红黑树 的数据结构来实现，并发控制使用Synchr
 
 ​	当某个“弱键”不再正常使用时（弱引用），会被从 WeakHashMap 中被自动移除，被垃圾回收器所回收
 
-
-
 ### 7：Interface SortedMap<K,V>：
 
 ​	map 的子接口，增加了排序的功能(comparator), TreeMap 实现了它的继承接口
-
-
 
 ### 8：Class TreeMap<K,V>：
 
