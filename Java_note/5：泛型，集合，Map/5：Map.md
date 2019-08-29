@@ -553,80 +553,69 @@ public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneab
 
 ##### 5：Class ConcurrentHashMap ：
 
-HashTable 容器使用 synchronized 来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下的，当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态
+​	HashTable 使用 synchronized 来保证线程安全，但在线程竞争激烈的情况下 HashTable 的效率非常低下的，当一个线程访问HashTable的同步方法时，其他线程访问HashTable的同步方法时，可能会进入阻塞或轮询状态
 
 ```java
 public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>  implements ConcurrentMap<K,V>, Serializable {
   private static final long serialVersionUID = 7249069246763182397L;
-	//刨析源码
+	// 刨析源码
 }
 ```
 
 ###### 1：JDK1.7 实现 ConcurrentHashMap 的锁分段技术
 
-将数据分成一段一段的存储，然后给每一段数据配一把锁（Segment），当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问，提高了并发性
+​	将数据分成一段一段的存储，然后给每一段数据配一把锁（Segment），当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问，提高了并发性
 
-HashTable 容器在并发环境下表现出效率低下的原因，是因为**所有访问HashTable的线程都必须竞争同一把锁**，如果容器里有多把锁每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效的提高并发访问效率，这就是 ConcurrentHashMap 所使用的锁分段技术结构 由Segment(段) 数组结构 和 HashEntry 数组结构组成
+- HashTable 容器在并发环境下表现出效率低下的原因，是因为**所有访问HashTable的线程都必须竞争同一把锁**，如果容器里有多把锁每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效的提高并发访问效率，这就是 ConcurrentHashMap 所使用的锁分段技术结构由 Segment(段) 数组结构 和 HashEntry 数组结构组成
+
 
 ###### 2：Segment 锁
 
-是一种可重入锁，在 ConcurrentHashMap 里扮演锁的角色，HashEntry 则用于存储键值的映射关系
+​	一种可重入锁，在 ConcurrentHashMap 里扮演锁的角色，HashEntry 则用于存储键值的映射关系
 
-Segment 的结构 和 HashMap 类似，是一种数组和链表结构， 一个 Segment 里包含一个 HashEntry 数组，每个HashEntry 是一个链表结构的元素,每个 Segment 守护着一个HashEntry数组里的元素,当对HashEntry数组的数据进行修改时，必须首先获得它对应的 Segment 锁
-
-默认是 16，也就是说 ConcurrentHashMap 有 16 个 Segments，所以理论上，这个时候，最多可以同时支持 16 个线程并发写，只要它们的操作分别分布在不同的 Segment 上。这个值可以在初始化的时候设置为其他值，但是一旦初始化以后，它是不可以扩容的
+- Segment 的结构 和 HashMap 类似，是一种数组和链表结构， 一个 Segment 里包含一个 HashEntry 数组，每个HashEntry 是一个链表结构的元素，每个 Segment 守护着一个 HashEntry 数组里的元素，当对HashEntry数组的数据进行修改时，必须首先获得它对应的 Segment 锁
+- 默认是 16个Segments，所以理论上，这个时候，最多可以同时支持 16 个线程并发写，只要它们的操作分别分布在不同的 Segment 上
+- 这个值可以在初始化的时候设置为其他值，但是一旦初始化以后，它是不可以扩容的
 
 ###### 3：构造函数进行初始化的，那么初始化完成后：
 
 - Segment 为 16个，不可以扩容
-- Segment[ i ] 的默认大数组大小为 2，负载因子是 0.75，得出初始阈值为 1.5，也就是以后插入第一个元素不会触发扩容，插入第二个会进行第一次扩容
+- Segment[ i ] 的默认大数组大小为 2，负载因子是 0.75，得出初始阈值为 1.5，也就是以后插入第一个元素不会触发扩容，插入∂∂第二个会进行第一次扩容
 - segment 不能扩容，扩容的是 segment 内部的数组 HashEntry[] 进行扩容，扩容后，容量为原来的 2 倍
 
 ###### 4：JDK1.8 实现 ConcurrentHashMap
 
-Node 数组+链表+红黑树 的数据结构来实现，并发控制使用Synchronized和CAS来操作，整个看起来就像是优化过且线程安全的HashMap，虽然在JDK1.8中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本
+​	数组+链表+红黑树数据结构来实现，并发控制使用Synchronized和CAS来操作，整个看起来就像是优化过且线程安全的HashMap，虽然在JDK1.8中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本
 
-### 6：java.util  Class   WeakHashMap：
+###### java.util  
 
-​	当某个“弱键”不再正常使用时（弱引用），会被从 WeakHashMap 中被自动移除，被垃圾回收器所回收
+##### 6：Class WeakHashMap：
 
-### 7：Interface SortedMap<K,V>：
+​	当某个“弱键” 不再正常使用时（弱引用），会被从 WeakHashMap 中被自动移除，被垃圾回收器所回收
 
-​	map 的子接口，增加了排序的功能(comparator), TreeMap 实现了它的继承接口
+##### 7：Interface SortedMap<K，V>：
 
-### 8：Class TreeMap<K,V>：
+​	map 的子接口，增加了排序的功能(comparator)，TreeMap实现了它的继承接口
 
-TreeMap 基于 **红黑树（Red-Black tree）实现**，该映射根据**其键的自然顺序进行排序**，或者根据**创建映射时提供的 Comparator 进行排序**，具体取决于使用的构造方法
+##### 8：Class TreeMap<K，V>：
+
+​	TreeMap 基于 **红黑树（Red-Black tree）实现**，该映射根据**其键的自然顺序进行排序**，或者根据**创建映射时提供的 Comparator 进行排序**，具体取决于使用的构造方法
 
 - 默认大小：size = 0；
 - TreeMap 基本操作 containsKey、get、put 和 remove 的时间复杂度是 log(n) ，TreeMap是**非同步**的，它的iterator()，返回的**迭代器是fail-fastl**的
-- TreeMap 不支持null键，但是 支持null值，排序时，每个结点都是一个Entry<K,V>
+- **TreeMap 不支持null键，但是支持null值**，排序时，每个结点都是一个Entry<K,V>
   - TreeMap()：使用键的自然顺序构造一个新的、空的树映射
   - TreeMap(Comparator<? super K> comparator) ：构造一个新的、空的树映射，该映射根据给定比较器进行排序 
   - SortedMap<K,V>   subMap(K fromKey, K toKey)  ：返回键值的范围从 fromKey（包括）到 toKey（不包括）的部分视图
   - SortedMap<K,V> tailMap(K fromKey) ：返回此映射的部分Entry，其键大于等于 fromKey
 
 ```java
-// ToDo(likang):待深入红黑树时吗，在以此为例对照学习
+// TODO(likang):待深入红黑树时吗，在以此为例对照学习
 public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>, Cloneable, java.io.Serializable {
 	// extends AbstractMap ：表明其是一个MaP
   // implements NavigableMap<K,V> :实现了此接口，意味着支持一系列导航方法，返回有序的key集合
   // 实现了Cloneable接口，意味着它能被克隆
   // 实现了java.io.Serializable，意味着它支持序列化
-  
-  // 使用该构造函数，TreeMap 中的元素按照自然排序进行排列
-  public TreeMap() {
-    comparator = null;
-  }
-	// 指定排序器
-  public TreeMap(Comparator<? super K> comparator) {
-    this.comparator = comparator;
-  }
-	// 添加Map
-  public TreeMap(Map<? extends K, ? extends V> m) {
-    comparator = null;
-    putAll(m);
-  }
   // 比较器
 	private final Comparator<? super K> comparator;
 	// 红黑树的根节点
@@ -635,6 +624,19 @@ public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>
   private transient int size = 0;
 	// 修改红黑树结构的数量
  	private transient int modCount = 0;
+  // TreeMap 元素按照自然排序进行排列
+  public TreeMap() {
+    comparator = null;
+  }
+	// 指定外比较器
+  public TreeMap(Comparator<? super K> comparator) {
+    this.comparator = comparator;
+  }
+	// 添加Map
+  public TreeMap(Map<? extends K, ? extends V> m) {
+    comparator = null;
+    putAll(m);
+  }
   // 返回TreeMap中是否保护“键(key)”
 	public boolean containsKey(Object key) {
   	return getEntry(key) != null;
@@ -686,7 +688,6 @@ public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>
       return p;
     }
   }
-
   // 获取TreeMap中键为key的节点
   final Entry<K,V> getEntry(Object key) {
     // 若"比较器"为null，则通过getEntryUsingComparator()获取"健"为key的节点
@@ -695,7 +696,7 @@ public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>
     if (key == null)
       throw new NullPointerException();
     Comparable<? super K> k = (Comparable<? super K>) key;
-    // 将p设为根节点，开始比较大小遍历
+    // 本质是红黑树，直接便利红黑树，将p设为根节点，开始比较大小遍历
     Entry<K,V> p = root;
     while (p != null) {
       int cmp = k.compareTo(p.key);
@@ -711,7 +712,6 @@ public class TreeMap<K,V> extends AbstractMap<K,V>  implements NavigableMap<K,V>
     }
     return null;
   }
-  
 
 }
 ```
@@ -841,11 +841,13 @@ final Entry<K,V> getLowerEntry(K key) {
 
 ```
 
-### 9：Map的遍历（三种）：转成 Set 集合，用迭代器遍历
+##### 9：Map的遍历（三种）：转成 Set 集合，用迭代器遍历
 
 - 遍历 key 键，利用 Set **keySet()** ，返回的 set 集合 
 - 遍历所有的value，利用 Collection **values()** ，返回collection集合 
-- 遍历键值对，利用 Set<Map.Entry<K,V>> **entrySet()** 方法，返回每一组键值对的set集合， entry.getKey(), entry.getValue()
+- 遍历键值对，利用 Set<Map.Entry<K,V>> **entrySet()** 方法，返回每一组键值对的set集合
+  - entry.getKey( )
+  - entry.getValue( )
 
 
 
