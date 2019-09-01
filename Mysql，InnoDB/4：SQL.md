@@ -19,7 +19,7 @@
 
 ###### 注意：
 
-- SQL语句本身不区分大小写，但是出于可读性的目的，我们通常会将SQL的关键字全部大写，非关键字全部小写 1
+- SQL语句本身不区分大小写，但是出于可读性的目的，我们通常会将SQL的关键字全部大写，非关键字全部小写
 - ；：分隔符，是不必要的，但是作为一次语句的结束
 - %：替代一个或多个字符
 - ?：仅替代一个字符
@@ -39,7 +39,7 @@ CREATE TABLE 表名（
 	id	  数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
 	列名	数据类型（）not null DEFAULT defalut_value，
 	列名	数据类型（），
-	Foreign key( 列名) references 目标表名（列名)
+	Foreign key(列名) references 目标表名（列名)
 ）;
 # 通常记事本写好直接 copy
 ```
@@ -66,10 +66,10 @@ CREATE TABLE 表名（
 1. 修改表名
    - AITER TABLE 表名 RENAME 新表名；
 2. 修改表的结构
-   - 增加新的字段：ALTER TABLE 表名 ADD 字段名... after 字段名|first；
-   - 修改现有字段：ALTER TABLE 表名 MODIFY 修改的字段；
-   - 修改字段名：   ALTER TABLE 表名 RENAME column A to B;
-   - 删除现有字段：ALTER TABLE 表名 DROP 字段名；
+   - 增加新的字段：ALTER TABLE 表名 **ADD** 字段名... after 字段名|first；
+   - 修改现有字段：ALTER TABLE 表名 **MODIFY** 修改的字段；
+   - 修改字段名：   ALTER TABLE 表名 **RENAME** column A to B;
+   - 删除现有字段：ALTER TABLE 表名 **DROP** 字段名；
 
 - alter table stu add name varchar(30) default 'xxx' not null after id;
 - alter table stu modify name varchar(16) default 'unknown';
@@ -88,7 +88,7 @@ CREATE TABLE 表名（
    - SELECT：具体的字段，也可以是表中的具体字段函数或者表达式，直接在其后面加别名
      -  as 别名：那么结果集会以这个别名作为字段的名字
      - 可以使用 "" 给别名区分大小写和添加空格
-       - select name as " Name" from student;
+       - select name as "Name" from student;
    - FROM：用来限制数据表的来源
    - WHERE子句：添加限制条件，只会将满足条件的记录查询出来
      1. <,>=,<=,<>等价于!=
@@ -105,7 +105,7 @@ CREATE TABLE 表名（
         - ANY：任意一个
         - ALL：所有的
         - select * from stu where class='1' and age > any (select age from stu where class='2')；
-        - 查询出01班中，年龄大于 02班任意一个 的 同学 
+        - 查询出01班中，年龄大于 02班任意一个的同学
 
 ##### 4：DISTINCT：
 
@@ -158,7 +158,7 @@ CREATE TABLE 表名（
 
 - 用于合并两个或多个 SELECT 语句的结果集，UNION 命令只会选取不同的值
 - UNION 内部的 SELECT 语句必须拥有相似的列对应
-- SELECT column_name(s) FROM table_name1  UNION ALL  SELECT column_name(s) FROM table_name2
+- SELECT column_name(s) FROM table_name1  UNION ALL  SELECT column_name(s) FROM table_name2；
 - UNION ALL：命令会列出所有的值，不去重，效率高
 
 ##### 11：SELECT 语句的执行过程（ from--where--group by--having--select--order by ）
@@ -222,7 +222,7 @@ CREATE TABLE 表名（
 
 3. ###### table ：执行SQL用到的表名
 
-4. ###### type ：表示MySQL在表中找到所需行使用的方式方式，又称“访问类型”
+4. ###### type ：表示MySQL在表中找到所需行使用的方式，又称“访问类型”
 
    - ALL, index, range, ref, eq_ref, const, system, NULL，从左到右，性能从最差到最好
      - ALL：全表扫描

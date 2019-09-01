@@ -22,7 +22,7 @@
 ###### 环境变量
 
 - etc/profile、/etc/paths：是系统级别的，系统启动就会加载
-- ～/.bash_profile：用户的环境变量，该文件包含专用于你的账户bash shell的bash信息,当登录时以及每次打开新的shell时,该文件被读取
+- ～/.bash_profile：用户的环境变量，该文件包含专用于你的账户bash，shell的bash信息,当登录时以及每次打开新的shell时,该文件被读取
 
 ###### 查看PATH
 
