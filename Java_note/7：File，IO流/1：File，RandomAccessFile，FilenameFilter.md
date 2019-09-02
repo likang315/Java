@@ -1,22 +1,23 @@
+### IO
+
+------
+
 - IO 通道：操作系统中用来传输读，写的信号
 - IO：对磁盘数据读写信号
+  - URL："/" ：根目录，"." ：当前目录，"/"：层级的分隔符，默认路径就是当前路径
 
-URL："/" ：根目录，"." ：当前目录，"/"：层级的分隔符，默认路径就是当前路径
+##### Java IO：
 
-## Java IO：
+- Java.io   包中 阻塞型 IO
+- Java.nio 包中的非阻塞型IO，通常称为 New IO
+- IO 流：把内存中的数据写到磁盘上(输出流) 或者把磁盘上的数据读到内存中的操作（输入流）
 
-###### 1：Java.io   包中 阻塞型 IO
-
-###### 2：Java.nio 包中的非阻塞型IO，通常称为 New IO
-
-IO 流：把内存中的数据写到磁盘上(输出流) 或者把磁盘上的数据读到内存中的操作（输入流）
-
-### 1：java.io. File：既可以表示一个文件 也可以 表示一个目录
+##### 1：java.io. File：既可以表示一个文件，也可以表示一个目录
 
 ###### 作用：
 
-1. 可以访问其文件的一些属性（如：文件名，大小），但是不能访问文件的内容 
-2. 创建，删除一个文件 或 目录
+1. 可以访问其文件的一些属性（如：文件名，大小），但是不能访问文件的内容
+2. 创建，删除一个文件或目录
 
 ###### Constructors：
 
@@ -33,12 +34,14 @@ IO 流：把内存中的数据写到磁盘上(输出流) 或者把磁盘上的�
 - long length() ：返回由此抽象路径名表示的文件的长度 
 - String[] list()：获取目录下的所有File对象名称所组成的字符串数组
 
-### 2：java.io   Interface  FilenameFilter（文件过滤器）
+###### java.io 
+
+##### 2：Interface  FilenameFilter（文件过滤器）
 
 ```java
 @FunctionalInterface
 public interface FilenameFilter {
-    //dir表示指定目录,name表示指定目录的名称
+    // dir表示指定目录, name表示指定文件名
     boolean accept(File dir, String name);
 }
 ```
@@ -46,20 +49,20 @@ public interface FilenameFilter {
 ###### 实现 FilenameFilter 接口，重写 accept 函数，使用 endwiths 或 startswith 过滤
 
 ```java
-//获取目录下的所有File对象的抽象路径名所组成的文件数组
+// 获取目录下的所有File对象的抽象路径名所组成的文件数组
 File[] listFiles() 
-File[] listFiles(FilenameFilter filter) //根据File对象的名称进行过滤
-  删除目录其所有子项时用递归
+// 根据File对象的名称进行过滤
+File[] listFiles(FilenameFilter filter) 
 @Override
 public boolean accept(File dir, String name) {
 		return name.endsWith(".java");
-		//通过返回值来控制指定目录下面的文件和文件夹的显示，只显示.java文件
-}	  
+		// 通过返回值来控制指定目录下面的文件和文件夹的显示，只显示.java文件
+}
 ```
 
+###### Java.io    
 
-
-### 3：Java.io    Class    RandomAccessFile：
+##### 3：Class  RandomAccessFile：
 
 专门用来读取文本数据的，不需要流直接可以读写
 
