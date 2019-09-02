@@ -35,7 +35,7 @@ Redo Log 用于保障已提交事务的 ACID 特性, Undo log 用于保障未提
 ​	隔离级别有 4 个，由低到高依次为 
 
 - Read uncommitted
-- Readcommitted
+- Read committed
   - 解决更新丢失
 - Repeatable read
   - 脏读
@@ -55,7 +55,7 @@ Redo Log 用于保障已提交事务的 ACID 特性, Undo log 用于保障未提
 ##### 4：当前读、快照读
 
 - 在RR级别下，快照读是通过MVVC(多版本控制)和undo log来实现的，当前读是通过加record lock(记录锁)和gap lock(间隙锁)来实现的
-- 在 RR 级别下：MVCC完全解决了重复读，但不能真正的完全避免幻读，只是在利用**历史数据规避了幻读**
+- 在 RR 级别下：MVCC完全解决了不可重复读，但不能真正的完全避免幻读，只是在利用**历史数据规避了幻读**
 - 对于快照读，mysql使用历史数据部分避免了幻读，若需完全避免，需要手动加锁将快照读调整为当前读，然后mysql使用next-key完全避免了幻读
 
 ##### 5：主从复制

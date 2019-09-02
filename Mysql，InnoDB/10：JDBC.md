@@ -6,10 +6,10 @@ JDBC API：Sun 公司定义的一套接口（Java SE： java.sql.* ），谁想�
 
 ##### 1：JDBC 驱动：
 
-​	由驱动类和数据库访问类组成，由数据库厂商提供，可以到MySQL网站下载（mysql-connector-j.jar）
+​	由驱动类和数据库访问类组成，由数据库厂商提供，可以到MySQL网站下载（mysql-connector-java.jar）
 
 - 配置JBDC驱动程序：mysql-connector-java-5.1.20-bin.jar IDEA配置：jar包导入
-- 驱动类：JDBC 实现了 Java.SQL.Drive 接口
+- 驱动类：JDBC 实现了 Java.SQL.Driver 接口
 - 数据库访问类：分别实现了数据库访问接口，主要包含有
   - Connection：连接接口
   - Statement：语句接口
@@ -104,11 +104,11 @@ Statement stat = con.createStatement();
 String sql = "insert into person(id,name,sex,age) values(?,?,?,?)";
 PreparedStatement ps = con.prepareStatement(sql);
 	
-for(int i=1;i<10;i++) {
+for(int i = 1; i < 10; i++) {
     ps.setInt(1, i);
-    ps.setString(2, "name"+i);
-    ps.setString(3, i%2==0?"M":"F");
-    ps.setInt(4, 20+i);
+    ps.setString(2, "name" + i);
+    ps.setString(3, i % 2 == 0 ? "M" : "F");
+    ps.setInt(4, 20 + i);
     ps.addBatch(); 
 }
 int[] re = ps.executeBatch();
@@ -159,13 +159,13 @@ int[] re = ps.executeBatch();
     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",
                                                  "root", "mysql");
   	//Statement  stat = con.createStatement();
-    String sql="select * from stu where name like ?";
+    String sql = "select * from stu where name like ?";
     PreparedStatement  ps = con.prepareStatement(sql);
     ps.setString(1, "li%");
     ResultSet rs = ps.executeQuery();
-    while(rs.next()) {
+    while (rs.next()) {
       // 通过列序号或者列名获取值
-      System.out.println(rs.getString(2)+"\t"+rs.getString("name"));
+      System.out.println(rs.getString(2) + "\t" + rs.getString("name"));
     }
     con.close();
   }
@@ -177,3 +177,4 @@ int[] re = ps.executeBatch();
 
 - ResultSet getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)
   - 获取可在给定类别中使用的表的描述，其他参数直接传null
+
