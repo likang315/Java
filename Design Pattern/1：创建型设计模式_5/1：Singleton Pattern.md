@@ -1,4 +1,6 @@
-### 单例模式：（懒汉，饿汉各 3 种）
+### 单例模式：（懒汉、饿汉各 3 种）
+
+------
 
 ​	保证一个类的只可创建一个对象
 
@@ -8,13 +10,13 @@
 ##### 1：懒汉式，方法被调用时，对象才被初始化，也叫对象的延时加载
 
 ```java
-//懒汉式，对象的延时加载，线程安全，同步代码块，双重检查 Double-Check,效率高（双检锁）
+// 懒汉式，对象的延时加载，线程安全，同步代码块，双重检查 Double-Check，效率高（双检锁）
 public class Singleton {
     private volatile static Singleton instance;
     public static Singleton getInstance() { 
         if (instance == null) {
-            //只允许一个类的实例进入
-            synchronized(Singleton.class { 
+            // 只允许一个类的实例进入
+            synchronized(Singleton.class {
                 if (instance == null) {
                     instance = new Singleton();
                 }
@@ -23,16 +25,11 @@ public class Singleton {
         return instance;
     }
 }
+// 并发情况下，如果没有volatile关键字，在 instance = new TestInstance
 
-//并发情况下，如果没有volatile关键字，在 instance = new TestInstance
-//(会出现出现问题，可以分解为3行伪代码)
-	 memory = allocate()   //分配内存
-   ctorInstanc(memory)   //初始化对象
-   instance = memory  //设置 instance 指向刚分配的地址
-
-//线程安全，同步方法，效率太低
+// 线程安全，同步方法，效率太低
 public class Singleton {
-      private static Singleton singleton;
+      private volatile static Singleton singleton;
       public static synchronized Singleton getInstance() {
           if (singleton == null) {
               singleton = new Singleton();
@@ -40,8 +37,7 @@ public class Singleton {
           return singleton;
       }
 }
-                         
-//静态内部类，通过类加载机制，懒加载，调用方法才会装载，效率高
+// 静态内部类，通过类加载机制，懒加载，调用方法才会装载，效率高
 public class Singleton {
   private static class SingletonInstance {
       private static final Singleton INSTANCE = new Singleton();
@@ -56,13 +52,12 @@ public class Singleton {
 
 ```java
 public class Singleton {
-    private static Singleton instance = new Singleton();
+    private static final Singleton instance = new Singleton();
     public static Singleton getInstance() {
         return instance;
     }
 }
-
-//通过静态块，类初始化的时候就加载
+// 通过静态块，类初始化的时候就加载
 public class Singleton {
       private static Singleton instance;
       static {
@@ -72,10 +67,9 @@ public class Singleton {
           return instance;
       }
 }
-
-//枚举实现单例模式，不仅能避免反射问题，而且还自动支持序列化机制
+// 枚举实现单例模式，不仅能避免反射问题，而且还自动支持序列化机制
 public enum  EnumSingleton {
-  	// private static final INSTANCE ；
+  	// private static final INSTANCE;
     INSTANCE;
     public EnumSingleton getInstance(){
         return INSTANCE;
@@ -86,8 +80,8 @@ public enum  EnumSingleton {
 ##### 3：枚举实现单例
 
 ```Java
-public final class T extends Enum{
-
+public final class T extends Enum {
+	
 }
 ```
 

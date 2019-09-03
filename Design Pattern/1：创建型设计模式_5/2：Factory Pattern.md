@@ -1,17 +1,18 @@
 ### 工厂模式：属于创建型模式 
 
+------
+
 - 简单工厂模式（Simple Factory） 
 - 工厂方法模式（Factory Method）
 - 抽象工厂模式（Abstract Factory）
 
-### 1：简单工厂模式 ：
+##### 1：简单工厂模式 ：
 
 ​	建立一个工厂类，对实现了同一接口（Product）的一些类进行实例的创建
 
 ###### 优点：
 
 1.  一个调用者如果想创建一个对象，只要知道其名称就可以了 
-2. 扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以
 
 ###### 缺点：
 
@@ -43,29 +44,27 @@ public class ProductB implements Product {
 public class Factory {
 	private Product product;
 	public Factory(String str) {
-		switch(str) {
+		switch (str) {
 			case "A":
 				product = new ProductA();
 				break;
 			case "B":
-				product = new ProductB();	
+				product = new ProductB();
 				break;
 		}
 	}
 	public void send() {
 		product.fun();
 	}
-
   public static void main(String[] args) {
-    Factory factory=new Factory("A"); //告诉工厂你想要创建对象的类型
+		// 告诉工厂你想要创建对象的类型
+    Factory factory = new Factory("A"); 
     factory.send();
   }
 }
 ```
 
-
-
-### 2：工厂方法模式 ：(静态还有非静态)
+##### 2：工厂方法模式 ：(静态还有非静态)
 
 通过方法实现，一个方法返回一个对象，修改太多，违反了开闭原则
 
@@ -76,8 +75,7 @@ public class Factory {
       }
       public static Product createProB() {
         return new ProductB();
-      } 
-
+      }
       public static void main(String[] args) {
         //创建对象调用相应的方法
         Factory product = Factory.createProA();
@@ -86,9 +84,7 @@ public class Factory {
 }
 ```
 
-
-
-### 3：抽象工厂模式：
+##### 3：抽象工厂模式：
 
 ​	超级工厂接口是负责创建一个相关对象的基类工厂，每个实现接口的工厂类都能按照工厂模式创建对象
 

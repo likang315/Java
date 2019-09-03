@@ -1,5 +1,7 @@
 ### 建造者模式(Builder Pattern)：属于创建型模式
 
+------
+
 ​	将一个复杂对象的构建与其表示相分离，使得同样的构建过程可以创建不同的对象 ( 属性不同 )	
 
 - 指挥者(director)：构建一个使用 builder 接口的对象 
@@ -9,7 +11,7 @@
 与工厂模式的区别是：建造者模式更加关注与零件装配的
 
 ```java
-//指挥者，一个产品分为三个模块
+// 指挥者，一个产品分为三个模块
 public class Director {
 	public void construct(Builder b) {
 		b.buildPartA();
@@ -17,14 +19,13 @@ public class Director {
 		b.buildPartC();
 	}
 }
-//建造者
+// 建造者
 public abstract interface Builder {
     public abstract void buildPartA();
     public abstract void buildPartB();
     public abstract void buildPartC();
 }
-
-//具体的建造者
+// 具体的建造者
 public class ConcreteBuilderA implements Builder {
 	protected Product p;
 	public ConcreteBuilderA() {
@@ -59,10 +60,10 @@ public class Product {
 	}
   
   public static void main(String[] args) {
-    Director director= new Director();
-    //实例化建造者时就创建了product，每个对象只是属性不同
+    Director director = new Director();
+    // 实例化建造者时就创建了product，每个对象只是属性不同
     ConcreteBuilderA ca = new ConcreteBuilderA();  
-    //把具体的建造者传给指挥者构建对象
+    // 把具体的建造者传给指挥者构建对象
     director.construct(ca);
     Product p = ca.getP();
   }
