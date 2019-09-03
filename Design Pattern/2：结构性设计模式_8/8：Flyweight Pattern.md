@@ -1,5 +1,7 @@
 ### 享元模式（Flyweight Pattern）：属于结构型模式
 
+------
+
 ​	用于减少创建对象的数量，以减少内存占用和提高性能，重用现有的同类对象，如果未找到匹配的对象，则创建新对象
 
 ###### 实现
@@ -9,8 +11,7 @@
 
 ###### 示例：
 
-- JAVA 中的 String，如果有则返回，如果没有则创建一个字符串保存在字符串缓存池里面
-- 数据库连接池
+- JAVA 中的 String 的字符串常量池，如果有则返回，如果没有则创建一个字符串保存在字符串缓存池里面
 
 ```java
 public class Circle {
@@ -38,24 +39,21 @@ public class Circle {
 }
                          
 public class ShapeFactory {
-   //通过颜色来作为标识码
-   private static final HashMap<String, Shape> circleMap = new HashMap<>();
+   // 通过颜色来作为标识码
+   private static final HashMap<String, Circle> circleMap = new HashMap<>();
  
    public static Shape getCircle(String color) {
-      Circle circle = (Circle)circleMap.get(color);
- 
-      if(circle == null) {
+      Circle circle = circleMap.get(color);
+      if (circle == null) {
          circle = new Circle(color);
          circleMap.put(color, circle);
-         System.out.println("Creating circle of color : " + color);
       }
       return circle;
    }
 }
                     
 public class FlyweightPatternDemo {
-  private static final String colors[] = 
-  { "Red", "Green", "Blue", "White", "Black" };
+  private static final String colors[] = {"Red", "Green", "Blue", "White", "Black" };
 
   private static String getRandomColor() {
     return colors[(int)(Math.random()*colors.length)];

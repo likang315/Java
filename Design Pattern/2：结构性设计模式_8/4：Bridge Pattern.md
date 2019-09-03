@@ -1,6 +1,8 @@
 ### 桥接模式（Bridge）：属于结构型模式
 
-​		降低抽象与实现之间的耦合度，使得二者可以独立发展，解耦
+------
+
+​	降低抽象与实现之间的耦合度，使得二者可以独立发展，解耦
 
 ###### 优点： 
 
@@ -9,28 +11,25 @@
 - 桥接模式将继承关系转化成关联关系，它降低了类与类之间的耦合度
 
 ```java
-public interface Concrete{
+public interface Concrete {
 	public abstract void method();
 }
-
 public class ConcreteA implements Concrete {
     @Override
     public void method() {
-        System.out.println("实现一...");
+        System.out.println("实现...");
     }
 }
-
-//抽象部分，作为桥接类使二者可以独立发展
-public abstract class Abstraction {  
+// 抽象部分，作为桥接类使二者可以独立发展
+public abstract class Abstraction {
 	private Concrete pimp;
 	public Abstraction(Concrete t) {
 		pimp = t;
 	}
-	public  void method() {
+	public void method() {
 		pimp.method();
 	}
 }
-
 // 实现部分
 public class AbstractionA extends Abstraction {
     public AbstractionA(Concrete t) {

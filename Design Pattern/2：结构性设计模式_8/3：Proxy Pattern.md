@@ -1,10 +1,12 @@
 ### 代理模式（Proxy Pattern）：属于结构型模式
 
-​		某个代理类代表另一个类的功能，并且可以在不改动目标对象的基础上，增加额外的功能
+------
+
+​	某个代理类代表另一个类的功能，并且可以在不改动目标对象的基础上，增加额外的功能
 
 ###### 目的：
 
-​	为其他对象提供一种代理，以控制对这个对象的访问
+​	为此对象提供一种代理，以控制对这个对象的访问
 
 ###### 示例：	
 
@@ -19,7 +21,7 @@
 2. 动态代理
 3. Cglib 代理
 
-### 1：静态代理
+##### 1：静态代理
 
 ​	在使用时，需要定义接口或者父类，被代理对象（目标对象）与代理对象（Proxy）一起实现相同的接口
 
@@ -55,15 +57,13 @@ public class Proxy implements Base {
 
 public class Main {
   public static void main (String[] args) {
-    Proxy p = new Proxy(new Source()); //传递代理对象，建立代理关系
+    Proxy p = new Proxy(new Source()); // 传递代理对象，建立代理关系
     p.method();
   }
 }
 ```
 
-
-
-### 2：动态代理（JDK代理）
+##### 2：动态代理（JDK代理）
 
 1. 代理对象不需要实现接口
 2. 代理对象的生成，是利用JDK的API，动态的在内存中创建代理对象
@@ -93,7 +93,7 @@ public class FlushEmail implements Email{
     }
 }
 
-//代理工厂，传入被代理对象返回代理对象
+// 代理工厂，传入被代理对象返回代理对象
 public class ProxyFactory {
   public static Object getProxy(Object obj){
     MyInvocation myHandler = new MyInvocation(obj);
@@ -103,24 +103,20 @@ public class ProxyFactory {
   }
 }
 
-//动态代理必须实现 invovationHandler，事件处理器
+// 动态代理必须实现 invovationHandler，事件处理器
 public class MyInvocation implements InvocationHandler {
-
-  //代理的实际对象
+  // 代理的实际对象
   private Object obj;
   public MyInvocation(Object obj) {
     this.obj = obj;
   }
-
-  //代理对象被实际调用
+  // 代理对象被实际调用
   @Override
-  public Object invoke(Object proxy, Method method, Object[] objects) 
-   		throws Throwable {
-    
+  public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
       Object re = null;
       if("send".equals(method.getName())) {
           Logger.before();
-          //传入代理的实际对象和参数,调用原始方法
+          // 传入代理的实际对象和参数,调用原始方法
           method.invoke(obj,objects);
           Logger.after();
       } else {
@@ -141,13 +137,11 @@ public class Logger {
 }
 ```
 
-
-
-### 3：Cglib 代理（继承）：
+##### 3：Cglib 代理（继承）：
 
 ​	对指定的目标类生成一个子类，并覆盖其中方法实现增强，但因为采用的是继承，所以不能对 final 修饰的类进行代理
 
-- Cglib代理,也叫作子类代理,它是在内存中构建一个子类对象从而实现对目标对象功能的扩展
+- Cglib代理，也叫作子类代理，它是在内存中构建一个子类对象从而实现对目标对象功能的扩展
 
 ######  Cglib子类代理实现方法: 
 

@@ -1,5 +1,7 @@
 ### 外观模式（Facade Pattern）：属于结构型模式
 
+------
+
 ​	隐藏系统内部的复杂性，并向客户端提供了一个客户端可以访问系统的接口，客户端包含了请求的简化方法和对现有系统类方法的委托调用
 
 ###### 优点：
@@ -10,7 +12,7 @@
 public interface Shape {
    void draw();
 }
-//画正方形
+// 画正方形
 public class Rectangle implements Shape {
 
    @Override
@@ -18,7 +20,7 @@ public class Rectangle implements Shape {
       System.out.println("Rectangle::draw()");
    }
 }
-//画圆
+// 画圆
 public class Circle implements Shape {
  
    @Override
@@ -27,11 +29,10 @@ public class Circle implements Shape {
    }
 }
 
-//想客户端展示的外观类，内部功能已经封装好
+// 向客户端展示的外观类，内部功能已经封装好
 public class ShapeMaker {
    private Shape circle;
    private Shape rectangle;
-   
    public ShapeMaker() {
       circle = new Circle();
       rectangle = new Rectangle();

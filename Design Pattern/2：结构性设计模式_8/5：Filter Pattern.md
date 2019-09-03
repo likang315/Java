@@ -1,14 +1,15 @@
-### 过滤器模式（Filter、Criteria Pattern）：属于结构型模式
+### 过滤器模式（FiltersPattern）：属于结构型模式
 
-使用不同的过滤条件来过滤一组对象，通过逻辑运算把它们连接起来，获得最终的过滤条件，它结合多个标准来获得单一标准
+------
+
+​	使用不同的过滤条件来过滤一组对象，通过逻辑运算把它们连接起来，获得最终的过滤条件，它结合多个标准来获得单一标准
 
 ```java
 // 所有过滤器的基类
 public interface FilterBase {
    public List<Person> filter(List<Person> persons);
 }
-
-//过滤出男性
+// 过滤出男性
 public class FilterMale implements FilterBase {
    @Override
    public List<Person> filter(List<Person> persons) {
@@ -21,7 +22,7 @@ public class FilterMale implements FilterBase {
       return malePersons;
    }
 }
-//过滤出所有单身的
+// 过滤出所有单身的
 public class FilterSingle implements FilterBase {
   
    @Override

@@ -1,6 +1,8 @@
 ### 组合模式 (Composite)：也称部分整体模式，属于结构型模式
 
-将一些相似的对象看成一个对象处理，将对象组合成树形结构，创建了对象组的树形结构，区分容器对象和叶子对象，都当成容器对象处理，使得用户对单个对象和组合对象的使用具有一致性
+------
+
+​	将一些相似的对象看成一个对象处理，将对象组合成树形结构，创建了对象组的树形结构，区分容器对象和叶子对象，都当成容器对象处理，使得用户对单个对象和组合对象的使用具有一致性
 
 ###### 关键代码：
 
@@ -25,10 +27,8 @@ public abstract class RootFile {
     this.name=name;
   }
 
-  public abstract void printName() ;
+  public abstract void printName();
 }
-
-
 public class Folder extends RootFile {
   private List<RootFile> list = new ArrayList<RootFile>();
   public Folder() {
@@ -44,14 +44,13 @@ public class Folder extends RootFile {
   public void printName() {
     System.out.println("File name:" + super.getName());
     if(null != arraylist) {
-      //是文件调用文件的printName ，若是文件夹调用文件夹的printName
-      for(RootFile rf:arraylist) {
+      // 是文件调用文件的printName ，若是文件夹调用文件夹的printName
+      for (RootFile rf:arraylist) {
         rf.printName();
       }
     }
   }
 }
-
 
 public class File extends RootFile {
   public File() {
