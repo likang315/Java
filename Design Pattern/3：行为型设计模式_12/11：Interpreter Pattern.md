@@ -1,5 +1,7 @@
 ### 解释器模式（Interpreter Pattern）：属于行为型模式
 
+------
+
 ​	此模式实现了一个表达式接口，该接口解释一个特定的上下文
 
 ###### 实现：
@@ -7,13 +9,13 @@
 定义一个解释器，这个解释器用来解释语言中的句子
 
 ```java
-//表达式接口
+// 表达式接口
 public interface Expression {
-   //通过true和false 来解释语句
+   // 通过true和false 来解释语句
    public boolean interpret(String context);
 }
 
-//解释器
+// 解释器
 public class TerminalExpression implements Expression {
    private String data;
    public TerminalExpression(String data){
@@ -60,14 +62,14 @@ public class AndExpression implements Expression {
 }
 
 public class InterpreterPatternDemo {
-   //规则：Robert 和 John 是男性
+   // 规则：Robert 和 John 是男性
    public static Expression getMaleExpression(){
       Expression robert = new TerminalExpression("Robert");
       Expression john = new TerminalExpression("John");
       return new OrExpression(robert, john);    
    }
  
-   //规则：Julie 是一个已婚的女性
+   // 规则：Julie 是一个已婚的女性
    public static Expression getMarriedWomanExpression(){
       Expression julie = new TerminalExpression("Julie");
       Expression married = new TerminalExpression("Married");

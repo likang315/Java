@@ -1,5 +1,7 @@
 ### 备忘录模式 (Memento Pattern)：属于行为型模式
 
+------
+
 ​	在该对象之外，保存一个对象的某个状态，以便在适当的时候恢复对象
 
 #### 作用:
@@ -12,10 +14,10 @@
 - Memento(备忘录)：存储了发起人对象状态 
 - Caretaker（备忘录管理)： 管理备忘录
 
-应用：git 版本控制
+应用：GIT 版本控制
 
 ```java
-//备忘录
+// 备忘录
 public class Memento {
   private String state;
   public Memento(String state){
@@ -43,7 +45,7 @@ public class Originator {
 	   System.out.println("Current state:"+state);
    }
 }
-//备忘录管理者
+// 备忘录管理者
 public class CareTaker {
   private List<Memento> List = new ArrayList<Memento>();
   public void add(Memento m){

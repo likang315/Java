@@ -1,5 +1,7 @@
 ### 命令模式（Command Pattern）：属于行为型模式
 
+------
+
 ​	请求以命令的形式包裹在对象中，并传给调用对象，调用对象寻找可以处理该命令的合适的对象，并把该命令传给相应的对象，该对象执行命令
 
 ###### 三个角色：
@@ -13,11 +15,11 @@
  	GUI 中每一个按钮都是一条命令
 
 ```java
-//命令接口
+// 命令接口
 public interface Order {
    void execute();
 }
-//不同的命令执行者，实现类不同
+// 不同的命令执行者，实现类不同
 public class BuyStock implements Order {
    public void execute() {
      Ststem.out.println(" buy order excute....");
@@ -29,12 +31,11 @@ public class SellStock implements Order {
      Ststem.out.println(" sell order excute....");
    }
 }
-
-//命令的调用者
+// 命令的调用者
 public class Invoker {
-   //存储命令的容器
+   // 存储命令的容器
    private List<Order> orderList = new ArrayList<Order>(); 
-   //添加命令
+   // 添加命令
    public void addOrder(Order order){
       orderList.add(order);      
    }
@@ -47,13 +48,13 @@ public class Invoker {
    }
 }
 
-public class Calient {
+public class Client {
    public static void main(String[] args) {
-      Broker broker = new Broker();
-      //请求以命令的方式封装在对象中
-      broker.takeOrder(new BuyStock());
-      broker.takeOrder(new SellStock());
-      broker.placeOrders();
+      Invoker invoker = new Invoker();
+      // 请求以命令的方式封装在对象中
+      invoker.takeOrder(new BuyStock());
+      invoker.takeOrder(new SellStock());
+      invoker.placeOrders();
    }
 }
 ```

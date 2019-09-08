@@ -1,6 +1,8 @@
-### 空对象模式（Null Object Pattern）：
+### 空对象模式（Null Object Pattern）：行为型模式
 
-​	空对象取代对 NULL 对象实例的检查，Null 对象不是用来检查空值，而是用来执行一个不做任何动作的关系，提供默认的行为
+------
+
+​	空对象取代对 NULL 对象实例的检查，null 对象不是用来检查空值，而是用来执行一个不做任何动作的关系，提供默认的行为
 
 ###### 实现：
 
@@ -26,10 +28,10 @@ public class RealCustomer extends AbstractCustomer {
       return false;
    }
 }
-//NULL对象默认的处理类
+// NULL对象默认的处理类
 public class NullCustomer extends AbstractCustomer {
 	 @Override
-   public boolean isNil() {
+   public boolean isNull() {
       return true;
    }
    
@@ -39,7 +41,7 @@ public class NullCustomer extends AbstractCustomer {
    }
 }
 
-//工厂区分出是不是空对象
+//  工厂区分出是不是空对象
 public class CustomerFactory {
    public static final String[] names = {"Rob", "Joe", "Julie"};
    

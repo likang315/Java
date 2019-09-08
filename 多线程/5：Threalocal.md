@@ -4,9 +4,10 @@
 
 ------
 
-即线程变量，一个以ThreadLocal对象为键、任意对象为值的存储结构，这个结构被附在线程上，每个线程都有一个ThreadLocal用于维护共享变量
+​	即线程变量，一个以ThreadLocal对象为键、任意对象为值的存储结构，这个结构被附在线程上，每个线程都有一个ThreadLocal用于维护共享变量
 
 - 被其修饰的变量在多线程环境下访问时，能保证各个线程里的变量相对独立于其他线程内的变量
+- 泛型中存储的是共享变量，总的ThreadLocalMap，中Entry[ ] 中，key为当前线程的Threadlocal，value为当前线程的共享变量值
 - 锁一般是以时间换空间，而ThreadLocal是以空间换时间
 - ThreadLocal 实例通常来说都是 private static final 类型的，用于关联线程和线程的上下文
 
@@ -27,8 +28,6 @@
 1. 通过 getMap() 获取每个子线程 Thread 持有自己的ThreadLocalMap实例, 因此它们是不存在并发竞争的，可以理解为每个线程有自己的变量副本
 2. ThreadLocalMap 中 Entry[] 数组存储数据，初始化长度16，后续每次都是2倍扩容。主线程中定义了几个变量，Entry[]才有几个key
 3. Entry 的 key是对 当前线程ThreadLocal的弱引用，当抛弃掉ThreadLocal对象时，垃圾收集器会忽略这个key的引用而清理掉 ThreadLocal 对象， 防止了内存泄漏
-
-###### key 当前线程的 ThreadLocal 对象，value 则是对应线程的变量副本
 
 ```java
 public class ThreadLocal<T> {

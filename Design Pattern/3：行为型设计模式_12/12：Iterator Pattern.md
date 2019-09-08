@@ -1,5 +1,7 @@
 ### 迭代器模式（Iterator Pattern）：属于行为型模式
 
+------
+
 ​	这种模式用于顺序访问集合对象的元素，不需要知道集合对象的底层表示
 
 ###### 意图：
@@ -19,15 +21,15 @@ public interface Iterator {
    public boolean hasNext();
    public Object next();
 }
-//迭代器类
-public class NameRepository implements Container {
+// 迭代器类
+public class NameRepository {
    public String names[] = {"Robert" , "John" ,"Julie" , "Lora"};
  
    @Override
    public Iterator getIterator() {
       return new NameIterator();
    }
- 	 //迭代器内部类
+ 	 // 迭代器内部类
    private class NameIterator implements Iterator {
       int index;
       @Override

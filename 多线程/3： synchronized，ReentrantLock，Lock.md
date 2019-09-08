@@ -8,7 +8,7 @@
 
 ##### 1：并发编程的的三个特性
 
-1. 原子性：在一个原子操作中，cpu 不可以在中途暂停然后在调度，即不被中断操作，要不执行完成，要不就不执行
+1. 原子性：在一个原子操作中，cpu 不可以在中途暂停然后再调度，即不被中断操作，要不执行完成，要不就不执行
 2. 有序性：在本线程内观察，所有操作都是有序的
 3. 可见性：指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即得到修改的值
    - 当一个变量被 volatile 修饰后，当一个线程在私有内存中修改此共享变量后，共享变量会立即被更新到主内存中，同时使其他线程缓存的此变量无效，其他线程读取共享变量时，会直接从主内存中读取
@@ -63,23 +63,22 @@ atomicInteger.incrementAndGet();
 
 ```java
 // this锁：指monitor对象
-synchronized(this) {
-	// ...
+synchronized (this) {
+	// todo
 }
 
 // 有一个明确的对象作为锁时
 public void  method3(SomeObject obj) {
    //非this锁：monitor对象
-   synchronized(obj) {
+   synchronized (obj) {
       // todo
    }
 }
 
 // 当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁
 private Byte[] local= new Byte[0];
-synchronized(local)
-{
-  // todo...
+synchronized (local) {
+  // todo
 }
 ```
 
@@ -113,12 +112,10 @@ public static synchronized void method() {
 - synchronized 作用于一个类时，每个类有且只有一个Class对象，即类的 Class 对象锁，类的所有对象都是同一把锁
 
 ```java
-synchronized(ClassName.class) {
-	// todo....
+synchronized (ClassName.class) {
+	// todo
 }
 ```
-
-
 
 ##### 4：重入锁(Lcok)：根据一个线程中的多个流程能不能获得同一把锁
 
@@ -129,7 +126,7 @@ synchronized(ClassName.class) {
 
 ```java
 public class Solution {
-  // 同步方法，时同一个对象锁
+  // 同步方法，同一个对象锁
   public synchronized void firstInvoke() {
     System.out.println("方法1执行...");
     doOthers();
@@ -145,13 +142,14 @@ public class Solution {
 
 ​	因为源码中用变量 c (计数器)来保存当前锁被获取了多少次，故在释放时，对 c 变量进行减操作，只有 c 变量为 0 时，才算锁的最终释放。所以可以 lock() 多次，同时 unlock 也必须与 lock 同样的次数
 
+##### 显示获取锁并发编程
+
 ##### 5：Lock (JUC)
 
 ```java
 public interface Lock {
     // 获得当前线程的对象锁，如果不能获取等待直到获取成功返回
     void	lock();
-    // 两个线程分别执行以上两个方法，但此时中断这两个线程，前者不会抛出异常，而后者会抛出异常
     void	lockInterruptibly();
     // 用于让线程 wait 或者 唤醒
     Condition	newCondition();
@@ -159,7 +157,7 @@ public interface Lock {
     boolean	tryLock(long time, TimeUnit unit);
     // 能获得锁就返回true，不能就立即返回false，tryLock(long timeout,TimeUnit unit)，可以增加等待时间限制时间限制，如果超过该时间段还没获得锁，返回false
     // 释放锁
-    void	unlock();
+    void unlock();
 }
 ```
 
@@ -202,7 +200,7 @@ public class Test {
 ```
 
 ```java
-//创建Condition对象来使线程 wait 或者 唤醒，必须先执行 lock.lock()获得锁
+// 创建Condition对象来使线程 wait 或者唤醒，必须先执行 lock.lock() 获得锁
 public class MyService {
     private final Reentrantlock lock = new Reentrantlock（）；
     private Condition condition = lock.newCondition();
@@ -234,13 +232,12 @@ public class MyService {
 public ReentrantLock(boolean fair) {
 	sync = fair ? new FairSync() : new NonfairSync();
 }
-
 Lock lock = new ReentrantLock(true);
 ```
 
 ###### 2：ReentrantLock 可中断响应
 
-当使用 synchronized 实现锁时，阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了一个可以中断响应的获取锁的方法lockInterruptibly()，该方法可以用来解决死锁问题，被中断的线程将抛出异常，而另一个线程将获取锁后正常结束
+​	当使用 synchronized 实现锁时，阻塞在锁上的线程除非获得锁否则将一直等待下去，而ReentrantLock给我们提供了一个可以中断响应的获取锁的方法lockInterruptibly()，该方法可以用来解决死锁问题，被中断的线程将抛出异常释放已获得锁，而另一个线程将获取锁后正常结束
 
 ###### 3：获取锁时限时等待
 
@@ -260,7 +257,7 @@ Lock lock = new ReentrantLock(false);
 
 - 公平锁：指的是线程获取锁的顺序是按照申请锁顺序来的，而非公平锁指的是抢锁机制，先lock的线程不一定先获得锁
 - 公平锁：严格的以FIFO的方式进行锁的竞争，但是非公平锁是无序的锁竞争，刚释放锁的线程很大程度上能比较快的获取到锁，队列中的线程只能等待，所以非公平锁可能会有“饥饿”的问题
-- 重复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的影响是比较大的，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
+- 重复的锁获取能减小线程之间的切换，而公平锁则是严格的线程切换，这样对操作系统的开销是比较大的，所以非公平锁的吞吐量是大于公平锁的，这也是为什么JDK将非公平锁作为默认的实现
 
 ##### 10：共享锁、独享锁 ：多个线程能不能共享同一把锁
 
@@ -274,7 +271,7 @@ Lock lock = new ReentrantLock(false);
 
 ```java
 public interface ReadWriteLock {
-    //Returns the lock used for reading
+    // Returns the lock used for reading
     Lock readLock();
     // Returns the lock used for writing
     Lock writeLock();

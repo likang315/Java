@@ -1,5 +1,7 @@
 ### 责任链模式（Chain of Responsibility Pattern）：属于行为型模式
 
+------
+
 ​	像链表一样，为请求创建了一个接收者对象的链表，每个接收者都包含对另一个接收者的引用，当一个接收者对象不能处理该请求，那么它会把相同的请求传给下一个接收者处理，并且沿着这条链传递请求，直到有对象处理它为止
 
 ###### 角色：
@@ -8,13 +10,12 @@
 - 请求发送者
 
 ```java
-//所有处理结点必须要实现的接口
+// 所有处理结点必须要实现的接口
 public interface ProcessInterence {
     String solution(String str);
 }
 
-public class ProcessFirst implements ProcessInterence{
-
+public class ProcessFirst implements ProcessInterence {
     @Override
     public String solution(String str) {
         String result = null;
@@ -27,14 +28,12 @@ public class ProcessFirst implements ProcessInterence{
                 break;
             default:
                 System.out.println("此结点处理失败...");
-                break;
         }
         return result;
     }
 }
 
 public class ProcessSecond implements ProcessInterence {
-
     @Override
     public String solution(String str) {
         String result = null;

@@ -1,5 +1,7 @@
 ### 中介者模式（Mediator Pattern)：属于行为型模式
 
+------
+
 ​	解藕，用一个中介对象来封装一系列的对象交互，中介者使各对象不需要显式地相互引用，从而降低偶合度
 
 ###### 主要解决：	
@@ -9,14 +11,13 @@
 
 ```java
 public abstract class Base {
-  //终结者
+  // 中介者
 	protected Mediator mediator;
 	public abstract void set(Mediator m);
 	public abstract void send(String msg);
 	public abstract void receive(String msg);
 }
-
-//中介者
+// 中介者
 public class Mediator {
 	private Base pboy;
 	private Base pgirl; 
@@ -24,9 +25,9 @@ public class Mediator {
 		pboy = pb;
 		pgirl = pg;
 	}
-  //发送消息
+  // 发送消息
 	public void send(String msg,Base t) {
-		if(t != pboy) {
+		if (t != pboy) {
 			pboy.receive(msg);
 		} else {
 			pgirl.receive(msg);
@@ -74,10 +75,10 @@ public class Client {
     Boy boy=new Boy();
     Girl girl=new Girl();
     Mediator mediator=new Mediator();
-    //和中介者建立连接
+    // 和中介者建立连接
     boy.set(mediator);
     girl.set(mediator);
-    //建立双向连接
+    // 建立双向连接
     mediator.set(boy, girl);
     boy.send("I Love you ！");
   }

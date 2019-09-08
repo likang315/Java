@@ -1,5 +1,7 @@
 ### 观察者模式（Observer Pattern)：属于行为型模式
 
+------
+
   对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新
 
 ###### 注意：
@@ -7,18 +9,18 @@
 1. 观察者知道自己观察那个对象 （拉）
 2. 被观察者知道有那几个对象观察我（只一个双向的问题） （推）
 
-###### 四个角色： 
+###### 两个角色： 
 
 - 观察者：在得到被观察者数据改变时，通知更新自己
 - 被观察者角色：在具体被观察者的内部状态改变时，要向集合中的所有观察者发出通知
 
 ```java
 public abstract class Subject {
-   protected List<Observer> list = new ArrayList<Observer>();
+   protected List<Observer> list = new ArrayList<>();
 	 public abstract void add(Observer obs);
    public void notifyObserver() ；
 }
-//被观察者
+// 被观察者
 public class ConcreteSubjectA extends Subject {
   private int x;
   private int y;
@@ -29,12 +31,11 @@ public class ConcreteSubjectA extends Subject {
     this.x = x;
     this.y = y;
   }
-
   @Override
   public void add(Observer obs) {
     list.add(obs);
   }
-	//通知观察自己的所有观察者
+	// 通知观察自己的所有观察者
   @Override
   public void notifyObserver() {
     for(Observer obs:list) {
@@ -49,14 +50,14 @@ public class ConcreteSubjectA extends Subject {
   }
 }
 
-//观察者
+// 观察者
 public abstract class Observer {
   private Subject s;
   public Observer() {
   }
 
   public Observer(Subject s) {
-    this.s=s;
+    this.s = s;
     s.add(this);
   }
   public abstract void update(int x,int y);

@@ -24,7 +24,7 @@
 - AtomicBoolean：可以用原子方式更新的 `boolean` 值
 - AtomicInteger：可以用原子方式更新的 `int` 值
 - AtomicLong：可以用原子方式更新的 `long` 值
-- AtomicIntegerFieldUpdater<T>：基于反射的实用工具，可以对指定类的指定 `volatile int` 字段进行原子更新
+- AtomicIntegerFieldUpdater<T>：基于反射的实用工具，可以对指定类的指定 volatile int 字段进行原子更新
 - AtomicIntegerArray：数组类型
 
 ```java
@@ -57,9 +57,7 @@ public final long incrementAndGet() {
 }
 ```
 
-- 例：线程A得到current为1，线程B也得到current为1；线程A的next值为2，进行cas操作并且成功的时候，将value修改成了2；这个时候线程B也得到next值为2，当进行cas操作的时候由于expected值已经是2，而不是1了；所以cas操作会失败，下一次循环的时候得到的current就变成了2；也就不会出现多线程处理问题了：
-
-
+- 例：线程A得到current为1，线程B也得到current为1；线程A的next值为2，进行cas操作并且成功的时候，将value修改成了2；这个时候线程B也得到next值为2，当进行cas操作的时候由于expected值已经是2，而不是1了；所以cas操作会失败，下一次循环的时候得到的current就变成了2；也就不会出现多线程处理问题了
 
 ###### 示例：
 
@@ -77,7 +75,7 @@ synchronized (lock) {
 
 - CAS需要在操作值的时候检查内存值是否发生变化，没有发生变化才会更新内存值。但是如果内存值原来是A，后来变成了B，然后又变成A，那么CAS进行检查时会发现值没有发生变化，但是实际上是有变化的
 - 解决思路就是在变量前面添加版本号，每次变量更新的时候都把版本号加一，这样变化过程就从“A－B－A”变成了“1A－2B－3A”
-- compareAndSet（）：AtomicStampedReference 类解决ABA问题，具体封装在 compareAndSet() 中
+- compareAndSet（）：**AtomicStampedReference 类解决ABA问题**，具体封装在 compareAndSet() 中
 - 首先检查当前引用和当前标志与预期引用和预期标志是否相等，如果都相等，则以原子方式将引用值和标志的值更新为给定的值
 
 ```java
@@ -96,7 +94,7 @@ for (;;) {
 
 ​	自旋CAS（不成功就一直循环执行直到成功为止）如果长时间不成功，会给CPU带来非常大的执行开销
 
-- 如果JVM能支持处理器提供的pause指令那么效率会有一定的提升
+- 如果JVM能支持处理器提供的**pause指令**那么效率会有一定的提升
 - pause 指令有两个作用
   1. 它可以延迟流水线执行指令（de-pipeline）,使CPU不会消耗过多的执行资源，延迟的时间取决于具体实现的版本，在一些处理器上延迟时间是零
   2. 它可以避免在退出循环的时候因内存顺序冲突（memoryorder violation）而引起CPU流水线被清空（CPU pipeline flush），从而提高CPU的执行效率

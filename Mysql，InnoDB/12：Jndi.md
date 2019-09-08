@@ -14,3 +14,4 @@ DataSource ds = (DataSource) ic.lookup("java:comp/env/jdbc/test"); // 检索命�
 ```
 
 Context.xml 必须配置在META-INFO下
+
