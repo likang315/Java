@@ -4,11 +4,10 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!--配置-->
 <configuration>
-  
 	<!--从propertise文件中取值-->
   <properties resource="application.properties">
-    <property name="username" value="db_user"/>
-    <property name="password" value="verysecurepwd"/>
+    <property name="username" value="user"/>
+    <property name="password" value="password"/>
   </properties>
   
   <!--全局设置-->
@@ -27,7 +26,7 @@
     <setting name="jdbcTypeForNull" value="OTHER"/>
     <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
   </settings>
-  
+
   <!--类型别名-->
   <typeAliases>
     <typeAlias alias="Tutor" type="com.mybatis3.domain.Tutor"/>
@@ -43,28 +42,29 @@
   <!--配置环境-->
   <environments default="development">
     <environment id="development"><!--环境变量-->
-      <transactionManager type="JDBC"/><!--事务管理-->
-      <dataSource type="POOLED"><!--数据源-->
-        <property name="driver" value="${jdbc.driverClassName}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-      </dataSource>
+        <transactionManager type="JDBC"/><!--事务管理-->
+        <dataSource type="POOLED"><!--数据源-->
+            <property name="driver" value="${jdbc.driverClassName}"/>
+            <property name="url" value="${jdbc.url}"/>
+            <property name="username" value="${jdbc.username}"/>
+            <property name="password" value="${jdbc.password}"/>
+        </dataSource>
     </environment>
 
     <environment id="production">
-      <transactionManager type="JDBC"/>
-      <dataSource type="JNDI">
-        <property name="data_source" value="java:comp/jdbc/MyBatisDemoDS"/>
-      </dataSource>
+        <transactionManager type="JDBC"/>
+        <dataSource type="JNDI">
+          	<property name="data_source" value="java:comp/jdbc/MyBatisDemoDS"/>
+        </dataSource>
     </environment>
   </environments>
 
-  <!--三种配置映射器方式-->
+  <!--四种配置映射器方式-->
   <mappers>
     <mapper resource="com/mybatis3/mappers/StudentMapper.xml"/>
     <mapper url="file:///var/mappers/StudentMapper.xml"/>
     <mapper class="com.mybatis3.mappers.TutorMapper"/>
+    <package name="com.xupt.dao.mapper">
   </mappers>
 
 </configuration>
