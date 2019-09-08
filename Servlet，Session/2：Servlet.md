@@ -1,3 +1,7 @@
+### Servlet
+
+------
+
 - 事先准备好的内容(HTML)称为静态内容
 - 类似由程序创建的内容称为动态内容
 
@@ -6,14 +10,14 @@
 通用网关接口，指 Web服务器 在接受到客户端发送过来的请求后转发给程序的一组机制
 缺陷：每次收到请求，程序都要跟着启动一次，一旦访问量过大，Web服务器要承担相当大的负载
 
-### 1：Servlet  ：一个在 Web 服务器中运行的小型Java程序，用于接收和响应来自Web客户机的请求
+##### 1：Servlet：在服务器中运行的小型Java程序，用于接收和响应来自Web客户端的请求
 
-​	1: 没有 main 方法，它的生命周期由 Servlet 容器 (Tomcat) 来管理
-​	2: 必须实现 javax.servlet.Servlet 接口，重写 services 方法
+- 没有 main 方法，它的生命周期由 Servlet 容器 (Tomcat) 来管理
+- 必须实现 javax.servlet.Servlet 接口，重写 services 方法
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/Servlet%EF%BC%8CSession%EF%BC%8CFileUpload%EF%BC%8CFileDownLoad/Servlet/Servlet_%E4%BD%BF%E7%94%A8.png?raw=true)
 
-### 2：Servlet 作用
+##### 2：Servlet 作用
 
 - 读取客户端（浏览器）发送的显式的数据，比如：网页上的 HTML 表单
 - 读取客户端（浏览器）发送的隐式的 HTTP 请求数据，比如： cookies、媒体类型
@@ -21,24 +25,18 @@
 - 发送显式的数据（即文档）到客户端（浏览器），该文档的格式可以是多种多样的，包括文本文件（HTML 或 XML）、二进制文件（GIF 图像）、Excel 等
 - 发送隐式的 HTTP 响应到客户端（浏览器），这包括告诉浏览器或其他客户端被返回的文档类型（例如 HTML），设置 cookies 和缓存参数，以及其他类似的任务
 
-
-
-### 3：Servlet 包 （Java EE）
+##### 3：Servlet 包 （Java EE）
 
 ​	Servlet 可以使用 **javax.servlet** 和 **javax.servlet.http** 包创建，它是 Java 企业版的标准组成部分
 
-
-
-### 4：部署描述文件是否是完全的
+##### 4：部署描述文件是否是完全的
 
 ​	web.xml 的顶层标签 < web-app > 的 metadata-complete 属性，该属性指定当前的部署描述文件是否是完全的
 
 - 如果设置为 true，则容器在部署时将只依赖部署描述文件，忽略所有的注解
 - 将其设置为 false，则表示启用注解支持
 
-
-
-### 5：配置 servlet 路径方式
+##### 5：配置 servlet 路径方式
 
 1. web.xml 配置文件，配置字节码文件 和 URL的映射
 2. 用 Annotation(注解) 配置 Servlet
@@ -83,18 +81,15 @@
 
 ```java
 @WebServlet("/checkLogin")
-public class CheckLoginServlet extends HttpServlet 
-{
+public class CheckLoginServlet extends HttpServlet {
 	@Override
 	public void service(ServletRequest req, ServletResponse resp) throws Exception {
-			
+			// ...
 	}
 }
 ```
 
-
-
-### 6：Servlet 生命周期
+##### 6：Servlet 生命周期【重要】
 
 1. 启动 tomcat ，工程的 web.xml 会被解析， **实例化 ServletContext 对象**
 2. 读取 Servlet 类上的 Annotation ,为**每一组 Servlet 的配置都生成一个 ServletConfig** 对象,共享ServletContext对象
@@ -108,11 +103,9 @@ public class CheckLoginServlet extends HttpServlet
 如果 loadOnStartup （Annotation上一个属性）有值,启动 tomcat 就实例化 servlet 对象并调用 init 方法
 否则话，第一次访问才实例化 Servlet 对象，loadOnStartup 值越小，越优先实例化
 
+##### 7：Services（） 
 
-
-### 7：Services（） 
-
-​	Servlet 容器（即 Web 服务器）自动调用 service() 方法来处理来自客户端（浏览器）的请求，并把格式化的响应写回给客户端
+​	Servlet 容器自动调用 service() 方法来处理来自客户端（浏览器）的请求，并把格式化的响应返回给客户端
 
 ###### 每次服务器接收到一个 Servlet 请求时，服务器会产生一个新的线程并调用服务
 
@@ -121,6 +114,6 @@ service() 方法检查 HTTP 请求类型（GET、POST、PUT、DELETE 等），�
 ```java
 public void service(ServletRequest request, ServletResponse response) 
       throws ServletException, IOException{
-     
+     // 若不处理，则调用DoXXX方法处理
 }
 ```
