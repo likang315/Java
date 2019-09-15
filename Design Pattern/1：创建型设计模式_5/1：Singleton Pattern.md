@@ -16,7 +16,7 @@ public class Singleton {
     public static Singleton getInstance() { 
         if (instance == null) {
             // 只允许一个类的实例进入
-            synchronized(Singleton.class {
+            synchronized(Singleton.class) {
                 if (instance == null) {
                     instance = new Singleton();
                 }
@@ -68,7 +68,7 @@ public class Singleton {
       }
 }
 // 枚举实现单例模式，不仅能避免反射问题，而且还自动支持序列化机制
-public enum  EnumSingleton {
+public enum EnumSingleton {
   	// private static final INSTANCE;
     INSTANCE;
     public EnumSingleton getInstance(){

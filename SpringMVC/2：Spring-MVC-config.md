@@ -4,7 +4,7 @@
 
 ##### 1：@RequestMapping：
 
-​	用在控制器的类及方法的定义处，定义在方法的是在类的URL下的下一层URL，不旦支持标准的 URL，还支持 Ant 风格（？、*和**字符）
+​	用在**控制器的类及方法的定义处**，定义在方法的是在类的URL下的下一层URL，不旦支持标准的 URL，还支持 Ant 风格（？、*和**字符）
 
 ###### 原理：
 
@@ -19,13 +19,13 @@
 ##### 2：获取请求携带的参数
 
 - @PathVariable：用来获得请求url中的动态参数的
-- @RequestParam和@PathVariable：Spring能够根据名字自动赋值对应的函数参数值
+- @RequestParam和@PathVariable：Spring能够**根据名字自动赋值**对应的函数参数值
 - @RequestHeader ：按请求报头绑定
 - @CookieValue   ：将参数名帮定了对像属性
 - @MatrixVariable：用矩阵变量绑定参数
 
 ```java
-@RequestMapping("/pets/{petId}")															  
+@RequestMapping("/pets/{petId}")
 public void findPet(@PathVariable String ownerId, @PathVariable String petId)
 
 @RequestMapping(value = "/handle2")
@@ -38,7 +38,7 @@ public String handle3(User user) {
   return "hello"
 }
 
-// GET 传参
+// GET传参
 http://localhost:8080/handle1?userName=zhangsan&password=123
 ```
 
@@ -57,6 +57,7 @@ http://localhost:8080/handle1?userName=zhangsan&password=123
     <param-value>true</param-value>
   </init-param>
 </filter>
+
 <filter-mapping>
   <filter-name>characterEncodingFilter</filter-name>
   <url-pattern>/*</url-pattern>
@@ -65,7 +66,7 @@ http://localhost:8080/handle1?userName=zhangsan&password=123
 
 ##### 4：Spring mvc 支持的方法参数
 
-使用 Servlet API 传入参数时，Spring mvc 将 web 层的 Servlet 对象传递给处理方法，参数顺序没有特殊要求
+使用 Servlet API 传入参数时，Spring MVC 将 web 层的 Servlet 对象传递给处理方法，参数顺序没有特殊要求
 
 -  HttpServletRequest request，HttpservletResponse response
 - HttpSession session
@@ -118,12 +119,12 @@ public void handle1(HttpServletRequest request,HttpServletResponse response) {
 
 ###### @RequestBody
 
-- 用于读取Request请求的body部分数据，选择系统默认配置的HttpMessageConverter的实现类进行解析，然后把相应的数据绑定到要返回的对象上
+- 用于读取Request请求的body部分数据，选择系统默认配置的HttpMessageConverter的实现类进行解析，然后把**相应的数据绑定到要返回的对象**上，处理POST请求
 - 再把HttpMessageConverter返回的对象数据绑定到 controller中方法的参数上
 
 ###### @ResponseBody
 
-- 用于将 Controller 方法的返回对象，选取适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区中，返回的数据不是html标签的页面，而是其他某种格式的数据时（如json、xml等）
+- 用于将 Controller 方法的返回对象，选取适当的HttpMessageConverter转换为指定格式后，写入到**Response对象的body数据区中**，返回的数据不是HTML页面，而是其他某种格式的数据（如json、xml等）
 
 ```java
 @RequestMapping("/login.do")
@@ -137,8 +138,6 @@ public ModelAndView login(@RequestBody User loginUuser, HttpSession session) {
 }
 ```
 
-
-
 ##### 7：Model、@ModelAttribute、@SessionAttributes
 
 ###### @ModelAttribute
@@ -149,19 +148,19 @@ public ModelAndView login(@RequestBody User loginUuser, HttpSession session) {
 ###### 原理：
 
 1. Spring MVC 在调用（controller）处理的方法前，在请求线程中**自动创建**一个隐含的模型对象(Model)
-2. 调用所有标注了@ModelAttribute的方法，将在所有controller的方法调用前，调用此方法，将方法返回值添加到隐含模型中
+2. 调用所有使用@ModelAttribute的方法，将在所有controller的方法调用前，调用此方法，将方法返回值添加到隐含模型中
 3. 查看Session中，是否存在@SessionAttributes("xx")所指定的xx属性，如果有，则将其添加到隐含模型中，如果隐含模型中已经有xx属性，则该步操作会覆盖模型中已有的属性值
 4. 对标注@ModelAttribute("XX") 处理方法的入参的流程
    1. 如果隐含模型拥有名为xx的属性,则将隐含模型中的其属性赋给该入参，再用请求消息填充该入参对象（执行方法）直接返回，否则转 2
    2. 如果 xx是会话属性，即在处理类定义处标注了@SessionAttributes(“xxx”)，则尝试从会话中获取该属性，并将其赋给该入参，然后再用请求消息填充该入参对象，如果在会话中找不到对应的属性，则抛出 HttpSessionRequiredException 异常，否则转到3
    3. 如果隐含模型中不存在 xxx 属性，且 xxx 与不是会话属性，则创建入参的对象实例，然后再用请求消息填充该入参
 
-##### 8：Controller 的方法的返回值类型（五种）
+##### 8：Controller 方法的返回值类型（五种）【重要】
 
 ###### 1：void：直接作为报体返回Json数据
 
 ```java
-//使用此方式进行跳转
+// 使用此方式进行跳转
 response.sendRedirect("/springmvc-web2/itemEdit.action");
 ```
 
@@ -178,7 +177,7 @@ response.sendRedirect("/springmvc-web2/itemEdit.action");
 
 ###### 3：ModelAndView
 
-​	通过 setViewName() 设置跳转的页面名，通过 addObject() 设置需要返回的值，将值设置到一个名为ModelMap的类属性
+​	通过 setViewName() 设置跳转的页面名，通过 addObject() 设置需要返回的值，将值设置到一个名为ModelMap的类属性，使用此返回结果定义
 
 ###### ModelAndView：实例是用户手动创建的，这也是和ModelMap的一个区别	
 
@@ -192,7 +191,7 @@ return model;
 ###### 4：ModelMap
 
 - public class ModelMap extends LinkedHashMap<String, Object>
-- ModelMap 对象主要用于传递控制方法处理数据到结果页面，也就是说我们把结果页面上需要的数据放到ModelMap对象中即可
+- ModelMap 主要用于传递控制方法处理数据到结果页面，就是说把结果页面上需要的数据放入到ModelMap对象中即可
 
 ```java
 public ModelMap addAttribute (String attributeName, Object attributeValue) {...}

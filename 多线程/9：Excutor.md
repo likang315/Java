@@ -21,7 +21,7 @@ ExecutorService 接口有两个关键的实现类，ThreadPoolExecutor、Schedul
 
 ##### 3：Executors
 
-- static ExecutorService newFixedThreadPool(int nThreads) 
+- static ExecutorService newFixedThreadPool(int Threads) 
   - 创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程 
 - static ExecutorService newSingleThreadExecutor() 
   - 单线程线程池，队列使用的无限制大小的链表阻塞队列

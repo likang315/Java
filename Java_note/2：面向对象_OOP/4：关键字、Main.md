@@ -104,7 +104,7 @@ public Test s(){
 
 ``` java
 public default void ss(){
-	//可以为空
+	// 可以为空
 };
 public void s21();
 ```

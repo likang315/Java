@@ -18,4 +18,4 @@
 - 支持行锁，表锁设计，支持外键
 - 通过MVCC（多版本并发控制），来提高并发性，并且在Repeatable  Read 隔离级别下，利用 next-key 解决幻读、不可重复读
 - 表 和 索引在一个表空间中，表空间可以包含多个段，数据段，索引段，回滚段
-- 提供 插入缓冲（Insert Buffer），二次写（Double write）， 自适应哈希索引，提高性能
+- 提供 插入缓冲（Insert Buffer），二次写（Double write），自适应哈希索引，提高性能

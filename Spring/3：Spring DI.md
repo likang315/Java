@@ -1,8 +1,10 @@
-### 1：依赖注入，控制反转（DI）
+### Spring DI：依赖注入、控制反转
+
+------
 
 ​	Spring框架的核心功能之一就是通过依赖注入的方式来管理Bean之间的依赖关系
 
-##### 1：基于构造方法的注入
+##### 1：基于有参构造方法的注入
 
 当容器调用带有一组参数的类构造方法时，基于构造方法的 DI 就完成了，其中每个参数代表一个对其他类的依赖
 
@@ -35,7 +37,7 @@
 
 ##### 2：基于 Setter 方法注入
 
-当容器调用一个无参的构造函数或一个无参的静态 factory 方法来初始化你的 bean 后，容器会调用Setter 方法，因此基于Setter 方法的注入就完成了
+​	当容器调用一个无参的构造函数或一个无参的静态 factory 方法来初始化你的 bean 后，容器会调用Setter 方法，因此基于Setter 方法的注入就完成了
 
 ```xml
 <bean id="exampleBean" class="examples.ExampleBean">
@@ -55,17 +57,15 @@
 </bean>
 ```
 
-##### 3：两者的区别
+##### 3：两种注入方式的区别
 
 ​	在基于构造方法注入中，我们使用的是〈bean〉标签中的〈constructor-arg〉元素，而在基于Setter 方法的注入中，我们使用的是〈bean〉标签中的〈property〉元素
 
-
-
-### 2：Inner beans
+##### 2：Inner beans
 
 **inner beans** 是在其他 bean 的范围内定义的 bean，被称为内部bean
 
-使用内部 bean 为基于 setter 方法注入进行配置的配置文件 Beans.xml 
+使用内部 bean 为基于 setter 方法注入进行配置的配置文件 Beans.xml
 
 ```xml
 <bean id="textEditor" class="com.tutorialspoint.TextEditor">
@@ -75,9 +75,7 @@
 </bean>
 ```
 
-
-
-### 3：Bean 的属性为集合类型的配置
+##### 3：Bean 的属性为集合类型的配置
 
 Spring 提供了四种类型的集合的配置元素，如下所示：
 
@@ -128,37 +126,33 @@ Spring 提供了四种类型的集合的配置元素，如下所示：
 </bean>
 ```
 
-
-
-### 4：注入 null 和空字符串的值
+##### 4：注入 null 和空字符串的值
 
 ```xml
-<bean class="ExampleBean">
+<bean id="ID" class="ExampleBean">
 	<property name="email" value=""/>
 </bean>
 
-<bean class="ExampleBean">
+<bean id="ID" class="ExampleBean">
 	<property name="email">
 		<null/>
 	</property>
 </bean>
 ```
 
+##### 5：Bean 的自动装配【重要】
 
-
-### 5：Bean 的自动装配
-
-Spring 容器可以在不使用`<constructor-arg>`和`<property>` 元素的情况下**自动装配**相互协作的 bean 之间的关系，这有助于减少编写一个大的基于 Spring 的应用程序的 XML 配置的数量
+​	Spring 容器可以在不使用`<constructor-arg>`和`<property>` 元素的情况下**自动装配**相互协作的 bean 之间的关系，这有助于减少编写一个大的基于 Spring 的应用程序的 XML 配置的数量
 
 | 模式        | 描述                                                         |
 | ----------- | ------------------------------------------------------------ |
 | byName      | 由属性名自动装配。Spring 容器看到在 XML 配置文件中 bean 的自动装配的属性设置为 byName。然后尝试匹配，并且将它的属性与在配置文件中被定义为相同名称的 beans 的属性进行连接。 |
-| byType      | 由属性数据类型自动装配。Spring 容器看到在 XML 配置文件中 bean 的自动装配的属性设置为 byType。然后如果它的**类型**匹配配置文件中的一个确切的 bean 名称，它将尝试匹配和连接属性的类型。如果存在不止一个这样的 bean，则一个致命的异常将会被抛出。 |
+| byType      | 由属性数据类型自动装配。Spring 容器看到在 XML 配置文件中 bean 的自动装配的属性设置为 byType。然后如果它的**类型**匹配配置文件中的一个确切的 bean 名称，它将尝试匹配和连接属性的类型。**如果存在不止一个这样的 bean，则一个致命的异常将会被抛出** |
 | constructor | 类似于 byType，但该类型适用于构造函数参数类型。如果在容器中没有一个构造函数参数类型的 bean，则一个致命错误将会发生。 |
 
 ```xml
 <bean id="textEditor" class="com.tutorialspoint.TextEditor" autowire="byName">
-  <property name="name" value="Generic Text Editor" />
+  <property name="spellChecker" value="spellChecker" />
 </bean>
 <!-- TextEditor 中有属性名为spellChecker 的属性-->
 <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">

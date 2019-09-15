@@ -240,7 +240,7 @@ Node<K,V> newNode(int hash, K key, V value, Node<K,V> next) {
 1. 第一次put 的时候，判断是否为null 或者长度为 0，若是则会触发下面的 resize() **初始就是第一次 resize 和后续的扩容有些不一样，因为这次是数组从 null 初始化到默认的 16 或自定义的初始容量**
 2. 判断**第一个结点是否为空**，为空则插入
 3. 判断**第一个结点的 hash 和 key 是否相等** ，若相等，直接替换新的value
-4. 遍历链表，**插入到尾部(尾插)**，同时判断是否大于等于第九个结点，转换为红黑树
+4. 遍历链表，**插入到尾部(尾插)**，同时判断是否大于等于第8个结点，转换为红黑树
 5. 判断是否为**红黑树的结点**，若为红黑树则调用红黑树的 putTreeVal 方法
 6. 遍历链表中是否有相同的key和Hash值，若有则替换，然后返回
 7. 判断是否超出阈值，超出则相应 resize( ) ;
@@ -580,7 +580,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>  implements Concurr
 ###### 3：构造函数进行初始化的，那么初始化完成后：
 
 - Segment 为 16个，不可以扩容
-- Segment[ i ] 的默认大数组大小为 2，负载因子是 0.75，得出初始阈值为 1.5，也就是以后插入第一个元素不会触发扩容，插入∂∂第二个会进行第一次扩容
+- Segment[ i ] 的默认大数组大小为 2，负载因子是 0.75，得出初始阈值为 1.5，也就是以后插入第一个元素不会触发扩容，插入第二个会进行第一次扩容
 - segment 不能扩容，扩容的是 segment 内部的数组 HashEntry[] 进行扩容，扩容后，容量为原来的 2 倍
 
 ###### 4：JDK1.8 实现 ConcurrentHashMap
@@ -844,7 +844,7 @@ final Entry<K,V> getLowerEntry(K key) {
 ##### 9：Map的遍历（三种）：转成 Set 集合，用迭代器遍历
 
 - 遍历 key 键，利用 Set **keySet()** ，返回的 set 集合 
-- 遍历所有的value，利用 Collection **values()** ，返回collection集合 
+- 遍历所有的value，利用 Collection **values()** ，返回collection集合
 - 遍历键值对，利用 Set<Map.Entry<K,V>> **entrySet()** 方法，返回每一组键值对的set集合
   - entry.getKey( )
   - entry.getValue( )

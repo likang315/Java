@@ -4,13 +4,13 @@
 
 ##### 1：Fail-Fast 机制：快速失败
 
-java 集合中的一种错误检测机制，**当多个线程对同一个集合的内容进行操作时，就可能会产生 fail-fast 事件**，抛出异常 java.util.ConcurrentModificationException
+​	java 集合中的一种错误检测机制，**当多个线程对同一个集合的内容进行操作时，就可能会产生 fail-fast 事件**，抛出异常 java.util.ConcurrentModificationException
 
 原理：集合中 **modCount 属性**用来记录List修改的次数：每修改一次(**添加/删除等操作**)，将 modCount+1**，调用 迭代器中 next() 和 remove()时，** 都会判断 "modCount != expectedModCount"，若成立，则抛出ConcurrentModificationException 异常， 产生 fail-fast 事件，因为每一个迭代器对应一个modCount
 
 ```java
 // 每一个迭代器对应自己的 expectModCount
-sexpectedModCount = modCount; 
+expectedModCount = modCount;
 ```
 
 解决方法：若在多线程环境下使用 fail-fast 机制的集合，建议使用 java.util.concurrent 包下的类去取代 java.util 包下的类, 新建Iterator时，将集合中的元素保存到一个新的拷贝数组中，当原始集合的数据改变，拷贝数据中的值也不会变化

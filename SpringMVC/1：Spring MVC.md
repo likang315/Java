@@ -1,18 +1,18 @@
-## Spring MVC
+### Spring MVC
 
 ------
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/SpringMVC/SpringMVC/Spring%20MVC.png?raw=true)
 
-##### 1：MVC Request 流程（五步）
+##### 1：MVC Request 流程（五大步）
 
 1. ######  前端控制器：请求先访问Spring的 DispatcherServlet (前端控制器)
 
-   - Spring MVC 所有的请求都会通过一个前端控制器（front controller），是常用的 Web 应用程序模式，一个单实例的Servlet 将请求委托给WEBs应用程序的其他组件来执行实际的处理
+   - Spring MVC 所有的请求都会通过一个前端控制器（front controller），是常用的 Web 应用程序模式，一个单实例的Servlet 将请求委托给WEB应用程序的其他组件来执行实际的处理
 
-2. ######  控制映射：DispatcherServlet 将请求转发给 Spring MVC 控制器（controller）
+2. ######  处理映射：DispatcherServlet 将请求转发给 Spring MVC 控制器（controller）
 
-   - 控制器是一个用于处理请求的 Spring 组件，可能会有多个控制器，DispatcherServlet 需要知道应该将请求发送给哪个控制器，所以 DispatcherServlet会查询一个或多个**处理器映射（handler mapping）**来确定请求的下一站在哪，处理器映射会根据请求所携带的 URL 信息来进行决策
+   - 控制器是一个用于处理请求的 Spring 组件，DispatcherServlet 需要知道应该将请求发送给哪个控制器，所以 DispatcherServlet会查询一个或多个**处理器映射（handler mapping）**来确定请求的下一站在哪，处理器映射会根据请求所携带的 URL 信息来进行决策，Map的key
 
 3. ######  控制器处理：选择合适的控制器后，DispatcherServlet 会将请求发送给选中的控制器 
 
@@ -20,7 +20,7 @@
 
 4. ######  控制器将模型和视图名返回给前端控制器：
 
-   - 控制器会将请求连同模型数据和用于渲染的视图名发送回 DispatcherServlet，DispatcherServlet 将根据视图名选择相应的视图解析器（ ViewResolver*）
+   - 控制器会将请求连同模型数据和用于渲染的视图名发送回 DispatcherServlet，DispatcherServlet 将根据视图名选择相应的视图解析器（ ViewResolver）
 
 5. ######  视图的实现（可能是JSP）：
 
@@ -70,31 +70,40 @@
 
 ###### 3：配置视图解析器（spring-mvc-servlet.xml）
 
-- //WEB-INF/views/hello.jsp :前缀+视图名+后缀
+- /WEB-INF/views/hello.jsp :前缀+视图名+后缀
 
 ```XML
 <!--通过Web.xml 引入-->
 xmlns:mvc="http://www.springframework.org/schema/mvc"
-<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 
+<bean id="jspViewResolver"
+      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
  	<property name="prefix" value="/WEB-INF/views/"/>
 	<property name="suffix" value=".jsp"/>
 </bean>
 ```
 
-##### 3：编写控制器)
+##### 3：编写控制器
 
 ```java
 @controller
-@RequestMapping（"/"）
-public class HelloWorldController {
-		@RequestMapping("/hello")
+@RequestMapping（"/hello")
+public class HelloWorldController { 
+		@RequestMapping("/helloWord")
 		public String helloWorld(Model model) {
 			model.addAttribute("message", "Hello World!");
 			return "Hello";
 		}
 }
 ```
+
+##### 4：Spring、Spring MVC的关系
+
+- Spring（父）、Spring MVC（子） 是两个管理对象的容器，并且是父子容器
+- Spring MVC用于构建WEB应用，管理web组件的bean
+- Spring 用于管理dao层、service层Bean
+
+
 
 
 

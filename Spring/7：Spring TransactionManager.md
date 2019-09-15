@@ -1,26 +1,27 @@
 ### Spring TransactionManager：
 
-事务管理机制原理：基于底层数据库本身的事务处理机制工作
+------
 
-通过 **动态代理** 对所有需要事务管理的 Bean 进行加载，并根据**配置在 invoke 方法中**对当前调用的方法名进行判定，并在调用 method.invoke ，方法前后为其加上合适的事务管理代码
+- 事务管理机制原理：基于底层数据库本身的事务处理机制工作
+- 通过 **动态代理** 对所有需要事务管理的 Bean 进行加载，并根据**配置在 invoke 方法中**对当前调用的方法名进行判定，并在调用 method.invoke ，方法前后为其加上合适的事务管理代码
 
-### 1：局部事物和全局事物
+##### 1：局部事物和全局事物
 
-- 局部事务：是特定于一个单一的事务资源，如一个 JDBC 连接
+- 局部事务：特定于一个单一的事务资源，如一个 JDBC 连接
 - 全局事务：横跨多个事务资源事务，如在一个分布式系统中的事务
 
-### 2：Spring 事务的管理方式
+###### 2：Spring 事务的管理方式
 
 - 编程式事务管理：在编程的帮助下有管理事务，具有极大的灵活性，但却很难维护
 - 声明式事务管理：从业务代码中分离出事务管理，只需要通过XML 配置来管理事务
 
-### 3：Spring 对事物的支持
+##### 3：Spring 对事物的支持
 
-Spring 为事务管理提供了一套编程模板，在高层次建立了统一的事务抽象，不管选择 Spring JDBC、Hibernate 、JPA 还是 iBatis，druid，Spring都让我们可以用统一的编程模型进行事务管理
+​	Spring 为事务管理提供了一套编程模板，在高层次建立了统一的事务抽象，不管选择 Spring JDBC、iBatis，druid，Spring都让我们可以用统一的编程模型进行事务管理
 
-org.springframework.transaction.support.TransactionTemplate
+- org.springframework.transaction.support.TransactionTemplate
 
-### 4：Spring 事物三大接口， SPI（Service Provider Interface）
+##### 4：Spring 事物三大接口， SPI（Service Provider Interface）
 
 - ###### PlatformTransactionManager：事物管理器
 
@@ -44,7 +45,7 @@ org.springframework.transaction.support.TransactionTemplate
   - boolean isRollbackOnly()：该方法返回该事务是否已标记为 rollback-only 
   - void setRollbackOnly() ：该方法设置该事务为 rollback-only 
 
-### 5：事务传播行为 (7种)：propagation
+##### 5：事务传播行为 (7种)：propagation
 
 - ###### propagation_required：
 
@@ -74,9 +75,7 @@ org.springframework.transaction.support.TransactionTemplate
 
   - 如果外层方法没有事物，当前方法就会抛出异常，如果外层方法有事物，则使用外层方法的事务
 
-
-
-### 6：Spring JDBC：基于数据源的事物管理器
+##### 6：Spring JDBC：基于数据源的事物管理器
 
 ```xml
 <bean id="transactionManager"
@@ -84,7 +83,7 @@ org.springframework.transaction.support.TransactionTemplate
 			p:dataSource-ref="dataSource" />
 ```
 
-### 7：Hibernate3：事务管理器
+##### 7：Hibernate3：事务管理器
 
 ```xml
 <bean id="sessionFactory" 									 class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
@@ -100,9 +99,7 @@ p:mappingResources="classpath:bbtForum.hbm.xml">
 </bean>
 ```
 
-
-
-### 8：XML 配置事务的代理基类：
+##### 8：XML 配置事务的代理基类：
 
 - Spring的事务是基于AOP实现的，因此必须先配AOP
 - 使用 TransactionProxyFactoryBean 进行声明式事务配置，可以单独给某个特定的方法加单独的事物
@@ -114,7 +111,7 @@ p:mappingResources="classpath:bbtForum.hbm.xml">
     abstract="true">
   	<!-- 注入事物管理器-->
     <property name="transactionManager" ref="transactionManager" />
-    <!--要在哪个Bean上面创建事务代理对象 或者 直接用Bean parent属性继承-->
+    <!--要在哪个Bean上面创建事务代理对象或者直接用Bean parent属性继承-->
 		<property name="target" ref="newsDao" />
   
     <property name="transactionAttributes">
@@ -129,26 +126,24 @@ p:mappingResources="classpath:bbtForum.hbm.xml">
 </bean>
 ```
 
-
-
-### 9：声明式事务配置方法（两种）
+##### 9：声明式事务配置方法（两种）
 
 1. 通过@Transactional 注解实现事务管理实现
 2. 通过 Spring的 < tx:advice > 定义事务通知与AOP相关配置实现
 
-##### 事物属性基本属性（五个）
+###### 事物属性基本属性（五个）
 
 1. propagation：传播行为
 2. isolation：隔离级别（默认值：ISOLATION_DEFAULT)
 3. rollbackFor：回滚策略
    - rollbackFor：默认情况下 checked exceptions 不进行回滚，uncheckedexceptions 才进行事务回滚,需直接抛出RuntimeException及其子类
-     @Transactional(rollbackFor = { RuntimeException.class })
+   - @Transactional(rollbackFor = { RuntimeException.class })
 4. timeout：事务超时
    -  以秒为单位，一个事务所允许执行的最长时间，如果超过该时间但事务还没有完成，则自动回滚
 5. readOnly：只读事务
    - @Transactional(readOnly = true)
 
-##### 使用 @Transactional 注解声明事务
+###### 使用 @Transactional 注解声明事务
 
 - @Transactional 可以使用在类上，或者public 修饰的方法上
 - @Transactional 只能对public 修饰的方法起事物作用
@@ -167,10 +162,10 @@ isolation=Isolation.DEFAULT)
 public void insert() {}
 ```
 
-##### 使用Spring的 < tx:advice > 定义事务通知与AOP相关配置实现
+###### 使用Spring的 <tx:advice > 定义事务通知与AOP相关配置实现
 
-- < tx:advice >定义事务通知，用于指定事务属性，其中“transaction-manager”属性指定事务管理
-- < tx:attributes >指定具体需要拦截的方法
+- < tx:advice > 定义事务增强，用于指定事务属性，其中“transaction-manager”属性指定事务管理
+- < tx:attributes > 指定具体需要拦截的方法
 
 ```xml
 <!--定义事务增强-->
@@ -185,14 +180,15 @@ public void insert() {}
 
 <!-- 使用强大的切点表达式语言轻松定义目标方法 -->
 <aop:config>
-    <!--通过 aop 定义事务增强切面-->
-    <aop:pointcut id="serviceMethod" expression="execution(*com.yyq.service.*Forum.*(..))"/>
+    <!--通过aop定义事务增强切面-->
+    <aop:pointcut id="serviceMethod" 
+                  expression="execution(*com.yyq.service.*Forum.*(..))"/>
     <!--引用事务增强-->
     <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
 </aop:config>
 ```
 
-### 10：@Transaction
+##### 10：@Transaction
 
 - 原理：利用环绕通知 TransactionInterceptor 实现事务的开启及关闭
 - 注意：

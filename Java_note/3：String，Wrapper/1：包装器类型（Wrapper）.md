@@ -47,7 +47,7 @@ int n = i;   //拆箱
 
 ###### 原理（Integer 举例）：
 
-静态内部类 IntegerCache，IntegerCache 有一个**静态的Integer cahce[] 数组**，因为有静态代码块的存在，在类初始化时就将 -128 到 127 的 Integer 对象创建存储到数组中，一旦程序调用valueOf 方法，如果 i 的值是在-128 到 127 之间就直接使用cache缓存数组
+​	静态内部类 IntegerCache，IntegerCache 有一个**静态的Integer cahce[] 数组**，因为有静态代码块的存在，在类初始化时就将 -128 到 127 的 Integer 对象创建存储到数组中，一旦程序调用valueOf 方法，如果 i 的值是在-128 到 127 之间就直接使用cache缓存数组
 
 ###### 机制目的：
 

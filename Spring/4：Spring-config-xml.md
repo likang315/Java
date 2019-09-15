@@ -1,3 +1,9 @@
+### Spring-config-xml
+
+------
+
+​	按照Spring-config-xml 文件初始化Spring容器
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -18,7 +24,8 @@
 <context:component-scan base-package="com.xupt" />
 <aop:aspectj-autoproxy />
 
-<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+      destroy-method="close">
 	<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 	<property name="url" value="jdbc:mysql://localhost:3306/xupt"></property>
 	<property name="username" value="root"></property>
@@ -34,15 +41,15 @@
 	<property name="minIdle" value="1"/>
 </bean>
  
-<!-- 用来加载jdbc.properties 配置文件-->
-<context:property-placeholder location="classpath:jdbc.properties"/>
-    
-<bean id="TransactionManager"
-	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-	<property name="dataSource" ref="dataSource"/>
-</bean>
+  <!-- 用来加载jdbc.properties 配置文件-->
+  <context:property-placeholder location="classpath:jdbc.properties"/>
 
-<!--事务AOP-->
+  <bean id="TransactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+	<!--事务AOP-->
 	<!-- the transactional advice (what 'happens'; see the <aop:advisor/> bean below) -->
 	<tx:advice id="txAdvice" transaction-manager="TransactionManager">
 		<!-- the transactional semantics... -->
@@ -54,26 +61,23 @@
 		</tx:attributes>
 	</tx:advice>
 	
+  <!--使用强大的切点表达式语言轻松定义目标方法-->
+  <aop:config>
+    <!--通过 aop 定义事务增强切面-->
+    <aop:pointcut id="serviceMethod" expression="execution(com.xupt.service.*Forum.*(..))"/>
+    <!--引用事务增强-->
+    <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
+  </aop:config>
 
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <property name="dataSource" ref="dataSource"></property>
+  </bean>
 
-<!--使用强大的切点表达式语言轻松定义目标方法-->
-<aop:config>
-	<!--通过 aop 定义事务增强切面-->
-	<aop:pointcut id="serviceMethod" expression="execution(com.xupt.service.*Forum.*(..))"/>
-	<!--引用事务增强-->
-	<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
-</aop:config>
-    
-<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-	<property name="dataSource" ref="dataSource"></property>
-</bean>
+  <bean id="daoBase" abstract="true">
+    <property name="jt" ref="jdbcTemplate"></property>
+  </bean>
 
-<bean id="daoBase" abstract="true">
-	<property name="jt" ref="jdbcTemplate"></property>
-</bean>
-
-<bean id="empDao" class="com.iss.dao.imp.EmpDaoImp" parent="daoBase"></bean>
-    
+  <bean id="empDao" class="com.iss.dao.imp.EmpDaoImp" parent="daoBase"></bean>   
 </beans>
 ```
 

@@ -103,7 +103,7 @@ public class Thread extends Object implements Runnable
   - 仅仅任意通知一个处于阻塞的线程，不释放锁资源
 - void join(long millis) 
   - join（）：默认等待0 毫秒
-  - 是处于Running的线程，等待该线程终止后才执行，最大等待 millis 毫秒 ，底层调用Object.wait()
+  - 让处于Running的线程停止等待，等待调用join() 线程执行完后才执行，最大等待 millis 毫秒 ，底层调用Object.wait()
 - static void sleep(long millis) ：线程休眠
   - 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），不释放锁资源，时间到则重新为就绪状态
 - static void yield() ：线程让步

@@ -43,11 +43,11 @@ Statement stat = con.createStatement();
 
 ###### 3：数据访问
 
-​	建立一个语句对象，是用于发送sql语句给数据库ßß
+​	建立一个语句对象，是用于发送sql语句给数据库
 
-##### 3：java.sql
+###### java.sql
 
-###### 	 Class DriverManager
+##### 	 3：Class DriverManager
 
 ​	驱动管理器类，用于管理驱动、得到数据库的链接对象（ Connection）
 
@@ -59,9 +59,9 @@ Statement stat = con.createStatement();
 
 注意：jdbc连接不同的数据库，方法全部一样，只是两个地方不一样，驱动类和url不一样
 
-##### 4：java.sql
+###### java.sql
 
-###### 	 Interface Connection：得到实现此接口的实例，表示已建立链接
+##### 	 4：Interface Connection：得到实现此接口的实例，表示已建立链接
 
 - Statement createStatement() ：创建一个 Statement 对象来将 SQL 语句发送到数据库 
 - PreparedStatement prepareStatement(String sql) 
@@ -73,9 +73,9 @@ Statement stat = con.createStatement();
 - DatabaseMetaData getMetaData() 
   - 获取一个 DatabaseMetaData 对象，该对象包含关于此 Connection 对象所连接的数据库的原数据
 
-##### 5：java.sql
+###### java.sql
 
-###### 	 Interface Statement ：用于执行静态 SQL 语句并返回它所生成结果的对象
+##### 	 5：Interface Statement ：用于执行静态 SQL 语句并返回它所生成结果的对象
 
 - ResultSet executeQuery(String sql) ：SELECT语句
 - int executeUpdate(String sql) ：INSERT、UPDATE 或 DELETE 语句
@@ -84,9 +84,9 @@ Statement stat = con.createStatement();
 - int[] executeBatch() 
   - 将一批SQL语句提交给数据库来执行，如果全部命令执行成功，则返回更新计数组成的数组
 
-##### 6：Java.sql
+###### Java.sql
 
-###### 	public interface PreparedStatement extends Statement
+##### 	6：public interface PreparedStatement extends Statement
 
 ​	表示预编译的 SQL 语句的对象，不会破坏 SQL 语句结构，不会导致SQL注入问题
 
@@ -114,11 +114,9 @@ for(int i = 1; i < 10; i++) {
 int[] re = ps.executeBatch();
 ```
 
+###### java.sql
 
-
-##### 7：java.sql
-
-###### 	 Interface ResultSet 
+##### 	 7：Interface ResultSet 
 
 ​	 表示数据库结果集的数据表，由执行查询数据库的语句生成，ResultSet 中有一个记录指针，默认情况下，记录指针被置于第一行之前
 
@@ -147,7 +145,7 @@ int[] re = ps.executeBatch();
 
 ###### 注意： 
 
-- ResultSet 和 表没有关系，只和 select 语句有关系
+- ResultSet 和表没有关系，只和 select 语句有关系
 
 - SQL语句中拼接："+ +" 
 
@@ -155,25 +153,25 @@ int[] re = ps.executeBatch();
 
   ```java
   public static void main(String[] args) throws Exception {
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",
-                                                 "root", "mysql");
-  	//Statement  stat = con.createStatement();
-    String sql = "select * from stu where name like ?";
-    PreparedStatement  ps = con.prepareStatement(sql);
-    ps.setString(1, "li%");
-    ResultSet rs = ps.executeQuery();
-    while (rs.next()) {
-      // 通过列序号或者列名获取值
-      System.out.println(rs.getString(2) + "\t" + rs.getString("name"));
-    }
-    con.close();
+      Class.forName("com.mysql.jdbc.Driver");
+      Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xupt",
+                                                   "root", "mysql");
+      //Statement  stat = con.createStatement();
+      String sql = "select * from stu where name like ?";
+      PreparedStatement  ps = con.prepareStatement(sql);
+      ps.setString(1, "li%");
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        // 通过列序号或者列名获取值
+        System.out.println(rs.getString(2) + "\t" + rs.getString("name"));
+      }
+      con.close();
   }
   ```
 
-##### 8：java.sql
+###### java.sql
 
-###### 	 Interface DatabaseMetaData：封装了数据库的原数据
+##### 	 8：Interface DatabaseMetaData：封装了数据库的原数据
 
 - ResultSet getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)
   - 获取可在给定类别中使用的表的描述，其他参数直接传null

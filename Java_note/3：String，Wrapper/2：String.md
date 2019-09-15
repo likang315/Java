@@ -76,9 +76,8 @@ String 是用 value[] 存储的，而这个属性是final修饰的，是不可�
 ###### 2：使用 String 的方法 concat
 
 ```java
-//concat申请一个 char 类型的 buf []，将需要拼接的字符串都放在这个数组里，最后再转换成 String 对象
-public String concat(String str)
-{
+// concat申请一个 char 类型的 buf []，将需要拼接的字符串都放在这个数组里，最后再转换成 String 对象
+public String concat(String str) {
         int otherLen = str.length();
         if (otherLen == 0) {
             return this;

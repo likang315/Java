@@ -6,7 +6,7 @@
 
 - 线程安全的核心：对共享且可变状态的资源访问进行管理，例：加锁、final、volitile
 
-##### 1：并发编程的的三个特性
+##### 1：并发编程的三个特性
 
 1. 原子性：在一个原子操作中，cpu 不可以在中途暂停然后再调度，即不被中断操作，要不执行完成，要不就不执行
 2. 有序性：在本线程内观察，所有操作都是有序的
@@ -69,7 +69,7 @@ synchronized (this) {
 
 // 有一个明确的对象作为锁时
 public void  method3(SomeObject obj) {
-   //非this锁：monitor对象
+   // 非this锁：monitor对象
    synchronized (obj) {
       // todo
    }

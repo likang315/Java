@@ -16,8 +16,8 @@
 
 ```java
 public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
-    //定义在 AbstractList
-    protected transient int modCount = 0;	
+    // 定义在 AbstractList
+    protected transient int modCount = 0;
 }
 
 public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, java.io.Serializable {
@@ -31,14 +31,14 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     this(10);
   }
 
-  //可以指定初始容量和容量增长因子（默认为：0）
+  // 可以指定初始容量和容量增长因子（默认为：0）
   public Vector(int initialCapacity, int capacityIncrement) {}
 
-  //扩容机制
+  // 扩容机制
   private void grow(int minCapacity) {
-    //当前容器大小
+    // 当前容器大小
     int oldCapacity = elementData.length; 
-    //新容量
+    // 新容量
     int newCapacity = oldCapacity + ((capacityIncrement > 0) ?capacityIncrement : oldCapacity);
     if (newCapacity - minCapacity < 0)
       newCapacity = minCapacity;
@@ -47,7 +47,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
     elementData = Arrays.copyOf(elementData, newCapacity);
   }
  
-  //判断是否超出最大范围
+  // 判断是否超出最大范围
   private static int hugeCapacity(int minCapacity){
     if (minCapacity < 0)
       throw new OutOfMemoryError();
@@ -105,9 +105,9 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAcce
   }
   // 索引 remove：删除就是移动
   public E remove(int index) {
-    //检查是否越界
+    // 检查是否越界
     rangeCheck(index);
-    //Fail-Fast机制，继承 AbstractList 的属性
+    // Fail-Fast机制，继承 AbstractList 的属性
     modCount++; 
     E oldValue = elementData(index);
     // 计算待删除的元素索引

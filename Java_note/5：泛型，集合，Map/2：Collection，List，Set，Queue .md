@@ -63,7 +63,7 @@ default void sort(Comparator<? super E> c) {
     i.set((E) e);
   }
 }
-//Arrays.sort(a, (Comparator) c); 归并 + TimSort
+// Arrays.sort(a, (Comparator) c); 归并 + TimSort
 public static <T> void sort(T[] a, Comparator<? super T> c) {
         if (c == null) {
             sort(a);
@@ -105,7 +105,7 @@ public interface List<E> extends Collection<E>
 
 ```java
 public interface Set<E> extends Collection<E> 
-//方法：同list，除了下标操作的方法
+// 方法：同list，除了下标操作的方法
 ```
 
 ##### 7：Interface Queue：队列，FIFO，实现了 Collection 接口
@@ -115,11 +115,11 @@ public interface Set<E> extends Collection<E>
 - 实现类：**Linkedlist**，PriorityQueue
 
 ```java
-//add()和remove()方法在失败的时候会抛出异常(不推荐)
+// add()和 remove()方法在失败的时候会抛出异常(不推荐)
 Queue<String> queue = new LinkedList<String>();
-//入队
+// 入队 
 if（!queue.offer("a")）{
-  return "队列已满"；
+  return "队列已满";
 }
 //出队
 String str = queue.poll();
@@ -157,12 +157,12 @@ stack.push(8);
 - 调用集合的 toArray() ，实际上，把集合中的元素拷贝到一个新的数组中
 
 ```java
-//数组转集合
+// 数组转集合
 public static <T> List<T> asList(T... a) {
   			//可变长参数本质上就是数组
         return new ArrayList<>(a);
 }
-//集合转数组
+// 集合转数组
 public Object[] toArray() {
   	//ArrayList 本质就是数组序列 Object[] elementData
     return Arrays.copyOf(elementData, size);

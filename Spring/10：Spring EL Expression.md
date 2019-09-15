@@ -1,10 +1,8 @@
 ### Spring EL ：Spring Expression Language
 
-​	SpEL 是类似于 OGNL 的表达式语言，能够在运行时构建复杂表达式，存取对象属性、对象方法调用等
-
-所有的 SpEL 都支持XML 和 Annotation 两种方式，格式：#{ SpEL expression }
-
 ------
+
+​	SpEL 是类似于 OGNL 的表达式语言，能够在运行时构建复杂表达式，存取对象属性、对象方法调用等，所有的 SpEL 都支持XML 和 Annotation 两种方式，格式：#{ SpEL expression}
 
 ##### 1：导入Spring EL 的依赖包
 

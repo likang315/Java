@@ -1,5 +1,7 @@
 ### Spring  DataSource
 
+------
+
 Spring 中提供了 5 种不同的数据源
 
 1. DriverManagerDataSource：spring 自带的数据源
@@ -13,9 +15,9 @@ Spring 中提供了 5 种不同的数据源
 ```xml
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="mysql.jdbc.driver.MysqlDriver"/>
-		<property name="url" value=""jdbc:mysql://localhost:3306/xupt"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/xupt"/>
 		<property name="username" value="root" />
-		<property name="password " value="mysql" />
+		<property name="password" value="mysql" />
 </bean>
 ```
 
@@ -36,7 +38,7 @@ druid 连接池及监控在 spring 配置如下：
 	<property name="minIdle" value="1" />
 	<property name="maxActive" value="20" />
 ---------------------------------------------------------------------------------------
-<!--以上配置足以-->        
+<!--以上配置足以-->
   <!-- 配置获取连接等待超时的时间 -->
   <property name="maxWait" value="60000" />
   <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒ms -->
@@ -62,13 +64,11 @@ druid 连接池及监控在 spring 配置如下：
 </bean>
 ```
 
-
-
-### Servlet 和Filter 的区别
+##### 3：Servlet 和Filter 的区别
 
 ```xml
 监控的配置：web.xml
-<!-- filter 用于过滤请求的，果过滤之后会传递给下一个过滤器-->
+<!-- filter 用于过滤请求的，过滤之后会传递给下一个过滤器-->
 <filter>
 	<filter-name>DruidWebStatFilter</filter-name>
 	<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>

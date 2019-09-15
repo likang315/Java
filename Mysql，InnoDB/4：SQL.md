@@ -17,7 +17,7 @@
 5. 数据控制语言（DCL）：
    - 执行权限的授予和回收操作，维护数据库，授予，回收，创建用户
 
-###### 注意：
+######  注意：
 
 - SQL语句本身不区分大小写，但是出于可读性的目的，我们通常会将SQL的关键字全部大写，非关键字全部小写
 - ；：分隔符，是不必要的，但是作为一次语句的结束
@@ -36,7 +36,7 @@
 
 ```shell
 CREATE TABLE 表名（
-	id	  数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
+	id	 数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
 	列名	数据类型（）not null DEFAULT defalut_value，
 	列名	数据类型（），
 	Foreign key(列名) references 目标表名（列名)
@@ -68,7 +68,7 @@ CREATE TABLE 表名（
 2. 修改表的结构
    - 增加新的字段：ALTER TABLE 表名 **ADD** 字段名... after 字段名|first；
    - 修改现有字段：ALTER TABLE 表名 **MODIFY** 修改的字段；
-   - 修改字段名：   ALTER TABLE 表名 **RENAME** column A to B;
+   - 修改字段名：   ALTER TABLE 表名 **CHANGE**  旧字段名 新字段名 数据类型 ... ;
    - 删除现有字段：ALTER TABLE 表名 **DROP** 字段名；
 
 - alter table stu add name varchar(30) default 'xxx' not null after id;
@@ -128,7 +128,7 @@ CREATE TABLE 表名（
 - MAX（），MIN（）：求指定字段的最大值和最小值
 - AVG，SUM：求平均值和总和
 - COUNT( )：对给定字段的记录进行统计 
-  - COUNT（*）：统计这个表有多少记录，有时候返回long，有时候返回 BigInteger NVL（），配合进行
+  - COUNT（*）：统计这个表有多少记录，有时候返回long，有时候返回 BigInteger，配合进行
   - SELECT price, count(*) AS number FROM tablename GROUP BY price；
 
 ##### 7：ORDER BY ：排序
@@ -147,12 +147,12 @@ CREATE TABLE 表名（
 - WHERE ：不能使用聚合函数作为过滤条件，原因是过滤时机不对
 - WHERE：是在数据库检索表中数据时，对数据逐条过滤以决定是否查询该数据是否使用的，所以WHERE用来确定结果集的数据的
 - 聚合函数时从结果集中，并且分组完毕才进行过滤的，由此可见这个过滤时机是在WHERE之后进行的，所以聚合函数的过滤条件要在HAVING子句中使用， HAVING必须在GROUP BY之后
-- SELECT dep_id,count(dep_id) AS count FROM emp GROUP BY dep_id HAVING count(dep_id)>1；
+- SELECT dep_id,count(dep_id) AS count FROM emp GROUP BY dep_id **HAVING count(dep_id)>1**；
 
 ##### 9：LIMIT：分页查询
 
 - SELECT * FROM emp LIMIT 3;      从第一条开始，查询三条，实际是：0,3
-- SELECT * FROM emp LIMIT 3,5;   从结果的第4条开始，查询5条
+- SELECT * FROM emp LIMIT 3,5;   从结果的第3条开始，查询5条
 
 ##### 10：UNION、UNION ALL
 
@@ -192,9 +192,9 @@ CREATE TABLE 表名（
 ###### 外链接：所有数据都显示
 
 - 左外连（LEFT JOIN）：以JOIN左侧作为驱动表，获取左表所有记录，即使右表没有对应匹配的记录，用NULL 填充
-- select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e LEFT JOIN dep d ON e.dep_id=d.id;
+- select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e **LEFT JOIN** dep d **ON** e.dep_id=d.id;
 - 右外连（RIGHT JOIN）：与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录，用NULL填充
-- select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e RIGHT JOIN dep d ON e.dep_id=d.id;
+- select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e **RIGHT JOIN** dep d **ON** e.dep_id=d.id;
 
 ##### 14：EXPLAIN：SQL执行计划
 
@@ -262,8 +262,8 @@ CREATE TABLE 表名（
 
 1. WHERE子句：执行顺序为自下而上、从右到左
    - WHERE 条件之前, 可以过滤掉最大数量记录的条件，必须写在WHERE 子句的末尾
-2. GOROUP BY：字段加上索引，最左前缀匹配原则
-   - 把GROUP BY 的字段加上索引，因为符合最左前缀匹配原则
+2. ORDER BY：字段加上索引，最左前缀匹配原则
+   - 把ORDER BY 的字段加上索引，因为符合最左前缀匹配原则
 3. HAVING子句：很耗资源，尽量少用
    - 所有记录之后才对结果集进行过滤，非常消耗资源
 4. SELECT子句：少用\*号，尽量取字段名称

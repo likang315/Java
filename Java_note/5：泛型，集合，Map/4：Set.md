@@ -57,11 +57,11 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, jav
 
 ```java
 public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, java.io.Serializable {
-  //浮点型 0.几 0 可以省略
+  // 浮点型 0.几 0 可以省略
   public LinkedHashSet() {
     super(16, .75f, true);
   }
-	//调用HashSet的 LinkHashMap 构造方法 
+	// 调用HashSet的 LinkHashMap 构造方法 
   public LinkedHashSet(int initialCapacity, float loadFactor) {
     super(initialCapacity, loadFactor, true);
   }
@@ -79,15 +79,15 @@ public class LinkedHashSet<E> extends HashSet<E> implements Set<E>, Cloneable, j
 
 ```java
 public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>, Cloneable, java.io.Serializable {
-			//当前对象的引用
+			// 当前对象的引用
       private transient NavigableMap<E,Object> m;
-	    //作为Value值固定存储
+	    // 作为Value值固定存储
       private static final Object PRESENT = new Object();
-      //按照可以的自然顺序排序
+      // 按照可以的自然顺序排序
       public TreeSet() {
         this(new TreeMap<E,Object>());
       }
-      //根据外比较器进行排序
+      // 根据外比较器进行排序
       public TreeSet(Comparator<? super E> comparator) {
         this(new TreeMap<>(comparator));
       }
