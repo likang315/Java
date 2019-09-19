@@ -27,10 +27,10 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, jav
   }  
 	// 操作的都是 map
   public boolean add(E e) {
-    return map.put(e, PRESENT) == null ;
+    return map.put(e, PRESENT) == null;
   }
   public Iterator<E> iterator() {
-        return map.keySet().iterator();
+    return map.keySet().iterator();
   }
 }
 ```

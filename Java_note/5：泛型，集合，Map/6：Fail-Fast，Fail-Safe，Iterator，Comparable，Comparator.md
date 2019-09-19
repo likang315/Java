@@ -57,6 +57,6 @@ expectedModCount = modCount;
 
 ###### Interface Comparable：强行对它的实现类的每个对象进行整体排序-----------内比较器
 
-实现Comparable接口，必须重写int compareTo(Object o)方法	
+实现Comparable接口，必须重写int compareTo(Object o)方法
 
 - int compareTo(T o) ------------ 比较此对象与指定对象进行比较

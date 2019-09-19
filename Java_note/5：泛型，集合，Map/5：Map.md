@@ -62,7 +62,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
     transient int size;
     // Fail-fast
     transient int modCount;
-	  // 阈值.扩容
+	  // 阈值
     int threshold;
     // 加载因子
     final float loadFactor;
@@ -74,7 +74,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
   	static final int TREEIFY_THRESHOLD = 8;
 
     public HashMap() {
-        this.loadFactor = DEFAULT_LOAD_FACTOR; 
+        this.loadFactor = DEFAULT_LOAD_FACTOR;
     }
     // 静态内部类 Node<K,V>
     static class Node<K,V> implements Map.Entry<K,V> {
@@ -156,8 +156,9 @@ static final int hash(Object key) {
 
 ###### 7：什么时候用红黑树什么时候用链表
 
-- 在桶元素（桶的深度）大于等于8个并且表长超过 64 会将链表转化为红黑树（两个条件），当红黑树中元素小于6个时、会将红黑树转化为链表
-- 因为红黑树需要进行左旋，右旋操作， 而单链表不需要，如果元**素小于8个**，查询成本高，新增成本低，如果**元素大于8个**，查询成本低，新增成本高
+- 在桶元素（桶的深度）**大于等于8个并且表长超过 64** 会将链表转化为红黑树（两个条件），当红黑树中元素小于等于6个时，会将红黑树转化为链表
+- 因为红黑树的平均查找长度是log(n)，长度为8的时候，平均查找长度为3，如果继续使用链表，平均查找长度为8/2=4，这才有转换为树的必要。
+- 在6、8之间数字 7 可以有效防止链表结点个数载 8 徘徊，频繁的删除、插入操作
 
 ###### 8：为什么要引入红黑树
 
@@ -586,6 +587,8 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>  implements Concurr
 ###### 4：JDK1.8 实现 ConcurrentHashMap
 
 ​	数组+链表+红黑树数据结构来实现，并发控制使用Synchronized和CAS来操作，整个看起来就像是优化过且线程安全的HashMap，虽然在JDK1.8中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本
+
+- 利用CAS来实现非阻塞的无锁实现线程安全，并且用Synchronized锁来锁住Hash值相同的table[ i ],这样才保证线程安全
 
 ###### java.util  
 

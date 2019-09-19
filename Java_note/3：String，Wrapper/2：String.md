@@ -22,7 +22,7 @@ public final class String implements java.io.Serializable, Comparable<String>, C
             this.value = Arrays.copyOf(value, value.length);
         }
 }
-//String 的 不可变原因
+// String 的 不可变原因
 String 是用 value[] 存储的，而这个属性是final修饰的，是不可变的，而且是用 private 修饰的，没有get，set方法，确保外部无法修改，而且String的方法中都没有直接对value进行修改,多种原因共同保证了它的不可变性
 ```
 
@@ -156,8 +156,8 @@ public void test(String status) {
 - split(String sign,int limit)----根据指定的分隔符对字符串进行拆分，并且限定拆分的次数，总是limit-1次
 
 ```java
-String str=("abc,dfg,dfg,sfd,efg");
-String[] p=str.split(",");
+String str = "abc,dfg,dfg,sfd,efg";
+String[] p = str.split(",");
 for(String i:p) {
   System.out.println(i);
 }
@@ -167,11 +167,11 @@ for(String i:p) {
 
 ```java
 public boolean equals(Object anObject) {
-  //先比较地址
+  // 先比较地址
   if (this == anObject) {
     return true;
   }
-  //再比较是不是 String类型的数据
+  // 再比较是不是 String类型的数据
   if (anObject instanceof String) {
     String anotherString = (String) anObject;
     int n = value.length;

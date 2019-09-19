@@ -40,11 +40,13 @@ public boolean equals(Object obj) {
 
    - ###### hashCode() 与 equals() 机制 
 
-   - 若两个对象 equals（） 相等（重写后），但不在一个区间，所以根本没有机会进行比较，会被认为是不同的对象
+   - 若两个对象 equals( )相等（重写后），先比较地址，若地址相同肯定内容相同直接返回，若地址不同，再比较内容，内容相同则为true
+
+   - hashCode ( ) 若不重写，则根据对象返回的哈希值，若重写，则根据内容值返回Hash值
 
    - 对于eqauls方法和hashCode方法是这样规定的： 
 
-     1. 如果两个对象的 equals（）相等，那么它们的hashCode( ) 一定要相等，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值
+     1. 如果两个对象的 equals( )相等，那么它们的hashCode( ) 一定要相等，确保通过equals(Object obj)方法判断结果为true的两个对象具备相等的hashcode()返回值
      2. 如果两个对象的hashCode相等，它们的equals() 并不一定相等
 
 4. ###### Class<?> getClass() 

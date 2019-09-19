@@ -25,7 +25,7 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
   protected Object[] elementData;
   // 实际元素的数量
   protected int elementCount;
-  //自增因子
+  // 自增因子
   protected int capacityIncrement;
   public Vector() {
     this(10);
@@ -73,14 +73,14 @@ public class Vector<E> extends AbstractList<E> implements List<E>, RandomAccess,
 
 ```java
 public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, java.io.Serializable {
-  //初始容量为10
+  // 初始容量为10
   private static final int DEFAULT_CAPACITY = 10;
-  //空集合数据
+  // 空集合数据
   private static final Object[] EMPTY_ELEMENTDATA = {};
   private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
-  //当前集合数据
+  // 当前集合数据
   transient Object[] elementData; 
-  private int size;、
+  private int size;
   // 指定初始容量构造方法
   public ArrayList(int initialCapacity) {
     if (initialCapacity > 0) {

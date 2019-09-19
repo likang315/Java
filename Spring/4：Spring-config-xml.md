@@ -30,6 +30,7 @@
 	<property name="url" value="jdbc:mysql://localhost:3306/xupt"></property>
 	<property name="username" value="root"></property>
 	<property name="password" value="mysql"></property>
+  
 	<property name="initialSize" value="1"/>
 	<!-- 连接池的最大值 -->
 	<property name="maxActive" value="500"/>
