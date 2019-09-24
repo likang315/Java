@@ -106,7 +106,7 @@ public class ClientService {
 
 ##### 4：Bean 的生命周期【重要】
 
-​	Bean的定义——Bean的初始化——Bean的使用——Bean的销毁 
+​	Bean的定义——Bean的初始化——Bean的使用——Bean的销毁
 
 1. Spring 先对 bean 进行实例化，调用构造器
 2. Spring 将 值 和 bean 的引用注入到 bean 对应的属性中

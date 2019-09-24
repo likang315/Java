@@ -65,15 +65,15 @@ default void sort(Comparator<? super E> c) {
 }
 // Arrays.sort(a, (Comparator) c); 归并 + TimSort
 public static <T> void sort(T[] a, Comparator<? super T> c) {
-        if (c == null) {
-            sort(a);
-        } else {
-            if (LegacyMergeSort.userRequested)
-                legacyMergeSort(a, c);
-            else
-              // TimSort：就是找到已经排好序数据的子序列，然后对剩余部分排序，然后合并起来
-                TimSort.sort(a, 0, a.length, c, null, 0, 0);
-        }
+    if (c == null) {
+      sort(a);
+    } else {
+      if (LegacyMergeSort.userRequested)
+        legacyMergeSort(a, c);
+      else
+        // TimSort：就是找到已经排好序数据的子序列，然后对剩余部分排序，然后合并起来
+        TimSort.sort(a, 0, a.length, c, null, 0, 0);
+    }
 }
 ```
 
@@ -149,7 +149,7 @@ stack.push(8);
 
 ###### 1：数组转集合
 
-- 当使用 Arrays.asList() 方法时，数组就和列表指向同于个引用，当更新其中之一时，另一个将自动获得更新，因为 asList 获得 ArrayList 实际引用的 就是 数组
+- 当使用 Arrays.asList() 方法时，数组就和列表指向同于个引用，当更新其中之一时，另一个将自动获得更新，因为 asList 获得 ArrayList 实际引用的 就是数组
 - asList 得到的 List 是的没有 add() 和 remove() ，得到的集合自身不能修改
 
 ###### 2：集合转数组

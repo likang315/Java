@@ -21,12 +21,11 @@
 
 ```java
 public interface Type_c {
-    public void transfer_1();
+   public void transfer_1();
 }
 
 public interface Andriod {
     public void transfer_2();
-
 }
 
 public class Type_imp implements Type_c {

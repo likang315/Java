@@ -44,7 +44,7 @@ CREATE TABLE 表名（
 # 通常记事本写好直接 copy
 ```
 
-- 创建相同的表：CREATE TABLE 表1 LIKE 表2； 
+- 创建相同的表：CREATE TABLE 表1 LIKE 表2;
 - 从已有的表中创建新表： CREATE TABLE 新表1 SELECT 字段1，字段2...FROM 原表2；
 
 ###### 约束条件：
@@ -123,13 +123,16 @@ CREATE TABLE 表名（
 
 ​	将结果集按照指定的字段值相同的记录分为一组，常和分组函数联用
 
+- select stu.name, **avg(math) as math, avh(chinese) as chinese** from score s INNER JOIN student stu ON stu.id = s.student_id **group by stu.name**;
+- score 表中可能会有多个一个学生的成绩，求平均
+
 ###### 聚合函数：对某些字段的值进行统计的
 
 - MAX（），MIN（）：求指定字段的最大值和最小值
 - AVG，SUM：求平均值和总和
 - COUNT( )：对给定字段的记录进行统计 
   - COUNT（*）：统计这个表有多少记录，有时候返回long，有时候返回 BigInteger，配合进行
-  - SELECT price, count(*) AS number FROM tablename GROUP BY price；
+  - SELECT price, **count(*) AS number** FROM tablename GROUP BY price；
 
 ##### 7：ORDER BY ：排序
 
@@ -177,7 +180,7 @@ CREATE TABLE 表名（
 - 当两张表有相同字段时，SELECT子句中必须明确指定该字段来自那张表，在关联查询中，表名也可以有别名，在表名其后直接写，可以简化语句的复杂度
 - 关联查询要添加连接条件，否则会产生**笛卡尔积它是一个无意义的结果集**，它的记录数是与所有参与查询的表的记录数乘积的结果，可能会出现内存溢出
 - 连接条件全部写在WHERE中
-- SELECT e.id,e.name FROM emp e,dep d WHERE e.dep_id=d.dep_id;    没有意义，只是学习写法
+- SELECT e.id,e.name FROM emp e INNER JOIN dep d ON e.dep_id=d.dep_id;   
 
 ##### 13：连接查询(JOIN)：用来完成关联查询
 

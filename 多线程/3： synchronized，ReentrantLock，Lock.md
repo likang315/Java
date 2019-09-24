@@ -189,7 +189,7 @@ public interface Condition {
 public class Test {
     private final Reentrantlock lock = new Reentrantlock()；
     public void testMethod() {
-        lock.lock(); //先获得锁，再处理业务
+        lock.lock(); // 先获得锁，再处理业务
         for (int i = 0; i < 5; i++) {
             System.out.println("ThreadName =" + Thread.currentThread().getName()
                      + (i + 1));

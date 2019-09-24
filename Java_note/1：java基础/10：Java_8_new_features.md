@@ -10,7 +10,7 @@
 
 ```java
 (parameters) -> expression
-(parameters) ->{ statements;}
+(parameters) ->{statements;}
 ```
 
 - 可选类型声明：不需要声明参数类型，编译器会统一识别参数值

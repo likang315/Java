@@ -102,10 +102,10 @@ public class Thread extends Object implements Runnable
 - void notify()：通知线程
   - 仅仅任意通知一个处于阻塞的线程，不释放锁资源
 - void join(long millis) 
-  - join（）：默认等待0 毫秒
+  - join( )：默认等待0 毫秒
   - 让处于Running的线程停止等待，等待调用join() 线程执行完后才执行，最大等待 millis 毫秒 ，底层调用Object.wait()
 - static void sleep(long millis) ：线程休眠
-  - 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），不释放锁资源，时间到则重新为就绪状态
+  - 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），不释放锁资源，监控状态继续保持，时间到则重新为就绪状态
 - static void yield() ：线程让步
   - 暂停当前正在执行的线程对象，让出时间片，由运行状态到就绪状态，等待获取时间片
 - void interrupt ()
@@ -119,7 +119,7 @@ public class Thread extends Object implements Runnable
 
 ##### 5：线程优先级
 
-- 线程的优先级：线程默认优先级为5，范围是1-10
+- 线程的优先级：线程默认优先级为5，范围是1-10，值越大优先级越高
 - 线程的切换是由CPU的调度(轮转时间片)控制的，并且线程的调度不能被干预，但是可以通过提高线程的优先级来提高获取时间片的概率
 - 线程默认的优先级都与创建它的父线程具有相同的优先级，在默认情况下，主线程具有普通优先级：5
 
