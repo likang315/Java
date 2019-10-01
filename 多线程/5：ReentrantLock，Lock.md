@@ -8,7 +8,7 @@
 
 ##### 1：并发编程的三个特性
 
-1. 原子性：在一个原子操作中，cpu 不可以在中途暂停然后再调度，即不被中断操作，要不执行完成，要不就不执行
+1. 原子性：在一个原子操作中，cpu 不可以在中途暂停然后再调度，即不可被中断的操作
 2. 有序性：在本线程内观察，所有操作都是有序的
 3. 可见性：指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即得到修改的值
    - 当一个变量被 volatile 修饰后，当一个线程在私有内存中修改此共享变量后，共享变量会立即被更新到主内存中，同时使其他线程缓存的此变量无效，其他线程读取共享变量时，会直接从主内存中读取
@@ -41,80 +41,6 @@ public void modifyPublicResources() {
 private AtomicInteger atomicInteger = new AtomicInteger(); 
 // 执行自增
 atomicInteger.incrementAndGet();
-```
-
-##### 3：synchronized
-
-​	Java中的关键字，是一种同步锁，为重量级锁，即锁住了当前对象也把锁给了当前对象
-
-###### 锁原理
-
-- synchronized：是通过**字节码指令**来实现的
-  - synchronized 同步块：编译后会在同步块前后形成 monitorenter 和 monitorexit 两个字节码指令
-    - 执行 monitorenter 指令时需要先获得对象的锁(每个对象有一个监视器锁monitor)，如果这个对象获取锁或者当前线程已经获得此锁（可重入锁），那么锁的计数器+1。如果获取失败，那么当前线程阻塞，直到锁被另一个线程释放，执行monitorexit指令时，计数器 -1，当为 0 的时候锁释放
-  - synchronize 同步方法：编译后会在方法访问处，添加字节码指令 ACC_SYNCHRONIZED  标志
-    - 不管是monitorenter，还是ACC_SYNCHRONIZED都是用于获取对象锁
-
-###### synchronized：同步块
-
-​	要求多个线程对该块内的代码依次排队执行，前提条件是同步监视器对象，可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
-
-- 当一个线程访问对象中的synchronized(this)同步代码块时，另一个线程仍然可以访问该对象中的非synchronized(this)同步代码块，因为非synchronized不需要monitor锁
-
-```java
-// this锁：指monitor对象
-synchronized (this) {
-	// todo
-}
-
-// 有一个明确的对象作为锁时
-public void  method3(SomeObject obj) {
-   // 非this锁：monitor对象
-   synchronized (obj) {
-      // todo
-   }
-}
-
-// 当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁
-private Byte[] local= new Byte[0];
-synchronized (local) {
-  // todo
-}
-```
-
-###### synchronized：同步方法
-
-​	为同步方法，即：多个线程不能同时进入方法内部执行
-
-- synchronized 同步方法：在一个线程调用该方法时将该方法所属对象加锁，其他线程在执行此方法时，由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁
-- 线程同步：解决多线程并发问题的办法就是讲"抢"变为"排队"
-- **同一个锁对象可以产生互斥作用，不同锁对象不能产生互斥作用**
-- 若修饰静态方法：属于类的，具有同步效果，与对象无关
-
-```java
-public synchronized void synchronizedMethod() {
-  // ...
-}
-// synchronized 修饰的静态方法锁定的是这个类的所有对象
-public static synchronized void method() {
-	// ...
-}
-```
-
-###### 注意：
-
-1. 被 synchronized修饰方法，不能被继承，若需要同步，在子类的重写该方法添加 synchronized 关键字
-2. 在接口中定义方法时不能使用 synchronized 关键字
-3. 构造方法不能使用 synchronized关键字，但可以使用 synchronized 代码块来进行同步
-
-###### synchronized 类锁：Class锁
-
-- synchronized 作用于一个类时，每个类有且只有一个Class对象，即类的 Class 对象锁，类的所有对象都是同一把锁
-
-```java
-synchronized (ClassName.class) {
-	// todo
-}
 ```
 
 ##### 4：重入锁(Lcok)：根据一个线程中的多个流程能不能获得同一把锁

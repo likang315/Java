@@ -2,6 +2,8 @@
 
 ------
 
+​	JVM执行字节码，最终需要转化为汇编指令在CPU上执行，Java中所使用的并发机制依赖于JVM的实现和CPU的指令
+
 ##### 1：继承Thread类，重写run() 来定义线程要执行的任务
 
 ​	启动线程指调用start()，而并不是调用run()，当线程的start()被调用后，线程进入Runnable状态，等待获取cpu,一旦获取CPU时间片，run()自动被调用，即运行程序
@@ -103,7 +105,7 @@ public class Thread extends Object implements Runnable
   - 仅仅任意通知一个处于阻塞的线程，不释放锁资源
 - void join(long millis) 
   - join( )：默认等待0 毫秒
-  - 让处于Running的线程停止等待，等待调用join() 线程执行完后才执行，最大等待 millis 毫秒 ，底层调用Object.wait()
+  - 调用 join() 的线程进入 TIMED_WAITING 状态，等待 join() 所属线程运行结束后再继续运行，底层调用Object.wait()
 - static void sleep(long millis) ：线程休眠
   - 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），不释放锁资源，监控状态继续保持，时间到则重新为就绪状态
 - static void yield() ：线程让步
