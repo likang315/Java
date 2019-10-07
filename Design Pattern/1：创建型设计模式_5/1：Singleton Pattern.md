@@ -11,7 +11,9 @@
 
 ```java
 // 懒汉式，对象的延时加载，线程安全，同步代码块，双重检查 Double-Check，效率高（双检锁）
+// 并发情况下，如果没有volatile关键字，在 instance = new TestInstance，指令重排序出现问题
 public class Singleton {
+  	// volatile 会禁止指令重排序，否则会出现线程安全
     private volatile static Singleton instance;
     public static Singleton getInstance() { 
         if (instance == null) {
@@ -25,7 +27,6 @@ public class Singleton {
         return instance;
     }
 }
-// 并发情况下，如果没有volatile关键字，在 instance = new TestInstance
 
 // 线程安全，同步方法，效率太低
 public class Singleton {
