@@ -165,7 +165,7 @@ public final int getAndSetInt(Object var1, long var2, int var4) {
 
 ###### 两个线程同时争夺锁，导致锁膨胀的流程
 
-##### ![](/Users/likang/Code/Git/Java-and-Middleware/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81.png)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81.png?raw=true)
 
 ##### 10：偏向锁
 

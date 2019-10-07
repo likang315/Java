@@ -57,18 +57,135 @@
 
 ##### 6：线程的五种状态
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E5%9B%BE.png?raw=true)
-
-- 新建状态(New)：当线程对象对创建后，即进入了新建状态
-- 就绪状态(Runnable)：当调用线程对象的start()方法，线程即进入就绪状态
+- NEW：新建状态，当线程对象对创建后，即进入了新建状态
+- RUNNABLE：就绪状态，当调用线程对象的start()方法，线程即进入就绪状态
   - 处于就绪状态的线程，说明此线程已经做好了准备，随时等待CPU调度执行
-- 运行状态(Running)：当CPU开始调度处于就绪状态的线程时，此时线程才得以真正执行，即进入到运行状态
-- 阻塞状态(Block)：处于运行状态中的线程由于某种原因，暂时放弃对CPU的使用权，停止执行，此时进入阻塞状态，直到其进入到就绪状态，才有机会再次被CPU调用以进入到运行状态
+- RUNNING：运行状态，当CPU开始调度处于就绪状态的线程时，此时线程才得以真正执行，即进入到运行状态
+- BLOCKED：阻塞状态， 线程在获取synchronized同步锁失败，它会进入同步阻塞状态直到其进入到就绪状态，才有机会再次被CPU调用以进入到运行状态
+- WAITING：等待状态，进入等待状态的线程需要等待其他线程做出一些特定的动作（通知或中断）
   - 等待阻塞：运行状态中的线程执行wait()方法，使本线程进入到等待阻塞状态
-  - 同步阻塞：线程在获取synchronized同步锁失败(因为锁被其它线程所占用)，它会进入同步阻塞状态
   - 其他阻塞：通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态
-    - 当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态
-- 死亡状态(Dead)：线程执行完了或者因异常退出了run()方法，该线程结束生命周期，对象被垃圾回收
+- TIME-WAITING：超时等待状态，它是可以在指定的时间内返回的线程
+  - 超时等待阻塞：调用wait(long timeout)
+- TERMINATED：终止状态，线程执行完了或者因异常退出了run()方法，该线程结束生命周期
+
+##### 6：Daemon线程
+
+​	也称守护线程，是一种支持型线程，因为它主要用于**程序中后台调度以及支持性工作**，这意味着，当一个Java虚拟机中不存在非Daemon线程的时候，Java虚拟机将会退出，守护线程则会立即终止
+
+- Daemon属性需要在启动线程之前设置，不能在启动线程之后设置
+- 设置方式：Thread.setDaemon(true)
+- main线程（非Daemon线程）在启动了线程DaemonRunner之后随着main方法执行完毕而终止，而此时Java虚拟机中已经没有非Daemon线程，虚拟机需要退出。Java虚拟机中的所有Daemon线程都需要立即终止，因此DaemonRunner立即终止，但是DaemonRunner中的finally块并没有执行
+
+```java
+public class Daemon {
+    public static void main(String[] args) {
+      Thread thread = new Thread(new DaemonRunner(), "DaemonRunner");
+      thread.setDaemon(true);
+      thread.start();
+    }
+    static class DaemonRunner implements Runnable {
+        @Override
+        public void run() {
+            try {
+              Thread.sleep(10);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            } finally {
+              System.out.println("DaemonThread finally run.");
+            }
+        }
+     }
+}
+```
+
+##### 7：构造线程的过程
+
+```java
+private void init(ThreadGroup g, Runnable target, String name,long stackSize,
+                  AccessControlContext acc) {
+    if (name == null) {
+    		throw new NullPointerException("name cannot be null");
+    }
+    // 当前线程就是该线程的父线程
+    Thread parent = currentThread();
+  	// 设置线程组
+    this.group = g;
+    // 将daemon、priority属性设置为父线程的对应属性
+    this.daemon = parent.isDaemon();
+    this.priority = parent.getPriority();
+    this.name = name.toCharArray();
+    this.target = target;
+    setPriority(priority);
+    // 设置contextClassLoader以及可继承的ThreadLocal，将父线程InheritableThreadLocal复制过来
+    if (parent.inheritableThreadLocals != null)
+    		this.inheritableThreadLocals=ThreadLocal.createInheritedMap(
+      	parent.inheritableThreadLocals);
+    // 分配一个线程ID
+    tid = nextThreadID();
+}
+```
+
+##### 8：中断操作
+
+​	API中声明许多抛出InterruptedException的方法（例如Thread.sleep(long millis)方法）这些方法在抛出InterruptedException之前，Java虚拟机会先将该线程的中断标识位清除，然后抛InterruptedException，此时调用isInterrupted()方法将会返回false
+
+- 通过isInterrupted()来进行判断是否被中断
+- 通过调用静态方法Thread.interrupted() ，对当前线程的中断标识位进行复位
+
+###### 安全的中断任务操作
+
+​	main线程通过中断操作和cancel()方法均可使CountThread得以终止，这种通过标识位或者中断操作的方式能够使线程在终止时有机会去清理资源，而不是武断地将线程停止
+
+```java
+public class Shutdown {
+    public static void main(String[] args) throws Exception {
+        Runner one = new Runner();
+        Thread countThread = new Thread(one, "CountThread");
+        countThread.start();
+        // 睡眠1秒，main线程对CountThread进行中断，使CountThread能够感知中断而结束
+        TimeUnit.SECONDS.sleep(1);
+        countThread.interrupt();
+        Runner two = new Runner();
+        countThread = new Thread(two, "CountThread");
+        countThread.start();
+        // 睡眠1秒，main线程对Runner two进行取消，使CountThread能够感知on为false而结束
+        TimeUnit.SECONDS.sleep(1);
+        two.cancel();
+    }
+    private static class Runner implements Runnable {
+        private long i;
+        private volatile boolean on = true;
+        @Override
+        public void run() {
+            while (on && !Thread.currentThread().isInterrupted()) {
+            		i++;
+        		}
+        		System.out.println("Count i = " + i);
+        }
+        public void cancel() {
+        		on = false;
+        }
+    }
+}
+```
+
+##### 9：线程间通信
+
+​	因为多个线程需要相互配合完成工作，提高任务执行效率
+
+1. 共享内存
+   - 在共享内存的并发模型里，线程之间共享程序的公共状态，通过写-读内存中的公共状态进行隐式通信
+   - 锁：多个线程需要同时访问同一个方法时，谁获取了锁（synchronized），谁先执行
+2. 消息传递
+   - wait / notify机制：Object 类的方法
+     - wait()：当线程执行 wait() 时，会把当前的锁资源释放，让出CPU（时间片），进入就绪状态
+     - notify()：任意唤醒一个处于等待获取该对象锁的线程，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized块）后再释放锁
+     - notifyAll()：会唤醒所有处于等待该对象锁的线程
+
+
+
+
 
 ##### 6：线程的调度算法
 
@@ -88,17 +205,6 @@
 1. 分时调度模型：所有线程轮流使用 CPU 的使用权，平均分配 CPU 的时间片给每个线程占用
 2. 抢占式调度模型：优先让优先级高的线程使用 CPU，如果线程的优先级相同，那么会随机选择一个，优先级高的线程获取的 CPU 时间片相对多一些
    - 默认使用
-
-##### 9：线程间的通信方式
-
-1. 共享内存
-   - 在共享内存的并发模型里，线程之间共享程序的公共状态，通过写-读内存中的公共状态进行隐式通信
-   - 锁：多个线程需要同时访问同一个方法时，谁获取了锁（synchronized），谁先执行
-2. 消息传递
-   - wait / notify机制：Object 类的方法
-      - wait()：当线程执行 wait() 时，会把当前的锁资源释放，让出CPU（时间片），进入就绪状态
-      - notify()：任意唤醒一个处于等待获取该对象锁的线程，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized块）后再释放锁
-      - notifyAll()：会唤醒所有处于等待该对象锁的线程
 
 ##### 10：进程间通信方式
 

@@ -117,7 +117,6 @@ public class Thread extends Object implements Runnable
 - void setDaemon(boolean on) 
   - 设置是否为守护线程，先设置后启动
   - 垃圾回收器（GC）：就是守护线程
-  - 守护进程：一直运行的服务端程序，通常在系统后台运行，没有控制终端，不与前台交互，Daemon程序一般作为系统服务使用
 
 
 

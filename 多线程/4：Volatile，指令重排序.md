@@ -64,7 +64,7 @@
 - volatile变量规则：对一个volatile域的写，happens-before于任意后续对这个volatile域的读
 - 传递性：如果A happens-before B，且B happens-before C，那么A happens-before C
 
-![Join()原则](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/Join()原则.jpg)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/Join()%E5%8E%9F%E5%88%99.jpg?raw=true)
 
 ##### 7：as-if-serial
 
