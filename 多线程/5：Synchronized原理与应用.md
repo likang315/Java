@@ -17,8 +17,9 @@
 - synchronized：是通过**字节码指令**来实现的
   - synchronized 同步块：编译后会在同步块前后形成 monitorenter 和 monitorexit 两个字节码指令
     - 执行 monitorenter 指令时需要先获得对象的锁(每个对象有一个监视器锁monitor)，如果这个对象获取锁或者当前线程已经获得此锁（可重入锁），那么锁的计数器+1。如果获取失败，那么当前线程阻塞，直到锁被另一个线程释放，执行monitorexit指令时，计数器 -1，当为 0 的时候锁释放
+    - 任意一个对象都拥有自己的监视器，当这个对象由同步块或者这个对象的同步方法调用时，执行方法的线程必须先获取到该对象的监视器才能进入同步块或者同步方法，而没有获取到监视器（执行该方法）的线程将会被阻塞在同步块和同步方法的入口处，进入BLOCKED状态
   - synchronize 同步方法：编译后会在方法访问处，添加字节码指令 ACC_SYNCHRONIZED  标志
-    - 不管是monitorenter，还是ACC_SYNCHRONIZED都是用于获取对象锁
+    - 不管是monitorenter，还是ACC_SYNCHRONIZED本质都是对一个对象的监视器（monitor）进行获取，而这个获取是排他的
 
 ###### synchronized：同步块
 

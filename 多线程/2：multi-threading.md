@@ -1,4 +1,4 @@
-### 多线程  ：
+多线程  ：
 
 ------
 
@@ -175,17 +175,148 @@ public class Shutdown {
 ​	因为多个线程需要相互配合完成工作，提高任务执行效率
 
 1. 共享内存
+
    - 在共享内存的并发模型里，线程之间共享程序的公共状态，通过写-读内存中的公共状态进行隐式通信
-   - 锁：多个线程需要同时访问同一个方法时，谁获取了锁（synchronized），谁先执行
+
+   - 锁：在同一个时刻，只能有一个线程处于方法或者同步块中，它保证了线程对变量访问的可见性和排他性
+
+   - volatile：保证所有线程对变量访问的可见性
+
+   - 管道输入-输出流
+
+     - 主要用于线程之间的数据传输，而传输的媒介为内存
+
+     - 主要包括4种具体实现：PipedOutputStream、PipedInputStream、PipedReader和PipedWriter
+
+       ```java
+       // 正是因为这种方式的线程通信方式，CPU一直运行，开销太大，出现了等待-通知模式
+       public class Piped {
+           public static void main(String[] args) throws Exception {
+               PipedWriter out = new PipedWriter();
+               PipedReader in = new PipedReader();
+               // 将输出流和输入流进行连接，否则在使用时会抛出IOException
+               out.connect(in);
+               Thread printThread = new Thread(new Print(in), "PrintThread");
+               printThread.start();
+               int receive = 0;
+               try {
+                 while ((receive = System.in.read()) != -1) {
+                 		out.write(receive);
+                 }
+               } finally {
+                 out.close();
+               }
+           }
+           static class Print implements Runnable {
+               private PipedReader in;
+               public Print(PipedReader in) {
+                 this.in = in;
+               }
+               public void run() {
+                 int receive = 0;
+                 try {
+                   while ((receive = in.read()) != -1) {
+                     	System.out.print((char) receive);
+                   }
+                 } catch (IOException ex) {
+                   
+                 }
+               }
+           }
+       }
+       ```
+
 2. 消息传递
-   - wait / notify机制：Object 类的方法
-     - wait()：当线程执行 wait() 时，会把当前的锁资源释放，让出CPU（时间片），进入就绪状态
-     - notify()：任意唤醒一个处于等待获取该对象锁的线程，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized块）后再释放锁
-     - notifyAll()：会唤醒所有处于等待该对象锁的线程
 
+   - 一个线程修改了一个对象的值，而另一个线程感知到了变化，然后进行相应的操作，整个过程开始于一个线程（生产者），而最终执行又是另一个线程（消费者）
 
+   - 等待通知机制：等待通知机制的相关方法是任意Java对象都具有的，Object 类的方法
 
+     - 是指**一个线程A调用了对象O的wait()方法**进入等待状态，而**另一个线程B调用了对象O的notify()或者notifyAll()方法**，线程A收到通知后从对象O的wait()方法返回，进而执行后续操作。上述**两个线程通过对象O来完成交互**，用来完成等待方和通知方之间的交互工作
+     - wait()：当线程执行 wait() 时，会让出CPU，释放当前对象的锁资源，进入WAITING状态
+     - wait(long)：超时等待一段时间，毫秒，超时后，若是没有通知则返回
+     - notify()：任意通知一个处于等待获取该对象锁的线程，使其从wait（）中返回，**但返回的前提是该线程获取了对象的然后继续往下执行**
+     - notifyAll()：通知所有处于等待该对象锁的线程
 
+     ```java
+     public class WaitNotify {
+         static boolean flag = true;
+         static Object lock = new Object();
+         public static void main(String[] args) throws Exception {
+             Thread waitThread = new Thread(new Wait(), "WaitThread");
+             waitThread.start();
+             TimeUnit.SECONDS.sleep(1);
+             Thread notifyThread = new Thread(new Notify(), "NotifyThread");
+             notifyThread.start();
+         }
+       	// 消费者，吃饭时排位
+         static class Wait implements Runnable {
+             public void run() {
+                 // 加锁，拥有lock的Monitor
+                 synchronized (lock) {
+                     // 当条件不满足时，继续wait，同时释放了lock的锁
+                     while (flag) {
+                         try {
+                           System.out.println(Thread.currentThread() 
+                              + " flag is true.wait@ "
+                              + newSimpleDateFormat("HH:mm:ss").format(new Date()));
+                           // 线程通知，并且线程的释放锁资源后才从wait中返回
+                           lock.wait();
+                         } catch (InterruptedException e) {
+     
+                         }
+                     }
+                     // 条件满足时，完成工作
+                     System.out.println(Thread.currentThread() 
+                        + " flag is false.running@ "
+                        + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                 }
+         		}
+         }
+         // 生产者
+         static class Notify implements Runnable {
+             public void run() {
+                 // 加锁，拥有lock的Monitor
+                 synchronized (lock) {
+                     // 获取lock的锁，然后进行通知，通知时不会释放lock的锁，
+                     // 直到当前线程释放了lock后，WaitThread才能从wait方法中返回
+                     System.out.println(Thread.currentThread()
+                        + " hold lock. notify @ "
+                        + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                     lock.notifyAll();
+                     flag = false;
+                     Thread.sleep(5);
+                 }
+                 // 再次加锁
+                 synchronized (lock) {
+                   System.out.println(Thread.currentThread() 
+                       + " hold lock again. sleep@ " 
+                       + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                   Thread.sleep(5);
+                 }
+         		}
+     		}
+     }
+     ```
+
+   ###### 等待-通知经典范式
+
+   ```java
+   // 消费者
+   synchronized(对象) {
+       while(条件不满足) {
+       	对象.wait();
+       }
+       对应的处理逻辑
+   }
+   // 生产者
+   synchronized(对象) {
+       改变条件
+       对象.notifyAll();
+   }
+   ```
+
+  
 
 ##### 6：线程的调度算法
 
