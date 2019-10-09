@@ -230,7 +230,7 @@ public class Shutdown {
 
    - 一个线程修改了一个对象的值，而另一个线程感知到了变化，然后进行相应的操作，整个过程开始于一个线程（生产者），而最终执行又是另一个线程（消费者）
 
-   - 等待通知机制：等待通知机制的相关方法是任意Java对象都具有的，Object 类的方法
+   - 等待通知机制（生产者-消费者模型）：等待通知机制的相关方法是任意Java对象都具有的，Object类
 
      - 是指**一个线程A调用了对象O的wait()方法**进入等待状态，而**另一个线程B调用了对象O的notify()或者notifyAll()方法**，线程A收到通知后从对象O的wait()方法返回，进而执行后续操作。上述**两个线程通过对象O来完成交互**，用来完成等待方和通知方之间的交互工作
      - wait()：当线程执行 wait() 时，会让出CPU，释放当前对象的锁资源，进入WAITING状态
@@ -287,27 +287,20 @@ public class Shutdown {
                      flag = false;
                      Thread.sleep(5);
                  }
-                 // 再次加锁
-                 synchronized (lock) {
-                   System.out.println(Thread.currentThread() 
-                       + " hold lock again. sleep@ " 
-                       + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-                   Thread.sleep(5);
-                 }
          		}
      		}
      }
      ```
-
+   
    ###### 等待-通知经典范式
-
+   
    ```java
    // 消费者
    synchronized (对象) {
        while(条件不满足) {
-       	对象.wait();
+    	对象.wait();
        }
-       对应的处理逻辑
+    对应的处理逻辑
    }
    // 生产者
    synchronized (对象) {
