@@ -1,4 +1,4 @@
-### 创建线程
+###  构键线程
 
 ------
 
@@ -80,9 +80,11 @@ public class CallableThreadTest implements Callable<List<String>> {
 }
 ```
 
-##### 4：Thread  （Java.lang）
+###### java.lang
 
-public class Thread extends Object implements Runnable
+##### 4：Class  Thread
+
+​	public class Thread extends Object implements Runnable
 
 ###### 属性：
 
@@ -102,21 +104,112 @@ public class Thread extends Object implements Runnable
 ###### 方法:
 
 - void notify()：通知线程
+  
   - 仅仅任意通知一个处于阻塞的线程，不释放锁资源
 - void join(long millis) 
   - join( )：默认等待0 毫秒
+  
   - 调用 join() 的线程进入 TIMED_WAITING 状态，等待 join() 所属线程运行结束后再继续运行，底层调用Object.wait()
+  
+  - 如果一个线程A执行了thread.join()语句，其含义是：**当前线程A等待thread线程终止之后才从thread.join()返回**。线程Thread除了提供join()方法之外，还提供了join(long millis)和join(longmillis,int nanos)两个具备超时特性的方法，如果线程thread在给定的超时时间里没有终止，那么将会从该超时方法中返回
+  
+    ```java
+    // 创建了10个线程，编号0~9，每个线程调用前一个线程的join()方法，也就是线程0结束了，线程1才能从join()方法中返回，而线程0需要等待main线程结束
+    public class Join {
+        public static void main(String[] args) throws Exception {
+            Thread previous = Thread.currentThread();
+            for (int i = 0; i < 10; i++) {
+                // 每个线程拥有前一个线程的引用，需要等待前一个线程终止，才能从等待中返回
+                Thread thread = new Thread(new Domino(previous), String.valueOf(i));
+                thread.start();
+                previous = thread;
+            }
+            TimeUnit.SECONDS.sleep(5);
+            System.out.println(Thread.currentThread().getName() + " terminate.");
+        }
+        static class Domino implements Runnable {
+            private Thread thread;
+            public Domino(Thread thread) {
+              	this.thread = thread;
+            }
+            public void run() {
+                try {
+                  thread.join();
+                } catch (InterruptedException e) {
+                }
+                System.out.println(Thread.currentThread().getName() + " terminate.");
+            }
+        }
+    }
+    ```
+  
 - static void sleep(long millis) ：线程休眠
+  
   - 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），不释放锁资源，监控状态继续保持，时间到则重新为就绪状态
 - static void yield() ：线程让步
+  
   - 暂停当前正在执行的线程对象，让出时间片，由运行状态到就绪状态，等待获取时间片
 - void interrupt ()
+  
   - 中断线程并且抛出一个InterruptedException异常，处理异常，虚拟机不会退出，线程之后的代码会继续执行
 - void setPriority(int newPriority) 
+  
   - 更改线程的优先级
 - void setDaemon(boolean on) 
   - 设置是否为守护线程，先设置后启动
   - 垃圾回收器（GC）：就是守护线程
+
+###### java.util.concurrent
+
+##### 5：Class  CountDownLatch
+
+- 倒计时锁，利用它可以实现类似计数器的功能
+- 比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，实现此功能
+
+- CountDownLatch(int count
+  - 构造count数量的倒计时锁
+- void  await()
+  - 执行调用await()方法的线程会被挂起，等待直到count值为0才被返回执行
+- boolean   await(long timeout, TimeUnit unit) 
+  - 增加了超时返回的功能
+- void   countDown()
+  - 将count值减1
+
+###### java.util.concurrent
+
+##### 6：Class CyclicBarrier
+
+​	同步屏障，可以让一组线程达到一个屏障时被阻塞，直到最后一个线程达到屏障时，所有被阻塞的线程才能继续执行，可以循环使用此同步屏障
+
+- CyclicBarrier就像一扇门，默认情况下关闭状态，堵住了线程执行的道路，直到所有线程都就位，门才打开，让所有线程一起通过
+- CyclicBarrier实现主要基于ReentrantLocK
+
+###### 构造方法
+
+- CyclicBarrier(int parties)
+  - 其参数表示同步屏障拦截的线程数量，每个线程调用await( )，告诉CyclicBarrier已经到达屏障位置，线程被阻塞
+- CyclicBarrier(int parties, Runnable barrierAction)
+  - 其中barrierAction任务会在所有线程到达屏障后执行
+
+###### 方法：
+
+- int   await( )
+  - 当线程执行await( )时，内部变量count减1，如果count！= 0，说明有线程还未到屏障处，是该线程处于等等待状态
+- int   await(long timeout, TimeUnit unit)
+- int   getNumberWaiting()
+  - 获取当前同步屏障还需等待的数量
+- int   getParties()
+  - 获取同步屏障需要等待的总线程数
+- boolean   isBroken( )
+  - 查询同步屏障是否被穿透，某些等待的线程由于中断或者超时，已经继续不处于等待状态了
+- void`  `reset( ) 
+  - 重置同步屏障处于初始化状态
+
+###### 与CountDownLatch的区别
+
+1. CountDownLatch 允许一个或多个线程等待一些特定的操作完成，而这些操作是在其它的线程中进行的，也就是说会出现 **等待的线程** 和 **被等的线程** 这样分明的角色
+2. CountDownLatch 构造函数中有一个 count 参数，表示有多少个线程需要被等待，对这个变量的修改是在其它线程中调用 countDown 方法，每一个不同的线程调用一次 countDown 方法就表示有一个被等待的线程到达，count 变为 0 时，latch（门闩）就会被打开，处于等待状态的那些线程接着可以执行；
+3. CountDownLatch 是**一次性使用的**，也就是说latch门闩只能只用一次，一旦latch门闩被打开就不能再次关闭，将会一直保持打开状态；
 
 
 
