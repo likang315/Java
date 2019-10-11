@@ -7,7 +7,168 @@
 - 如何使用
 - 怎么实现
 
-##### 1：
+#### 显示获取锁并发编程
+
+##### 1：Interface Lock
+
+​	锁是用来控制多个线程访问共享资源的方式，一般来说，一个锁能够防止多个线程同时访问共享资源（但是有些锁可以允许多个线程并发的访问共享资源，比如读写锁）。
+
+- 在Lock接口出现之前，Java程序是靠synchronized关键字实现锁功能的，而Java SE 5之后，并发包中新增了Lock接口（以及相关实现类）用来实现锁功能，它提供了与synchronized关键字类似的同步功能，只是在使用时需要显式地获取和释放锁，显示使用锁，扩展其功能
+
+```java
+Lock lock = new ReentrantLock();
+lock.lock();
+try {
+  // 不要把获取锁的代码放到这，可能会导致获取锁时发生了异常，异常抛出的同时，也会导致锁无故被释放
+} finally {
+	lock.unlock();
+}
+```
+
+###### 源码
+
+```java
+public interface Lock {
+    // 获取锁，调用该方法当前线程将会获取锁，当锁获取成功后，从该方法返回
+    void	lock();
+    // 可中断的获取锁，即在锁获取的过程中可以中断当前线程
+    void	lockInterruptibly();
+  	// 尝试非阻塞的获取锁，调用该方法后立即返回，如果能获得锁就返回true，不能就立即返回false
+  	boolean	tryLock()
+    // 超时等待获取锁，如果超过该时间段还没获得锁，返回false
+    boolean	tryLock(long time, TimeUnit unit) throws InterruptedException;
+    // 释放锁
+    void unlock();
+    // 获取等待-通知组件，该组件和当前锁绑定，当前线程只有获得了锁，才能调用该组件的wait(),而调用后当前线程将释放锁
+    Condition	newCondition();
+}
+```
+
+##### 2：队列同步器（AQS）
+
+​	队列同步器AbstractQueuedSynchronizer，是用来构建锁或者其他同步组件的基础框架，它使用了一个int成员变量表示同步状态，通过内置的FIFO队列来完成资源获取线程的排队工作
+
+###### AQS原理
+
+​	同步器的主要使用方式是**继承**，子类通过继承同步器并实现它的抽象方法来管理同步状态，在抽象方法的实现过程中免不了要**对同步状态进行更改**，这时就需要使用同步器提供的3个方法（getState()、setState(int newState)和compareAndSetState(int expect,int update)）来进行操作，因为它们能够保证状态的改变是安全的
+
+###### 同步器和锁的关系
+
+​	同步器是锁的实现者，锁是面向用户使用的
+
+###### 同步器允许重写的方法
+
+- protected boolean tryAcquire(int arg)
+  - 独占式的获取同步状态，实现该方法需要查询当前状态并判断同步状态是否符合预期，然后在进行CAS设置同步状态
+- protected boolean tryRelease(int arg)
+  - 独占式的释放同步状态，等待获取同步状态的线程将有机会获得同步状态
+- protected boolean tryAcquireShared(int arg)
+  - 共享式的获取同步状态，返回大于等于0的值，表示获取成功，反之获取失败
+- protected boolean tryReleaseShared(int arg)
+  - 共享式的释放同步状态
+- protected boolean isHeldExclusively()
+  - 表示是否被当前线程锁独占
+
+```java
+/**
+* 独占锁的获取和释放
+*/
+class Mutex implements Lock {
+    // 静态内部类，自定义同步器
+    private static class Sync extends AbstractQueuedSynchronizer {
+      // 是否处于占用状态
+      protected boolean isHeldExclusively() {
+        return getState() == 1;
+      }
+      // 当状态为0的时候获取锁
+      public boolean tryAcquire(int acquires) {
+        		final Thread current = Thread.currentThread();
+            int c = getState();
+            if (c == 0) {
+                if (compareAndSetState(0, acquires)) {
+                    setExclusiveOwnerThread(current);
+                    return true;
+                }
+            }
+            else if (current == getExclusiveOwnerThread()) {
+                int nextc = c + acquires;
+                if (nextc < 0) 
+                  	// overflow
+                    throw new Error("Maximum lock count exceeded");
+                setState(nextc);
+                return true;
+            }
+            return false;
+      }
+      // 释放锁，将状态设置为0
+      protected boolean tryRelease(int releases) {
+      		int c = getState() - releases;
+        	if (Thread.currentThread() != getExclusiveOwnerThread())
+          	throw new IllegalMonitorStateException();
+        	boolean free = false;
+        	if (c == 0) {
+          	free = true;
+          	setExclusiveOwnerThread(null);
+       	 	}
+        	setState(c);
+        	return free;
+      }
+      // 返回一个Condition，每个condition都包含了一个condition队列
+      Condition newCondition() { return new ConditionObject(); }
+    }
+    // 仅需要将操作代理到Sync上即可
+    private final Sync sync = new Sync();
+    public void lock() { 
+ 				// 底层调用的还是重写的tryLock()
+      	sync.acquire(1);
+    }
+    public boolean tryLock() { return sync.tryAcquire(1); }
+    public void unlock() { sync.release(1); }
+    public Condition newCondition() { return sync.newCondition(); }
+    public boolean isLocked() { 
+      	// 是否被当前线程所占用
+      	return sync.isHeldExclusively();
+    }
+    public boolean hasQueuedThreads() { return sync.hasQueuedThreads(); }
+  	// 如果当前方法被中断，将会抛出InterruptedException后返回
+    public void lockInterruptibly() throws InterruptedException {
+      sync.acquireInterruptibly(1);
+    }
+    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {
+      return sync.tryAcquireNanos(1, unit.toNanos(timeout));
+    }
+}
+```
+
+##### 3：AQS（队列同步器）实现剖析
+
+###### 同步队列
+
+​	同步器依赖内部的**同步队列（一个FIFO双向队列）来完成同步状态的管理**，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成为一个节点（Node）并将其**加入同步队列，同时会阻塞当前线程**，当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。
+
+###### Node节点
+
+​	同步队列中的节点（Node）用来保存**获取同步状态失败的线程引用**、**等待状态**以及前**驱和后继节点**，**节点的属性类型**与名称以及描述
+
+- int waitStatus：等待状态
+  - static final int CANCELLED =  1，由于在队列中等待线程等待超时或者被中断，需要从队列中取消等待，之后节点进入该状态将不会变化
+  - static final int SIGNAL  = -1，当前节点的线程如果释放了同步状态或者被取消，将会通知后继节点，使得后继节点得以继续运行
+  - static final int CONDITION = -2，该节点在等待队列中，当其他线程调用signal（）后，该节点将会从等待队列中加入到同步队列中，加入到对同步状态的获取
+  - static final int PROPAGATE = -3，表示下一次共享式同步状态获取将会无条件的传播下去
+- Node prev：前驱节点
+- Node next：后继节点
+- Node nextWaiter：等待队列中的后继节点，如果当前节点是共享的，字段值为SHARED常量
+- Thread thread：获取同步状态的线程
+
+###### 同步队列的结构
+
+​	同步器包含了两个节点类型的引用，一个指向头节点，而另一个指向尾节点，当一个线程成功地获取了同步状态，其他线程将无法获取到同步状态，转而被构造成为节点并加入到同步队列中，而这个加入队列的过程必须要保证线程安全，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Nodeupdate)，它需要传递当前线程“认为”的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。
+
+- 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设置为首节点
+
+![](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/同步队列的基本结构.png)
+
+独占式同步状态的获取和释放
 
 
 
@@ -64,25 +225,6 @@ public class Solution {
 ###### 为什么支持重复加锁 ？
 
 ​	因为源码中用变量 c (计数器)来保存当前锁被获取了多少次，故在释放时，对 c 变量进行减操作，只有 c 变量为 0 时，才算锁的最终释放。所以可以 lock() 多次，同时 unlock 也必须与 lock 同样的次数
-
-##### 显示获取锁并发编程
-
-##### 5：Lock (JUC)
-
-```java
-public interface Lock {
-    // 获得当前线程的对象锁，如果不能获取等待直到获取成功返回
-    void	lock();
-    void	lockInterruptibly();
-    // 用于让线程 wait 或者 唤醒
-    Condition	newCondition();
-    boolean	tryLock()
-    boolean	tryLock(long time, TimeUnit unit);
-    // 能获得锁就返回true，不能就立即返回false，tryLock(long timeout,TimeUnit unit)，可以增加等待时间限制时间限制，如果超过该时间段还没获得锁，返回false
-    // 释放锁
-    void unlock();
-}
-```
 
 ##### 6：Condition （JUC）
 
