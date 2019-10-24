@@ -166,7 +166,7 @@ class Mutex implements Lock {
 
 - 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设置为首节点
 
-![](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/同步队列的基本结构.png)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%90%8C%E6%AD%A5%E9%98%9F%E5%88%97%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84.png?raw=true)
 
 ###### 独占式同步状态的获取和释放
 
@@ -196,7 +196,7 @@ class Mutex implements Lock {
 - tryAcquireNanos(int arg,long nanosTimeout) 方法在支持响应中断的基础上，增加了**超时**获取的特性
 - 针对超时获取，主要需要计算出需要睡眠的时间间隔nanosTimeout，为了防止过早通知，nanosTimeout计算公式为：**nanosTimeout -= now - lastTime**，其中now为当前唤醒时间，lastTime为上次唤醒时间，如果nanosTimeout大于0则表示超时时间未到，需要继续睡眠nanosTimeout纳秒，反之，表示已经超时
 
-![](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/独占式同步状态的获取.png)
+![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%8B%AC%E5%8D%A0%E5%BC%8F%E5%90%8C%E6%AD%A5%E7%8A%B6%E6%80%81%E7%9A%84%E8%8E%B7%E5%8F%96.png?raw=true)
 
 ##### 4：重入锁(Lcok)：表示该锁能够支持一个线程对资源的重复加锁
 
@@ -229,6 +229,127 @@ Lock lock = new ReentrantLock(false);
 ​	唯一不同的是判断条件多了hasQueuedPredecessors()方法，即加入了**同步队列中当前节点是否有前驱节点**的判断，如果该方法返回true，则表示有线程比当前线程更早地请求获取锁，因此需要等待前驱线程获取并释放锁之后才能继续获取锁。
 
 ##### 6：读写锁
+
+​	读写锁在同一时刻可以允许多个读线程访问，但是在写线程访问时，所有的读线程和其他写线程均被阻塞。读写锁维护了一对锁，一个读锁和一个写锁，通过**分离读锁和写锁**，使得并发性和吞吐量相比一般的排他锁较好
+
+- 共享的缓存结构（读大于写的场景）
+- 在读写锁的未出现之前为了保证可见性使用等待通知机制，使读操作可以读到写之后的数据，而出现读写锁后，写锁释放后，所有操作即可执行
+- Java并发包提供读写锁的实现是ReentrantReadWriteLock
+- 支持重进入，读线程在获取读锁之后可以再次获取读锁，而写线程在获取写锁之后可以再次获取写锁和读锁
+- **锁降级**：遵循先获取写锁，再获取读锁，然后释放写锁的次序，则写锁能够降级为读锁
+
+###### 读写锁的接口
+
+- ```java
+  /**
+  * 提供获取读写锁的方法
+  */
+  public interface ReadWriteLock {
+      Lock readLock();
+      Lock writeLock();
+  }
+  ```
+
+- 其实现类为ReentrantReadWriteLock，其中ReadLock和WriteLock是两个内部类，实现了Lock接口
+
+  ```java
+  /**
+  * 读写锁的使用示例
+  */
+  public class Cache {
+      static Map<String, Object> map = new HashMap<String, Object>();
+      static ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+      static Lock r = rwl.readLock();
+      static Lock w = rwl.writeLock();
+      // 获取一个key对应的value
+      public static final Object get(String key) {
+          r.lock();
+          try {
+            	return map.get(key);
+          } finally {
+            	r.unlock();
+          }
+      }
+      // 设置key对应的value，并返回旧的value
+      public static final Object put(String key, Object value) {
+          w.lock();
+          try {
+            	return map.put(key, value);
+          } finally {
+            	w.unlock();
+          }
+      }
+  }
+  ```
+
+##### 7：剖析ReentrantReadWriteLock
+
+1. 读写状态的设计
+2. 写锁的获取与释放
+3. 读锁的获取
+4. 释放以及锁降级
+
+###### 读写状态的设计
+
+​	读写锁的自定义同步器需要在**同步状态（一个整型变量）上维护多个读线程和一个写线程的状态**，如果在一个整型变量上维护多种状态，就一定需要**“按位切割使用”**这个变量，读写锁将变量切分成了两个部分，高16位表示读，低16位表示写。
+
+- 通过位运算快速确定读写状态的值。
+  - 假设当前同步状态值为S，写状态等于S & 0x0000FFFF（将高16位全部抹去），读状态等于S >>> 16（无符号补0右移16位）。当写状态增加1时，等于S+1，当读状态增加1时，等于S+(1<<16)，是 S+0x00010000。
+  - 若是读写状态都有值，则表示该线程已经获取了写锁，且重进入获取了读锁，若只有读状态有值，则以获取读锁。
+
+###### 写锁的获取与释放
+
+​	写锁是一个支持重进入的排它锁。如果当前线程已经获取了写锁，则增加写状态。如果当前线程在获取写锁时，读锁已经被获取（读状态不为0）或者该线程不是已经获取写锁的线程，则当前线程进入等待状态。
+
+```java
+protected final boolean tryAcquire(int acquires) {
+  Thread current = Thread.currentThread();
+  int c = getState();
+  // 独占式锁的数量
+  int w = exclusiveCount(c);
+  if (c != 0) {
+    // 存在读锁或者当前获取线程不是已经获取写锁的线程
+    if (w == 0 || current != getExclusiveOwnerThread())
+      return false;
+    if (w + exclusiveCount(acquires) > MAX_COUNT)
+      throw new Error("Maximum lock count exceeded");
+    setState(c + acquires);
+    return true;
+  }
+  if (writerShouldBlock() || !compareAndSetState(c, c + acquires)) {
+    return false;
+  }
+  setExclusiveOwnerThread(current);
+  return true;
+}
+```
+
+###### 读锁的获取和释放
+
+​	读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问（或者写状态为0）时，读锁总会被成功地获取，而所做的也只是（线程安全的）增加读状态。如果当前线程已经获取了读锁，则增加读状态。如果当前线程在获取读锁时，写锁已被其他线程获取，则进入等待状态。
+
+- 读锁的每次释放（线程安全的，可能有多个读线程同时释放读锁）均减少读状态，减少的值是（1<<16）。
+
+```java
+protected final int tryAcquireShared(int unused) {
+  for (;;) {
+    int c = getState();
+    // 获取之后同步状态的值
+    int nextc = c + (1 << 16);
+    if (nextc < c)
+      throw new Error("Maximum lock count exceeded");
+    if (exclusiveCount(c) != 0 && owner != Thread.currentThread())
+      return -1;
+    // 依靠CAS保证增加读状态线程安全
+    if (compareAndSetState(c, nextc))
+      return 1;
+  }
+}
+```
+
+###### 锁降级
+
+
 
 
 
