@@ -349,7 +349,156 @@ protected final int tryAcquireShared(int unused) {
 
 ###### 锁降级
 
+​	指拥有着（当前拥有的）写锁，再获取到读锁，随后释放（先前拥有的）写锁的过程。
 
+- 锁降级中读锁的获取是否必要呢？
+
+  - 必要的，主要是为了保证数据的可见性，如果当前线程不获取读锁而是直接释放写锁，假设此刻另一个线程（记作线程T）获取了写锁并修改了数据，那么当前线程无法感知线程T的数据更新。如果当前线程获取读锁，即遵循锁降级的步骤，则线程T将会被阻塞，直到当前线程使用数据并释放读锁之后，线程T才能获取写锁进行数据更新。
+
+- RentrantReadWriteLock不支持锁升级（把持读锁、获取写锁，最后释放读锁的过程）。目的也是保证数据可见性。
+
+- ```java
+  public void processData() {
+      readLock.lock();
+      if (!update) {
+          // 必须先释放读锁
+          readLock.unlock();
+          // 锁降级从写锁获取到开始
+          writeLock.lock();
+          try {
+              if (!update) {
+                // 准备数据的流程（略）
+                update = true;
+            	}
+              // 此刻并没有保持可见性，锁还没有释放，只是为了可间性提前做准备
+            	readLock.lock();
+          } finally {
+            	writeLock.unlock();
+          }
+          // 锁降级完成，写锁降级为读锁
+      }
+      try {
+        	// 使用数据的流程（略）
+      } finally {
+        	readLock.unlock();
+      }
+  }
+  ```
+
+###### java.util.concurrent.locks
+
+##### 8：LockSupport 工具类
+
+​	用于阻塞或唤醒一个线程的工具类
+
+- static void`  `park()
+  - 阻塞当前线程
+- static void`  `parkNanos(long nanos)
+  - 阻塞当前线程，最长不超过nanos纳秒，超时返回
+- static void`  `unpark(Thread thread)
+  - 唤醒处于阻塞状态的线程
+
+###### java.util.concurrent.locks
+
+##### 9：interface Condition
+
+​	任意一个Java对象，都拥有一组监视器方法（定义在java.lang.Object上），主要包括wait()、notify()，这些方法与synchronized同步关键字配合，可以实现等待/通知模式。Condition接口也提供了类似Object的监视器方法，与Lock配合可以实现等待/通知模式，但是这两者在使用方式以及功能特性上还是有差别的。
+
+```java
+public class ConditionUseCase {
+    Lock lock = new ReentrantLock();
+    Condition condition = lock.newCondition();
+    public void conditionWait() throws InterruptedException {
+        lock.lock();
+        try {
+          	// 让当前线程释放锁，并且处于等待状态
+          	condition.await();
+        } finally {
+          	lock.unlock();
+        }
+    } 
+  	public void conditionSignal() throws InterruptedException {
+        lock.lock();
+        try {
+          	condition.signal();
+        } finally {
+          	lock.unlock();
+        }
+    }
+}
+```
+
+​	一般都会将Condition对象作为成员变量。当调用await()方法后，当前线程会释放锁并在此等待，而其他线程调用Condition对象的signal()方法，通知当前线程后，当前线程才从await()方法返回，并且在返回前已经获取了锁。
+
+###### Condition的方法
+
+- void await() throws InteruptedException
+  - 当前线程进入等待状态直到被通知或被中断
+- boolean  await(long time, TimeUnit unit)
+  - 当前线程进入等待状态直到被通知、中断、或者超时
+- long  awaitNanos(long nanosTimeout)
+  - 当前线程进入等待状态直到被通知、中断、或者超时，返回值表示剩余时间，若返回值是0或者负数表示已经超时
+-  void awaitUninterruptibly()
+  - 当前线程进入等待状态直到被通知，并且不支持中断操作
+- boolean awaitUntil(Date deadline)
+  - 当前线程进入等待状态直到被通知、中断或者到某个时间，如果没有到指定时间就通知返回true，否则表示到了指定时间，返回false
+- void signal()
+  - 唤醒一个等待在Condition上的线程，该线程从等待方法返回前，必须获取一个与Condition相关的锁
+- voidsignalAll()
+  - 唤醒所有等待在Condition上的线程，能够从等待方法返回的线程必须获得与Condition相关的锁
+
+###### 示例
+
+​	用两个Condition，notFull、notEmpty来模拟有界队列增加和删除操作
+
+```java
+public class BoundedQueue<T> {
+  private Object[] items;
+  // 添加的下标，删除的下标和数组当前数量
+  private int addIndex, removeIndex, count;
+  private Lock lock = new ReentrantLock();
+  private Condition notEmpty = lock.newCondition();
+  private Condition notFull = lock.newCondition();
+  public BoundedQueue(int size) {
+    items = new Object[size];
+  }
+  // 添加一个元素，如果数组满，则添加线程进入等待状态，直到有"空位"
+  public void add(T t) throws InterruptedException {
+    lock.lock();
+    try {
+      // 注意是循环不是判断，防止过早或意外的通知，只有条件符合才退出循环
+      while (count == items.length)
+        notFull.await();
+      items[addIndex] = t;
+      if (++addIndex == items.length)
+        addIndex = 0;
+      ++count;
+      notEmpty.signal();
+    } finally {
+      lock.unlock();
+    }
+  }
+  // 由头部删除一个元素，如果数组空，则删除线程进入等待状态，直到有新添加元素
+  @SuppressWarnings("unchecked")
+  public T remove() throws InterruptedException {
+    lock.lock();
+    try {
+      while (count == 0)
+        notEmpty.await();
+      Object x = items[removeIndex];
+      if (++removeIndex == items.length)
+        removeIndex = 0;
+      --count;
+      notFull.signal();
+      return (T) x;
+    } finally {
+      lock.unlock();
+    }
+  }
+}
+```
+
+##### 10：剖析Condition Interface
 
 
 
@@ -386,21 +535,6 @@ private AtomicInteger atomicInteger = new AtomicInteger();
 atomicInteger.incrementAndGet();
 ```
 
-##### 6：Condition （JUC）
-
-```java
-public interface Condition {
-  // 处于等待状态，中断时，会抛出异常
-  void await() throws InterruptedException;
-  // 让其等待，中断时，不会抛出异常
-  void awaitUninterruptibly();
-  // 任意唤醒一个处于等待状态的线程
-  void signal();
-  // 唤醒所有处于等待状态的线程
-  void signalAll();
-}
-```
-
 ##### 7：ReentrantLock：
 
 ​	是可重入锁、实现了Lock接口的锁，与synchronized作用一致，并且扩展了其能力
@@ -420,30 +554,6 @@ public class Test {
                      + (i + 1));
         }
         lock.unlock();
-    }
-}
-```
-
-```java
-// 创建Condition对象来使线程 wait 或者唤醒，必须先执行 lock.lock() 获得锁
-public class MyService {
-    private final Reentrantlock lock = new Reentrantlock（）；
-    private Condition condition = lock.newCondition();
-    public void testMethod() {
-        try {
-            lock.lock();
-            System.out.println("开始wait...");
-            condition.await();
-            for (int i = 0; i < 5; i++) {
-                System.out.println("ThreadName=" + Thread.currentThread().getName()
-                       + (i + 1));
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            lock.unlock();
-        }
     }
 }
 ```
@@ -471,55 +581,4 @@ Lock lock = new ReentrantLock(true);
 - tryLock(long time, TimeUnit unit)
   - 传入时间参数：表示等待指定的时间
   - 无参则表示立即返回锁申请的结果，true表示获取锁成功,false表示获取锁失败
-
-- 
-
-##### 10：共享锁、独享锁 ：多个线程能不能共享同一把锁
-
-​	通过AQS来实现的，通过实现不同的方法，来实现独享或者共享
-
-- 独享锁(排他锁)：该锁一次只能被一个线程所持有，synchronized 和 JUC 中 Lock的实现类基本都是互斥锁
-- 共享锁：指该锁可被多个线程所持有，如果线程T对数据A加上共享锁后，则其他线程只能对A再加共享锁，不能加排它锁，获得共享锁的线程只能读数据，不能修改数据
-  - ReadWriteLock，其读锁是共享锁，其写锁是独享锁
-
-##### 11：ReadWriteLock：管理一组锁，一个是只读的锁，一个是写锁
-
-```java
-public interface ReadWriteLock {
-    // Returns the lock used for reading
-    Lock readLock();
-    // Returns the lock used for writing
-    Lock writeLock();
-}
-```
-
-##### 12：ReentrantReadWriteLock
-
-- ReadLock和WriteLock是靠内部类Sync实现的锁，Sync是AQS的一个子类
-- 读锁是共享锁，写锁是独享锁。读锁的共享锁可保证并发读非常高效，而读写、写读、写写的过程互斥，因此读锁和写锁是分离的
-- 当有读锁时，写锁就不能获得，而当有写锁时，除了获得写锁的这个线程可以获得读锁外，其他线程不能获得读锁
-
-```java
-public class ReentrantReadWriteLock implements ReadWriteLock, java.io.Serializable {
-  // Inner class providing readlock
-  private final ReentrantReadWriteLock.ReadLock readerLock;
-  // Inner class providing writelock
-  private final ReentrantReadWriteLock.WriteLock writerLock;
-  //Sync是AQS的一个子类
-  final Sync sync;
-  
-	// Inner class
-  public static class ReadLock implements Lock, java.io.Serializable {
-    private final Sync sync;
-    // 实现的Lock接口的方法
-    
-    // 返回获取了几次读锁，读锁特有的
-    public String toString() {
-            int r = sync.getReadLockCount();
-            return super.toString() +
-                "[Read locks = " + r + "]";
-    }
-  }
-}
-```
 
