@@ -500,13 +500,22 @@ public class BoundedQueue<T> {
 
 ##### 10：剖析Condition Interface
 
+​	一个Condition包含一个等待队列，Condition拥有首节点（firstWaiter）和尾节点（lastWaiter）。当前线程调用Condition.await()方法，将会以当前线程构造节点，并将节点从尾部加入等待队列。并且Condition是AQS的内部类，它的节点的构造复用了同步器中节点的定义，Lock（更确切地说是同步器）拥有一个同步队列和多个等待队列
 
+![](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/ 同步队列和等待队列.png)
 
+###### Condition 等待
 
+​	调用await() 的线程成功获取了锁的线程，也就是同步队列中的首节点，该方法会将当前线程(同步队列)构造成新节点并加入等待队列中，然后释放同步状态，唤醒同步队列中的后继节点，然后当前线程会进入等待状态。
 
+###### Condition 通知
 
+​	调用signal( ) 方法，等待队列中的头节点线程安全地移动到同步队列的尾部。当节点移动到同步队列后，当前线程再使用LockSupport唤醒该节点的线程。
 
-##### 2：乐观锁与悲观锁：
+- 被唤醒后的线程，将从await()方法中的while循环中退出（isOnSyncQueue(Node node)方法返回true，节点已经在同步队列中），进而调用同步器acquireQueued()方法加入到获取同步状态的竞争中。成功获取同步状态（或者说锁）之后，被唤醒的线程将从先前调用的await()方法返回，此时该线程已经成功地获取了锁。
+- signalAll()方法，相当于对等待队列中的每个节点均执行一次signal()方法，效果就是将等待队列中所有节点全部移动到同步队列中，并唤醒每个节点的线程
+
+##### 11：乐观锁与悲观锁：
 
 - 分类依据：线程要不要锁住资源
 - 悲观锁：假设最坏的情况，自己每次取数据时都认为其他线程会修改，因此在获取数据的时候会先加锁，确保数据不会被别的线程修改，当其他线程想要访问数据时，都需要阻塞挂起，等待持有锁的线程释放锁
@@ -535,30 +544,7 @@ private AtomicInteger atomicInteger = new AtomicInteger();
 atomicInteger.incrementAndGet();
 ```
 
-##### 7：ReentrantLock：
-
-​	是可重入锁、实现了Lock接口的锁，与synchronized作用一致，并且扩展了其能力
-
-###### 原理：
-
-- ReenTrantLock 是一种自旋锁，通过循环调用CAS操作来实现加锁
-
-
-```java
-public class Test {
-    private final Reentrantlock lock = new Reentrantlock()；
-    public void testMethod() {
-        lock.lock(); // 先获得锁，再处理业务
-        for (int i = 0; i < 5; i++) {
-            System.out.println("ThreadName =" + Thread.currentThread().getName()
-                     + (i + 1));
-        }
-        lock.unlock();
-    }
-}
-```
-
-##### 8：ReentranLock 和 Synchronized 的区别
+##### 12：ReentranLock 和 Synchronized 的区别
 
 ###### 1：ReentrantLock 可以实现公平锁
 
