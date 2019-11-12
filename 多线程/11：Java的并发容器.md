@@ -1,4 +1,4 @@
-### Java的并发容器和框架
+### Java的并发容器
 
 ------
 
@@ -157,7 +157,29 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
 
 ##### 5：阻塞队列的实现原理
 
+​	使用通知模式实现。所谓通知模式，就是当生产者往满的队列里添加元素时会阻塞住生产者，当消费者消费了一个队列中的元素后，会通知生产者当前队列可用。通过查看JDK源码发现ArrayBlockingQueue使用了Condition来实现
 
+```java
+public E take() throws InterruptedException {
+    final ReentrantLock lock = this.lock;
+    lock.lockInterruptibly();
+    try {
+        // 消费者的线程一直处于等待状态，直到它被生产者通知
+        while (count == 0)
+        notEmpty.await();
+        return extract();
+    } finally {
+    		lock.unlock();
+    }
+}
+private void insert(E x) {
+    items[putIndex] = x;
+    putIndex = inc(putIndex);
+    ++count;
+  	// 生产者通知
+    notEmpty.signal();
+}
+```
 
 
 
