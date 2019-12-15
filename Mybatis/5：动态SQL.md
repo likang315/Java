@@ -143,20 +143,29 @@
     #{item}
   </foreach>
 </select>
+<insert id="XXX" parameterType="java.util.Map">
+    INSERT INTO table(a, b)
+    VALUES
+    <foreach collection="param.entrySet()" open="(" separator="," close=")" index="key" 
+             item="val">
+        #{key}, #{val}
+    </foreach>
+<select/>
 ```
 
 ##### 7：bind
 
-​	创建一个变量并将其绑定到上下文	
+- 创建一个变量并将其绑定到上下文，主要用户模糊查询LIKE拼接；
+
 
 ```xml
 <!-- List<Employee> getEmpsTestInnerParameter(Employee employee); 定义的mapper接口 -->
-<select id="getEmpsTestInnerParameter" resultType="com.hand.mybatis.bean.Employee">
-  <!-- name -->
-  <bind name="Name" value="'%'+name+'%'"/> 
-  SELECT * FROM emp 
-  <if test="parameter!=null">
-    where ename like #{Name}
+<select id="getEmpsTestInnerParameter" resultType="com.xupt.User">
+  SELECT * FROM user 
+  <if test="name != null">
+    <!-- name为user中一个属性 -->
+    <bind name="Name" value="'%'+name+'%'"/> 
+    where name like #{Name}
   </if>
 </select>
 ```

@@ -80,6 +80,8 @@ git config --global user.name "Your Name"
 	要关联一个远程库
     	git remote rm origin
 	删除远程库
+	git remote show origin
+	查看关联的远程库
 15：git push origin 本地分支：远程分支
 	推送代码到远端对应的分支上
 16：git push origin 本地分支
@@ -93,7 +95,7 @@ git config --global user.name "Your Name"
 	创建本地分支，把远程指定分支拉到此分支上
 19：git pull origin 远端分支
 	拉取远端的代码到本地
-20：git branch -vv
+20：git branch -v
 	查看本地分支对应的远端分支
 21：git clone	git@github.com:likang315/Demo.git
 	克隆仓库

@@ -24,9 +24,15 @@
 	<typeAliases>
 	  <package name="com.xzy.pojo"/>
 	</typeAliases>
+  
+  <settings>
+        <!-- 在进行数据库字段和类属性名映射时，下划线自动转换为驼峰-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
 	
- <environments default="development">
-    <environment id="development">
+ <!-- 分模块部署时，dao层需要数据源-->
+ <environments default="dev">
+    <environment id="dev">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
@@ -35,25 +41,24 @@
         <property name="password" value="mysql"/>
       </dataSource>
     </environment>
-
  </environments>
 	 
  <mappers>
-    <!-- 对像和数据表的关系 -->
+    <!-- 引入映射器 -->
     <mapper resource = "mapper/StudentMapper.xml"/>
  </mappers>
-	 
 </configuration>
 ```
 
 ###### 3：编写映射接口,其实现类有 mybatis 自动实现 
 
 ```java
+@Repository
 public interface StudentMapper {
   // 根据ID查询
-  public List<Students> findStudentsById(int id);
+  List<Students> findStudentsById(@Param("uid") int id);
   // 返回Map，一个对象
-  public Map<String,Object> findById(int id);
+  Map<String, Object> findById(int id);
 }
 ```
 
@@ -65,7 +70,6 @@ public interface StudentMapper {
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 映射此 mapper 对应的接口 -->
 <mapper namespace="com.zxy.mapper.StudentMapper">
- 
  <resultMap type="students" id="stumap">
       <id property="studId" column="stud_id"/>
       <result property="name" column="name"/>
@@ -75,23 +79,14 @@ public interface StudentMapper {
  
 	<!-- 简单数据类型 -->
 	<select id = "findStudentsById" parameterType = "int" resultType = "students">
-    	select * from students where stud_id = #{id}
+    	select * from students where stud_id = #{uid}
 	</select>
 
 	<!-- 返回 Map 是一个数据时，根据数据库的字段和值生成map-->
   <select id="findById" parameterType="int" resultType="map">
     select * from students where stud_id = #{id}
   </select>
- 
-   <!-- 返回 map 对个对象，map 的key对应字段对象名，map的value对应封装的bean-->
-   <select id="findById2" parameterType="int" resultType="map">
-      select * from students where stud_id > #{id}
-   </select>
- 
-   <!-- Map用于传多个参数，map对象封装了多个key -->
-   <select id="findBy03" parameterType="map" resultType="students">
-      select * from students where stud_id > #{id} and name like #{name};
-   </select>
+
 </mapper>
 ```
 

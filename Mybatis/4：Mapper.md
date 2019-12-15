@@ -18,7 +18,31 @@
 - ###### 简易数据类型
 
   - parameterType：定义参数类型，值为这条语句的参数类的完全限定名或别名
-  - resultType（resultMap）：定义返回值类型，不可同时使用，实际上内部是创建一个ResultMap的
+  
+  - resultType（resultMap）：定义返回值类型，不可同时使用，实际上内部是创建一个ResultMap 的
+  
+    1. resultType = 基本数据类型
+  
+    2. resultType = List | Set 时
+  
+       ```java
+       List<Hotel> getHotel(Integer i);
+       // 只需定义集合元素的类型即可
+       <select id = "getHotel" resultType = "com.xupt.Hotel">
+         SELECT * FROM WHERE id > #{i}
+       </select>
+       ```
+  
+    3. ###### 用 Map 传递多个参数或返回Map
+  
+       1. map 传递多个参数时，parameterType="java.util.Map"，
+          - key为参数，value是参数值，通过#{key}获取值
+       2. map 作为返回值时，resultMap="java.util.Map"
+          - 返回Map 是一个对象时，根据数据库的字段和值生成map				
+          - 返回 map 是多个对象时，key是对象中指定的字段名，value是Bean
+            - key 需要通过**@MapKey("hotelName")** 指定pojo对象中一个属性名为key
+  
+  - resultMap ：用于把复杂的pojo进行结果映射，一对多、一对一时；
 
 ```xml
 <!--类类型的参数对象，id、username 和 password 属性将会被查找，将它们的值传入预处理语句的参数中-->
@@ -39,7 +63,7 @@
 - ###### 自动映射功能（两种方式）
 
   - 只要返回 **数据库列名和 JavaBean 的属性一致**，MyBatis 就会自动回填这些字段而无需任何配置
-  - 如果你的数据库是规范命名的，即数据库每一个单词都用下划线分隔，POJO 采用驼峰式命名方法，可以设置 mapUnderscoreToCamelCase 为 true，也可以实现从数据库到 POJO 的自动映射
+  - 如果你的数据库是规范命名的，即数据库每一个单词都用下划线分隔，POJO 采用驼峰式命名方法，可以**设置 mapUnderscoreToCamelCase 为 true，或者也可以实现从数据库到 POJO 的自动映射**
   - 自动映射可以在config.xml 中 settings 元素中配置 autoMappingBehavior 属性值来设置其策略
     - NONE：取消自动映射
     - ###### PARTIAL：部分的，只会自动映射没有定义嵌套结果集映射的结果集
@@ -49,17 +73,12 @@
 <settings>
   <!--设置自动映射-->
 	<setting name="autoMappingBehavior" value="PARTIAL"/>	
+  <!--驼峰命名自动映射-->
+  <setting name="mapUnderscoreToCamelCase" value="true" />
 </settings>
 ```
 
-- ###### 用 Map 传递多个参数或返回Map
-
-  1. map 传递多个参数时，parameterType="map"，Map的key 时参数，value是参数值，通过#{key}获取值
-  2. map 作为返回值时，resultMap="map"
-     - 返回Map 是一个数据时，根据数据库的字段和值生成map															
-     - 返回 map 是多个对象时，key是对象名，value是Bean
-
-- ###### useCache="ture"  此select语句使用二级缓存
+- ###### useCache="ture" 只是针对此select语句的使用二级缓存
 
 ##### 3：insert、update、delete 的属性
 
@@ -86,15 +105,24 @@
 ​	 MySQL 中主键自增字段，在插入后我们入往往需要获得这个主键，把获得的主键值给 JavaBean 的 ID
 
 ```xml
+<!--需要设置主键回填，和指定接收主键的属性-->
 <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
 	insert into user(username,note) values(#{username},#{note})
+</insert>
+
+<!-- 使用mysql 自带的函数查询-->
+<insert id="insertBook">
+    <selectKey keyProperty="id" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_book (b_name,author) values (#{name},#{author});
 </insert>
 ```
 
 ###### 字符串替换：参数占位
 
-- 使用${}会自动加上 ' ' ，用于字符串，会出现Sql注入问题
-- 使用#{}不会，替换值
+- 使用 ${} 会自动加上 ' ' ，用于字符串，会出现Sql注入问题
+- 使用 #{} 不会，替换值
 
 ###### 复用SQL：可以通过property替换值
 
@@ -104,15 +132,17 @@
 	id,name,note
 </sql>
 <select>
+  select 
   <include refid="role_columns"> 
-				<property name="name" value="lisi"/>
+				<property name="note" value="status"/>
 	</include> from t_role where id=#{id}
 </select> 
 ```
 
 ##### 4：结果映射（ResultMap）
 
-​	定义的主要是一个结果集的映射关系，MyBatis 支持 resultMap 查询	
+- 定义一个复杂结果集的映射关系，包含子对象的
+- type：表示返回结果的类型（pojo类）
 
 ```xml
 <resultMap type="stu" id="stuscore">
@@ -121,7 +151,7 @@
     <result property="name" column="name"/>
     <result property="sex" column="sex"/>
     <result property="age" column="age"/>
-		<!--子对象-->
+		<!--子对象，score可以存储学生id分离彻底，不用强耦合-->
     <result property="score.math" column="math"/>
     <result property="score.english" column="english"/>
 </resultMap>
@@ -154,7 +184,6 @@
 <resultMap type="stu" id="scoreResultMap" extends="stus">
   <result property="score.math" column="math"/>
   <result property="score.english" column="english"/>
-  <result property="score.pe" column="pe"/>
 </resultMap>
 ```
 
@@ -163,7 +192,21 @@
 ​	被用来导入“有一个”(has-one)类型的关联，子对象
 
 ```xml
-<association property="score" resultMap="ScoreResultMap"/>
+<resultMap type="stu" id="scoreResultMap">
+  <result property="score.math" column="math"/>
+  <result property="score.english" column="english"/>
+</resultMap>
+
+<resultMap type="stu" id="stus">
+  <id property="id" column="id"/>
+  <result property="clazzId" column="clazz_id"/>
+  <result property="name" column="name"/>
+  <result property="sex" column="sex"/>
+  <result property="age" column="age"/>
+  <association property="score" resultMap="scoreResultMap"
+               select="findScorebyid"/>
+</resultMap>
+
 ```
 
 ###### 4：< association> 内联的 resultMap
@@ -176,7 +219,8 @@
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
      <!--property="Type值的属性"，column="表中的列"，对应stu的score-->
-     <association property="score" javaType="Score" column="stu_id">
+     <association property="score" javaType="Score" column="stu_id"
+                  select="findScorebyid">
 	      <id property="id" column="id"/>
 	      <result property="math" column="math"/>
 	      <result property="english" column="english"/>
@@ -228,7 +272,7 @@
 
 ```xml
 <resultMap type="Teacher" id="teachMap">
-   	<id property="id" column="id"/>
+   	 <id property="id" column="id"/>
      <result property="sex" column="sex"/>
      <result property="age" column="age"/>
      <result property="course" column="course"/>
@@ -242,8 +286,8 @@
 - 一级缓存：默认情况下，开启一级缓存，一级缓存只是相对于同一个 SqlSession
 - 二级缓存：默认情况下，不开启二级缓存，二级缓存是 SqlSessionFactory 层面上的缓存，关闭会话连接仍然缓存值
   - MyBatis要求返回的POJO必须是可序列化的，也就是要求实现Serializable接口
-  - 开启配置：在mapper.xml 文件中 配置 <cache>  就可以开启二级缓存，useCache="true"
-  - **<cache /> 全局配置开启**，很多设置是默认的，三种方式开启
+  - 开启配置：在select语句中就可以开启二级缓存，useCache="true"；
+  - mapper文件中 <cache />  全局配置开启，很多设置是默认的，三种方式开启
   - <cache eviction="LRU" flushInterval="100000" size="1024" readOnly="true"/>
     - eviction：代表是缓存置换算法，默认：LRU(Least Recently Used)
       - LRU：最近最少使用，移除最长时间不用的对像
@@ -251,5 +295,25 @@
     - flushInterval：缓存刷新间隔时间，单位为毫秒，如果不配置，那么当 SQL 被执行时，自动刷新缓存
     - size：缓存数量，代表缓存最多可以存储多个对象，不宜设置过大，设置过大会导致内存溢出
     - readOnly：只读，意味着缓存数据只能读取而不能修改，它的默认值为 false
+
+##### 9：@Param的用法
+
+- 用于参数命名，参数命名后就能根据名字得到参数值，正确的将参数传入sql语句中;
+- 使用@Param后，使用#{},${} 都可以，否则只能使用#{} ;
+- 若不使用@Param时，参数只能有一个，并且为JavaBean；
+- 修改参数名，匹配SQL字段
+
+```xml
+Student select(@Param("name") String sName)
+
+<select id="select" resultType="com.xuot.student">
+    SELECT * FROM student
+    where name = #{name}
+    LIMIT 1
+</select>
+```
+
+
+
 
 

@@ -29,7 +29,7 @@
 - SHOW databases；查看有多少个数据库
 - USE 数据库名；选择数据库
 - SHOW TABLES；查看数据库中有多少表
-- SHOW CREATE TABLE 表名 \G； 查看表创建的语法
+- SHOW CREATE TABLE 表名； 查看表创建的语法
 -  DESC 表名；查看表的结构
 
 ###### 创建表（CREATE）
@@ -123,7 +123,7 @@ CREATE TABLE 表名（
 
 ​	将结果集按照指定的字段值相同的记录分为一组，常和分组函数联用
 
-- select stu.name, **avg(math) as math, avh(chinese) as chinese** from score s INNER JOIN student stu ON stu.id = s.student_id **group by stu.name**;
+- select stu.name, **avg(math) as math, avg(chinese) as chinese** from score s INNER JOIN student stu ON stu.id = s.student_id **group by stu.name**;
 - score 表中可能会有多个一个学生的成绩，求平均
 
 ###### 聚合函数：对某些字段的值进行统计的
@@ -283,3 +283,8 @@ CREATE TABLE 表名（
 - count（1）：查询遍历的第一个字段，包含null 的记录，除非是主键索引，否则和count（*）没有区别
 - count（*）：会自己优化指定到使用索引的字段，包含值为 null 的记录
 - count（字段名）：统计该字段在表中出现的次数，不统计null记录
+
+##### 17：SQL 中单引号和双引号的区别
+
+- 标准 SQL 中，字符串使用的是单引号，但是mysql做了兼容双引号也可以；
+- 若字符串中标也有单引号，则使用两个单引号，转义的；

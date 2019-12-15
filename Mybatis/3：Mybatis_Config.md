@@ -31,7 +31,7 @@
 
 ##### 3：类型别名(typeAliases)：两种
 
-- 别名不区分大小写，用来减少类完全限定名的冗余 
+- 别名不区分大小写，用来减少类完全限定名的冗余
 - 用于让 mapper.xml 中的参数找到对应类，如：parameterType="test"
 
 1. <typeAlias alias="Author" type="com.xzy.main.Author"/>
@@ -57,9 +57,10 @@
 - 配置 mybatis-config.xml
 
 1. ```xml
-   <!--类型处理器-->
+   <!--加载类型处理器-->
    <typeHandlers>
     	<typeHandler JavaType="com.xupt.sex" jdbcType="int" handler="com.xupt.SexHandler"/>
+     <package naem = "package name all load...">
    </typeHandlers>
    ```
 
@@ -67,9 +68,9 @@
 
   ```xml
   <resultMap type="student" id="studentMap">
-    	<result column="stu_sex" property="Sex" javaType="string" jdbcType="INT"
+    	<result property="Sex" column="stu_sex"  javaType="string" jdbcType="INT"
     	typeHandler="com.xupt.SexHandler"/>
-   </resultMap>
+  </resultMap>
   ```
 
 - 自定义Typehandler示例
@@ -79,16 +80,16 @@
  * @Author: likang315
  * @Date: 2019-06-16 10:45
  * @Github: https://github.com/likang315
- * @Description: TypeHandler
+ * @Description: TypeHandler,也可以继承BaseTypeHandler，重写其方法
  */
 @MappedJdbcTypes(value={JdbcType.INT})
-@MappedTypes(value={Sex.class})
+@MappedTypes(value = {Sex.class})
 public class StringTypeHandler implements TypeHandler<Sex> {
     /**
      * TypeHandler，PreparedStatement操作数据库的参数传递方式
      *
      * @param preparedStatement
-     * @param i
+     * @param i 第几个参数
      * @param s
      * @param jdbcType
      * @throws SQLException
@@ -100,7 +101,7 @@ public class StringTypeHandler implements TypeHandler<Sex> {
     }
 
     /**
-     * 根据列名取值
+     * 根据列名取值,然后赋值给美剧对应的属性返回
      *
      * @param resultSet
      * @param s
@@ -109,8 +110,9 @@ public class StringTypeHandler implements TypeHandler<Sex> {
      */
     @Override
     public Sex getResult(ResultSet resultSet, String s) throws SQLException {
-        Sex.setValue(resultSet.getInt(s));
-        return null;
+        Sex sex = new Sex();
+      	sex.setValue(resultSet.getInt(s));
+        return sex;
     }
 
     /**
@@ -123,8 +125,9 @@ public class StringTypeHandler implements TypeHandler<Sex> {
      */
     @Override
     public Sex getResult(ResultSet resultSet, int i) throws SQLException {
-        Sex.setValue(resultSet.getInt(i));
-        return null;
+      	Sex sex = new Sex();  
+      	sex.setValue(resultSet.getInt(i));
+        return sex;
     }
 
     /**
@@ -136,10 +139,11 @@ public class StringTypeHandler implements TypeHandler<Sex> {
      * @throws SQLException
      */
     @Override
-    public Sex getResult(CallableStatement callableStatement, int i) throws SQLException
-    {
-       	callableStatement.getInt(i);
-        return null;
+    public Sex getResult(CallableStatement callableStatement, int i)
+      throws SQLException {
+        Sex sex = new Sex();  
+       	sex.setValue(callableStatement.getInt(i));
+        return sex;
     }
 }
 ```
@@ -161,7 +165,8 @@ public class StringTypeHandler implements TypeHandler<Sex> {
 
 ##### 7：配置环境（environments）
 
-​	environments 可以注册多个数据源（DataSource），尽管可以配置多个环境（数据源），每个 SqlSessionFactory 实例只能选择其一，选择环境：default="id"
+- environments 可以注册多个数据源（DataSource），尽管可以配置多个环境（数据源），每个 SqlSessionFactory 实例只能选择其一，选择环境：default="id"
+- 可以不再Mybatis中配置，在和Spring 整合时，可以在Spring容器中配置；
 
 ###### dataSource 属性：
 
@@ -187,6 +192,19 @@ public class StringTypeHandler implements TypeHandler<Sex> {
 <transactionManager type="MANAGED">
   <property name="closeConnection" value="false"/>
 </transactionManager>
+
+ <!-- 分模块部署时，dao层需要数据源-->
+ <environments default="dev">
+    <environment id="dev">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis4?useSSL=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="mysql"/>
+      </dataSource>
+    </environment>
+ </environments>
 ```
 
 ##### 8：使用注解配置Mapper接口

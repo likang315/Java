@@ -20,11 +20,11 @@
 - spring-boot-starter-web是springweb 核心组件，构建war包必须使用；
 
 ```xml
-<parent>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-parent</artifactId>
-  <version>1.5.9.RELEASE</version>
-</parent>
+ <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.1.10.RELEASE</version>
+ </parent>
 
 <dependency>
   <groupId>org.springframework.boot</groupId>

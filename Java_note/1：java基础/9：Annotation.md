@@ -59,6 +59,8 @@
 
 ##### 5：自定义注解
 
+​	使用自定义注解，其作用一定要利用AOP进行切面编程，可以利用其注解实现调用目标方法之前、之后做一些逻辑业务；
+
 ```java
 public @interface  注解类名 {
   
@@ -72,6 +74,14 @@ public @interface MyAnnotation {
 }
 // 使用注解
 @MyAnnotation(name = "lisi"，ints = {1,3},)  
+
+// 定义其自定义注解作用
+@Around(value="@annotation(com.xupt.base.customizeClassName)")
+public void processFunction(ProceedingJoinPoint point) {
+  // ...
+  point.process();
+  // ...
+}
 ```
 
 

@@ -298,8 +298,3 @@ public class MessageFormat extends Format {
 String s2 = MessageFormat.format("oh, {0} is 'a' pig {1}", "lisi","!");
 System.out.println(s2);
 ```
-
-​	  
-
-
-
