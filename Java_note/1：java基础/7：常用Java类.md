@@ -256,14 +256,49 @@ public class ScannerDemo {
 #####  8：Class Calendar 类：
 
 ```java
-public abstract class Calendar
+public abstract class Calendar implements Serializable, Cloneable, Comparable<Calendar> {
+	// Calendar's Year: 2012
+  System.out.println("Calendar's Year: " + cal.get(Calendar.YEAR));
+  // 获取周几，返回数值从星期天开始
+  System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
+  // 这月的第几天
+	System.out.println(calendar.get(Calendar.DATE));
+  // 哪一年
+	System.out.println(calendar.get(Calendar.YEAR));
+  
+  // 获取星期对应数值
+  public static int getWeekNumber(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        /*星期日:Calendar.SUNDAY=1
+         *星期一:Calendar.MONDAY=2
+         *星期二:Calendar.TUESDAY=3
+         *星期三:Calendar.WEDNESDAY=4
+         *星期四:Calendar.THURSDAY=5
+         *星期五:Calendar.FRIDAY=6
+         *星期六:Calendar.SATURDAY=7 */
+        int number = c.get(Calendar.DAY_OF_WEEK) - 1;
+        if (number == 0) {
+            number = 7;
+        }
+        return number;
+    }
+}
 ```
 
-- 是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH、DAY_OF_MONTH、HOUR 等日历字段之间的转换提供了一些方法，并为操作日历字段提供了一些方法
-- Calendar 提供了一个类方法 getInstance（），以获得此类型的一个通用的对象
-- void set (int year, int month, int date, int hourOfDay, int minute, int second) 
-  - 设置字段 YEAR、MONTH、DAY_OF_MONTH、HOUR、MINUTE 和 SECOND 的值 
-- void setTime (Date date) ：使用给定的 Date 设置此 Calendar 的时间
+- 抽象类不能实例化，提供了一个类方法 getInstance（），以获得此类型的实例；
+  - 根据TimeZone时区类型和Locale地区类型，创建Calendar；
+  - 如果没有某个对应的参数，那么程序会自动获取机器的时区或者地区；
+- Date getTime()
+  - 获取当前日历的时间；
+- void setTime (Date date) 
+  - 使用给定的 Date 设置此 Calendar 的时间；
+- get(int field)
+  - 获取时间域的值 ，field为Calendar.YEAR
+- void setFirstDayOfWeek(int value)
+  - 设置一周的第一天
+- getFirstDayOfWeek()
+  - 获取一周的第一天
 
 ###### java.util.ResourceBoundle
 
