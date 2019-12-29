@@ -38,9 +38,10 @@
        1. map 传递多个参数时，parameterType="java.util.Map"，
           - key为参数，value是参数值，通过#{key}获取值
        2. map 作为返回值时，resultMap="java.util.Map"
-          - 返回Map 是一个对象时，根据数据库的字段和值生成map				
+          - 返回Map 是一个对象时，根据数据库的字段和值生成map
           - 返回 map 是多个对象时，key是对象中指定的字段名，value是Bean
-            - key 需要通过**@MapKey("hotelName")** 指定pojo对象中一个属性名为key
+            - key 需要通过**@MapKey("keynote")**  指定pojo对象中一个属性名为key
+              - 用在mapper 接口定义的方法上；
   
   - resultMap ：用于把复杂的pojo进行结果映射，一对多、一对一时；
 

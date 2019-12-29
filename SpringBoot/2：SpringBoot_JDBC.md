@@ -33,7 +33,9 @@
 
 3. 编写controller，services层
 
-##### 2：MyBatis
+##### 2：耦合 MyBatis
+
+- 实际就是添加Mybatis依赖，JDBC驱动，使用其Jar包，操作数据库而已；
 
 1. 添加依赖
 

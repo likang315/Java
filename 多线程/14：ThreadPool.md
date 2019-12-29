@@ -56,7 +56,7 @@
       - LinkedBlockingQueue时有一个大小限制，其默认为Integer.MAX_VALUE；
       - LinkedBlockingQueue不接受null值，当添加null的时候，会直接抛出NullPointerException：
   - SynchronousQuene：
-    - 不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于LinkedBlockingQuene
+    - 没有容量的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于LinkedBlockingQuene
     - ExecutorService newCachedThreadPool( )  使用此队列
   - priorityBlockingQuene：
     - 具有优先级的无界阻塞队列
