@@ -265,6 +265,8 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
 	System.out.println(calendar.get(Calendar.DATE));
   // 哪一年
 	System.out.println(calendar.get(Calendar.YEAR));
+  // 获取时刻
+  System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
   
   // 获取星期对应数值
   public static int getWeekNumber(Date date) {
@@ -284,6 +286,15 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         return number;
     }
 }
+
+// 获取后续第n天日期
+public static Date getNextNumberDay(Date date, int n) {
+  Calendar cal = Calendar.getInstance();
+  cal.setTime(date);
+  // 时间域，可以修改为年、月、日、时
+  cal.add(Calendar.DATE, n);
+  return cal.getTime();
+}
 ```
 
 - 抽象类不能实例化，提供了一个类方法 getInstance（），以获得此类型的实例；
@@ -294,7 +305,9 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
 - void setTime (Date date) 
   - 使用给定的 Date 设置此 Calendar 的时间；
 - get(int field)
-  - 获取时间域的值 ，field为Calendar.YEAR
+  - 获取时间域的值 ，field为Calendar.YEAR等时间域；
+- Date add(int field, int amount)；
+  - 获取当前时间域的后续指定的amount的时间域； 
 - void setFirstDayOfWeek(int value)
   - 设置一周的第一天
 - getFirstDayOfWeek()
