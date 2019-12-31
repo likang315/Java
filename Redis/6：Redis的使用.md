@@ -37,28 +37,46 @@ public class RedisTest {
 }
 ```
 
-###### API
+##### 2：API
 
-- boolean  exists(String key) ： 判断某个键是否存在
-- set(String key,String value)  ：添加或覆盖键值对（key,value） ，返回String类型的OK代表成功
+###### String
+
+- boolean  **exists**(String key) ： 判断某个键是否存在
+- Long **expire**(String key, int seconds) 
+  - 设置过期时间吗，单位为秒；
+  -  返回1表示成功设置过期时间，返回0表示key不存在，重复会覆盖；
+- set(String key，String value)  
+  - 添加或覆盖键值对（key,value） ，返回String类型的OK代表成功
+-  String **setex**(String key, int seconds, String value);
+  - 设置值和过期时间，秒为单位；
 - Set<String> keys(*) ：获取所有key，返回set 无序集合
-- del(String key) ：删除键为key的数据项   
-- expire(String key,int i)  ：设置键为key的过期时间为i秒    
-- int    ttl(String key)  ：获取健为 key 的数据项剩余时间（秒）    
+- **get**(String key)  ：获取键为key对应的value
+- **del**(String key) ：删除键为key的数据项   
+- **type**(String key)  ：查看键为key所对应value的数据类型
+- expire(String key，int i)  ：设置键为key的过期时间为i秒    
+- int  ttl(String key)  ：获取健为 key 的数据项剩余时间（秒）    
 - persist(String key)  ：移除键为key属性项的生存时间限制
-- type(String key)  ：查看键为key所对应value的数据类型
-- get(String key)  ：获取键为key对应的value
 
 ###### Hash
 
-- hmset(String key,Map map)：添加一个Hash
-- hset(String key , String key, String value)：向Hash中插入一个元素（K-V）
-- hgetAll(String key)：获取指定key的Hash的所有（K-V） 元素
-- hkeys（String key）：获取指定key的Hash所有元素的key
-- jedis.hvals(String key)：获取指定Key的Hash所有元素 的value
-- hdel(String key , String k1, String k2,…)：从指定Key的Hash中删除一个或多个元素
-- hlen(String key)：获取指定Key的Hash中元素的个数
-- hmget(String key,String K1,String K2)：获取指定Key的Hash中一个或多个元素value
+- String **hmset**(String key, Map<String, String> hash);
+  - 设置多个字段和值，如果字段存在，则覆盖；
+- List<String> **hmget**(String key, String... fields);
+  - 获取多个字段的值，若字段不存在，则其值为nil；
+- Long hset(String key, String field, String value);
+  - 向Hash中插入一个元素（K-V），如果key不存在，则创建一个新的hash表；
+- String hget(String key, String field);
+  - 如果该key对应的值是一个Hash表，则返回对应字段的值。 如果不存在该字段，或者key不存在，则返回一个"nil"值；
+- Map<String, String> **hgetAll**(String key);
+  - 获取指定key的Hash的所有（K-V） 元素
+- Set<String> hkeys(String key);
+  - 获取指定key的Hash所有元素的key
+- List<String> hvals(String key);
+  - 获取指定Key的Hash所有元素 的value
+- List<String> hvals(String key);
+  - 从指定Key的Hash中删除一个或多个元素
+- Long hlen(String key);
+  - 获取指定Key的Hash中元素的个数
 
 ###### list
 
