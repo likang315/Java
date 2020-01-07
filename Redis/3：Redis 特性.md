@@ -31,9 +31,27 @@
 2. 收到 EXEC 命令后进入事务执行，事务中任意命令执行失败，其余的命令依然被执行，没有原子性
 3. 在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中，隔离性
 4. 单个 Redis 命令的执行是原子性的，但 Redis 没有在事务上增加任何维持原子性的机制，所以 Redis 事务的执行并不是原子性的 
-   - multi：标记一个事务块的开始
+   - Multi：标记一个事务块的开始
+   
    - Exec： 执行所有事务块内的命令
+   
    - discard ：取消事务，放弃执行事务块内的所有命令
-   - unwatch： 取消 WATCH 命令对所有 key 的监视
+   
    - watch key [key ...]：监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断
+   
+   - unwatch： 取消 WATCH 命令对所有 key 的监视
+   
+   - ```shell
+     127.0.0.1:6379> multi
+     OK
+     127.0.0.1:6379> set a 3
+     QUEUED
+     127.0.0.1:6379> lpop a
+     QUEUED
+     127.0.0.1:6379> exec
+     1) OK
+     2) (error) WRONGTYPE Operation against a key holding the wrong kind of value
+     ```
+   
+     
 

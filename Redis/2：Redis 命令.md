@@ -7,7 +7,7 @@
 1. 下载：https://github.com/MSOpenTech/redis/releases，下载Redis压缩包
 
 2. 用 cd 命令切换目录到 C:\redis  运行，启动服务端： 
-   
+  
    - redis-server  ：执行此命令,运行服务，加载默认的配置文件，redis.conf 是一个默认的配置文件
    - redis-server  [配置文件路径]  ：启动指定配置文件的redis服务；
    - redis 服务默认的端口是6379 ，可以通过检测端口是否是redis进程占用\
@@ -51,6 +51,8 @@ Redis 的配置文件CINFIU位于 Redis 安装目录下，文件名为 redis.con
 
 - **DEL key：用于在 key 存在时删除  key**
   - 如果键被删除成功，命令执行后输出 (integer) 1，否则将输出 (integer) 0
+- **FLUSHALL**：
+  - 删除所有的的所有key；
 - DUMP key：
   - 用于序列化 给定 key ，并返回被序列化的值，如果 key 不存在，那么返回 nil 
   - 便于传输；
@@ -119,15 +121,15 @@ Redis 的配置文件CINFIU位于 Redis 安装目录下，文件名为 redis.con
 
 ##### 7：Redis 哈希(Hash)
 
-- HMSET key filed value  filed1 value1
+- Hmset key filed value  filed1 value1
   - 将哈希表 key 中的字段 field 的值设为 value，可以存储多个；
-- HMGET key field1 [field2] 
+- Hmget key field1 [field2] 
   - 获取哈希表中所有给定字段的值；
-- HSET key filed value
+- Hset key filed value
   - 用于为哈希表中的字段赋值，如果哈希表不存在，一个新的哈希表被创建并进行 HSET 操作；
-- HGET key filed ：获取存储hash表中指定的字段值
-- HKEYS key ：获取所有哈希表中的字段名
-- HLEN key ：获取哈希表中字段的数量
+- Hget key filed ：获取存储hash表中指定的字段值
+- Hkeys key ：获取所有哈希表中的字段名
+- Hlen key ：获取哈希表中字段的数量
 
 ```shell
 redis> HMSET myhash field1 "Hello" field2 "World"
@@ -140,9 +142,18 @@ redis> HGET myhash field2
 
 ##### 8：Redis 列表（List）
 
-- LPUSHX key value ：将一个值插入到已存在的列表头部
-- LINDEX key index ：通过索引获取列表中的元素，可能存在相同的key
-- LLEN key：获取列表长度
+- Rpush key value1 value2...
+  - 用于将一个或多个值插入到列表的尾部(最右边)
+- Lpush key value
+  - 将一个或多个值插入到列表头部。 如果 key 不存在，一个空列表会被创建并执行 LPUSH 操作。 当 key 存在但不是列表类型时，返回一个错误;
+- Lindex key index 
+  - 用于通过索引获取列表中的元素。你也可以使用负数下标，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推;
+  - 如果指定索引值不在列表的区间范围内，返回 nil;
+- Lrange key start end
+  - 返回列表中指定区间内的元素，区间以偏移量 start 和 end 指定;
+- Llen key
+  - 获取列表长度
+  - 如果列表 key 不存在，则 key 被解释为一个空列表，返回 0 ;如果 key 不是列表类型，返回一个错误;
 
 ```shell
 redis 127.0.0.1:6379> lpush key redis
@@ -159,9 +170,14 @@ redis 127.0.0.1:6379> lrange key 0 3
 
 ##### 9：Redis 集合(Set)
 
-- SADD key member1 [member2] ：向集合添加一个或多个成员
-- SREM key member1 [member2]：移除集合中一个或多个成员
-- sismember key member：判断 member 元素是否是集合 key 的成员 
+- Sadd key member1 member2
+  - 向集合添加一个或多个成员，若集合 key 不存在，则创建一个只包含添加的元素作成员的集合；
+- Smembers key
+  -  返回集合中的所有的成员，不存在的集合 key 被视为空集合；
+- Srem key member1 member2
+  - 移除集合中一个或多个成员
+- Scard key
+  - 返回集合中元素的数量
 
 ```shell
 redis 127.0.0.1:6379> sadd key redis
@@ -181,11 +197,32 @@ redis 127.0.0.1:6379> smembers key
 
 ##### 10：Redis 有序集合 (zset)
 
-- ZADD key score1 member1 [score2 member2]
-  - 向有序集合添加一个或多个成员，或者更新已存在成员分数
-- ZCARD key：获取有序集合的成员数
+- Zadd key score1 member1 [score2 member2]
+  - 用于将一个或多个成员元素及其分数值加入到有序集当中，如果某个成员已经是有序集的成员，那么更新这个成员的分数值，并通过重新插入这个成员元素，来保证该成员在正确的位置上；
+  - 分数值可以是整数值或双精度浮点数；
+-  Zrange key start stop
+  - 返回有序集中，指定区间内的成员，成员的位置是按分数值递增排序，具有相同分数值的成员按字典序来排列；
+- Zcard key
+  - 获取有序集合的成员数
+- Zrem key member
+  - 用于移除有序集中的一个或多个成员，不存在的成员将被忽略;
+- Zrank key member
+  - 返回有序集中指定成员的排名。其中有序集成员按分数值递增(从小到大)顺序排列;
 
 ```shell
-zadd key score member     # 添加zset
-ZRANGEBYSCORE key 0 1000  # 查看
+redis 127.0.0.1:6379> ZADD myset 1 "hello"
+(integer) 1
+redis 127.0.0.1:6379> ZADD myset 1 "foo"
+(integer) 1
+redis 127.0.0.1:6379> ZADD myset 2 "world" 3 "bar"
+(integer) 2
+redis 127.0.0.1:6379> ZRANGE myzset 0 -1 WITHSCORES
+1) "hello"
+2) "1"
+3) "foo"
+4) "1"
+5) "world"
+6) "2"
+7) "bar"
+8) "3"
 ```
