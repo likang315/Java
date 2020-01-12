@@ -222,6 +222,7 @@ public class ScannerDemo {
 #####  7：Class Date：获取当前的瞬时时间精确到毫秒 
 
 - 使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和解析日期字符串
+- 时间戳：是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总秒数；
 - 方法：	
   ​		 boolean after(Date when) 
   ​				  测试此日期是否在指定日期（when）之后 
