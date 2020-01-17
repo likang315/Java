@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="xupt_model-1.0-SNAPSHOT">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/ssm_parent/xupt_model/target/xupt_model-1.0-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

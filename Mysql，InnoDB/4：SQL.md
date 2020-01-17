@@ -77,8 +77,17 @@ CREATE TABLE 表名（
 ##### 3：DML：insert、delete、update、select
 
 1. INSERT INTO 向表中插入数据
+   
    - INSERT INTO tableName(id，name，birth) VALUES(1，'jack','199-22-45'）)；
+   
+   - ```sql
+     # 批量插入 
+     INSERT INTO table_name (id, name,sex,address)
+     VALUES
+     (?,?,?,?),(?,?,?,?),(?,?,?,?),(?,?,?,?)
+     ```
 2. DELETE 删除表中的数据，要加WHERE语句限定删除的记录，否则就是清空表操作
+   
    - DELETE FROM 表名 WHERE id=i;
 3. UPDATE：修改表中的数据
    - UPDATE 表名 SET 字段名=值，字段名=值 WHERE 限制记录的字段；
