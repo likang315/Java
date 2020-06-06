@@ -4,12 +4,12 @@
 
 ------
 
-​	即线程变量，一个以ThreadLocal对象为键、任意对象为值的存储结构，这个结构被附在线程上，也就是说一个线程可以根据一个ThreadLocal对象查询到绑定在这个线程上的一个值
+​	即线程变量，一个以当前线程的ThreadLocal对象为键—该对象的值为值的存储结构，这个结构被附在线程上，也就是说每个线程都可以根据threadLocalMap查询到绑定在这个线程上该变量的值。
 
 - 被其修饰的变量在多线程环境下访问时，能保证各个线程里的变量相对独立于其他线程内的变量
-- 泛型中存储的是共享变量，总的ThreadLocalMap，中Entry[ ] 中，key为当前线程的Threadlocal，value为当前线程的共享变量值
+- 泛型中存储的是共享变量，ThreadLocalMap的Entry[ ] 中，key为当前线程的Threadlocal变量，value为当前线程的共享变量值
 - 锁一般是以时间换空间，而ThreadLocal是以空间换时间
-- ThreadLocal 实例通常来说都是 private static final 类型的，用于关联线程和线程的上下文
+- ThreadLocal 实例通常来说都是 private static 类型的，用于关联线程和线程的上下文
 
 ###### 方法：只有以下四个方法可以被重写
 
@@ -25,9 +25,9 @@
 
 ###### 特点：
 
-1. 通过 getMap() 获取每个子线程 Thread 持有自己的ThreadLocalMap实例, 因此它们是不存在并发竞争的，可以理解为每个线程有自己的变量副本
+1. 通过 getMap() 获取**每个线程 Thread 持有自己的ThreadLocalMap实例**, 因此它们是不存在并发竞争的，可以理解为每个线程有自己的变量副本
 2. ThreadLocalMap 中 Entry[] 数组存储数据，初始化长度16，后续每次都是2倍扩容。主线程中定义了几个变量，Entry[]才有几个key
-3. Entry 的 key是对 当前线程ThreadLocal的弱引用，当抛弃掉ThreadLocal对象时，垃圾收集器会忽略这个key的引用而清理掉 ThreadLocal 对象， 防止了内存泄漏
+3. Entry 的 key是对 **当前线程ThreadLocal的弱引用**，当抛弃掉ThreadLocal对象时，垃圾收集器会忽略这个key的引用而清理掉 ThreadLocal 对象， 防止了内存泄漏
 
 ```java
 public class ThreadLocal<T> {
@@ -37,6 +37,7 @@ public class ThreadLocal<T> {
   }
  	// 获取当前线程的ThreadLocalMap
   ThreadLocalMap getMap(Thread t) {
+    // 存储当前线程的key-value
     return t.threadLocals;
   }
   
@@ -45,6 +46,7 @@ public class ThreadLocal<T> {
   		Thread t = Thread.currentThread();
     	ThreadLocalMap map = getMap(t);
     	if (map != null) {
+        // this:当前线程的threadlocal对象
       	ThreadLocalMap.Entry e = map.getEntry(this);
       	if (e != null) {
           // 将线程的T返回，只有这个T是共享的
@@ -114,5 +116,13 @@ public class ThreadLocal<T> {
 }
 ```
 
+##### 示例：数据库连接
 
+```java
+// 线程同步会影响效率，并且Connection是需不要共享的
+private static ThreadLocal<Connection> connectionHolder = new ThreadLocal<Connection>()；
+public static Connection getConnection() {
+  return connectionHolder.get();
+}
+```
 
