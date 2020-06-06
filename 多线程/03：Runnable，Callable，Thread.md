@@ -105,7 +105,7 @@ public class CallableThreadTest implements Callable<List<String>> {
 
 - void notify()：通知线程
   
-  - 仅仅任意通知一个处于阻塞的线程，不释放锁资源
+  - 仅仅任意通知一个处于阻塞的线程，不释放锁资源，执行体运行完成之后释放。
 - void join(long millis) 
   - join( )：默认等待0 毫秒
   
@@ -124,7 +124,6 @@ public class CallableThreadTest implements Callable<List<String>> {
                 thread.start();
                 previous = thread;
             }
-            TimeUnit.SECONDS.sleep(5);
             System.out.println(Thread.currentThread().getName() + " terminate.");
         }
         static class Domino implements Runnable {
@@ -132,6 +131,7 @@ public class CallableThreadTest implements Callable<List<String>> {
             public Domino(Thread thread) {
               	this.thread = thread;
             }
+            @Override
             public void run() {
                 try {
                   thread.join();
@@ -143,9 +143,14 @@ public class CallableThreadTest implements Callable<List<String>> {
     }
     ```
   
-- static void sleep(long millis) ：线程休眠
+- **static** void sleep(long millis) ：线程休眠
   
   - 在指定的毫秒数内让当前正在执行的线程休眠（暂停执行），不释放锁资源，监控状态继续保持，时间到则重新为就绪状态
+  
+  - ```java
+    TimeUnit.SECONDS.sleep(5);
+    Thread.sleep(5);
+    ```
 - static void yield() ：线程让步
   
   - 暂停当前正在执行的线程对象，让出时间片，由运行状态到就绪状态，等待获取时间片
@@ -179,10 +184,10 @@ public class CallableThreadTest implements Callable<List<String>> {
 
 ##### 6：Class CyclicBarrier
 
-​	同步屏障，可以让一组线程达到一个屏障时被阻塞，直到最后一个线程达到屏障时，所有被阻塞的线程才能继续执行，可以循环使用此同步屏障
+​	循环屏障，可以让一组线程达到一个屏障时被阻塞，直到最后一个线程达到屏障时，所有被阻塞的线程才能继续执行，可以循环使用此同步屏障
 
 - CyclicBarrier就像一扇门，默认情况下关闭状态，堵住了线程执行的道路，直到所有线程都就位，门才打开，让所有线程一起通过
-- CyclicBarrier实现主要基于ReentrantLocK
+- CyclicBarrier实现主要基于ReentrantLock
 
 ###### 构造方法
 
@@ -196,6 +201,7 @@ public class CallableThreadTest implements Callable<List<String>> {
 - int   await( )
   - 当线程执行await( )时，内部变量count减1，如果count！= 0，说明有线程还未到屏障处，是该线程处于等等待状态
 - int   await(long timeout, TimeUnit unit)
+  - 指线程等待的超时时间，当出现等待超时的时候，当前线程会被释放，但会像其他线程传播出BrokenBarrierException异常。
 - int   getNumberWaiting()
   - 获取当前同步屏障还需等待的数量
 - int   getParties()
@@ -205,7 +211,88 @@ public class CallableThreadTest implements Callable<List<String>> {
 - void`  `reset( ) 
   - 重置同步屏障处于初始化状态
 
-###### 与CountDownLatch的区别
+```java
+public class MyThread extends Thread {
+    private CyclicBarrier cyclicBarrier;
+    private String name;
+    public MyThread(CyclicBarrier cyclicBarrier, String name) {
+        super();
+        this.cyclicBarrier = cyclicBarrier;
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        try {
+            System.out.println(name + "赛前活动...");
+            System.out.println(name + "准备完毕！等待发令枪");
+            try {
+                cyclicBarrier.await();
+            } catch (BrokenBarrierException e) {            
+                e.printStackTrace();
+            }
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+        }
+    }
+    
+    public static void main(String[] args) {
+        CyclicBarrier barrier = new CyclicBarrier(5, new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("发令枪响了，Run....");
+            }
+        });
+        for (int i = 0; i < 5; i++) {
+            new MyThread(barrier, "运动员" + i + "号").start();
+        }
+    }
+}
+```
+
+##### 7：CountDownLatch
+
+- 使一个线程等待其他线程各自执行完毕后再执行。
+- 是通过一个计数器来实现的，计数器的初始值是线程的数量。每当一个线程执行完毕后，计数器的值就-1，当计数器的值为0时，表示所有线程都执行完毕，然后在闭锁上等待的线程就可以恢复工作了。
+- public void await() throws InterruptedException；
+  - 执行await()方法的线程会被挂起，它会等待直到count值为0才继续执行。
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService pool = Executors.newCachedThreadPool();
+        CountDownLatch latch = new CountDownLatch(100);
+        for (int i = 0; i < 100; i++) {
+            Runnable runnable = new CountRunnable(latch);
+            pool.execute(runnable);
+        }
+    }
+}
+
+class CountRunnable implements Runnable {
+    private CountDownLatch latch;
+    public CountRunnable(CountDownLatch latch) {
+        this.latch = latch;
+    }
+    @Override
+    public void run() {
+        try {
+            synchronized (latch) {
+                latch.countDown();
+                System.out.println("thread counts = " + (countDownLatch.getCount()));
+            }
+            // 相当于锁在等待多个钥匙...
+            latch.await();
+            System.out.println("concurrency counts =" + (100-countDownLatch.getCount()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+##### 8：CyclicBarrier与CountDownLatch的区别
 
 1. CountDownLatch 允许一个或多个线程等待一些特定的操作完成，而这些操作是在其它的线程中进行的，也就是说会出现 **等待的线程** 和 **被等的线程** 这样分明的角色
 2. CountDownLatch 构造函数中有一个 count 参数，表示有多少个线程需要被等待，对这个变量的修改是在其它线程中调用 countDown 方法，每一个不同的线程调用一次 countDown 方法就表示有一个被等待的线程到达，count 变为 0 时，latch（门闩）就会被打开，处于等待状态的那些线程接着可以执行；
