@@ -25,13 +25,13 @@
 
 - 这些子表达式是分开的空白
 - "0 0 12 ? * WED"： 在每星期三下午12:00 执行
-- Seconds (秒)     ：可以用数字0－59 表示，
-- Minutes(分)        ：可以用数字0－59 表示，
-- Hours(时)           ：可以用数字0-23表示,
-- Day-of-Month(天) ：可以用数字1-31 中的任一一个值
-- Month(月) ：可以用0-11 或用字符串  “JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC” 表示
-- Day**-**of**-**Week(每周)：可以用数字1-7表示（1 ＝ 星期日）或用字符口串“SUN, MON, TUE, WED, THU, FRI and SAT”表示
-  - .年份（1970－2099）
+  - Seconds (秒)     ：可以用数字0－59 表示，
+  - Minutes(分)        ：可以用数字0－59 表示，
+  - Hours(时)           ：可以用数字0-23表示,
+  - Day-of-Month(日) ：可以用数字1-31 中的任一一个值
+  - Month(月) ：可以用0-11 或用字符串  “JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC” 表示
+  - Day**-**of**-**Week(星期)：可以用数字1-7表示（1 ＝ 星期日）或用字符口串“SUN, MON, TUE, WED, THU, FRI and SAT”表示
+  - Year（年份）（1970－2099）
   - "/"：特别单位min，
     - 表示为“每”如“0/15”表示每隔15分钟执行一次,“0”表示为从“0”分开始, 
     - “3/20”表示表示每隔20分钟执行一次，“3”表示从第3分钟开始执行

@@ -65,7 +65,7 @@ public class RedisTest {
 - Long hset(String key, String field, String value);
   - 向Hash中插入一个元素（K-V），如果key不存在，则创建一个新的hash表；
 - String hget(String key, String field);
-  - 如果该key对应的值是一个Hash表，则返回对应字段的值。 如果不存在该字段，或者key不存在，则返回一个"nil"值；
+  - hkey对应的值是一个Hash表，则返回对应字段的值。 如果不存在该字段，或者key不存在，则返回一个"nil"值；
 - Map<String, String> **hgetAll**(String key);
   - 获取指定key的Hash的所有（K-V） 元素
 - Set<String> hkeys(String key);
