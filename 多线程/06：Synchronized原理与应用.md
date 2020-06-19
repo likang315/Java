@@ -4,7 +4,7 @@
 
 ##### 1：synchronized
 
-​	Java中的关键字，是一种同步锁，为重量级锁，即锁住了当前对象也把锁给了当前对象
+​	Java中的关键字，是一种同步锁，为重量级锁，即从当前线程所携带的对象中获取monitor锁，锁住了当前线程。
 
 ###### Java中的每一个对象都可以作为锁
 
@@ -25,7 +25,8 @@
 
 ​	要求多个线程对该块内的代码依次排队执行，前提条件是同步监视器对象，可以有效的缩小同步范围，并保证并发安全的同时尽可能的提高效率
 
-- 当一个线程访问对象中的synchronized(this)同步代码块时，另一个线程仍然可以访问该对象中的非synchronized(this)同步代码块，因为非synchronized不需要monitor锁
+- 当一个线程访问对象中的synchronized(this)同步代码块时，另一个线程仍然可以访问该对象中的非synchronized(this)同步代码块，因为非synchronized不需要monitor锁；
+- 当携带不同锁对象的线程执行同步块时，不会阻塞线程，因为是不同的monitor锁；
 
 ```java
 // this锁：指monitor对象
@@ -35,14 +36,14 @@ synchronized (this) {
 
 // 有一个明确的对象作为锁时
 public void  method3(SomeObject obj) {
-   // 非this锁：monitor对象
+   // 非this锁：关注obj是否为同一个对象
    synchronized (obj) {
       // todo
    }
 }
 
 // 当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁
-private Byte[] local= new Byte[0];
+Byte[] local= new Byte[0];
 synchronized (local) {
   // todo
 }
@@ -50,9 +51,9 @@ synchronized (local) {
 
 ###### synchronized：同步方法
 
-​	即：多个线程不能同时进入方法内部执行
+​	即：携带同一个锁对象的多个线程不能同时进入方法内部执行
 
-- synchronized 同步方法：在一个线程调用该方法时将该方法所属对象加锁，其他线程在执行此方法时，由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁
+- synchronized 同步方法：在一个线程调用该方法时，该方法会从所属对象中获取锁，并且锁住该线程加锁，其他携带同一个对象的线程在执行此方法时，由于执行此方法的线程没有释放锁，所以只能在方法外阻塞，直到持有同步锁的线程将方法执行完毕，释放锁，此线程获取同步锁
 - **同一个锁对象可以产生互斥作用，不同锁对象不能产生互斥作用**
 - 若修饰静态方法：属于类的，具有同步效果，与对象无关
 
@@ -60,7 +61,6 @@ synchronized (local) {
 public synchronized void synchronizedMethod() {
   // ...
 }
-// synchronized 修饰的静态方法锁定的是这个类的所有对象
 public static synchronized void method() {
 	// ...
 }
@@ -68,13 +68,13 @@ public static synchronized void method() {
 
 ###### 注意：
 
-1. 被 synchronized修饰方法，不能被继承，若需要同步，在子类的重写该方法添加 synchronized 关键字
-2. 在接口中定义方法时不能使用 synchronized 关键字
-3. 构造方法不能使用 synchronized关键字，但可以使用 synchronized 代码块来进行同步
+1. 被 synchronized修饰方法，不能被继承，若需要同步，在子类的重写该方法时需添加 synchronized 关键字；
+2. 在接口中定义方法时不能使用 synchronized 关键字；
+3. 构造方法不能使用 synchronized关键字，但可以使用 synchronized 代码块来进行同步；
 
 ###### synchronized 类锁：Class锁
 
-- synchronized 作用于一个类时，每个类有且只有一个Class对象，即类的 Class 对象锁，类的所有对象都是同一把锁
+- synchronized 作用于一个类时，每个类有且只有一个Class对象，即类的 Class 对象锁，类的所有对象都是同一把锁，相当于static同步块。
 
 ```java
 synchronized (ClassName.class) {
@@ -82,7 +82,23 @@ synchronized (ClassName.class) {
 }
 ```
 
-##### 2：Java 对象头
+##### 2：synchronized 示例
+
+```java
+public class MyRunnable implements Runnable{  
+    public void run() {  
+        // 主要用于多线程执行体中
+        synchronized (this) {  
+            for (int i = 0; i <5; i++) {  
+                Thread.sleep(1000);  
+                System.out.println(Thread.currentThread().getName()+"loop"+i);  
+            }   
+        }  
+    }  
+}  
+```
+
+##### 3：Java 对象头
 
 - Hotspot 虚拟机的对象头主要包括两部分数据：
   - Mark Word （标记字段）+  Class Metadata Address（类型指针）+ Array Length （数组长度）
@@ -90,14 +106,14 @@ synchronized (ClassName.class) {
 - Class Metadata Address：存储到对象类型数据的指针，用于确定是哪个类的实例
 -  Array Length：如果当前对象是数组，则存储的是数据的长度
 
-##### 3：Mark Word
+##### 4：Mark Word
 
 - 一个非固定的数据结构，它会根据对象的状态复用自己的存储空间
 - 大小：一个字节
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/mark%20word.png?raw=true)
 
-##### 4：Monitor：监视器锁
+##### 5：Monitor：监视器锁
 
 - 内置锁：一种同步机制，包含在对象中
 - 所有的Java对象是天生带着Monitor，每一个Java对象都有成为Monitor的潜质，它叫做内置锁或者Monitor锁
@@ -106,7 +122,7 @@ synchronized (ClassName.class) {
 
 ​	每一个线程都有一个可用 monitor record 列表，每一个被锁住的对象都会和一个monitor关联（对象头的 Mark Word 中的 Lock Word 指向monitor的起始地址），同时monitor中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用
 
-##### 5：锁的状态：
+##### 6：锁的状态：
 
 ​	阻塞或唤醒一个线程需要操作系统切换CPU状态来完成，这种状态转换需要耗费处理器时间。如果同步代码块中的内容过于简单，状态转换消耗的时间有可能比用户代码执行的时间还要长
 
@@ -116,13 +132,13 @@ synchronized (ClassName.class) {
   - 轻量级锁状态
   - 重量级锁状态（自旋锁状态）
 
-##### 6：重量级锁
+##### 7：重量级锁
 
 ​	在JDK 1.6之前，监视器锁可以认为直接对应底层操作系统中的互斥量（mutex）。这种同步方式的成本非常高，包括系统调用引起的内核态与用户态切换、线程阻塞造成的线程切换等。因此，后来称这种锁为“重量级锁”
 
 线程的阻塞和唤醒需要 CPU从 用户态转为 内核态，频繁的阻塞和唤醒对CPU来说是一件负担很重的工作，势必会给系统的并发性能带来很大的压力。同时我们发现在许多应用上面，对象锁的锁状态只会持续很短一段时间，为了这一段很短的时间频繁地阻塞和唤醒线程是非常不值得的。所以引入自旋锁
 
-##### 7：自旋锁
+##### 8：自旋锁
 
 ​	让该线程自旋一段时间，不会被立即挂起（释放CPU时间片），看持有锁的线程是否会很快释放锁
 
@@ -143,14 +159,14 @@ public final int getAndSetInt(Object var1, long var2, int var4) {
 }
 ```
 
-##### 8：自适应自旋锁
+##### 9：自适应自旋锁
 
 ​	自适应意味着自旋的次数不再是固定的，它是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定
 
 - 线程如果自旋成功了，那么下次自旋的次数会更加多，因为虚拟机认为既然上次成功了，那么此次自旋也很有可能会再次成功，那么它就会允许自旋等待持续的次数更多。反之，如果对于某个锁，很少有自旋能够成功的，那么在以后要或者这个锁的时候自旋的次数会减少甚至省略掉自旋过程，以免浪费处理器资源
 - 缺点：由于锁竞争时间不确定，自适应自旋也没能彻底解决该问题，如果默认的自旋次数设置不合理（过高或过低），那么自适应的过程将很难收敛到合适的值
 
-##### 9：轻量级锁
+##### 10：轻量级锁
 
 ​	如果完全没有实际的锁竞争，那么申请重量级锁都是浪费的。轻量级锁的目标是，减少无实际竞争情况下，使用重量级锁产生的性能消耗
 
@@ -168,7 +184,7 @@ public final int getAndSetInt(Object var1, long var2, int var4) {
 
 ![](https://github.com/likang315/Java-and-Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81.png?raw=true)
 
-##### 10：偏向锁
+##### 11：偏向锁
 
 ​	偏向锁的目标是，减少无竞争且只有一个线程使用锁的情况下，使用轻量级锁产生的性能消耗。轻量级锁每次申请、释放锁都至少需要一次CAS，但偏向锁只有初始化时需要一次CAS
 
@@ -189,14 +205,14 @@ public final int getAndSetInt(Object var1, long var2, int var4) {
 - 如果确定应用程序里所有的锁通常情况下处于竞争状态，可以通过JVM参数关闭偏向锁
 - -XX:-UseBiasedLocking=false，那么程序默认会进入轻量级锁状态
 
-##### 11：偏向锁、轻量级锁、自旋锁，重量级锁 适用于不同的并发场景：
+##### 12：偏向锁、轻量级锁、自旋锁，重量级锁 适用于不同的并发场景：
 
 - 偏向锁：无实际竞争，且将来只有第一个申请锁的线程会使用锁
 - 轻量级锁：无实际竞争，多个线程交替依次使用锁，允许短时间的锁竞争
 - 自旋锁：有实际竞争，锁竞争时间较短，可以使用自旋锁进一步优化轻量级锁、重量级锁的性能
 - 重量级锁：有实际竞争，且锁竞争时间较长
 
-##### 12：锁消除、锁粗化
+##### 13：锁消除、锁粗化
 
 ###### 锁消除
 
