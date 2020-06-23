@@ -168,10 +168,10 @@ public class CallableThreadTest implements Callable<List<String>> {
 
 ##### 5：Class  CountDownLatch
 
-- 倒计时锁，利用它可以实现类似计数器的功能
+- **倒计时锁**，利用它可以实现类似计数器的功能
 - 比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，实现此功能
 
-- CountDownLatch(int count
+- CountDownLatch(int count)
   - 构造count数量的倒计时锁
 - void  await()
   - 执行调用await()方法的线程会被挂起，等待直到count值为0才被返回执行
@@ -184,7 +184,7 @@ public class CallableThreadTest implements Callable<List<String>> {
 
 ##### 6：Class CyclicBarrier
 
-​	循环屏障，可以让一组线程达到一个屏障时被阻塞，直到最后一个线程达到屏障时，所有被阻塞的线程才能继续执行，可以循环使用此同步屏障
+​	**循环屏障**，可以让一组线程达到一个屏障时被阻塞，直到最后一个线程达到屏障时，所有被阻塞的线程才能继续执行，可以循环使用此同步屏障
 
 - CyclicBarrier就像一扇门，默认情况下关闭状态，堵住了线程执行的道路，直到所有线程都就位，门才打开，让所有线程一起通过
 - CyclicBarrier实现主要基于ReentrantLock
@@ -282,7 +282,7 @@ class CountRunnable implements Runnable {
                 latch.countDown();
                 System.out.println("thread counts = " + (countDownLatch.getCount()));
             }
-            // 相当于锁在等待多个钥匙...
+            // 每个线程都在等待...其实就是省了通知
             latch.await();
             System.out.println("concurrency counts =" + (100-countDownLatch.getCount()));
         } catch (InterruptedException e) {
