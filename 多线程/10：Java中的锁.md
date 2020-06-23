@@ -393,7 +393,7 @@ protected final int tryAcquireShared(int unused) {
 
 ​	用于阻塞或唤醒一个线程的工具类
 
-- static void`  `park()
+- static void  park()
   - 阻塞当前线程
 - static void`  `parkNanos(long nanos)
   - 阻塞当前线程，最长不超过nanos纳秒，超时返回
@@ -446,7 +446,7 @@ public class ConditionUseCase {
   - 当前线程进入等待状态直到被通知、中断或者到某个时间，如果没有到指定时间就通知返回true，否则表示到了指定时间，返回false
 - void signal()
   - 唤醒一个等待在Condition上的线程，该线程从等待方法返回前，必须获取一个与Condition相关的锁
-- voidsignalAll()
+- void signalAll()
   - 唤醒所有等待在Condition上的线程，能够从等待方法返回的线程必须获得与Condition相关的锁
 
 ###### 示例
@@ -504,7 +504,7 @@ public class BoundedQueue<T> {
 
 ​	一个Condition包含一个等待队列，Condition拥有首节点（firstWaiter）和尾节点（lastWaiter）。当前线程调用Condition.await()方法，将会以当前线程构造节点，并将节点从尾部加入等待队列。并且Condition是AQS的内部类，它的节点的构造复用了同步器中节点的定义，Lock（更确切地说是同步器）拥有一个同步队列和多个等待队列
 
-![](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/ 同步队列和等待队列.png)
+![](https://github.com/likang315/Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%20%E5%90%8C%E6%AD%A5%E9%98%9F%E5%88%97%E5%92%8C%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97.png?raw=true)
 
 ###### Condition 等待
 
@@ -523,7 +523,7 @@ public class BoundedQueue<T> {
 - 悲观锁：假设最坏的情况，自己每次取数据时都认为其他线程会修改，因此在获取数据的时候会先加锁，确保数据不会被别的线程修改，当其他线程想要访问数据时，都需要阻塞挂起，等待持有锁的线程释放锁
   - synchronized
   - Lock 的实现类
-- 乐观锁：认为自己在使用数据时不会有别的线程修改数据，所以不会添加锁，只是在更新数据的时候去判断之前有没有别的线程更新了这个数据。如果这个数据没有被更新，当前线程将自己修改的数据成功写入。如果数据已经被其他线程更新，则根据不同的实现方式执行不同的操作（例如报错或者自动重试）
+- 乐观锁：认为自己在使用数据时不会有别的线程修改数据，所以不会添加锁，只是在更新数据的时候去判断之前有没有别的线程更新了这个数据。如果这个数据没有被更新，当前线程将自己修改的数据成功写入。如果数据已经被其他线程更新，则根据CAS比较与交换实现操作。
   - 通过使用无锁编程来实现
     - CAS算法，Java 原子类（Automic）中的递增操作就通过CAS自旋实现的
 
@@ -546,7 +546,7 @@ private AtomicInteger atomicInteger = new AtomicInteger();
 atomicInteger.incrementAndGet();
 ```
 
-##### 12：ReentranLock 和 Synchronized 的区别
+##### 12：ReentranLock 和 Synchronized 的区别（隐式使用锁和显示使用锁）
 
 ###### 1：ReentrantLock 可以实现公平锁
 
