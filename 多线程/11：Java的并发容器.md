@@ -2,7 +2,7 @@
 
 ------
 
-##### 1：ConcurrrentHashMap
+##### 1：ConcurrentHashMap
 
 ​		参考集合笔记
 
@@ -135,8 +135,8 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
 
    - 队列使用PriorityQueue来实现。队列中的元素必须实现Delayed接口，在创建元素时可以指定多久才能从队列中获取当前元素。只有在延迟期满时才能从队列中提取元素。
    - DelayQueue非常有用，可以将DelayQueue运用在以下应用场景。
-     1. 缓存系统的设计：可以用DelayQueue保存缓存元素的有效期，使用一个线程循环查询DelayQueue，一旦能从DelayQueue中获取元素时，表示缓存有效期到了。
-     2. 定时任务调度：使用DelayQueue保存当天将会执行的任务和执行时间，一旦从DelayQueue中获取到任务就开始执行，比如TimerQueue就是使用DelayQueue实现的。
+     1. **缓存系统的设计**：可以用DelayQueue保存缓存元素的有效期，使用一个线程循环查询DelayQueue，一旦能从DelayQueue中获取元素时，表示缓存有效期到了。
+     2. **定时任务调度**：使用DelayQueue保存当天将会执行的任务和执行时间，一旦从DelayQueue中获取到任务就开始执行，比如TimerQueue就是使用DelayQueue实现的。
 
 5. ###### SynchronousQueue：是一个不存储元素的阻塞队列
 
@@ -150,7 +150,7 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
      2. tryTransfer方法
         - 用来**试探**生产者传入的元素是否能直接传给消费者。如果没有消费者等待接收元素，则返回false。
 
-7. LinkedBlockingDeque：是一个由链表结构组成的双向阻塞队列。
+7. **LinkedBlockingDeque**：是一个由链表结构组成的双向阻塞队列。
 
    - 所谓双向队列指的是可以从队列的两端插入和移出元素。双向队列因为多了一个操作队列的入口，在多线程同时入队时，也就减少了一半的竞争。
    - 在初始化LinkedBlockingDeque时可以**设置容量防止其过度膨胀**。另外，双向阻塞队列可以运用在“工作窃取”模式中。
