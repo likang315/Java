@@ -86,7 +86,7 @@
 12. git checkout -b 本地分支名 origin/远程分支名
     - 创建本地分支，把远程指定分支拉到此分支上
 13. git pull origin 远端分支
-    - 拉取远端的代码到工作目录然后合并
+    - 拉取远端分支的代码拉取到当前分支的工作目录然后合并
 14. git pull origin 远端分支：本地分支
     - 会自动快速向前合并
 15. git fetch origin 远端分支
