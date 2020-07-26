@@ -86,10 +86,15 @@
 12. git checkout -b 本地分支名 origin/远程分支名
     - 创建本地分支，把远程指定分支拉到此分支上
 13. git pull origin 远端分支
-    - 拉取远端的代码到本地
-14. git branch -v
+    - 拉取远端的代码到工作目录然后合并
+14. git pull origin 远端分支：本地分支
+    - 会自动快速向前合并
+15. git fetch origin 远端分支
+    - 将远端分支拉取的版本库里，拉下来检查之后没有问题，再决定是否需要合并到当前分支的工作目录里
+    - git merge FETCH_HEAD  ：将拉取下来的最新内容合并到当前所在的分支中
+16. git branch -v
     - 查看本地分支对应的远端分支
-15. git clone git@github.com:likang315/Demo.git
+17. git clone git@github.com:likang315/Demo.git
     - 克隆仓库
 
 ##### 4：分支命令
@@ -101,6 +106,8 @@
    - 关联本地分支和远程分支
 5. git merge 分支名
    - 合并指定分支到当前分支
+   - git merge scott/master rick/master tom/master
+     - 多路合并，和分开三次合并意义一样
 6. git rebase 指定分支名
    - 该命令会把你的当前分支里的每个提交(commit)取消掉，并且把它们临时保存为补丁(patch)(这些补丁放到".git/rebase"目录中)，然后把当前分支更新成最新的"origin"分支，最后把保存的这些patch应用到当前分支上，分支更新之后，它会指向这些新创建的提交(commit),而那些老的提交会被丢弃。
    - 相对于merge来说，丢弃掉了并行分支，合并为一个分支，间隙的插入到当前分支上。
@@ -136,7 +143,7 @@
 1. git grep -n "检索内容"
    - 仓库里每个使用"检索内容"的地方，-n 是指显示出行号。
 
-##### 9：GIT的撤销、
+##### 9：GIT的撤销、恢复
 
 1. git reset --hard 版本号或者HEAD^
    - 回退到指定(上一个)的版本，版本号没必要写完全，自动检索
@@ -146,7 +153,5 @@
    - 把hello.rb这个文件单独从HEAD中签出并且把它恢复成未修改时的样子
 4. git reset HEAD <文件名>
    - 可以把暂存区的修改撤销掉（unstage），重新放回工作区
-5. 
-
-
-
+5. git revert HEAD
+   - 恢复到上一次commit的状态，并且需要你输入comment，其实现在他在暂存区，输入comment才创建新的commit。
