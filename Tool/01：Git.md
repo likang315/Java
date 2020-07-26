@@ -38,6 +38,8 @@
    - git commit -a
      - 直接将工作区的内容添加到版本库中，会进入”键入模式“添加comment。
    - 将暂存区中的文件提交到当前分支，生成版本号(快照)，提交之后暂存区就清空啦。
+   - git commit -a -m "comment"
+     - 直接提交到版本库编写注释。
 5. git status 
    - 查看仓库的状态
 6. git diff 文件名
@@ -49,15 +51,12 @@
 8. git log
    - 查看日志,版本号，十六进制表示
    - 在Git中HEAD 表示当前版本，上一个版本是HEAD^,上上版本是HEAD^^,在往上HEAD~1
-9. git reset HEAD <文件名>
-   - 可以把暂存区的修改撤销掉（unstage），重新放回工作区
-10. git reset --hard 版本号或者HEAD^
-    - 回退到指定(上一个)的版本，版本号没必要写完全，自动检索
-11. git ref log
-    - 记录每一次的命令，得到版本号,可以回退到未来的那个版
-12. git checkout -- 文件名	
+   - git log 指定分支名：可以查看指定分支的日志
+9. git ref log
+   - 记录每一次的命令，得到版本号,可以回退到未来的那个版
+10. git checkout -- 文件名	
     - 可以把文件在工作区的修改全部撤销
-13. git rm 文件名 ，并且 git commit -m "XXX"
+11. git rm 文件名 ，并且 git commit -m "XXX"
     - 删除了版本库中的文件
 
 ##### 3：远程仓库：本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，支持Https 和 SSH协议
@@ -109,7 +108,45 @@
 7. git rebase --abort
    - 任何时候，你可以用 --abort 参数来终止rebase的行动，并且当前分支会回到rebase开始前的状态。
 
-1. git rebase --abort
+##### 5：储藏
 
-   
+1. git stash "comment"
+   - 保存你的本地修改到储藏(stash)中, 然后将你的工作目录和索引里的内容全部重置, 回到你当前所在分支的上次提交时的状态. 等你修复完bug后,执行'反储藏'(unstash)操作就可以回到之前的工作里。
+2. git stash apply
+   - 执行反储藏恢复到以前的工作状态。
+3. git stash list
+   - 多次使用储藏命令,　每执行一次就会把针对当前修改的‘储藏’(stash)添加到储藏队列中，使用此命令可以查看保存的储藏。
+4. git stash apply stash@{1}
+   - 该命令来使用在队列中的任意一个'储藏'(stashes)
+5. git stash clear
+   - 用来清空这个队列。
+
+##### 6：treeish
+
+1. SHA串：40个字节长来表示一个commit。
+2. sha短名(Partial Sha)：是不重复的(unique)，git也会把‘sha短名’(Partial Sha)自动补全。
+
+##### 7：多个父对象
+
+1. 假设master是由a和b两个分支合并的,那么 **master^1` 是指分支a**, `master^2` 就是指分支b.
+2. master~2：master所指向的提交对象的第一个父对象的第一个父对象，等价于 master^^
+
+##### 8：检索
+
+1. git grep -n "检索内容"
+   - 仓库里每个使用"检索内容"的地方，-n 是指显示出行号。
+
+##### 9：GIT的撤销、
+
+1. git reset --hard 版本号或者HEAD^
+   - 回退到指定(上一个)的版本，版本号没必要写完全，自动检索
+2. git reset --hard HEAD
+   - 把你工作目录中所有未提交的内容清空，让工作目录回到上次提交时的状态(last committed state)
+3. git checkout -- hello.rb
+   - 把hello.rb这个文件单独从HEAD中签出并且把它恢复成未修改时的样子
+4. git reset HEAD <文件名>
+   - 可以把暂存区的修改撤销掉（unstage），重新放回工作区
+5. 
+
+
 
