@@ -43,8 +43,8 @@ public void  method3(SomeObject obj) {
 }
 
 // 当没有明确的对象作为锁，只是想让一段代码同步时，可以创建一个特殊的对象来充当锁
-Byte[] local= new Byte[0];
-synchronized (local) {
+Byte[] lock= new Byte[0];
+synchronized (lock) {
   // todo
 }
 ```

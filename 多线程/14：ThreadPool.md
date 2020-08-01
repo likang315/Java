@@ -31,7 +31,7 @@
 - ###### 创建线程池【Ali推荐的方式】,七大参数
 
   ```java
-  public ThreadPoolExecutor(int corePoolSize,
+  public  new ThreadPoolExecutor(int corePoolSize,
                             int maximumPoolSize,
                             long keepAliveTime,
                             TimeUnit unit,
@@ -70,7 +70,7 @@
 
 - ###### keepAliveTime：
 
-  - 线程活动保持时间，工作线程空闲后，保持存活的时间
+  - 线w程活动保持时间，工作线程空闲后，保持存活的时间
   - 默认情况下，如果当前线程数大于corePoolSize，并且存在线程如果没有任务执行，当空闲的时间大于keepAliveTime时，会终止该线程，直到线程数不超过corePoolSize
 
 - ###### TimeUnit：

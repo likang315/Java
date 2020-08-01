@@ -116,13 +116,25 @@ public class ThreadLocal<T> {
 }
 ```
 
-##### 示例：数据库连接
+##### 示例：SImpleDateFormat：线程不安全的
 
 ```java
-// 线程同步会影响效率，并且Connection是需不要共享的
-private static ThreadLocal<Connection> connectionHolder = new ThreadLocal<Connection>()；
-public static Connection getConnection() {
-  return connectionHolder.get();
+// 定义共享变量
+private static ThreadLocal<SimpleDateFormat> localDateFormat =
+       ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
+for (int i = 0; i < 5; i++) {
+  executorService.submit(() -> {
+    for (int j = 0; j < 100; j++) {
+      Date date;
+      try {
+        // 获取每个线程对应的该变量
+        date = localDateFormat.get().parse(dateString);
+        logger.info("parsed date:{}", date);
+      } catch (Exception e) {
+        logger.warn("got exception while parsing {}", dateString, e);
+      }
+    }
+  });
 }
 ```
 

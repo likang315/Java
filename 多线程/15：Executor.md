@@ -39,9 +39,7 @@
 2. ScheduledThreadPoolExecutor
 3. Future接口
 4. Runnable接口、Callable接口
-5. Executors
-
-1. ###### ThreadPoolExecutor
+5. Executors 
 
    - Executors可以创建3种类型的ThreadPoolExecutor 【禁止这种方式创建】
      - FixedThreadPool
@@ -97,7 +95,7 @@
    }
    ```
 
-   - 当线程池中的线程数大于corePoolSize时，keepAliveTime为多余的空闲线程等待新任务的最长时间，超过这个时间后多余的线程将被终止。这里把keepAliveTime设置为0L，意味着多余的空闲线程会被立即终止；
+   - 当线程池中的线程数大于corePoolSize时，keepAliveTime为多余的空闲线程等待新任务的最长时间，超过这个时间后多余的线程将被终止。这里把keepAliveTime设置为0L，意味着多余的空闲线程会被立即被终止；
    - FixedThreadPool使用无界队列LinkedBlockingQueue作为线程池的工作队列（容量：Integer.MAX_VALUE）
    - 使用无界队列时maximumPoolSize，keepAliveTime，拒绝策略都是一个无效参数；
 
@@ -145,12 +143,12 @@ public class FutureTask<V> implements RunnableFuture<V> {
 }
 ```
 
-- get ( ) ：执行get方法时，若是处于未启动、已启动状态时，将会导致调用**调用线程阻塞，等待获取线程结果；**
+- get ( ) ：执行get方法时，若是处于未启动或者已启动状态时，将会导致**调用线程阻塞，等待获取线程结果；**
 - V get(long timeout, TimeUnit unit) ：最长等待timeout时间，否则抛出超时异常；
 - boolean isDone() ：判断task是否执行完成；
 - cancel( )：取消正在执行任务的线程；
 
-![](/Users/likang/Code/Git/Java-and-Middleware/多线程/多线程/FutureTask.png)
+![](https://github.com/likang315/Middleware/blob/master/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B/FutureTask.png?raw=true)
 
 - 可以把FutureTask交给Executor执行；
 - 也可以通过ExecutorService.submit（…）方法返回一个FutureTask，然后执行FutureTask.get()方法或FutureTask.cancel（…）方法；
@@ -254,24 +252,24 @@ public <U> CompletableFuture<U> 	thenApplyAsync(
   	Function<? super T,? extends U> fn, Executor executor)
 ```
 
-- 当原来的CompletableFuture计算完后，将结果传递给函数`fn`，将`fn`的结果作为新的`CompletableFuture`计算结果。因此它的功能相当于将`CompletableFuture<T>`转换成`CompletableFuture<U>`；
+- 阻塞直到原来的CompletableFuture计算完后，将结果传递给函数`fn`，将`fn`的结果作为新的`CompletableFuture`计算结果。因此它的功能相当于将`CompletableFuture<T>`转换成`CompletableFuture<U>`；
 - 它们与`handle`方法的区别在于`handle`方法会处理正常计算值和异常，因此它可以屏蔽异常，避免异常继续抛出。**而`thenApply`方法只是用来处理正常值，因此一旦有异常就会抛出**；
 
 ```java
 CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
     return 100;
 });
-CompletableFuture<String> f = future.thenApplyAsync(i -> i * 10)
-  .thenApply(i -> i.toString());
+CompletableFuture<String> f = future.handleAsync((v, e) -> {
+    return v * 10;}).handle((v, e) -> v.toString());
 ```
 
 ###### 用来组合多个CompletableFuture
 
 ```java
 // 当所有的CompletableFuture都执行完后执行计算
-public static CompletableFuture<Void> 	  allOf(CompletableFuture<?>... cfs)
+public static CompletableFuture<Void> allOf(CompletableFuture<?>... cfs)
 // 当任意一个CompletableFuture执行完后就会执行计算，计算的结果相同
-public static CompletableFuture<Object> 	anyOf(CompletableFuture<?>... cfs)
+public static CompletableFuture<Object> anyOf(CompletableFuture<?>... cfs)
 ```
 
 - 可变长参数用于输入多个异步任务;
@@ -294,8 +292,9 @@ public static CompletableFuture<Object> 	anyOf(CompletableFuture<?>... cfs)
       }
       return "abc";
   });
-  CompletableFuture<Void> f =  CompletableFuture.allOf(future1,future2);
-  // CompletableFuture<Object> f =  CompletableFuture.anyOf(future1,future2);
+  // 该返回值一般不使用，等待异步线程执行完，执行下一步操作
+  // CompletableFuture.allOf(future1,future2);
+  CompletableFuture<Object> f =  CompletableFuture.anyOf(future1,future2);
   System.out.println(f.get());
   ```
 
@@ -318,15 +317,6 @@ public static <T> CompletableFuture<Stream<T>> sequence(
   return sequence(futureList);
 }
 ```
-
-
-
-
-
-
-
-
-
 
 
 

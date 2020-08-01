@@ -73,7 +73,7 @@ public class CallableThreadTest implements Callable<List<String>> {
     for (int i = 0; i < futureTask.size(); i++) {
       Future<List<String>> futureReceive = future.get(i);
       List<String> futureValue  =
-        futureReceive.get(TASK_TIME_OUT,Time.Unit.MILLISECONDS);
+        futureReceive.get(TASK_TIME_OUT, Time.Unit.MILLISECONDS);
       System.out.println(futureValue);
     }
   }
@@ -166,23 +166,56 @@ public class CallableThreadTest implements Callable<List<String>> {
 
 ###### java.util.concurrent
 
-##### 5：Class  CountDownLatch
+##### 5：Class  CountDownLatch [a wait for all]
 
-- **倒计时锁**，利用它可以实现类似计数器的功能
+- **倒计时锁**，是通过一个计数器来实现的，计数器的初始值是线程的数量。每当一个线程执行完毕后，计数器的值就-1，当计数器的值为0时，表示所有线程都执行完毕，然后在闭锁上等待的线程就可以恢复工作了。
 - 比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，实现此功能
-
 - CountDownLatch(int count)
   - 构造count数量的倒计时锁
-- void  await()
-  - 执行调用await()方法的线程会被挂起，等待直到count值为0才被返回执行
+- public void await() throws InterruptedException；
+  - 执行await()方法的线程会被挂起，它会等待直到count值为0才继续执行。
 - boolean   await(long timeout, TimeUnit unit) 
   - 增加了超时返回的功能
 - void   countDown()
-  - 将count值减1
+  - 将count值减1。
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService pool = Executors.newCachedThreadPool();
+        CountDownLatch latch = new CountDownLatch(100);
+        for (int i = 0; i < 100; i++) {
+            Runnable runnable = new CountRunnable(latch);
+            pool.execute(runnable);
+        }
+    }
+}
+
+class CountRunnable implements Runnable {
+    private CountDownLatch latch;
+    public CountRunnable(CountDownLatch latch) {
+        this.latch = latch;
+    }
+    @Override
+    public void run() {
+        try {
+            synchronized (latch) {
+                latch.countDown();
+                System.out.println("thread counts = " + (countDownLatch.getCount()));
+            }
+            // 每个线程都在等待...其实就是省了通知
+            latch.await();
+            System.out.println("concurrency counts =" + (100-countDownLatch.getCount()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
 ###### java.util.concurrent
 
-##### 6：Class CyclicBarrier
+##### 6：Class CyclicBarrier [all wait for all]
 
 ​	**循环屏障**，可以让一组线程达到一个屏障时被阻塞，直到最后一个线程达到屏障时，所有被阻塞的线程才能继续执行，可以循环使用此同步屏障
 
@@ -232,7 +265,6 @@ public class MyThread extends Thread {
                 e.printStackTrace();
             }
         } catch (InterruptedException e) {
-
             e.printStackTrace();
         }
     }
@@ -251,52 +283,74 @@ public class MyThread extends Thread {
 }
 ```
 
-##### 7：CountDownLatch
+##### 7：CyclicBarrier与CountDownLatch的区别
 
-- 使一个线程等待其他线程各自执行完毕后再执行。
-- 是通过一个计数器来实现的，计数器的初始值是线程的数量。每当一个线程执行完毕后，计数器的值就-1，当计数器的值为0时，表示所有线程都执行完毕，然后在闭锁上等待的线程就可以恢复工作了。
-- public void await() throws InterruptedException；
-  - 执行await()方法的线程会被挂起，它会等待直到count值为0才继续执行。
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        ExecutorService pool = Executors.newCachedThreadPool();
-        CountDownLatch latch = new CountDownLatch(100);
-        for (int i = 0; i < 100; i++) {
-            Runnable runnable = new CountRunnable(latch);
-            pool.execute(runnable);
-        }
-    }
-}
-
-class CountRunnable implements Runnable {
-    private CountDownLatch latch;
-    public CountRunnable(CountDownLatch latch) {
-        this.latch = latch;
-    }
-    @Override
-    public void run() {
-        try {
-            synchronized (latch) {
-                latch.countDown();
-                System.out.println("thread counts = " + (countDownLatch.getCount()));
-            }
-            // 每个线程都在等待...其实就是省了通知
-            latch.await();
-            System.out.println("concurrency counts =" + (100-countDownLatch.getCount()));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-##### 8：CyclicBarrier与CountDownLatch的区别
-
-1. CountDownLatch 允许一个或多个线程等待一些特定的操作完成，而这些操作是在其它的线程中进行的，也就是说会出现 **等待的线程** 和 **被等的线程** 这样分明的角色
-2. CountDownLatch 构造函数中有一个 count 参数，表示有多少个线程需要被等待，对这个变量的修改是在其它线程中调用 countDown 方法，每一个不同的线程调用一次 countDown 方法就表示有一个被等待的线程到达，count 变为 0 时，latch（门闩）就会被打开，处于等待状态的那些线程接着可以执行；
+1. CountDownLatch 允许一个或多个线程等待一些特定的操作完成，而**这些操作是在其它的线程中**进行的，也就是说会出现 **等待的线程** 和 **被等的线程** 这样分明的角色
 3. CountDownLatch 是**一次性使用的**，也就是说latch门闩只能只用一次，一旦latch门闩被打开就不能再次关闭，将会一直保持打开状态；
 
+###### java.util.concurrent
 
+##### 8：Semaphore
+
+​	用于限制访问某些资源的线程数目，它维护了一个许可证集合，有多少资源需要限制就维护多少许可证集合，假如这里有N个资源，那就对应于N个许可证，同一时刻也只能有N个线程访问。一个线程获取许可证就调用acquire方法，用完了释放资源就调用release方法。
+
+- Semaphore是资源的互斥而不是资源的同步，在同一时刻是无法保证同步的，但是却可以保证资源的互斥；
+- Semaphore底层是由AQS和Uasafe实现的；
+
+###### 方法：
+
+- acquire()
+  - 获取信号量的许可证
+- release()
+  - 释放许可证
+- acquire(int permits)
+  - 从此信号量获取给定数目的许可，在提供这些许可证前一直将线程阻塞，或者线程已被中断。
+- release(int permits)
+  - 释放给定数目的许可，将其返回到信号量。这个是对应于上面的方法，一个学生占几个窗口完事之后还要释放多少
+- availablePermits()
+  - 返回此信号量中当前可用的许可数。
+- reducePermits(int reduction)
+  - 根据指定的缩减量减小可用许可的数目
+- hasQueuedThreads()
+  - 查询是否有线程正在等待获取资源。
+- getQueueLength()
+  - 返回正在等待获取的线程的估计数目。该值仅是估计的数字。
+- tryAcquire(int permits, long timeout, TimeUnit unit)
+  - 如果在给定的等待时间内此信号量有可用的所有许可，并且当前线程未被中断，则从此信号量获取给定数目的许可，超时抛出异常。
+- acquireUninterruptibly(int permits)
+  - 从此信号量获取给定数目的许可，在提供这些许可前一直将线程阻塞。
+
+```java
+private static Semaphore semaphore = new Semaphore(3);
+public static void main(String[] args) {
+  for (int i = 0; i < 10; i++) {
+    new Student(Integer.toString(i), semaphore).st;
+  }
+}
+
+static class Student extends Thread {
+
+  private String name;
+  private Semaphore semaphore;
+
+  public Student(String name, Semaphore semaphore) {
+    this.name = name;
+    this.semaphore = semaphore;
+  }
+
+  @Override
+  public void run() {
+    try {
+      semaphore.acquire();
+      System.out.println(name + "获取取餐的许可");
+      TimeUnit.MICROSECONDS.sleep(10003);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    } finally {
+      System.out.println(name + "取餐完毕，释放窗口资源");
+      semaphore.release();
+    }
+  }
+}
+```
 
