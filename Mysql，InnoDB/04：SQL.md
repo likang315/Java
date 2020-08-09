@@ -34,9 +34,9 @@
 
 ###### 创建表（CREATE）
 
-```shell
+```SQL
 CREATE TABLE 表名（
-	id	 数据类型（）PRIMARY KEY not null AUTO_INCREMENT，
+	id	 数据类型（）PRIMARY KEY NOT NULL AUTO_INCREMENT，
 	列名	数据类型（）not null DEFAULT defalut_value，
 	列名	数据类型（），
 	Foreign key(列名) references 目标表名（列名)
@@ -56,6 +56,7 @@ CREATE TABLE 表名（
 3. FOREIGN KEY：外键，一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY(唯一约束的键)
 4. DEFAULT：规定没有给列赋值时的默认值
 5. CHECK：约束用于限制列中的值的范围，CHECK （条件）
+6. UNSIGNED：定义数值类型是一定要说明是否有无符号；
 
 ###### 删除表（DROP）：
 
@@ -77,17 +78,17 @@ CREATE TABLE 表名（
 ##### 3：DML：insert、delete、update、select
 
 1. INSERT INTO 向表中插入数据
-   
+  
    - INSERT INTO tableName(id，name，birth) VALUES(1，'jack','199-22-45'）)；
    
-   - ```sql
+     ```sql
      # 批量插入 
      INSERT INTO table_name (id, name,sex,address)
      VALUES
      (?,?,?,?),(?,?,?,?),(?,?,?,?),(?,?,?,?)
      ```
 2. DELETE 删除表中的数据，要加WHERE语句限定删除的记录，否则就是清空表操作
-   
+  
    - DELETE FROM 表名 WHERE id=i;
 3. UPDATE：修改表中的数据
    - UPDATE 表名 SET 字段名=值，字段名=值 WHERE 限制记录的字段；
@@ -104,7 +105,8 @@ CREATE TABLE 表名（
      2. AND，OR，NOT，AND 优先级高于 OR，可以通过括号来提高优先级
      3. IS NULL ,IS NOT NULL ：判断是不是为空
      4. IN，NOT IN ：判断在不在列表中[]，常用来判断子查询的结果
-        - WHERE id IN (1,25);
+        - WHERE id IN (1,25)；
+        - IN 后不能接子查询，并且常量数尽量不超过200个；
      5. BETWEEN values1 AND values2 ：判断值在values1和values2之间
      6. LIKE（模糊查询）：只知道其中某个字符
         1. %：任意个字符
@@ -134,6 +136,7 @@ CREATE TABLE 表名（
 
 - select stu.name, **avg(math) as math, avg(chinese) as chinese** from score s INNER JOIN student stu ON stu.id = s.student_id **group by stu.name**;
 - score 表中可能会有多个一个学生的成绩，求平均
+- group by 后的字段作为分组key，进行查找计算，最终显示也是key，字段名
 
 ###### 聚合函数：对某些字段的值进行统计的
 
@@ -157,14 +160,16 @@ CREATE TABLE 表名（
 ##### 8：WHERE：限制条件
 
 - WHERE ：不能使用聚合函数作为过滤条件，原因是过滤时机不对
-- WHERE：是在数据库检索表中数据时，对数据逐条过滤以决定是否查询该数据是否使用的，所以WHERE用来确定结果集的数据的
-- 聚合函数时从结果集中，并且分组完毕才进行过滤的，由此可见这个过滤时机是在WHERE之后进行的，所以聚合函数的过滤条件要在HAVING子句中使用， HAVING必须在GROUP BY之后
+- WHERE：是在数据库检索表中数据时，对数据逐条过滤以决定是否查询该数据是否使用的，所以WHERE用来**确定结果集**的数据的
+- 聚合函数时**从结果集中**，并且分组完毕才进行过滤的，由此可见这个过滤时机是在WHERE之后进行的，所以聚合函数的过滤条件要在HAVING子句中使用， HAVING必须在GROUP BY之后
 - SELECT dep_id,count(dep_id) AS count FROM emp GROUP BY dep_id **HAVING count(dep_id)>1**；
 
 ##### 9：LIMIT：分页查询
 
 - SELECT * FROM emp LIMIT 3;      从第一条开始，查询三条，实际是：0,3
 - SELECT * FROM emp LIMIT 3,5;   从结果的第3条开始，查询5条
+- SELECT * FROM emp WHERE id > 3 LIMIT 5; 
+  - 当第一个值比较大时，尽量使用id 的方式高效分页，否则可能会逐行扫描到指定数值后，再进行分页，效率较慢。
 
 ##### 10：UNION、UNION ALL
 
@@ -193,7 +198,7 @@ CREATE TABLE 表名（
 
 ##### 13：连接查询(JOIN)：用来完成关联查询
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2.png?raw=true)
 
 ###### 内连接：获取两个表中字段匹配关系的记录，可以省略 INNER 使用 JOIN，效果一样
 
@@ -203,9 +208,9 @@ CREATE TABLE 表名（
 
 ###### 外链接：所有数据都显示
 
-- 左外连（LEFT JOIN）：以JOIN左侧作为驱动表，获取左表所有记录，即使右表没有对应匹配的记录，用NULL 填充
+- 左外连（LEFT JOIN）：以JOIN左侧作为驱动表，获取左表所有记录，即使右表没有对应匹配的记录的字段值，用NULL 填充
 - select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e **LEFT JOIN** dep d **ON** e.dep_id=d.id;
-- 右外连（RIGHT JOIN）：与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录，用NULL填充
+- 右外连（RIGHT JOIN）：与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录的字段值，用NULL填充
 - select e.id,d.dname as dep_name,e.name,e.sex,e.age from emp e **RIGHT JOIN** dep d **ON** e.dep_id=d.id;
 
 ##### 14：EXPLAIN：SQL执行计划
@@ -272,7 +277,7 @@ CREATE TABLE 表名（
 
 ##### 15：SQL 语句的优化
 
-1. WHERE子句：执行顺序为自下而上、从右到左
+1. WHERE子句：执行顺序为从右到左
    - WHERE 条件之前, 可以过滤掉最大数量记录的条件，必须写在WHERE 子句的末尾
 2. ORDER BY：字段加上索引，最左前缀匹配原则
    - 把ORDER BY 的字段加上索引，因为符合最左前缀匹配原则

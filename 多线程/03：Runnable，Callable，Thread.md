@@ -260,7 +260,13 @@ public class MyThread extends Thread {
             System.out.println(name + "赛前活动...");
             System.out.println(name + "准备完毕！等待发令枪");
             try {
+                // 阻塞直到所需线程都来时，再执行
                 cyclicBarrier.await();
+              
+                System.out.println("111111111111111111111111");
+                // 再次使用循环屏障
+                cyclicBarrier.await();
+             
             } catch (BrokenBarrierException e) {            
                 e.printStackTrace();
             }
@@ -306,7 +312,7 @@ public class MyThread extends Thread {
 - acquire(int permits)
   - 从此信号量获取给定数目的许可，在提供这些许可证前一直将线程阻塞，或者线程已被中断。
 - release(int permits)
-  - 释放给定数目的许可，将其返回到信号量。这个是对应于上面的方法，一个学生占几个窗口完事之后还要释放多少
+  - 释放给定数目的许可，将其返回到信号量。这个是对应于上面的方法，一个学生占几个窗口完事之后还要释放多少，要是没有资源就释放的话，会自动+1；
 - availablePermits()
   - 返回此信号量中当前可用的许可数。
 - reducePermits(int reduction)
@@ -351,6 +357,122 @@ static class Student extends Thread {
       semaphore.release();
     }
   }
+}
+```
+
+##### 示例
+
+```java
+/**
+ * 实例化3个线程，一个线程打印a，一个打印b，一个打印c，三个线程同时执行，要求打印出6个连着的abc
+ * 信号量的传递...
+ * @author kang.li
+ * @date 2020-08-04 14:51
+ */
+@Slf4j
+public class Question1 {
+
+    /**
+     * 需要等待的线程数，后面的线程用于测试输出
+     */
+    private static final CyclicBarrier BARRIER = new CyclicBarrier(3, () -> log.info("start print........."));
+
+    /**
+     * 初始化线程数
+     */
+    private static final ExecutorService POOL = new ThreadPoolExecutor(3,
+            5,
+            0L,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingDeque<>());
+
+    /**
+     * 控制A线程顺序
+     */
+    private static Semaphore firstSemaphore = new Semaphore(1);
+    /**
+     * 控制B线程顺序
+     */
+    private static Semaphore secondSemaphore = new Semaphore(0);
+    /**
+     * 控制C线程顺序
+     */
+    private static Semaphore thirdSemaphore = new Semaphore(0);
+
+    /**
+     * 循环屏障使用次数
+     */
+    private static final int COUNT = 6;
+
+    /**
+     * 初始化打印线程
+     */
+    public static void init_A() {
+        CompletableFuture.runAsync(() -> {
+            for (int i = 0; i < COUNT; i++) {
+                try {
+                    BARRIER.await();
+                    firstSemaphore.acquire();
+                    log.info("A");
+                    secondSemaphore.release();
+
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    log.error("Question1.init_A: " + e.getMessage());
+                }
+            }
+
+        }, POOL);
+    }
+
+    /**
+     * 控制B线程顺序
+     */
+    public static void init_B() {
+        CompletableFuture.runAsync(() -> {
+            for (int i = 0; i < COUNT; i++) {
+                try {
+                    BARRIER.await();
+                    secondSemaphore.acquire();
+                    log.info("B");
+                    thirdSemaphore.release();
+
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    log.error("Question1.init_B: " + e.getMessage());
+                }
+            }
+
+        }, POOL);
+    }
+
+    /**
+     * 控制C线程顺序
+     */
+    public static void init_C() {
+        CompletableFuture.runAsync(() -> {
+            for (int i = 0; i < COUNT; i++) {
+                try {
+                    BARRIER.await();
+                    thirdSemaphore.acquire();
+                    log.info("C");
+                    firstSemaphore.release();
+
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    log.error("Question1.init_C: " + e.getMessage());
+                }
+            }
+
+        }, POOL);
+    }
+
+    /**
+     * 初始化三个打印线程
+     */
+    public static void main(String[] args) {
+        init_A();
+        init_B();
+        init_C();
+    }
+
 }
 ```
 

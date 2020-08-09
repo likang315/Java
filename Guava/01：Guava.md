@@ -2,7 +2,7 @@
 
 ------
 
-​	Guava是一种基于开源的Java库，提供用于集合，缓存，支持原语，并发性，常见注解，字符串处理，I/O和验证的实用方法。
+​	Guava是一种基于开源的Java库，提供用于集合，缓存，支持原语，并发性，常见注解，字符串处理，I/O和验证的实用方法，Java 8 已经实现其核心功能，以后只当个工具类使用，尽量使用Java 原生 API。
 
 ##### 1：导入jar包
 
@@ -26,8 +26,8 @@
 
 - static void  checkArgument(boolean expression)
   - 检查涉及的一个或者多个参数时调用方法的表达式，若为false，抛出异常，若为true，正常；
-- static <T> T checkNotNull(T reference, @Nullable Object errorMessage)
-  - 检查参数是否为null，若为null，则抛出异常，传入errorMessage，若不是则返回reference；
+- static void checkArgument(boolean expression, @Nullable Object errorMessage)
+  - 检查参数表达式是否为true，否则抛出封装好errorMessage的非法参数异常，可通过getMessage() 获取；
 
 ##### 4：排序器
 

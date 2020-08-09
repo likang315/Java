@@ -60,10 +60,10 @@ Redo Log 用于保障已提交事务的 ACID 特性, Undo log 用于保障未提
 
 ##### 5：主从复制
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png?raw=true)
 
 - 从库生成两个线程，**一个I/O线程，一个SQL线程**
-- 主库会把通过**bin log 记录每行记录实际数据的变更**，I/O 线程去请求 主库 的bin log，主库会生成一个 **log dump 线程**，用来给从库 i/o线程传bin log，从库将得到的 bin log日志写入 Relay log（中继日志） 文件中，SQL 线程，会读取Relay log文件中的日志，并解析成具体操作，来实现主从的数据一致
+- 主库会通过**bin log 记录每行实际数据的变更**，I/O 线程去请求 主库 的bin log，主库会生成一个 **log dump 线程**，用来给从库 i/o线程传bin log，从库将得到的 bin log日志写入 Relay log（中继日志） 文件中，SQL 线程，会读取Relay log文件中的日志，并解析成具体操作，来实现主从的数据一致
 - 两种复制原理
   1. 异步复制原理 ：
      - 主库提交事务后，立即返回客户端，它的同步是当有从库的I/O线程请求才传送 Bin log 的

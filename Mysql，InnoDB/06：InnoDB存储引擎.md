@@ -6,7 +6,7 @@
 
 ##### 1：InnoDB 存储引擎体系架构：
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/InnoDB%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
 
 ###### 后台线程：
 
@@ -19,13 +19,13 @@
 4. Page Clear Thread ：将脏页刷新操作都放入到单独的线程中来完成
    - 脏页：把数据库读出来的数据修改，还没有刷新到磁盘上
 
-###### 缓冲池：innodb_buffer_pool
+###### 缓存池：innodb_buffer_pool
 
 1. InnoDB 存储引擎是基于磁盘存储的，并将其中所有的记录按照页的方式进行管理. 由于CPU 和磁盘速度的鸿沟, 采用缓冲池技术来提高数据库的性能
 2. 缓存池是一块内存区域, 在 DB 读取页的时候, 首先将从磁盘读到的页存放到缓存池中, 这个过程称为将页"FIX"在缓冲池中,下次再读相同页的时候先判断是否在缓冲池中. 对于写操作，**首先修改缓冲池中的页, 再以一定的频率刷新到磁盘上**，而不是每次发生页修改时触发，通过"CheckPoint 机制"，刷新会磁盘
 3. 缓冲池的大小默认为 **256KB**， 使用LRU(最近最少使用)算法进行管理，InnoDB 对新读取的页会放在 midpoint  (默认5/8长度处)
 4. 重做日志缓冲: InnoDB 首先将 Redo Log 日志放入这个缓冲区, 然后以一定的频率刷新到磁盘的 Redo Log 文件中
-5. 缓冲池是通过 **LRU算法 ** 进行管理的，即最频繁使用的页放在LRU列表的前端，而最少使用的页放在LRU列表的尾端，首先应最先释放LRU列表的尾端的页
+5. 缓冲池是通过 **LRU算法 ** 进行管理的，即最频繁使用的页放在LRU列表的前端，而最少使用的页放在LRU列表的尾端，首先应最先释放LRU列表的尾端的页 
 
 ##### 2：InnoDB 关键特性
 
@@ -62,7 +62,7 @@
 
 ​	在 InnoDB 中, 表都是根据主键顺序组织存放的, 这种存储方式成为索引组织表. 每张表都有一个主键, 如果没有显式指定, InnoDB 会使用第一个非空的唯一索引, 如果没有唯一索引, InnoDB 会自动创建一个 6 字节大小的指针作为主键
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/InnoDB%E5%AD%98%E5%82%A8.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/InnoDB%E5%AD%98%E5%82%A8.png?raw=true)
 
 1. 表空间(TableSpace)：InnoDB 存储引擎逻辑存储的顶层对象,所有数据都存放在表空间. 其中包括数据, 索引, 插入缓冲, 回滚信息, 系统事务信息等
 2. 段(Segment)：表空间是由多个段组成的, 常见的段有**数据段, 索引段, 回滚段等**. InnoDB 由于索引组织表的特点, 数据即索引, 索引即数据. 因此数据段是 B+ 树的叶子节点, 索引段是 B+ 树的非叶子节点
@@ -87,7 +87,7 @@
 ###### 1：聚集索引(主键索引)
 
 - 聚集索引就是按照**每张表的主键构造⼀棵 B+ 树的非叶子结点,** 叶子节点中存放整张表的记录数据(数据页), 聚集索引的特性决定了索引组织表中数据也是索引的一部分, 每个数据都通过一个双向链表来进行连接
-- 一个表只能有一个聚集索引，因为一个表的物理顺序只有一种情况,并且多数情况下查询优化器都倾向于采用聚集索引, 因为可以直接在其叶子节点上找到数据
+- 一个表只能有一个聚集索引，因为一个表的物理顺序只有一种情况,并且多数情况下查询优化器都倾向于采用聚集索引，因为可以直接在其叶子节点上找到数据
 
 ###### 2：辅助索引
 
@@ -97,7 +97,7 @@
 
 - 联合索引也是一棵 B+ 树, 不同的是联合索引的键值数量大于2，此外, 逻辑上和单键值的 B+ 树并没有什么区别, 键值依旧是有序的,只不过这个有序是一个前提的: 遵循最左前缀匹配原则
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95.png?raw=true)
 
 - 联合索引的规则：
   - 首先会对复合索引的最左边的，也就是第一个字段的数据进行排序，在第一个字段的有序基础上，然后再对后面第二个的字段进行排序，其实就相当于实现了类似 order by name,cid 这样一种排序规则
@@ -113,11 +113,11 @@
 ​	有时候在执行 EXPLAIN 查看SQL执行计划时, 发现优化器并没有选择索引，而是执行全表扫描，这种情况多发生于联合查询 JOIN 连接等场景
 
 1. 联合索引的使用不符合最左前缀匹配原则
-2. OR 条件连接的多个条件中有不走索引的字段
+2. OR 条件连接的多个条件中**有不走索引的字段**
 3. LIKE 查询前缀模糊匹配
 4. InnoDB 出现隐式类型转换(varchar -> bigint)，避免where条件中出现隐式类型转换
 5. InnoDB 评估使用全表扫描比走索引更快 
-6. 在联合索引中不能有列的值为NULL，如果有，那么这一列对联合索引就是无效的，所以用特殊值代替
+6. 在**联合索引中不能有列的值为NULL**，如果有，那么这一列对联合索引就是无效的，所以用特殊值代替
 
 ##### 7：索引的效率
 
@@ -147,23 +147,30 @@
 ######   创建索引
 
 - CREATE INDEX：只能对表增加普通索引或UNIQUE索引
-- CREATE INDEX index_name ON table_name (column_list)
-- CREATE UNIQUE INDEX index_name ON table_name (column_list)
+- CREATE INDEX index_name ON table_name (column_name)
+- CREATE UNIQUE INDEX index_name ON table_name (column_name)
 
 ###### 修改索引：
 
-- ALTER TABLE 表名 ADD 索引类型 （unique,primary key,fulltext,index）'索引名'（字段名，字段名）
+- ALTER TABLE 表名 ADD 索引类型 （unique,primary key,fulltext,index）'索引名'（字段名，字段名），ADD ...
 - ALTER TABLE 'table_name' ADD INDEX 'index_name' ('column_list')；
   -  索引名，可要可不要;如果不要，该字段名就是索引名
 
 ######   删除索引：
 
 - ALTER TABLE 'table_name' DROP INDEX 'index_name'
-- ALTER TABLE 'table_name' DROP PRIMARY KEY； 删除主键索引,注意主键索引只能用这种方式删除
+- ALTER TABLE 'table_name' DROP PRIMARY KEY； 删除主键索引，注意主键索引只能用这种方式删除
 
 ######   查看索引：
 
-- show index from tablename \G;
+- show index from tablename;
+  - Non_unique：不是唯一索引为1，否则0；
+  - 索引名称：若名字相同则是同一个索引；
+  - Seq_in_index：联合索引中的序列号，若是单列索引则是1；
+  - Collation：指的是列以什么方式存储在索引中，A表示升序，B表示降序，NULL表示未排序；
+  - Cardinality：表示索引中唯一值的数目的估计值，值越小，则需要重新评估这个字段是否适合建立索引；
+  - Sub_part：前置索引，如果列只是被部分地编入索引，则为被编入索引的字符的数目。如果整列被编入索引，则为NULL；
+  - Index_type：表示索引类型，主要有以下几种索引类型：FULLTEXT，HASH，**BTREE**，RTREE；
 
 
 ###### 强制使用某种索引

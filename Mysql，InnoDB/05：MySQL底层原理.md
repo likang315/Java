@@ -2,7 +2,7 @@
 
 ------
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/mysql%20%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/mysql%20%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
 
 ##### MySQL 体系结构：八大模块
 
@@ -19,9 +19,9 @@
 
 ##### 1：查询语句的执行过程（六步）
 
-1. 客户端通过**TCP连接**发送连接请求到 mysql 连接器，连接器会对该请求进行权限验证及连接资源分配
+1. 客户端通过**TCP连接**发送连接建立请求到 mysql 连接器，连接器会对该请求进行权限验证及连接资源分配
 2. 通过**命令分发器查询**是什么SQL语句，若是select语句，验证用户查询权限，查询缓存
-   - 建立连接后客户端发送一条语句，mysql收到该语句后，通过命令分发器判断其是否是一条select语句，如果是，在开启查询缓存的情况下，先在查询缓存中查找该SQL是否完全匹配（就是拿着你的SQL和原始缓存的SQL比对），如果完全匹配，验证当前用户是否具备查询权限，如果权限验证通过，直接返回结果集给客户端，如果不匹配继续向下执行
+   - 建立连接后客户端发送一条语句，mysql收到该语句后，通过命令分发器判断其是否是一条select语句，如果是，验证当前用户是否具备查询权限，如果权限验证通过，在开启查询缓存的情况下，先在查询缓存中查找该SQL是否完全匹配（就是拿着你的SQL和原始缓存的SQL比对），如果完全匹配，直接返回结果集给客户端，如果不匹配继续向下执行
 3. 将SQL语句交给**查询分析器（Parse）作语法分析**，如果语法不对，就会返回语法错误中断查询
 4. 将SQL语句传递给**预处理器**，检查数据表和数据列是否存在，解析别名看是否存在歧义等
 5. SQL语句解析完成后，将语句传递给**优化器进行优化**（通过索引选择最快的查找方式），**并生成执行计划**
@@ -80,17 +80,17 @@
 8. 读取相关数据页从 innodb_buffer_pool中（如果数据页本身就在缓存中，则不用从硬盘读取）
 9. 将页中的**原始数据（快照）保存到undo log buffer** 回滚日志中
 10. 在innodb_buffer_pool中将**相关页面更新，该页变成脏页**（脏页会定时的刷盘写入到所属表空间中）
-11. 页面修改完成后，会把修改后的物理页面**保存到redo log buffer中**，redo log buffer会以相关参数定义的规则进行刷盘操作写入到redo tablespace中
+11. 页面修改完成后，会把修改后的物理页面**保存到redo log  [innodb_log_buffer] 中**，redo log buffer会以相关参数定义的规则进行刷盘操作写入到redo tablespace中
 12. 如果开启bin log，则更新数据的逻辑语句也会记录在**bin log_cache**中
 13. 执行 commit 操作后，由于**要保证redo log与bin log的一致性，redo log采用两阶段提交方式**
-14. 将**redo log buffer 刷盘**（innodb_flush_log_at_trx_commit=1），并将该事务的**redo log标记为prepare 状态**
+14. 将**redo log 刷盘**（innodb_flush_log_at_trx_commit=1），并将该事务的**redo log标记为prepare 状态**
 15. **将 bin log_cache 数据刷盘**（sync_binlog=1），待bin log落盘完成，再将**redo log中该事务信息标记为commit**，释放相关锁资源，此时一个更新事务的操作已经完成，返回给客户端成功更新提示
 16. 标记**undo log中该事务修改页的原始快照信息为delete**，当无其他事务引用该原始数据时(MVCC)，再将其删除
 
 ##### 2：数据库写负载的连锁反应
 
 1. 大量数据写入时，DB禁止一切写操作，强制刷盘
-2. 热点数据的频繁写入，严重的 mutex (排他锁)争用，数据库雪崩效应
+2. 热点数据的频繁写入，严重的 mutex (互斥锁)争用，数据库雪崩效应
 3. 数据库选择：关系型数据库不适合频繁的更新的场景，数据持久化的压力、数据库锁(mutex)竞争压力
 
 ##### 3：死锁和锁超时

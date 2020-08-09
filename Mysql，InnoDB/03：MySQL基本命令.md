@@ -15,14 +15,14 @@
 
 - Linux命令行 
   - service mysqld stop
-  - service mdsqld start
+  - service mysqld start
 
 ##### 3：Mac 配置数据库
 
 ###### 环境变量
 
 - etc/profile、/etc/paths：是系统级别的，系统启动就会加载
-- ～/.bash_profile：用户的环境变量，该文件包含专用于你的账户bash，shell的bash信息,当登录时以及每次打开新的shell时,该文件被读取
+- ～/.bash_profile：用户的环境变量，该文件包含专用于你的账户bash，shell的bash信息,当登录时以及每次打开新的shell时，该文件被读取
 
 ###### 查看PATH
 
@@ -66,7 +66,7 @@
 - show databases：查看当前服务器上管理的所有数据库 
 - create database 数据库名; 
 - use 数据库名; 
-- 修改编码格式：alter database 数据库名 character set gbk;  
+- 修改编码格式：alter database 数据库名 character set gbk; 
 - 删除数据库：drop database 数据库名; 
 - 导入数据库：mysql -uroot -p 数据库名 < sql的URL 
 - 导出数据库：mysqldump -uroot -p xupt > xupt.sql
