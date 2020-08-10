@@ -13,13 +13,14 @@
 - 路径：就是跟在域名后面的URL路径，存储到本地什么地方
 - 作用范围：路径与域合在一起就构成了Cookie 的作用范围
 - 过期时间：默认是使用会话Cookie
-  - 会话Cookie ：如果不设置过期时间，则表示这个 Cookie 的生命周期为浏览器会话期间，只要关闭浏览器窗口，Cookie 就销毁了，会话 Cookie 一般不存储在硬盘上而是保存在内存里
+  - **会话Cookie** ：如果不设置过期时间，则表示这个 Cookie 的生命周期为浏览器会话期间，只要关闭浏览器窗口，Cookie 就销毁了，会话 Cookie 一般不存储在硬盘上而是保存在内存里
   - 如果设置了过期时间，浏览器就会把 Cookie 保存到硬盘上，关闭后再次打开浏览器，这些 Cookie 仍然有效直到超过设定的过期时间
   - 若要删除原本存在的Cookie，则再次新建一个同名的 Cookie，并设置其过期时间为0，表示浏览器立即删除当前及之前保存的同名Cookie
 
 ###### 方法： 
 
-- Cookie (java.lang.String name, java.lang.String value) ：构造 Cookie
+- Cookie (java.lang.String name, java.lang.String value) 
+  - 构造 Cookie，传入key和value
 - int  getMaxAge() ：得到生命周期
 - java.lang.String`  `**getDomain()：获取Cookie 的作用域**
 - java.lang.String	getName() ：返回 Cookie 名
@@ -30,16 +31,18 @@
 
 ######   HttpResponse
 
-void addCookie (Cookie cookie) ：在报头中添加 Cookie (Set-Cookie 属性)
+- void addCookie (Cookie cookie) ：在报头中添加 Cookie (Set-Cookie 属性)
+
 
 ######   HttpResquest
 
-Cookie[]	getCookies()：得到Cookie 数组，通过 Cookie 名来筛选出Cookie
+- Cookie[]	getCookies()：得到Cookie 数组，通过 Cookie 名来筛选出Cookie
+
 
 ```Java
-// 添加cookie，若已有Cookie 是 map 存储
+// 添加cookie，若已有 Cookie 是 map 存储
 Cookie cookie = new Cookie("user_name",uname);
-cookie.setMaxAge(60*60*24*7);
+cookie.setMaxAge(60 * 60 * 24 * 7);
 cookie.setPath("/");
 resp.addCookie(cookie);
 ```
@@ -47,8 +50,6 @@ resp.addCookie(cookie);
 ##### 2：Session
 
 Http通过令牌的机制完成和客户端的会话，是基于Cookie 技术实现的，存储在服务器中的文件系统或者数据库中
-
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Servlet%EF%BC%8CSession%EF%BC%8CFileUpload%EF%BC%8CFileDownLoad/Servlet/Session.png?raw=true)
 
 ###### 原理：
 
@@ -62,15 +63,15 @@ Http通过令牌的机制完成和客户端的会话，是基于Cookie 技术实
 
 ##### 3：Interface HttpSession：本质也是一个Map存储
 
-- ###### java.lang.Object	getAttribute (java.lang.String name) ：通过Session的key 得到其value 
+- java.lang.Object **getAttribute** (java.lang.String name) ：通过Session的key 得到其value 
 
-- ###### void	setAttribute(java.lang.String name, java.lang.Object value) 
+- void **setAttribute**(java.lang.String name, java.lang.Object value) 
 
-- int	getMaxInactiveInterval() ：得到 Session 在服务器的生命周期
+- int getMaxInactiveInterval() ：得到 Session 在服务器的生命周期
 
-- void	setMaxInactiveInterval(int interval)：设置Session的生命周期，秒为单位
+- void setMaxInactiveInterval(int interval)：设置Session的生命周期，秒为单位
 
-- ###### boolean	isNew() ：判断是不是新建的
+- boolean **isNew**() ：判断是不是新建的
 
 - java.lang.String   getId() ：得到Session的ID
 
@@ -78,11 +79,11 @@ Http通过令牌的机制完成和客户端的会话，是基于Cookie 技术实
 
 -  long getLastAccessedTime() ：返回最后一次访问的时间，Date包装
 
-- ###### void	invalidate() ：销毁Session
+- void **invalidate**() ：销毁Session
 
 ######  HttpServletRequest
 
-HttpSession	getSession() ：得到HttpSession 对象，如果对象没有创建一个并返回它
+HttpSession getSession() ：得到HttpSession 对象，如果对象没有则创建一个并返回
 
 ```java
 // 重写 Session，验证用户登录
@@ -154,9 +155,9 @@ public Integer totalCount(String jsessionId) {
 
 1. ###### 重写URL：
 
-   ​	http://...../xx?jsessionid=ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764 
+   http://...../xx?jsessionid=ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764 
 
-2. ###### 表单隐藏字段：服务器会自动修改表单，添加一个隐藏字段，以便在表单提交时能够把session id传递回服务器
+2. ###### 表单隐藏字段：浏览器会自动修改表单，添加一个隐藏字段，以便在表单提交时能够把session id传递回服务器
 
    ```xml
    <input type="hidden" name="jsessionid" 		

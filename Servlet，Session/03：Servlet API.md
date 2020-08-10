@@ -2,6 +2,8 @@
 
 ------
 
+![Xnip2020-08-10_15-27-10](/Users/likang/Downloads/Xnip2020-08-10_15-27-10.jpg)
+
 ###### javax.servlet  
 
 ##### 1：Interface  ServletContext ：
@@ -11,37 +13,27 @@
 ###### 特点：
 
 - Tomcat 启动时，每个站点的 web.xml 会被解析实例化 ServletContext 对象
-- 这个对象全局唯一的，并且在同一个工程下，所有的 servletConfig 共享一个 ServletContext
+- 这个对象**全局唯一的**，并且在同一个工程下，所有的 servletConfig 共享一个 ServletContext
 - ServletContext 对象的生命周期是伴随其容器的生命周期（tomcat 启动，实例化 servletContext 对象，tomcat 关闭，才释放 ServletContext）
 
 ###### 方法：
 
 - java.lang.Object	getAttribute(java.lang.String name) 
-  		根据指定的属性名返回属性,web.xml 的属性
-
-- java.util.Enumeration<java.lang.String>	 getAttributeNames() 
-  		返回所有属性名的集合 
-
+  		- 根据指定的属性名返回属性,web.xml 的属性
+- java.util.Enumeration<java.lang.String>	 getAttributeNames()
+  		- 返回所有属性名的集合 
 - java.lang.String	getInitParameter(java.lang.String name) 
-      	获取初始化参数
-
+   - 获取初始化参数
 - java.util.Enumeration<java.lang.String>	getInitParameterNames() 
-      	获取所有初始化参数名的集合
-
-- ###### java.lang.String	getMimeType(java.lang.String file) 
-
-  ​	获取指定资源 mime 类型（媒体类型-Content-Type）
-
-- ###### java.lang.String	getRealPath(java.lang.String path)  
-
-  ​	获取指定资源的绝对路径
-
-- ###### RequestDispatcher  getRequestDispatcher(java.lang.String path) 
-
-  ​	获取跳转到指定资源的 RequestDispatcher 对象
-
-- java.io.InputStream	getResourceAsStream(java.lang.String path) 
-  		获取资源的输入流
+   - 获取所有初始化参数名的集合
+- java.lang.String	**getMimeType**(java.lang.String file) 
+- 获取指定资源 mime 类型（媒体类型Content-Type）
+- java.lang.String	**getRealPath**(java.lang.String path)  
+- 获取指定资源的绝对路径
+- RequestDispatcher  **getRequestDispatcher**(java.lang.String path)
+- 获取跳转到指定资源的 RequestDispatcher 对象
+- java.io.InputStream getResourceAsStream(java.lang.String path)
+  		- 获取资源的输入流
 
 ###### javax.servlet  
 
@@ -80,8 +72,10 @@
 @Override
 protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		String method = null!=req.getParameter("action")?req.getParameter("action"):"index";
-		Class[] param = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
+		String method =  null != req.getParameter("action")
+      ? req.getParameter("action")
+      : "index";
+		Class[] param = new Class[]{HttpServletRequest.class,HttpServletResponse.class};
 		Class clazz = this.getClass();
 		try {
 			Method m = clazz.getDeclaredMethod(method, new Class[] {});
@@ -92,7 +86,7 @@ protected void service(HttpServletRequest req, HttpServletResponse resp) throws 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("ERROR_001_找不到目标方法！");
+			log.error("ERROR_001_找不到目标方法！");
 		}
 }
 ```
@@ -103,7 +97,7 @@ protected void service(HttpServletRequest req, HttpServletResponse resp) throws 
 
 ​    GenericServlet 实现了 Servlet 接口和 ServletConfig 接口
 
-- abstract  void  service (ServletRequest req, ServletResponse res)         
+- public abstract  void  service (ServletRequest req, ServletResponse res) 
 
 ###### javax.servlet.http 
 
@@ -131,7 +125,8 @@ protected void service(HttpServletRequest req, HttpServletResponse resp) throws 
 
 - ###### protected  void  service (HttpServletRequest req, HttpServletResponse resp)
 
-  - 被 public  service（）调用，用来自动调用 doXXX（）
+  - 被 该类的 public  service（）调用，该方法会获取请求的HTTP方法，然后调用相应的 doXXX（），若没有匹配上会返回501；
+  - 若该方法被继承该类的servlet类重写，后则直接处理相应的逻辑...
 
 - ###### public void  service (ServletRequest req, ServletResponse res)
 

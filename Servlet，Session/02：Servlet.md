@@ -15,7 +15,7 @@
 - 没有 main 方法，它的生命周期由 Servlet 容器 (Tomcat) 来管理
 - 必须实现 javax.servlet.Servlet 接口，重写 services 方法
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Servlet%EF%BC%8CSession%EF%BC%8CFileUpload%EF%BC%8CFileDownLoad/Servlet/Servlet_%E4%BD%BF%E7%94%A8.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Servlet%EF%BC%8CSession/Servlet/Servlet_%E4%BD%BF%E7%94%A8.png?raw=true)
 
 ##### 2：Servlet 作用
 
@@ -29,6 +29,15 @@
 
 ​	Servlet 可以使用 **javax.servlet** 和 **javax.servlet.http** 包创建，它是 Java 企业版的标准组成部分
 
+```xml
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>javax.servlet-api</artifactId>
+	<version>3.1.0</version>
+	<scope>provided</scope>
+</dependency>
+```
+
 ##### 4：部署描述文件是否是完全的
 
 ​	web.xml 的顶层标签 < web-app > 的 metadata-complete 属性，该属性指定当前的部署描述文件是否是完全的
@@ -36,7 +45,7 @@
 - 如果设置为 true，则容器在部署时将只依赖部署描述文件，忽略所有的注解
 - 将其设置为 false，则表示启用注解支持
 
-##### 5：配置 servlet 路径方式
+##### 5：配置 servlet 路径方式【两种方式都可以单独使用】
 
 1. web.xml 配置文件，配置字节码文件 和 URL的映射
 2. 用 Annotation(注解) 配置 Servlet
@@ -61,7 +70,7 @@
   
   <servlet-mapping>
        <servlet-name>CheckLoginServlet</servlet-name>
-       <url-pattern>/checklogin</url-pattern>
+       <url-pattern>/checkLogin</url-pattern>
   </servlet-mapping>
   
   <!-- 按顺序默认访问-->

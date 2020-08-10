@@ -1,16 +1,16 @@
-### FileUpload：三种
+### FileUpload、FileDownload
 
-upload：基于RFC1867协议 ，其协议主要是在HTTP协议的基础上为
+------
 
-input标签增加了type="file"属性，同时限定了 Form 表单的 method="post" enctype="multipart/form-data"
+- upload：基于RFC1867协议 ，其协议主要是在HTTP协议的基础上为 input 标签增加了type="file"属性，同时限定了 Form 表单的 method="post" enctype="multipart/form-data"。
 
 ###### javax.servlet.http  
 
-### Interface Part
+##### 01：Interface Part
 
-​	每个 Part 对象封装一个文件上传域，该对象提供访问上传文件的文件类型、大小、输入流等方法，并提供了一个 write(String file)方法将上传文件写入服务器磁盘，上传域指 type="file" 的input
+​	每个 Part 对象封装一个文件上传域，该对象提供访问上传文件的文件类型、大小、输入流等方法，并提供了一个 write(String file)方法将上传文件写入服务器磁盘，上传域指 type="file" 的 input。
 
-- java.lang.String getContentType() ：文件的类型（mimetype:根据前面几个字节，判断文件类型）
+- java.lang.String getContentType() ：文件的类型（mimetype：根据前面几个字节，判断文件类型）
 
 - java.util.Collection<java.lang.String>	getHeaderNames() ：得到报头key 的集合
 
@@ -20,11 +20,9 @@ input标签增加了type="file"属性，同时限定了 Form 表单的 method="p
 
 - long	getSize() ：得到文件的大小（字节）
 
-- ###### void	write(java.lang.String fileName)：根据绝对路径，将上传文件写到服务器上指定路径位置
+- ###### void	write(java.lang.String fileName)：根据绝对路径，将上传文件写到服务器上指定路径位置 
 
-### 
-
-##### 1：Http 文件上传客户端要求：
+##### 02：Http 文件上传客户端要求：
 
 1. 用表单提交数据
 2. 请求方法必须为 post
@@ -61,9 +59,7 @@ public class UploadServlet extends HttpServlet {
 }
 ```
 
-
-
-##### 2：Servlet 3.0 文件上传
+##### 03：Servlet 3.0 文件上传
 
 配置：Servlet类上配置：@MultipartConfig
 
@@ -82,9 +78,7 @@ String newname = newName() + getExtName(fname);
 part.write(realpath+"/"+newname)
 ```
 
-
-
-##### 3： Apache Commons fileupload 文件上传组件，导入 jar 包
+##### 04： Apache Commons fileupload 文件上传组件，导入 jar 包
 
 其核心思想是将用户的请求转换为一个 List<FileItem>，其中 FileItem 就是一个part，文件上传域
 
@@ -131,9 +125,7 @@ protected void service(HttpServletRequest req, HttpServletResponse resp) throws 
 }
 ```
 
-
-
-### FiledownLoad：两种
+##### 05：FiledownLoad【两种】
 
 1. 直接将超链接指向要下载的文件，当浏览器不能识辨的 MIME 类型会出现下载对话框（压缩包） 但是这种方式程序无法通过用户权限来控制下载
 2. 通过设置响应报头Content-Disposition来下载文件
@@ -173,8 +165,6 @@ input.close();
 out.close();
 ```
 
+##### 06：图片验证码原理
 
-
-### 图片验证码原理
-
-由程序随机生成字母、数字或汉字的图片，并将图片上的随机内容记**在 session 中，作为报头**，让用户看到图片后将随机值填写在表单项中]提交给服务器，服务端程序将用户填写的信息与 Session 中的信息进行对比，就知道是不是用户填写的，关键在于不让能程序自动识辨出图片上的信息，所以一般我们都加干扰线、点，或旋转、缩放等
+​	由程序随机生成字母、数字或汉字的图片，并将图片上的随机内容记**在 session 中，作为报头**，让用户看到图片后将随机值填写在表单项中]提交给服务器，服务端程序将用户填写的信息与 Session 中的信息进行对比，就知道是不是用户填写的，关键在于不让能程序自动识辨出图片上的信息，所以一般我们都加干扰线、点，或旋转、缩放等。
