@@ -2,7 +2,7 @@
 
 ------
 
- Spring 和 JSR 的 Annotaion 两套Annotation，选择使用 Spring
+ Spring 和 JSR 的 Annotaion 两套 Annotation，选择使用 Spring
 
 ##### 1：启用 Annotation ：
 
@@ -11,12 +11,12 @@
 
 ##### 2：实例化 Bean，放入到容器中
 
-四个注解功能相同，都是用在类上的 Annotation，说明实例化此类，并把对象放入 spring 容器中
+​	四个注解功能相同，都是用在类上的 Annotation，说明实例化此类，并把对象放入 spring 容器中，可以设置bean的名称。
 
-- @Repository：声明在dao层
-- @Service：声明在service层
-- @Controller：声明在控制器层
-- @Component ：一般声明在组件、工具类
+1. @Repository：声明在dao层
+2. @Service：声明在service层
+3. @Controller：声明在控制器层
+4. @Component ：一般声明在组件、工具类
 
 ##### 3：设置基包的扫描( 四种方式)
 
@@ -38,7 +38,7 @@ Public class AppConfig{}
 
 ##### 4：自动注入 (3个)【重要】
 
-- @Autowired：
+- **@Autowired：**
 
   - 用于属性、方法上
 - 通过**byType**自动注入，从容器中取出此类的实例对象赋给它，应用于 bean 属性，setter 方法，构造方法
@@ -52,18 +52,23 @@ Public class AppConfig{}
     this.spellChecker = spellChecker;
   }
   
-  // 构造函数 @Autowired 说明当创建 bean 时，即使在 XML 文件中没有使用元素配置 bean ，构造函数也会被自动注入
+  // 构造函数 @Autowired 说明当创建 bean 时，即使在 xml 文件中没有使用元素配置 bean ，构造函数也会被自动注入
   @Autowired
   public TextEditor(SpellChecker spellChecker){
     this.spellChecker = spellChecker;
   }
   ```
 
-- @Resource ：
+- **@Resource ：**
   
-- 默认通过**byName**自动注入，如果使用type属性时则使用byType自动注入策略，如果既不指定name也不指定type属性，这是将通过反射机制使用byName自动注入
+  - 默认通过**byName**自动注入，如果使用type属性时则使用byType自动注入策略，如果既不指定name也不指定type属性，这是将通过反射机制使用byName自动注入
   
-- @Qualifier：
+    ```java
+    @Resource(name="baseDao")
+    protected ArticleDao articleDao;
+    ```
+  
+- **@Qualifier：**
 
   - 通过选择装配 bean 的**标识符来装配**，用于多个 bean 无法确定装配哪个的情况（起别名），通过byName获取对象
 
@@ -71,24 +76,24 @@ Public class AppConfig{}
   @Qualifier("dev")
   protected ArticleDao articleDao;
   
-  <bean id="" class="com.xupt">
+  <bean id="article" class="com.xupt">
   	<qualifier value="dev"/>
   </bean>
   ```
 
-- @Primary：
+- **@Primary：**
 
   - 用于声明 bean 是首选的，用在多个 bean，无法选择装配谁的情况
 
   ```xml
-  <bean id="" class="com.xupt" primary="true">
+  <bean id="article" class="com.xupt" primary="true">
     
   @Primary
   @Component
   public class Tool{}
   ```
 
-- @Required :
+- **@Required :**
   
   - 应用于 bean 属性的 setter 方法，它表明受影响的 bean 属性在配置时必须放在 XML 配置文件中，否则容器就会抛出一个 BeanInitializationException 异常
 
@@ -96,16 +101,21 @@ Public class AppConfig{}
 
 ###### 	1：@PostConstruct ，@PreDestroy
 
-​	应用于Bean，构造之后，销毁之前
+- 应用于Bean，构造之后，销毁之前
+
 
 ```java
-@PostConstruct
-public void init(){
-	System.out.println("Bean is going through init.");
-}
-@PreDestroy
-public void destroy(){
-	System.out.println("Bean will destroy now.");
+@Service("ha")
+public class AjaxService {	
+  @PostConstruct
+  public void init(){
+    System.out.println("Bean is going through init.");
+  }
+
+  @PreDestroy
+  public void destroy(){
+    System.out.println("Bean will destroy now.");
+  }
 }
 ```
 

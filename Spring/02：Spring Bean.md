@@ -4,11 +4,12 @@
 
 ##### Xmlns：表示默认的XML Namespace的缩写
 
-使用语法：xmlns:namespace-prefix="namespaceURI"，其中namespace-prefix为自定义前缀，只要在这个XML文档中保证前缀不重复即可；namespaceURI 是这个前缀对应的XML Namespace的定义
+​	使用语法：xmlns:namespace-prefix="namespaceURI"，其中namespace-prefix为自定义前缀，只要在这个XML文档中保证前缀不重复即可；namespaceURI 是这个前缀对应的XML Namespace的定义
 
 ###### xsi:schemaLocation
 
-- xsi:schemaLocation 其实是namespace为 http://www.w3.org/2001/XMLSchema-instance 里的schemaLocation 属性值
+- xsi:schemaLocation：其实是 namespace 为 http://www.w3.org/2001/XMLSchema-instance 里的schemaLocation 属性值
+- 为了解决元素命名冲突的；
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -28,13 +29,13 @@
 - id="对象名"
 - class="实例化此类，放入 Spring容器中" 
 - scope= "作用域" 
-  - singleton：单例模式，默认的，Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例
-  - prototype：原型模式,每次都会产生一个新的bean实例，克隆操作
+  - **singleton**：单例模式，默认的，Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例
+  - prototype：原型模式，每次都会产生一个新的bean实例，克隆操作
 - lazy-init="true" ：懒加载，初始化容器的时候不会立刻加载，用时再加载 
 - init-method="方法名" ：初始化对象之前调用此方法
 - destory-method="方法名" ：销毁对象之前调用此方法
 - abstract="true" ：抽象的被用来继承
-- parent="id值" ：继承bean的id，与abstract联用 
+- parent="id值" ：继承bean的id，与abstract联用
 - primary="true" ：首选的，容器中有两个相同对象时，优先选择
 - factory-bean="实例化工厂对象名" 
 - factory-method="实例化对象的静态方法名"：使用静态方法实例化Bean
@@ -50,7 +51,7 @@
 
 ```java
 @Bean
-@Scope(ConfigurableBeanFactory.Scope_PROTOTYPE) 
+@Scope(ConfigurableBeanFactory.Scope_PROTOTYPE)
 Public Notepad notepad(){
      return new Notepad();
 }
@@ -174,9 +175,9 @@ public class InitHelloWorld implements BeanPostProcessor {
 </bean>
 ```
 
-##### 7：Bean 是线程安全的
+##### 7：Bean 是线程安全的【重要】
 
-​	虽然 Spring 的 Bean 是单例的，但是它内部采用ThreadLocal 这种方式，每一个线程对应一个变量副本，所以是线程安全的
+​	虽然 Spring 的 Bean 是单例的，但是它内部采用**ThreadLocal** 这种方式，每一个线程对应一个变量副本，所以是线程安全的
 
 ##### 8：条件化 Bean
 

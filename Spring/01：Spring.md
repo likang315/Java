@@ -3,11 +3,11 @@
 ------
 
 - 独立于各种应用服务器，基于Spring框架的应用，可以真正实现Write Once，Run Anywhere
-- Spring的**IoC**容器降低了业务对象替换的复杂性，提高了组件之间的**解耦**
-- Spring的**AOP**支持允许将一些通用任务如**安全、事务、日志**等进行集中式管理，从而提供了更好的复用
+- Spring的 **IoC** 容器降低了业务对象替换的复杂性，提高了组件之间的**解耦**
+- Spring的 **AOP** 支持允许将一些通用任务如**安全、事务、日志**等进行集中式管理，从而提供了更好的复用
 - Spring的ORM和DAO提供了与第三方持久层框架（MyBatis）良好整合，并简化了底层的数据库访问
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/Spring/Spring/spring-module.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/Spring/Spring/spring-module.png?raw=true)
 
 ##### 1：Spring Module
 
@@ -25,7 +25,7 @@
 
 ##### 2：IOC（Inversion of Control）：控制反转
 
-​		应用本身不负责依赖**对象的创建及维护**，依赖对象的创建及维护是由外部容器负责的，控制权就由应用转移到了外部容器，控制权的转移就是所谓控制反转
+​		应用本身不负责依赖**对象的创建及维护**，依赖对象的创建及维护是由外部容器负责的，控制权就由应用转移到了外部容器，控制权的转移就是所谓控制反转。
 
 ###### 原理：
 
@@ -62,7 +62,7 @@
 
 ######    2：通过注解（Annotation）自动装配
 
-​	 当容器扫描到 @Autowired 等注入时，就会在 IOC 容器自动查找需要的 bean，并装配给该对象的属性
+​	 当容器扫描到 **@Autowired** 等注入时，就会在 IOC 容器自动查找需要的 bean，并装配给该对象的属性
 
 ```xml
 <!--启用Annotation,扫描类上的注解，实例化对象，放入到容器中管理-->
@@ -74,7 +74,7 @@
 ######    3：用 Java 显式配置
 
 - 用一个配置类(MyConfig.java)来初始化容器并配置
-  - @Configuration：表明此类是配置类，用于初始化Spring容器
+  - **@Configuration**：表明此类是配置类，用于初始化Spring容器
   - @ComponentScan(basePackageClasses=MyConfig.class)：定义扫描基包
 
 ```java
@@ -92,7 +92,8 @@ public class MyConfig {
 
 ###### 1：Spring 的 BeanFactory 容器
 
-​	最简单的容器，只提供了依赖注入 （DI） 功能，这个容器接口在 org.springframework.beans.factory.BeanFactor 中被定义，最常被使用的是BeanFactory接口的实现类： **XmlBeanFactory** 类
+- 最简单的容器，只提供了依赖注入 （DI） 功能
+- 这个容器接口在 org.springframework.beans.factory.**BeanFactor** 中被定义，最常被使用的是BeanFactory接口的实现类： **XmlBeanFactory** 类
 
 ```java
 public static void main(String[] args) {
@@ -106,7 +107,7 @@ public static void main(String[] args) {
 
 - ClassPathXmlApplicationContext: 从类加载路径下搜索xml配置文件，并根据配置文件来初始化Spring容器
   - 类路径：
-    - **WEB-INF/classes** 存放src目录java文件编译之后的class文件，xml、properties等资源配置文件，是一个定位资源的入口，默认的classpath
+    - **webapp/WEB-INF/classes** 存放src目录java文件编译之后的class文件，xml、properties等资源配置文件，是一个定位资源的入口，默认的classpath
     - maven构建项目时候 **resource**目录，默认的classpath 
 - FileSystemXmlApplicationContext: 从文件系统的相对路径或绝对路径下去搜索配置文件，并根据配置文件来初始化Spring容器
 
@@ -114,8 +115,7 @@ public static void main(String[] args) {
 public static void main(String[] args) {
 		ApplicationContext context =
 				new ClassPathXmlApplicationContext(new String[] {"ApplicationContext.xml"});
-		CellPhone cp=(CellPhone)context.getBean("cp");
+		CellPhone cp = (CellPhone)context.getBean("cp");
 		cp.run();
 }
 ```
-

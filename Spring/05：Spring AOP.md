@@ -13,10 +13,10 @@
 
 2. **切点（Pointcut ）**
 - 每个程序类都拥有多个连接点，AOP通过 "切点" 定位特定的连接点,切点和连接点不是一对一的关系，**一个切点可以匹配多个连接点**
-   
+  
 3. **增强（Advice）**
 - 是织入到目标类连接点上的一段程序代码
-   
+  
 4. 引介（Introduction）
 
    - 引介是一种特殊的增强，它为类添加一些属性和方法
@@ -62,11 +62,11 @@ public class AppConfig {
   - @AfterThrowing：方法抛出异常后
 
 ```java
-<bean id="Logging" class="org.xupt.service" />
-
 // 定义切面类
 import org.aspectj.lang.annotation.Aspect;
 @Aspect
+@EnableAspectJAutoProxy
+@Component
 public class Logging {
    // 定义一个空方法作为切点，定义切点表达式
    @Pointcut("execution(* com.xupt.service.*(..))")

@@ -30,19 +30,18 @@
 	<property name="url" value="jdbc:mysql://localhost:3306/xupt"></property>
 	<property name="username" value="root"></property>
 	<property name="password" value="mysql"></property>
-  
+  <!--初始化连接数-->
 	<property name="initialSize" value="1"/>
 	<!-- 连接池的最大值 -->
 	<property name="maxActive" value="500"/>
 	<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一
 	直减少到 maxIdle 为止 -->
 	<property name="maxIdle" value="2"/>
-	<!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及
-	申请 -->
+	<!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
 	<property name="minIdle" value="1"/>
 </bean>
  
-  <!-- 用来加载jdbc.properties 配置文件-->
+  <!-- 用来加载 jdbc.properties 配置文件-->
   <context:property-placeholder location="classpath:jdbc.properties"/>
 
   <bean id="TransactionManager"
@@ -51,7 +50,6 @@
   </bean>
 
 	<!--事务AOP-->
-	<!-- the transactional advice (what 'happens'; see the <aop:advisor/> bean below) -->
 	<tx:advice id="txAdvice" transaction-manager="TransactionManager">
 		<!-- the transactional semantics... -->
 		<tx:attributes>
