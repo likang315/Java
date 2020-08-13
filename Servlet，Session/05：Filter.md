@@ -114,14 +114,53 @@ public interface FilterConfig {
     ```
 
 - < servlet-name> 元素与 < url-pattern> 元素是二选一的关系，其值是某个 Servlet 在 web.xml 文件中的注册名
+
 - < dispatcher> 元素的设置值有 4 种，分别对应 **Servlet 容器调用资源的** 4 种方式
   - REQUEST：通过正常的访问请求调用
   - INCLUDE：通过 RequestDispatcher.include 方法调用
   - FORWARD：通过 RequestDispatcher.forward 方法调用
   - ERROR：作为错误响应资源调用
+  
 - 如果没有设置 < dispatcher> 子元素，则等效于 REQUEST 的情况，也可以设置多个 < dispatcher> 子元素，用于指定 Filter 对资源的多种调用方式都进行拦截。
 
-##### 6：请求，响应包装类( Wrapper )
+- **Chain 顺序**
+
+  - 以filter-mapping在web.xml中的顺序为准；
+    - 首先遍历url-pattern符合的filter加入chain；
+    - 其次遍历servlet-name符合的filter加入chain；
+  - @WebFilter注解无法指定顺序；
+
+##### 6：Servlet 和Filter 的区别
+
+```xml
+监控的配置：web.xml
+<!-- filter 用于过滤请求的，过滤之后会传递给下一个过滤器-->
+<filter>
+	<filter-name>DruidWebStatFilter</filter-name>
+	<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+	<init-param>
+		<param-name>exclusions</param-name>
+		<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+	</init-param>
+</filter>
+<filter-mapping>
+	<filter-name>DruidWebStatFilter</filter-name>
+	<url-pattern>/</url-pattern>
+</filter-mapping>
+
+<!-- servlet 是用来处理请求过来的事件，然后直接跳转到指定的界面-->
+<servlet>
+	<servlet-name>DruidStatView</servlet-name>
+	<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class> 
+</servlet>
+<servlet-mapping>
+	<servlet-name>DruidStatView</servlet-name>
+	<url-pattern>/druid/*</url-pattern>
+<!--该配置可以访问监控界面，配置好后，访问 <http://ip:端口号/项目名/druid/index.html> 即可监控数据库访问性能-->
+</servlet-mapping>
+```
+
+##### 7：请求，响应包装类( Wrapper )
 
 - Class HttpServletRequestWrapper 、Class HttpServletResponseWrapper
 - 如果想重写 Request 和 Response 中的方法，那么就可以继承以上包装类

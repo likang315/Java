@@ -69,3 +69,15 @@
 
 - IS NULL: 当列的值是 NULL,此运算符返回 true 
 - IS NOT NULL: 当列的值不为 NULL, 运算符返回 true 
+
+##### 5：UTF8和UTF8mb4
+
+- utf8字符集存储汉字占用3个字节，存储英文字符占用一个字节；
+- 当遇到Emoji 表情时，可使用UTF8mb4，专门用来兼容四个字节的unicode；
+
+###### 字符集修改
+
+1. ALTER TABLE table_name CHARSET utf8mb4;
+   - 将以后插入的数据改为新的字符集，已有的数据不变；
+2. ALTER TABLE table_name CONVERT TO CHARSET utf8mb4;
+   - 将当前已有的数据和现有的数据转为新的字符集存储；

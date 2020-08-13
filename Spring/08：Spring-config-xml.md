@@ -2,7 +2,7 @@
 
 ------
 
-​	按照Spring-config-xml 文件初始化Spring容器
+​	按照 Spring-config-xml 文件初始化Spring容器
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

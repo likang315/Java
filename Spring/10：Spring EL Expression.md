@@ -8,7 +8,7 @@
 
 ​	pom.xml 依赖中倒入依赖包
 
-##### 2：XML配置
+##### 2：XML配置【重要】
 
 ```xml
 xml文件中配置：
@@ -22,7 +22,7 @@ xml文件中配置：
 
 要在 Annotation 中使用 SpEL，必须要通过 annotation 注册组件
 
-```
+```java
 @Value("#{itemBean}")
 private Item item;
 @Value("#{itemBean.name}")
@@ -54,9 +54,7 @@ xml
 - 数学操作符 包括：加 (+)，减 (-)，乘 (*)，除 (/)，取模 (%)，幂指数 (^)
 
 ```xml
-Annotation
 @Value("#{2 ^ 2}")
-xml
 <property name="testNotEqual" value="#{1 != 1}" />
 ```
 

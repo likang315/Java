@@ -9,7 +9,7 @@
 ###### 原理：
 
 ​	DispacherServlet 截获请求后，通过控制器上@RequestMapping 提供的映射信息确定请求所对应的处理方法
-将请求映射到控制器处理方法的工作包含一系列映射规则，具体包括请求 URL、请求参数、请求方法、请求头
+，将请求映射到控制器处理方法的工作包含一系列映射规则，具体包括请求 URL、请求参数、请求方法、请求头
 
 - Path 和 value 设置路径：@RequestMapping(value = {"/page","page*", "view/*,**/msg"})
 - Method 请求方法：@RequestMapping(method = RequestMethod.GET)
@@ -19,7 +19,7 @@
 ##### 2：获取请求携带的参数
 
 - @PathVariable：用来获得请求url中的动态参数的
-- @RequestParam和@PathVariable：Spring能够**根据名字自动赋值**对应的函数参数值
+- @RequestParam和@PathVariable：**Spring能够根据名字自动赋值**对应的函数参数值
 - @RequestHeader ：按请求报头绑定
 - @CookieValue   ：将参数名帮定了对像属性
 - @MatrixVariable：用矩阵变量绑定参数
@@ -29,7 +29,7 @@
 public void findPet(@PathVariable String ownerId, @PathVariable String petId)
 
 @RequestMapping(value = "/handle2")
-public ModelAndView handle2(@CookieValue("JSESSIONID")String sessionId,
+public ModelAndView handle2(@CookieValue("JSESSIONID") String sessionId,
                             @RequestHeader("User-Agent") String agent )
 
 // 请求参数按名称匹配的方式绑定到 user 的属性中、方法返回对应的字符串代表逻辑视图名
@@ -39,7 +39,7 @@ public String handle3(User user) {
 }
 
 // GET传参
-http://localhost:8080/handle1?userName=zhangsan&password=123
+http://localhost:8080/handle3?userName=zhangsan&password=123
 ```
 
 ##### 3：乱码问题（过滤器）
@@ -91,7 +91,7 @@ public void handle1(HttpServletRequest request,HttpServletResponse response) {
 
 ###### 默认加载HttpMessageConverter的六个实现类
 
-**Spring 根据请求Content-type 来遍历所有的Convert 来选则，响应则是根据Accept-type选择匹配的Convert**
+**Spring 根据请求 Content-type 来遍历所有的Convert 来选择，响应则是根据Accept-type选择匹配的Convert**
 
 - ByteArrayHttpMessageConvert：读写二进制数据，T 为 byte[]类型，通过supportedMediaTypes属性指定媒体类型 ，响应信息媒体类型为application/octer-stream
 - StringHttpMessageConverter：请求信息转为字符串，可读取所有媒体类型(*/*),通过 supportedMediaTypes 属性指定媒体类型
@@ -104,9 +104,9 @@ public void handle1(HttpServletRequest request,HttpServletResponse response) {
 
 ###### Method
 
-- Boolean canRead(Class<?> clazz,MediaType mediaType)
+- Boolean canRead(Class<?> clazz, MediaType mediaType)
   - 指定转换器可以读取的对象类型，同时指定支持 MIME 类型
-- Boolean canWriter(Class<?> clazz,MediaTypemediaType)
+- Boolean canWriter(Class<?> clazz, MediaTypemediaType)
   - 指定转换器可以将 clazz 类型的对象写到响应流中，响应流支持类型在 mediaType 中
 - List<MediaType> getSupportMediaTypes()
   - 返回该转换器支持的媒体类型
@@ -120,7 +120,7 @@ public void handle1(HttpServletRequest request,HttpServletResponse response) {
 ###### @RequestBody
 
 - 用于读取Request请求的body部分数据，选择系统默认配置的HttpMessageConverter的实现类进行解析，然后把**相应的数据绑定到要返回的对象**上，处理POST请求
-- 再把HttpMessageConverter返回的对象数据绑定到 controller中方法的参数上
+- 再把HttpMessageConverter返回的对象数据绑定到 controller 中方法的参数上
 
 ###### @ResponseBody
 
@@ -143,7 +143,7 @@ public ModelAndView login(@RequestBody User loginUuser, HttpSession session) {
 ###### @ModelAttribute
 
 1. 用于参数上，会将客户端传递过来的参数按名称注入到指定对象中，并且会将这个对象自动加入ModelMap中，便于View层使用
-2. 用于方法上，会在**每一个@RequestMapping标注的方法前执行**，如果有返回值，则自动将该返回值加入到ModelMap中
+2. 用于方法上，会在**每一个@RequestMapping标注的方法前执行**，调用此方法，如果有返回值，则自动将该返回值加入到ModelMap中
 
 ###### 原理：
 
@@ -151,7 +151,7 @@ public ModelAndView login(@RequestBody User loginUuser, HttpSession session) {
 2. 调用所有使用@ModelAttribute的方法，将在所有controller的方法调用前，调用此方法，将方法返回值添加到隐含模型中
 3. 查看Session中，是否存在@SessionAttributes("xx")所指定的xx属性，如果有，则将其添加到隐含模型中，如果隐含模型中已经有xx属性，则该步操作会覆盖模型中已有的属性值
 4. 对标注@ModelAttribute("XX") 处理方法的入参的流程
-   1. 如果隐含模型拥有名为xx的属性,则将隐含模型中的其属性赋给该入参，再用请求消息填充该入参对象（执行方法）直接返回，否则转 2
+   1. 如果隐含模型拥有名为xx的属性，则将隐含模型中的其属性赋给该入参，再用请求消息填充该入参对象（执行方法）直接返回，否则转 2
    2. 如果 xx是会话属性，即在处理类定义处标注了@SessionAttributes(“xxx”)，则尝试从会话中获取该属性，并将其赋给该入参，然后再用请求消息填充该入参对象，如果在会话中找不到对应的属性，则抛出 HttpSessionRequiredException 异常，否则转到3
    3. 如果隐含模型中不存在 xxx 属性，且 xxx 与不是会话属性，则创建入参的对象实例，然后再用请求消息填充该入参
 
@@ -177,7 +177,7 @@ response.sendRedirect("/springmvc-web2/itemEdit.action");
 
 ###### 3：ModelAndView
 
-​	通过 setViewName() 设置跳转的页面名，通过 addObject() 设置需要返回的值，将值设置到一个名为ModelMap的类属性，使用此返回结果定义
+​	通过 setViewName() 设置跳转的页面名，通过 addObject() 设置需要返回的值，将值设置到一个名为ModelMap的类属性，**使用此返回结果定义**
 
 ###### ModelAndView：实例是用户手动创建的，这也是和ModelMap的一个区别	
 

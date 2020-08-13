@@ -2,13 +2,13 @@
 
 ------
 
-JDBC API：Sun 公司定义的一套接口（Java SE： java.sql.* ），谁想使用我们的语言，实现我们的定义的接口即可，用这些接口来操作数据库
+​	JDBC API：Sun 公司定义的一套接口（Java SE： java.sql.* ），谁想使用我们的语言，实现我们的定义的接口即可，用这些接口来操作数据库
 
 ##### 1：JDBC 驱动：
 
 ​	由驱动类和数据库访问类组成，由数据库厂商提供，可以到MySQL网站下载（mysql-connector-java.jar）
 
-- 配置JBDC驱动程序：mysql-connector-java-5.1.20-bin.jar IDEA配置：jar包导入
+- 配置JBDC驱动程序：mysql-connector-java-5.1.20-bin.jar
 - 驱动类：JDBC 实现了 Java.SQL.Driver 接口
 - 数据库访问类：分别实现了数据库访问接口，主要包含有
   - Connection：连接接口

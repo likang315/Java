@@ -64,35 +64,3 @@ druid 连接池及监控在 spring 配置如下：
 </bean>
 ```
 
-##### 3：Servlet 和Filter 的区别
-
-```xml
-监控的配置：web.xml
-<!-- filter 用于过滤请求的，过滤之后会传递给下一个过滤器-->
-<filter>
-	<filter-name>DruidWebStatFilter</filter-name>
-	<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
-	<init-param>
-		<param-name>exclusions</param-name>
-		<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
-	</init-param>
-</filter>
-<filter-mapping>
-	<filter-name>DruidWebStatFilter</filter-name>
-	<url-pattern>/</url-pattern>
-</filter-mapping>
-
-<!-- servlet 是用来处理请求过来的事件，然后直接跳转到指定的界面-->
-<servlet>
-	<servlet-name>DruidStatView</servlet-name>
-	<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class> 
-</servlet>
-<servlet-mapping>
-	<servlet-name>DruidStatView</servlet-name>
-	<url-pattern>/druid/*</url-pattern>
-<!--该配置可以访问监控界面，配置好后，访问 <http://ip:端口号/项目名/druid/index.html> 即可监控数据库访问性能-->
-</servlet-mapping>
-```
-
-
-

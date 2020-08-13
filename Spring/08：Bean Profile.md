@@ -24,7 +24,7 @@
 </beans>
 
 <!-- 定义生产使用的profile -->
-<beans profile="produce">
+<beans profile="prod">
   <!-- 只扫描生产环境下使用的类 -->
   <context:component-scan base-package="com.spring.profile.service.produce" />
   <!-- 加载生产使用的配置文件-->

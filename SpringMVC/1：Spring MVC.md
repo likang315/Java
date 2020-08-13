@@ -2,7 +2,7 @@
 
 ------
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/SpringMVC/SpringMVC/Spring%20MVC.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/SpringMVC/SpringMVC/Spring%20MVC.png?raw=true)
 
 ##### 1：MVC Request 流程（五大步）
 
@@ -89,6 +89,7 @@ xmlns:mvc="http://www.springframework.org/schema/mvc"
 @controller
 @RequestMapping（"/hello")
 public class HelloWorldController { 
+
 		@RequestMapping("/helloWord")
 		public String helloWorld(Model model) {
 			model.addAttribute("message", "Hello World!");
@@ -102,9 +103,3 @@ public class HelloWorldController {
 - Spring（父）、Spring MVC（子） 是两个管理对象的容器，并且是父子容器
 - Spring MVC用于构建WEB应用，管理web组件的bean
 - Spring 用于管理dao层、service层Bean
-
-
-
-
-
-

@@ -17,7 +17,7 @@
 
 ##### 3：Spring 对事物的支持
 
-​	Spring 为事务管理提供了一套编程模板，在高层次建立了统一的事务抽象，不管选择 Spring JDBC、iBatis，druid，Spring都让我们可以用统一的编程模型进行事务管理
+​	Spring 为事务管理提供了一套编程模板，在高层次上建立了统一的事务抽象，不管选择 Spring JDBC、iBatis，druid，Spring都让我们可以用统一的编程模型进行事务管理
 
 - org.springframework.transaction.support.TransactionTemplate
 
@@ -101,7 +101,7 @@ p:mappingResources="classpath:bbtForum.hbm.xml">
 
 ##### 8：XML 配置事务的代理基类：
 
-- Spring的事务是基于AOP实现的，因此必须先配AOP
+- **Spring的事务是基于AOP实现的**，因此必须先配AOP
 - 使用 TransactionProxyFactoryBean 进行声明式事务配置，可以单独给某个特定的方法加单独的事物
 
 ```xml
@@ -146,7 +146,7 @@ p:mappingResources="classpath:bbtForum.hbm.xml">
 ###### 使用 @Transactional 注解声明事务
 
 - @Transactional 可以使用在类上，或者public 修饰的方法上
-- @Transactional 只能对public 修饰的方法起事物作用
+- @Transactional **只能对public 修饰的方法起事物作用**
 
 ```xml
   <!-- 定义事务管理器 -->

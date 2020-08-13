@@ -2,17 +2,17 @@
 
 ------
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/SpringMVC/SpringMVC/DataBinder.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/SpringMVC/SpringMVC/DataBinder.png?raw=true)
 
 ##### 1：DataBinder 流程
 
-1. ######     通过WebDataBinderFactory，产生DataBinder 实例
+1. ######     通过 WebDataBinderFactory，产生 DataBinder 实例
 
    - Spring MVC 框架将 ServletRequest 对象及目标方法的入参实例传递给 WebDataBinderFactory实例,以创建DataBinder实例
 
 2. ###### 调用 ConversionService 
 
-   - DataBinder 调用装配在 Spring MVC 上下文中的 ConversionService 组件进行数据类型转换、数据格式化工作,将Servlet 中的请求信息填充到入参对象中
+   - DataBinder 调用装配在 Spring MVC 上下文中的 ConversionService 组件进行数据类型转换、数据格式化工作，将 Servlet 中的请求信息填充到入参对象中
 
 3. ###### 调用Validator 进行校验
 
@@ -144,11 +144,11 @@ public class MyFormatter implements Formatter<Date> {
 
 ##### 5：注解驱动的属性对象格式化功能
 
-​	在Bean 属性设置中，Spring MVC处理方法入参,数据绑定,模型数据输出时,自动通过注解应用格式化功能
+​	在 Bean 属性设置中，Spring MVC处理方法入参，数据绑定，模型数据输出时，自动通过注解应用格式化功能
 
 ###### AnnotationFormatterFactory<A extends Annotation>： 接口 (org.springframework.format)
 
-- Set<Class<?>> getFieldTypes()
+- Set<Class<?>> getFieldTypes( )
   - 注解 A 的应用范围，即哪些属性类可以标注 A 注解，可以像里面添加类型
 - Parser<?> getParser(A annotation,Class<?> fieldType)
   - 根据注解 A 获特定属性类型的Parser
@@ -193,11 +193,11 @@ FormattingConversionServiceFactoryBean 后，就可以在 Spring MVC 入参绑�
 
 ###### HandlerMapping的实现类的作用
 
-实现类RequestMappingHandlerMapping，它会处理 @RequestMapping 注解，并将其注册到请求映射表中
+​	实现类RequestMappingHandlerMapping，它会处理 @RequestMapping 注解，并将其注册到请求映射表中
 
 ###### HandlerAdapter的实现类的作用
 
-实现类RequestMappingHandlerAdapter，则是处理请求的适配器，确定调用哪个类的哪个方法，并且构造，方法参数，返回值
+​	实现类RequestMappingHandlerAdapter，则是处理请求的适配器，确定调用哪个类的哪个方法，并且构造，方法参数，返回值
 
 ###### 简而言之：
 
