@@ -2,7 +2,9 @@
 
 ------
 
-​	简化了Spring开发初始搭建以及开发过程，可以非常容易的构建独立的服务组件，是实现分布式架构、微服务架构利器
+​	简化了Spring开发初始搭建以及开发过程，可以非常容易的构建独立的服务组件，是实现分布式架构、微服务架构利器。
+
+![SpringBoot结构图](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/SpringBoot结构图.png)
 
 ##### 1：SpringBoot 的特点
 
@@ -16,8 +18,8 @@
 
 ##### 3：pom.xml 依赖的管理
 
-- 在pom.xml中引入spring-boot-start-parent,它可以提供dependency management,也就是说依赖管理，引入以后在申明其它dependency的时候就不需要version了，后面可以看到，可以用于解决以来冲突；
-- spring-boot-starter-web是springweb 核心组件，构建war包必须使用；
+- 在 pom.xml 中引入 spring-boot-start-parent,它可以提供 dependency management，也就是说依赖管理，引入以后在申明其它dependency的时候就不需要version了，后面可以看到，可以用于解决以来冲突；
+- spring-boot-starter-web 是 springweb 核心组件，构建war包必须使用；
 
 ```xml
  <parent>
@@ -34,42 +36,39 @@
 
 ##### 4：SpringBoot的启动方式
 
-以前启动Spring项目的时候，需要打包部署到tomcat的webapp下，由于SpringBoot内置tomcat,所以有一下两种启动方式；
+​	以前启动Spring项目的时候，需要打包部署到tomcat的webapp下，由于SpringBoot内置tomcat，所以有以下两种启动方式；
 
-1. 第一种启动方式比较单一，只能启动一个Controller控制器
+1. 复合注解 **@SpringBootApplication**
 
-1. ```java
-   @RestController("/xupt/")
-   @EnableAutoConfiguration
-   public class HelloWord {
-     @RequestMapping("hello")
-   	@ResponseBody
-   	public String hello() {
-   		return "Hello World";
-   	}
-     
-     public static void main(String[] args) {
-       // 启动项目
-       SpringApplication.run(HelloController.class, args);
-     }
-   }
-   ```
-
-2. 创建一个单独的启动类App
+   - 一个注解相当于三个注解的配置
+   - @Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration
+   - @EnableAutoConfiguration：借助@Import来收集所有符合自动配置条件的bean定义的类(@Configuration)，汇总成一个加载到IoC容器
+   - @ComponentScan：若不配置base-package，则**默认从当前类开始下扫描，所以一般运行类放在基包下**
 
    ```java
-   /**
-    * SpringBoot的启动类
-    */
-   @EnableAutoConfiguration
-   @ComponentScan(basePackages = "com.xupt")
-   public class App {
-       public static void main( String[] args ) {
-           // 启动springboot项目
-           SpringApplication.run(App.class,args);
-       }
+   @SpringBootApplication
+   public class Application {
+     /**
+      *  启动项目
+      */
+   	public static void main(String[] args) {
+   		SpringApplication.run(Application.class, args);
+   	}
    }
    ```
+
+2. **使用单独注解**
+
+```java
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan(basePackages = "com.xupt")
+public class App {
+    public static void main( String[] args ) {
+        SpringApplication.run(App.class,args);
+    }
+}
+```
 
 ##### 5： Spring Boot的依赖介绍
 
@@ -115,7 +114,7 @@
        - 如果在使用动态页面时还想跳转到/static/index.html，可以使用重定向
          - return "redirect:/index.html"
 
-2. @RestController 
+2. **@RestController** 
 
    - 相当于把@Controller和@ResponseBody两个注解和起来，直接作为Json对象返回；
 
@@ -213,8 +212,8 @@
       ```yml
       spring:
          thymeleaf:
-          prefix: "classpath:/templates/"
-          suffix: ".html"
+         		prefix: "classpath:/templates/"
+          	suffix: ".html"
       ```
 
 ##### 8：yaml：以数据为中心，使用空白、缩进、分行组织数据，用于指定分层配置数据
@@ -232,22 +231,47 @@
 ##### 5：配置文件(application.properties)
 
 1. **Spring可以通过注解@Value(“${属性名key}”)**：加载对应的配置属性，然后将属性值赋值给注解对应的实体属性
-2. @ConfigurationProperties(prefix = “xxx”)：配置属性注解，可以指定一个属性的前缀，将配置文件中的key为prefix属性名的值赋值给对应的属性，这种方式适用于前缀相同的一组值，这样就不用再为每个属性配置
-3. @PropertySource：来定义属性文件的位置
+
+   ```java
+   // application-dev.properties 中
+   logback.root.level=DEBUG
+   
+   @Value(${logback.root.level})
+   private String level;
+   ```
+
+2. **@ConfigurationProperties**(prefix = “xxx”)：配置属性注解，可以指定一个属性的前缀，将配置文件中的key为prefix属性名的值赋值给对应的属性，这种方式适用于前缀相同的一组值，这样就不用再为每个属性配置，一般与@PropertySource的一起使用；
+
+   ```java
+   @Component
+   @ConfigurationProperties(prefix = "jdbc")
+   public Class JdbcProperties {
+   	private String url;
+   	private String driverClassname;
+   	private String username;
+   }
+   
+   // dataSource.properties
+   {
+     jdbc.driverClassName=com.mysql.jdbc.Driver
+     jdbc.url=jdbc:mysql://127.0.0.1:3306/peter?useUnicode=true&characterEncoding=utf-8&useSSL=false
+     jdbc.username=root
+     jdbc.password=123456
+   }
+   ```
+
+3. **@PropertySource**：来引入定义属性文件的位置
+
    - @PropertySource(value= {"classpath:/config/book.properties"})
-5. **多环境配置文件**：application-{profile}.properties 格式，其中{profile}对应你的环境标识，比如：
+   - 使用在需要获取 book.propesties  中值的类上，一般与@Value一起使用；
+
+4. **多环境配置文件**：application-{profile}.properties 格式，其中{profile}对应你的环境标识，比如：
+
    1. application-dev.properties：开发环境
    2. application-beta.properties：测试环境
    3. application-prod.properties：生产环境
-6. 在application.properties文件中通过spring.profiles.active=dev属性来设置，其值对应{profile}值,配置文件会被加载
 
-##### 6：@SpringBootApplication：复合注解，包括三个
-
-1. @Configuration:指的Java Config(Java 配置)，是一个Ioc容器类，相当于spring的xml的配置文件
-2. @EnableAutoConfiguration：借助@Import来收集所有符合自动配置条件的bean定义的类(@Configuration),汇总成一个加载到IoC容器
-3. @ComponentScan：若不配置base-package,则默认从当前类开始下扫描，所以一般运行类放在基包下
-
-
+5. 在application.properties文件中通过spring.profiles.active=dev属性来设置，其值对应{profile}值，配置文件会被加载
 
 
 

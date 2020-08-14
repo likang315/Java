@@ -1,4 +1,4 @@
-### Spring-MVC-config
+### Spring Config
 
 ------
 

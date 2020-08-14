@@ -88,7 +88,7 @@
 // 每个数据源扫描对应的包
 @MapperScan(basePackages="com.xupt.primary.mapper",
             sqlSessionFactoryRef="test1SqlSessionFactory")
-public class DataSource01 {
+public class DataSourceConfig {
 
   /**
 	 * @return 返回primary数据库的数据源
@@ -135,9 +135,9 @@ public class DataSource01 {
 
 ##### 4：多数据库的分布式事务
 
-Case：一个方法中使用了事务，但是由于此方法中调用了两个方法，分别对应存储不同的数据库中，在这两个方法中间添加一个异常；
+Case：一个方法中使用了事务，但是由于此方法中调用了两个方法，分别对应存储不同的数据库中，在这两个方法中，有个抛出了异常；
 
-answer：是因为此方法上的事务是只针对单独起作用的哪个数据库，不是针对全部，因此要吧两个事务耦合在一起；
+answer：是因为此方法上的事务是只针对单独起作用的哪个数据库，不是针对全部，因此要把两个事务耦合在一起；
 
 ###### 使用springboot+jta+atomikos 分布式事物管理解决方案
 

@@ -100,6 +100,6 @@ public class HelloWorldController {
 
 ##### 4：Spring、Spring MVC的关系
 
-- Spring（父）、Spring MVC（子） 是两个管理对象的容器，并且是父子容器
-- Spring MVC用于构建WEB应用，管理web组件的bean
+- Spring（父）、Spring MVC（子） 是两个管理对象的容器，并且是**父子容器**
+- Spring MVC用于构建WEB应用，管理web组件的 bean
 - Spring 用于管理dao层、service层Bean
