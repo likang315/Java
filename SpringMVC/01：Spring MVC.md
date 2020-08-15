@@ -28,44 +28,117 @@
 
 ##### 2：Spring MVC 配置
 
-###### 1：在 WEB-INF/lib 中导入 jar
+###### 1：在 WEB-INF/lib 中导入 jar 或者使用Maven-archetype-webapp构建，需要自己添加resource目录
 
 - spring-web-4.3.7.RELEASE.jar
 - spring-webmvc-4.3.7.RELEASE.jar
 
 ###### 2：配置 DispatcherServlet （WEB-INF/web.xml）
 
-```jsp
-<!--初始化一个前端控制器-->
-<servlet>
-  <servlet-name>名字与xxx-servlet.xml 对应</servlet-name>
-  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-  <init-param>
-    <param-name>contextConfigLocation</param-name>	
-    <param-value>classpath:spring-servlet-mvc.xml</param-value>
-  </init-param>
-  <load-on-startup>1</load-on-startup>
-</servlet>
-<!-- 所有的请求都会转发给DispatchServlet-->
-<servlet-mapping>
-  <servlet-name>名字与xxx-servlet.xml 对应</servlet-name>
-  <url-pattern>/</url-pattern>
-</servlet-mapping>
+- SpringMVC 是强依赖xml文件加载的，所以如果对启动文件有个性化改动一定要改这里，另外 **web.xml** 还可以配置过滤器，自定义字符集，自定义请求拦截，鉴权等，还可以映射请求文件列表等；
 
-<!--监听器-->
+```jsp
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+<!--在web.xml配置监听器ContextLoaderListener,
+它的作用就是启动Web容器时，自动装配 ApplicationContext 的配置信息 -->
 <listener>
   <listener-class>
     org.springframework.web.context.ContextLoaderListener
   </listener-class>
 </listener>
-<!--不想使用默认文件名 [servlet-name]-servlet.xml 和默认位置 WebContent/WEB-INF，可以添加 servlet 监听器 ContextLoaderListener 自定义该文件的名称和位置-->
+
+<!-- 部署applicationContext的xml文件 -->
+<!--如果在web.xml中不写任何参数配置信息，默认的路径是"/WEB-INF/applicationContext.xml，在WEB-INF目录下创建的xml文件的名称必须是applicationContext.xml。
+如果是要自定义文件名可以在web.xml里的上下文初始化参数中加入contextConfigLocation这个参数：
+在<param-value> </param-value>里指定相应的xml文件名，如果有多个xml文件，可以写在一起并以“,”号分隔。
+也可以这样applicationContext-*.xml采用通配符。
+也可以在applicationContext.xml在另外设置文件路径，如：
+<import resource="classpath*:spring/spring-*.xml" />  -->
 <context-param>
    <param-name>contextConfigLocation</param-name>
-   <param-value>/WEB-INF/spring-mvc-servlet.xml</param-value>
+   <param-value>classpath:spring/applicationContext.xml</param-value>
 </context-param>
 
-<listener>：会在整个Web应用程序启动的时候运行一次，并初始化传统意义上的Spring的容器
-<context-param>：加载全局化配置文件
+<!--	CharacterEncodingFilter是Spring框架提供的默认字符集过滤器，当forceEncoding为True时候，
+则强制覆盖之前的编码格式，避免页面乱码。-->
+<filter>
+  <filter-name>characterEncodingFilter</filter-name>
+  <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  <init-param>
+    <param-name>encoding</param-name>
+    <param-value>UTF-8</param-value>
+  </init-param>
+  <init-param>
+    <param-name>forceEncoding</param-name>
+    <param-value>true</param-value>
+  </init-param>
+</filter>
+<filter-mapping>
+  <filter-name>characterEncodingFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<!-- DispatcherServlet是Spring默认的请求分发器，一般请求分发会根据请求Url的一些设置来进行不同资源请求的分发，分发到各个不同的处理器中，如静态资源分发和数据接口分发，但是静态资源分发完全可以由Tomcat代劳而不经过Spring，所以在Web.xml你经常会见到如下配置，激活Tomcat的defaultServlet处理静态文件：
+将此配置写在DispatcherServlet之前，让DefaultServlet先拦截请求，不经过Spring
+-->
+<servlet-mapping>
+  <servlet-name>default</servlet-name>
+  <url-pattern>*.css</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>default</servlet-name>
+  <url-pattern>*.jpg</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>default</servlet-name>
+  <url-pattern>*.png</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>default</servlet-name>
+  <url-pattern>*.html</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>default</servlet-name>
+  <url-pattern>*.xml</url-pattern>
+</servlet-mapping>
+ 
+  
+<!-- DispatcherServlet是使用SpringMvc的重要配置，DispatcherServlet是Servlet转发器，可以配置多个DispatcherServlet来实现转发，在其配置中需要配置匹配规则，然后将拦截到的请求分发到请求目标，这里指的请求目标，实际就是Controller。
+在DispatcherServlet的初始化过程中，框架会在web应用的 WEB-INF文件夹下寻找名为
+[servlet-name]-servlet.xml 的配置文件，生成文件中定义的bean。也可以使用自己的配置文件名称  -->
+<servlet>
+  <servlet-name>DispatcherServlet</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <!--指明了配置文件的文件名，不使用默认配置文件名，而使用dispatcher-servlet.xml配置文件。-->
+  <init-param>
+    <param-name>contextConfigLocation</param-name>
+    <!--1、不写,使用默认值:/WEB-INF/<servlet-name>-servlet.xml-->
+    <!--2、<param-value>/WEB-INF/classes/dispatcher-servlet.xml</param-value>-->
+    <!--3、<param-value>classpath*:dispatcher-servlet.xml</param-value>-->
+    <!--4、多个值用逗号分隔-->
+    <param-value>classpath:spring/dispatcher-servlet.xml</param-value>
+  </init-param>
+  <!--是启动顺序，让这个Servlet随容器一起启动 -->
+  <load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+  <!--Servlet拦截匹配规则可以自已定义，一般根据Url正则来配置-->
+  <servlet-name>DispatcherServlet</servlet-name>
+  <!--会拦截所有请求。-->
+  <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+<!--首页-->
+<welcome-file-list>
+  <welcome-file>index.html</welcome-file>
+</welcome-file-list>
+  
+</webapp>
 ```
 
 ###### 3：配置视图解析器（spring-mvc-servlet.xml）

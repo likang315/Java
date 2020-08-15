@@ -4,7 +4,7 @@
 
 ​	简化了Spring开发初始搭建以及开发过程，可以非常容易的构建独立的服务组件，是实现分布式架构、微服务架构利器。
 
-![SpringBoot结构图](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/SpringBoot结构图.png)
+![SpringBoot结构图](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/SpringBoot结构图.jpeg)
 
 ##### 1：SpringBoot 的特点
 
@@ -13,8 +13,8 @@
 
 ##### 2：简单构建一个Demo
 
-- quickstart：构建一个jar包
-- webapp：构建一个war包
+- Spring initializr：直接启动，添加相应的组件
+  - 构建的工程已经没有web.xml
 
 ##### 3：pom.xml 依赖的管理
 
@@ -36,7 +36,10 @@
 
 ##### 4：SpringBoot的启动方式
 
-​	以前启动Spring项目的时候，需要打包部署到tomcat的webapp下，由于SpringBoot内置tomcat，所以有以下两种启动方式；
+​	以前启动Spring项目的时候，需要打包部署到 tomcat 的webapp下，由于SpringBoot内置tomcat，所以有以下两种启动方式；
+
+- Main 方法启动，依赖内置的Tomcat；
+- 外部Tomcat启动；
 
 1. 复合注解 **@SpringBootApplication**
 
@@ -97,7 +100,7 @@ public class App {
 | **spring-boot-starter-tomcat**   | 使用 Spring Boot 默认的 Tomcat 作为应用服务器。              |
 |                                  |                                                              |
 
-##### 6： Web开发
+##### 6： SpringBoot WEB页面目录结构
 
 1. Spring-Boot 默认提供静态资源目录位置**需置于classpath下**(resources目录下)，目录名需符合如下规则：
 
@@ -228,7 +231,91 @@ public class App {
   7. 书写(Key: Value)
      - key：需要顶格写，不能有空格，冒号后面需要有一个空格然后再跟值, 相同的缩进属于同一个map 
 
-##### 5：配置文件(application.properties)
+##### 9：SpringBoot默认的配置文件【重要】
+
+- application.properties
+- application.yml
+- Spring Boot接受prop / xml / yml 三种配置文件形式，这三种配置文件内部有所不同，配置形式不同，除此之外，其实文件的功能和用处没什么特别之处。
+  1. prop:配置文件结构
+  2. yml:树状结构
+  3. xml:标签结构
+
+1. **spring.profiles.active**
+   - Spring Profile参数，在启动时配置这个参数可以**激活当前环境的Profile**，如 --spring.profiles.active=dev 则可以激活的配置文件是 application-dev.propteies，以此来达到不同环境使用不同配置文件的目的，如application-dev.propteies ，application-prod.propteies；
+2. **spring.profiles.include**
+   - 这个配置同样可以配置在prop和yml中，其作用是**无条件的增量添加其他配置文件到系统中**。如我们添加 spring.profiles.include=cache,db 到配置文件中，则效果是，会自动的添加，application-cache.propteies和application-db.propteies 到环境中。
+3. **spring.profiles.default**
+   - spring.profiles.default 和 spring.profiles.active 一般是需要搭配使用的，在spring.profiles.active激活之后可以知道我们有多个环境了，如dev，prod，那么在没有指定的时候，默认使用的环境，就是由spring.profiles.default指定的。
+
+```xml
+<!-- 在web.xml配置中也可以实现配置 spring.profiles.default 等参数 -->
+<context-param>
+<param-name>spring.profiles.default</param-name>
+<param-value>dev</param-value>
+</context-param>
+```
+
+##### 10：使用Maven在编译时指定Profile方式【推荐】
+
+1. < profile>：定义了各个环境的变量ID；
+2. < filters>：定义了**变量配置文件的地址**；
+3. < resources>
+   1. < directory>：表示编译所需的资源目录；
+   2. < filtering>：表示是否开启替换资源文件中的属性, 设置为 true 才能实现动态替换；
+   3. < excludes>：表示排除掉资源目录下的某文件或文件夹
+   4. < includes>：表示包含资源目录下的文件；
+   5. < targetPath>：表示该资源标签下的资源打包编译后的保存路径,"." 表示当前目录；
+4. 执行下面命令进行编译：mvn package -P dev
+
+```xml
+<profiles>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <project.environment>dev</project.environment>
+      </properties>
+      <activation>
+        <!--默认开发环境-->
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <id>beta</id>
+      <properties>
+        <project.environment>beta</project.environment>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <project.environment>prod</project.environment>
+      </properties>
+    </profile>
+</profiles>
+
+ <build>
+        <finalName>工程名</finalName>
+        <filters>
+            <filter>src/main/config/${project.environment}/qfilter.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>config</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/config/${profile.active}</directory>
+              <targetPath>.</targetPath>
+            </resource>
+        </resources>
+</build>
+```
+
+
+
+##### 11：导入其他配置文件【重要】
 
 1. **Spring可以通过注解@Value(“${属性名key}”)**：加载对应的配置属性，然后将属性值赋值给注解对应的实体属性
 
