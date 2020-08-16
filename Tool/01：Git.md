@@ -19,12 +19,53 @@
 2. --global：会把配置信息写到只针对当前用户的配置文件中(c:/User/用户名/.gitconfig)
 
 - 查看git用户信息
-  - git config --global --list    ：查看用户配置列表
-  - git config user.name
+  - git config --global --list    ：查看全局的用户配置列表
+  - git config user.name	     ：查看该仓库的用户配置
   - git config user.email 
+  
 - 添加自己的信息
-  - git config --global user.email "you@example.com"
-  - git config --global user.name "Your Name"
+  - 全局的
+    - git config --global user.email "you@example.com"
+    - git config --global user.name "Your Name"
+  - 指定仓库的
+    - git config  user.name "Your Name"
+    - git config  user.email "you@example.com"
+  
+- 测试远端是否配置成功
+
+  - ssh -T 'config的URL'
+    - Ssh -T git@github.com
+
+- **多用户配置**
+
+  - 需要生成两对公钥私钥，然后公钥配对应的远程仓库，私钥本地都添加上
+
+    - ssh-keygen -t rsa -C "likang315@163com"
+      - 在本地生成公钥私钥,然后把公钥添加到Github 或者Gitlab，邮箱不同；
+    - ssh-add ~/.ssh/github_rsa
+    - ssh-add ~/.ssh/gitlab_rsa
+
+  - ~/.ssh/config  文件
+
+    ```shell
+    # A账户
+    Host  HostName的别名
+    HostName github.com
+    User xxx
+    IdentityFile ~/.ssh/github_rsa
+    # B账户
+    Host HostName的别名
+    HostName gitlab.com
+    User yyy
+    IdentityFile ~/.ssh/gitlab_rsa
+    ```
+
+  - 查看 仓库中 .git/config 文件中的URL 是否正确；
+
+  - 分别给每个仓库配相应的用户信息；
+
+    - git config  user.name "Your Name"
+    - git config  user.email "you@example.com"
 
 ##### 2：基础命令（支持linux命令）
 
