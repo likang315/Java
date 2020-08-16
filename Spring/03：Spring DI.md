@@ -157,7 +157,6 @@ Spring 提供了四种类型的集合的配置元素，如下所示：
   <property name="username" value="Yanglan"/>
   <property name="account" ref="ac_100"/>
 </bean>
-
 <!-- 自动装配 -->
 <bean id="account" class="twm.demo.Account"/>
 <bean id="user" class="twm.demo.User" autowire="byName">

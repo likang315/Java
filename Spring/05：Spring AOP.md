@@ -157,4 +157,104 @@ public void validateAccount(int account) {
 }
 ```
 
+##### 8：AOP 中 ProceedingJoinPoint
+
+- 主要作用是AOP增强时，可以动态的获取类的任何信息，像反射一样；
+
+- ProceedingJoinPoint 继承了JoinPoint接口
+
+  - public interface ProceedingJoinPoint extends JoinPoint 
+  - 定义了调用被通知方法的方法 **proceed**();
+
+- JoinPoint 接口的内部接口 **StaticPart**
+
+  ```java
+  public interface JoinPoint {
+  		// 连接点所在位置的相关信息
+    	String toString();
+  		// 连接点所在位置的简短相关信息
+      String toShortString();
+  		// 连接点所在位置的全部相关信息
+      String toLongString();
+  		// 返回AOP代理对象，也就是com.sun.proxy.$Proxy18
+      Object getThis();
+  		// 返回目标对象，一般我们都需要它
+      Object getTarget();
+  		// 返回被通知方法参数列表
+      Object[] getArgs();
+  		// 返回当前连接点签名
+      Signature getSignature();
+  		// 返回连接点方法所在类文件中的位置 
+      SourceLocation getSourceLocation();
+  		// 连接点类型
+      String getKind();
+  		// 返回连接点静态部分
+      JoinPoint.StaticPart getStaticPart();
+      public interface StaticPart {
+          Signature getSignature();
+          SourceLocation getSourceLocation();
+          String getKind();
+          int getId();
+          String toString();
+          String toShortString();
+          String toLongString();
+      }
+  }
+  ```
+
+- ###### Signature 签名
+
+  - MethodSignature
+  - FieldSignature
+  - ConstructorSignature
+    - 通过这些接口可以得到通知的Type和Name；
+
+```java
+public interface Signature {
+    String toString();
+
+    String toShortString();
+
+    String toLongString();
+
+    String getName();
+
+    int getModifiers();
+
+    Class getDeclaringType();
+
+    String getDeclaringTypeName();
+}
+```
+
+- ###### 示例：自定义记录耗时注解，一般配合Ordered接口使用，多个注解时，定义先后顺序
+
+```java
+@Around("@annotation(com.xupt.base.annotation.ElapsedTime)")
+public Object elapsedTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    Signature signature = joinPoint.getSignature();
+    // 两个接口属于平等的关系...
+    if (!(signature instanceof MethodSignature) {
+        return joinPoint.proceed();
+    } else {
+        Method method = ((MethodSignature) signature).getMethod();
+        ElapsedTime annotation = method.getAnnotation(ElapsedTime.class);
+        String monitorName =  Objects.nonNull(annotation) 
+          && StringUtils.isNotEmpty(annotation.value()) 
+          ? annotation.value()
+          : String.format("%s_%s", method.getClass().getSimpleName(), method.getName());
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        Object result = joinPoint.proceed();
+        stopwatch.stop();
+        log.info(monitorName, stopwatch.elapsed(TimeUnit.MILLISECONDS));
+        return result;
+    }
+}
+```
+
+
+
+
+
+
 
