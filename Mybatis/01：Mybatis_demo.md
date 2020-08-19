@@ -2,9 +2,9 @@
 
 ------
 
-​	通过抽像底层的JDBC代码，自动化 SQL 结果集产生 Java 对象，Java 对象的数据持久化数据库中的过程，使得对 SQL 的使用变的容易，是一个半自动化的 ORM （对象关系映射）框架，需要手工匹配提供 POJO、SQL 和映射关系
+​	通过抽像底层的JDBC代码，自动化 SQL 结果集产生 Java 对象，Java 对象的数据持久化数据库中的过程，使得对 SQL 的使用变的容易，是一个半自动化的 ORM （对象关系映射）框架，需要手动匹配提供 POJO、SQL 和映射关系
 
-- ORM：是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到数据库中
+- ORM：是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到数据库中。
 
 ##### Mybatis 示例
 
@@ -12,6 +12,15 @@
 
 - mybatis-3.x.x.jar
 - mysql-connector-java-5.1.22.jar
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.4.6</version>
+</dependency>
+```
 
 ###### 2：mybatis 配置文件：mybatis-config.xml
 
@@ -21,15 +30,15 @@
  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<typeAliases>
-	  <package name="com.xzy.pojo"/>
-	</typeAliases>
-  
   <settings>
         <!-- 在进行数据库字段和类属性名映射时，下划线自动转换为驼峰-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
-	
+  
+  <typeAliases>
+    <package name="com.xupt.pojo"/>
+  </typeAliases>
+
  <!-- 分模块部署时，dao层需要数据源-->
  <environments default="dev">
     <environment id="dev">
@@ -42,7 +51,7 @@
       </dataSource>
     </environment>
  </environments>
-	 
+
  <mappers>
     <!-- 引入映射器 -->
     <mapper resource = "mapper/StudentMapper.xml"/>

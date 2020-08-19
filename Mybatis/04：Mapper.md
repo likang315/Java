@@ -36,14 +36,31 @@
     3. ###### 用 Map 传递多个参数或返回Map
   
        1. map 传递多个参数时，parameterType="java.util.Map"，
-          - key为参数，value是参数值，通过#{key}获取值
+          
+          - key为参数，value是参数值，通过**#{key}**获取值
+          
        2. map 作为返回值时
-          - 返回Map 是一个对象时，根据数据库的字段和值生成map
+          - 返回Map 是**一个对象**时，根据数据库的字段和值生成map
             - resultType = "java.util.Map"
-          - 返回 map 是多个对象时，key是对象中指定的字段名，value是Bean
-            - resultMap="自定义的resultMap标签名"
+          - 返回 map 是**多个对象**时，key是对象中指定的字段名，value是Bean
+            - resultMap="自定义的resultMap标签名" 或者使用 **as** 使名称对应上；
             - key 需要通过**@MapKey("keynote")**  指定pojo对象中一个属性名为key
               - 用在mapper 接口定义的方法上；
+          
+          ```xml
+          Map<String, UserDO> getUser();
+          @MapKey("id")
+          List<Map<String, Object>> listUserMap();
+          
+          <select id="getUser" resultMap="map">
+             SELECT id, user_name as userName, sex
+             FROM user_info
+             WHERE id = "1"
+          </select>
+          <select id="listUserMap" resultType="map">
+               SELECT id, user_name as userName, sex FROM user_info
+          </select>
+          ```
   
   - resultMap ：用于把复杂的pojo进行结果映射，一对多、一对一时；
 
@@ -69,7 +86,7 @@
   - 如果你的数据库是规范命名的，即数据库每一个单词都用下划线分隔，POJO 采用驼峰式命名方法，可以**设置 mapUnderscoreToCamelCase 为 true，或者也可以实现从数据库到 POJO 的自动映射**
   - 自动映射可以在config.xml 中 settings 元素中配置 autoMappingBehavior 属性值来设置其策略
     - NONE：取消自动映射
-    - ###### PARTIAL：部分的，只会自动映射没有定义嵌套结果集映射的结果集
+    - **PARTIAL：部分的，只会自动映射没有定义嵌套结果集映射的结果集**
     - FULL：会自动映射任意复杂的结果集（无论是否嵌套）
 
 ```xml
@@ -86,10 +103,10 @@
 ##### 3：insert、update、delete 的属性
 
 - id：命名空间中的唯一标识符，用于确定使用接口的哪个方法
-- **useGeneratedKeys：主键回填，MyBatis 使用 JDBC的 getGeneratedKeys( ) 来获取数据库自动生成的ID**
+- **useGeneratedKeys：主键回填，插入数据成功后将会返回数据库自动生成的主键ID**
   - 默认值：false，仅对 insert 和 update 有用
 - parameterType：传入语句的参数的完全限定类名或别名
-- keyProperty：标记哪个属性是主键，默认：未设置（unset）
+- **keyProperty：标记哪个属性是主键，默认：未设置（unset）**
 - **flushCache：任何时候只要该语句被调用，都会导致本地缓存和二级缓存都会被清空，默认值：true**
 - timeout：抛出异常之前，驱动程序等待数据库返回请求结果的秒数，默认值： 未设置（unset）
 - statementType：发送sql语句的方式，STATEMENT，PREPARED 或 CALLABLE，默认值：PREPARED	
@@ -108,7 +125,7 @@
 ​	 MySQL 中主键自增字段，在插入后我们入往往需要获得这个主键，把获得的主键值给 JavaBean 的 ID
 
 ```xml
-<!--需要设置主键回填，和指定接收主键的属性-->
+<!--需要设置主键回填，和指定接收主键的属性，返回生成主键-->
 <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
 	insert into user(username,note) values(#{username},#{note})
 </insert>
@@ -127,19 +144,20 @@
 - 使用 ${} 会自动加上 ' ' ，用于字符串，会出现Sql注入问题
 - 使用 #{} 不会，替换值
 
-###### 复用SQL：可以通过property替换值
+###### 复用SQL：可以通过 property 替换值
 
 ```xml
 <!--复用的SQL语句-->
 <sql id="role_columns">
 	id,name,note
 </sql>
+
 <select>
-  select 
-  <include refid="role_columns"> 
-				<property name="note" value="status"/>
-	</include> from t_role where id=#{id}
-</select> 
+  select <include refid="role_columns"> 
+						<property name="note" value="status"/>
+ 				 </include>
+  from t_role where id=#{id}
+</select>
 ```
 
 ##### 4：结果映射（ResultMap）
@@ -190,7 +208,7 @@
 </resultMap>
 ```
 
-###### 3：< association> 引入 resultMap
+###### 3：< association> 引入
 
 ​	被用来导入“有一个”(has-one)类型的关联，子对象
 
@@ -212,7 +230,7 @@
 
 ```
 
-###### 4：< association> 内联的 resultMap
+###### 4：< association> 内联
 
 ```xml
 <resultMap type="stu" id="stusMap">
@@ -251,7 +269,7 @@
 
 ```xml
 <!-- 一个班级对象多个学生 -->
-<association property="stus" javaType="ArrayList" select="findStuByClassId" column="id" 	fetchType="lazy"> 
+<association property="stus" javaType="ArrayList" select="findStuByClassId" column="id" 	fetchType="lazy">
 </association>  
 
 <collection property="stus" javaType="ArrayList" select="findStuByClassId" column="id" 		fetchType="lazy">
@@ -288,10 +306,10 @@
 
 - 一级缓存：默认情况下，开启一级缓存，一级缓存只是相对于同一个 SqlSession
 - 二级缓存：默认情况下，不开启二级缓存，二级缓存是 SqlSessionFactory 层面上的缓存，关闭会话连接仍然缓存值
-  - MyBatis要求返回的POJO必须是可序列化的，也就是要求实现Serializable接口
+  - MyBatis要求返回的**POJO必须是可序列化的**，也就是要求实现Serializable接口
   - 开启配置：在select语句中就可以开启二级缓存，useCache="true"；
-  - mapper文件中 <cache />  全局配置开启，很多设置是默认的，三种方式开启
-  - <cache eviction="LRU" flushInterval="100000" size="1024" readOnly="true"/>
+  - mapper文件中 < cache/>  全局配置开启，很多设置是默认的，三种方式开启
+  - < cache eviction="LRU" flushInterval="100000" size="1024" readOnly="true"/>
     - eviction：代表是缓存置换算法，默认：LRU(Least Recently Used)
       - LRU：最近最少使用，移除最长时间不用的对像
       - FIFO：先进先出，按对像进入缓存的顺序来移除它们
@@ -299,17 +317,17 @@
     - size：缓存数量，代表缓存最多可以存储多个对象，不宜设置过大，设置过大会导致内存溢出
     - readOnly：只读，意味着缓存数据只能读取而不能修改，它的默认值为 false
 
-##### 9：@Param的用法
+##### 9：@Param mybatis 的注解
 
 - 用于参数命名，参数命名后就能根据名字得到参数值，正确的将参数传入sql语句中;
-- 使用@Param后，使用#{},${} 都可以，否则只能使用#{} ;
+- 使用@Param后，使用**#{},**${} 都可以，否则只能使用#{} ;
 - 若不使用@Param时，参数只能有一个，并且为JavaBean；
 - 修改参数名，匹配SQL字段
 
 ```xml
-Student select(@Param("name") String sName)
+Student getStudent(@Param("name") String Name)
 
-<select id="select" resultType="com.xuot.student">
+<select id="getStudent" resultType="com.xuot.student">
     SELECT * FROM student
     where name = #{name}
     LIMIT 1

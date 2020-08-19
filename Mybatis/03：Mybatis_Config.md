@@ -1,4 +1,4 @@
-### mybatis-config-xml ：配置文件
+### mybatis-config.xml ：配置文件
 
 ------
 
@@ -18,7 +18,7 @@
 
 ​	方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的是properties 属性中指定的属性
 
-##### 2：设置(Setting)
+##### 2：设置(Setting) 【重要】
 
 ​	一般设置全局配置参数，比如开启二级缓存，开启延迟加载等
 
@@ -26,24 +26,26 @@
 <settings>
   <!--开启二级缓存-->
 	<setting name="cacheEnabled" value="true">
+  <!-- 在进行数据库字段和类属性名映射时，下划线自动转换为驼峰-->
+	<setting name="mapUnderscoreToCamelCase" value="true"/>
 </settings>
 ```
 
-##### 3：类型别名(typeAliases)：两种
+##### 3：类型别名(typeAliases)：两种【重要】
 
 - 别名不区分大小写，用来减少类完全限定名的冗余
 - 用于让 mapper.xml 中的参数找到对应类，如：parameterType="test"
 
-1. <typeAlias alias="Author" type="com.xzy.main.Author"/>
-2. <package name="com.xupt.entity">
-   - 指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean，每一个在包中的Java Bean，在没有注解的情况下会使用 Bean 的**首字母小写的非限定类名**来作为它的别名,若类上有注解，则别名为其注解值
+1. < typeAlias alias="Author" type="com.xzy.main.Author"/>
+2. < package name="com.xupt.entity">
+   - 指定一个包名，MyBatis 会在包名下面搜索需要的 Java Bean，每一个在包中的Java Bean，在没有注解的情况下会使用 Bean 的**首字母小写的非限定类名**来作为它的别名，若类上有注解，则别名为其注解值
    - @Alias("author")
 
 ```xml
 <!--类型命名-->
 <typeAliases>
-	<typeAlias alias="Tutor" type="com.mybatis3.domain.Tutor"/>
-	<package name="com.mybatis3.domain"/>
+	<typeAlias alias="Tutor" type="com.xupt.pojo.Tutor"/>
+	<package name="com.xupt.pojo"/>
 </typeAliases>
 ```
 
@@ -63,6 +65,14 @@
      <package naem = "package name all load...">
    </typeHandlers>
    ```
+   
+   - 使用SpringBoot时加载方式
+   
+     ```yml
+     mybatis:
+       type-handlers-package: com.xupt.mybatis.typehandler
+       mapperLocations: classpath:mybatis/mapper/**/*.xml
+     ```
 
 - 使用 TypeHandler
 
@@ -90,7 +100,7 @@ public class StringTypeHandler implements TypeHandler<Sex> {
      *
      * @param preparedStatement
      * @param i 第几个参数
-     * @param s
+     * @param s javaType的值
      * @param jdbcType
      * @throws SQLException
      */
@@ -101,10 +111,10 @@ public class StringTypeHandler implements TypeHandler<Sex> {
     }
 
     /**
-     * 根据列名取值,然后赋值给美剧对应的属性返回
+     * 根据列名取值,然后赋值给DO对应的属性返回
      *
      * @param resultSet
-     * @param s
+     * @param s 结果集列名
      * @return
      * @throws SQLException
      */
@@ -219,5 +229,23 @@ public class StringTypeHandler implements TypeHandler<Sex> {
 ```java
 @Insert({"INSERT INTO user (id, username, passwd) VALUES (#{id}, #{username},#{passwd})"})
 int insertUser(User user);
+```
+
+##### 9：mybatis-config.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "WEB-INF/config/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 在进行数据库字段和类属性名映射时，下划线自动转换为驼峰-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <package name="com.xupt.qfc.pojo"/>
+    </typeAliases>
+</configuration>
 ```
 
