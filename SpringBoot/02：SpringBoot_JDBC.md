@@ -1,4 +1,4 @@
-### SpringBoot JDBC
+### SpringBoot 数据库配置
 
 ------
 
@@ -21,7 +21,7 @@
 
 2. 配置数据库用户名、密码、驱动，机器URL
 
-   1. 在application.properties中配置，会自动配置数据源，JdbcTemplate对象，相当于connection
+   1. 在application.properties中配置，会**自动配置数据源，JdbcTemplate对象**，相当于connection
 
       ```properties
       #数据库配置
@@ -37,7 +37,7 @@
 
 - 实际就是添加Mybatis依赖，JDBC驱动，使用其Jar包，操作数据库而已；
 
-1. 添加依赖
+1. **添加依赖**
 
    ```xml
    <!-- mybaties -->
@@ -53,6 +53,7 @@
 3. 编写dao层，mapper，xml（映射器），若xml 文件没有放在resources目录下，需在pom.xml中这样配置
 
    ```xml
+   <!--利用maven特性配置mapper位置-->
    <build>
      <resources>
        <resource>
@@ -65,9 +66,9 @@
    </build>
    ```
 
-##### 3：配置多个数据源
+4. **配置多个数据源【读写分离】**
 
-1. 在application.properties中编写两套不同的数据库，前缀不同来区分
+1. 在application-dev.properties 中编写两套不同的数据库，前缀不同来区分
 
    ```properties
    spring.datasource.primary.driverClassName=com.mysql.jdbc.Driver
@@ -84,52 +85,94 @@
 2. 编写两套相同的配置的数据源bean
 
 ```java
+/**
+ * 初始化写数据源, 以及事务管理器
+ *
+ * @author kangkang.li@qunar.com
+ * @date 2020-08-19 18:03
+ */
 @Configuration
-// 每个数据源扫描对应的包
-@MapperScan(basePackages="com.xupt.primary.mapper",
-            sqlSessionFactoryRef="test1SqlSessionFactory")
-public class DataSourceConfig {
+@MapperScan(basePackages = {"com.qunar.qfc.dao.writeonly"}, sqlSessionTemplateRef = "writeOnlySqlSessionTemplate")
+public class WriteDataSourceConfig {
 
-  /**
-	 * @return 返回primary数据库的数据源
-	 */
-  @Bean(name="PrimaryDataSource")
-  @Primary
-  @ConfigurationProperties(prefix="spring.datasource.primary")
-  public DataSource dateSource(){
-    return DataSourceBuilder.create().build();
-  }
+    @Value("${spring.datasource.url}")
+    private String url;
 
-  /**
-	 * @return 返回Priamry数据库的会话工厂
-	 */
-  @Bean(name = "SqlSessionFactory")
-  public SqlSessionFactory sqlSessionFactory(@Qualifier("PrimaryDataSource") DataSource ds) throws Exception{
-    SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-    bean.setDataSource(ds);
+    @Value("${spring.datasource.username}")
+    private String username;
 
-    return bean.getObject();
-  }
+    @Value("${spring.datasource.password}")
+    private String password;
 
-  /**
-	 * @return 返回Primary数据库的事务
-	 */
-  @Bean(name = "PrimaryTransactionManager")
-  @Primary
-  public DataSourceTransactionManager transactionManager(
-    @Qualifier("PrimaryDataSource") DataSource dataSource) {
-    return new DataSourceTransactionManager(dataSource);
-  }
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverClassName;
 
-  /**
-	 * @return 返回Primary数据库的会话模版
-	 */
-  @Bean(name = "PrimarySqlSessionTemplate")
-  public SqlSessionTemplate sqlSessionTemplate(
-    @Qualifier("PriamrySqlSessionFactory") SqlSessionFactory sqlSessionFactory)
-    throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactory);
-  }
+    /**
+     * 初始化写数据源
+     *
+     * @return
+     */
+    @Bean("writeDataSource")
+    @Primary
+    public DataSource initWriteDataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setDriverClassName(driverClassName);
+
+        return dataSource;
+    }
+
+    /**
+     * 创建 SessionFactory
+     *
+     * @param dataSource
+     * @return sessionFactory
+     * @throws Exception
+     */
+    @Bean(name = "writeOnlySqlSessionFactory")
+    @Primary
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("writeDataSource") 
+                                               DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(dataSource);
+        // 加载mybatis-config 文件
+        bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(
+          "classpath:mybatis/mybatis-config.xml"));
+        // 加载 mapper 文件 **: 任意多层目录
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver()
+                                .getResources("classpath:mybatis/mapper/**/*.xml"));
+
+        return bean.getObject();
+    }
+
+    /**
+     * 创建SqlSessionTemplate
+     *
+     * @param sqlSessionFactory
+     * @return
+     */
+    @Bean(name = "writeOnlySqlSessionTemplate")
+    @Primary
+    public SqlSessionTemplate sqlSessionTemplate(
+      @Qualifier("writeOnlySqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+        return new SqlSessionTemplate(sqlSessionFactory);
+    }
+
+    /**
+     * 创建事务管理器
+     *
+     * @param dataSource
+     * @return
+     */
+    @Bean(name = "desertFeedTransactionManager")
+    @Primary
+    public DataSourceTransactionManager transactionManager(
+      @Qualifier("writeDataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
+
 }
 ```
 

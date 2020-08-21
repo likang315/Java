@@ -97,4 +97,3 @@
 4. 配置好之后，如果想给某各类加日志
    - private static Logger log=Logger.getLogger(xxx.class);
    - log.error("error...."+e);
-

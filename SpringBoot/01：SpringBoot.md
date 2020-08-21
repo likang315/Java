@@ -313,11 +313,12 @@ public class App {
 </build>
 ```
 
-
-
 ##### 11：导入其他配置文件【重要】
 
-1. **Spring可以通过注解@Value(“${属性名key}”)**：加载对应的配置属性，然后将属性值赋值给注解对应的实体属性
+1. **Spring可以通过注解@Value(“${属性名key}”)**
+
+   - 通过全限定名加载对应的配置属性，然后将属性值赋值给注解对应的实体属性；
+   - 需要配合@PropertySource使用；
 
    ```java
    // application-dev.properties 中
@@ -327,9 +328,37 @@ public class App {
    private String level;
    ```
 
-2. **@ConfigurationProperties**(prefix = “xxx”)：配置属性注解，可以指定一个属性的前缀，将配置文件中的key为prefix属性名的值赋值给对应的属性，这种方式适用于前缀相同的一组值，这样就不用再为每个属性配置，一般与@PropertySource的一起使用；
+2. **@ConfigurationProperties**(prefix = “xxx”)：
+
+   - 该注解有一个prefix属性，通过指定的前缀，绑定配置文件中的配置，该注解可以放在类上（对应的属性名需要与定义的key相同），也可以放在方法上；
+   - 当注解作用于方法上时，如果想要有效的绑定配置，那么该方法需要有@Bean注解且所属Class需要有@Configuration注解，读写分离场景；
+   - 
 
    ```java
+   @Configuration
+   public class DruidDataSourceConfig {
+       /**
+        * DataSource 配置
+        * @return
+        */
+       @ConfigurationProperties(prefix = "jdbc.datasource.read")
+       @Bean(name = "readDataSource")
+       public DataSource readDruidDataSource() {
+           return new DruidDataSource();
+       }
+   
+       /**
+        * DataSource 配置
+        * @return
+        */
+       @ConfigurationProperties(prefix = "jdbc.datasource.write")
+       @Bean(name = "writeDataSource")
+       @Primary
+       public DataSource writeDruidDataSource() {
+           return new DruidDataSource();
+       }
+   }
+   
    @Component
    @ConfigurationProperties(prefix = "jdbc")
    public Class JdbcProperties {
@@ -344,21 +373,26 @@ public class App {
      jdbc.url=jdbc:mysql://127.0.0.1:3306/peter?useUnicode=true&characterEncoding=utf-8&useSSL=false
      jdbc.username=root
      jdbc.password=123456
+       
+     // map 和 list
+     data.nameMap.key1="value1"
+     data.nameMap.key2="value1"
+     data.list[0]="value1"
+     data.list[1]="value2"
    }
    ```
 
 3. **@PropertySource**：来引入定义属性文件的位置
 
    - @PropertySource(value= {"classpath:/config/book.properties"})
-   - 使用在需要获取 book.propesties  中值的类上，一般与@Value一起使用；
+   - 使用在需要获取 book.propesties  中值的类上，一般与@Value，@ConfigurationProperties一起使用；
 
 4. **多环境配置文件**：application-{profile}.properties 格式，其中{profile}对应你的环境标识，比如：
 
-   1. application-dev.properties：开发环境
-   2. application-beta.properties：测试环境
-   3. application-prod.properties：生产环境
-
-5. 在application.properties文件中通过spring.profiles.active=dev属性来设置，其值对应{profile}值，配置文件会被加载
+   - application-dev.properties：开发环境
+   - application-beta.properties：测试环境
+   - application-prod.properties：生产环境
+   - 在application.properties文件中通过spring.profiles.active=dev属性来设置，其值对应{profile}值，配置文件会被加载
 
 
 
