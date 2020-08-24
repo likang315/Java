@@ -258,7 +258,13 @@ public class App {
 ##### 10：使用Maven在编译时指定Profile方式【推荐】
 
 1. < profile>：定义了各个环境的变量ID；
+   1. maven启动时会配置自动选择使用哪个< profile>
+   2. 打包命令：mvn package -Pdev来指定激活id为 dev 的profile节点, 这样, 开发环境配置文件就会被打包.
+      - 开发：mvn package -Pdev (因为配置了默认激活dev部分, 所以也可以使用mvn package, 这与 mvn package -Pdev 效果相同)
+      - 测试：mvn package -Ptest
+      - 生产：mvn package -Pprod
 2. < filters>：定义了**变量配置文件的地址**；
+   1. < filter> 标签中指定的文件中$ {key}，会获取相应的值替代；
 3. < resources>
    1. < directory>：表示编译所需的资源目录；
    2. < filtering>：表示是否开启替换资源文件中的属性, 设置为 true 才能实现动态替换；

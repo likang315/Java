@@ -33,12 +33,8 @@ import java.util.Objects;
  */
 public class Producer {
     private static void producer() throws Exception {
-        // 链接
         Connection connection = null;
-
-        // 会话
         Session session = null;
-
         try {
             // 默认localhost
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
@@ -83,8 +79,8 @@ public class Producer {
 
 ###### 消费者
 
-1. 同步方式：pull 的方式去拉取消息消费；
-2. 异步方式：push 创建监听器监听消费，当有消费被push过来时，触发消费；
+1. 同步方式：**pull** 的方式去拉取消息消费；
+2. 异步方式：**push** 创建监听器监听消费，当有消费被push过来时，触发消费；
 
 ```java
 package com.gyf.p2p;
@@ -102,19 +98,15 @@ import java.util.Objects;
  */
 public class Consumer {
     private static void consumer() throws Exception {
-        // 链接
         Connection connection = null;
-
-        // 会话
         Session session = null;
-
         try {
             // 默认localhost
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
             connection = connectionFactory.createConnection();
             connection.start();
             // session第一个参数是否是事务
-            session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
+            session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
             Destination destination = session.createQueue("queueName");
             MessageConsumer consumer = session.createConsumer(destination);
 
@@ -127,7 +119,7 @@ public class Consumer {
                 MapMessage mapMessage = (MapMessage) consumer.receive();
               	// 注册一个实现 MessgaeListener 接口的监听器，当有消息push时，自动调用onMessage()
               	// consumer.setMessageListener(Lisener);
-              	// 创建监听器时一定要阻塞线程，让他一直处于监听状态
+              	// 创建监听器时会自动阻塞线程，让其一直处于监听状态
                 System.out.println("start consume: " + mapMessage.getLong("count"));
             }
 
@@ -135,8 +127,8 @@ public class Consumer {
             session.commit();
         } catch (JMSException e) {
             e.printStackTrace();
-
         } finally {
+          	//  finlly 关闭之后就不回阻塞了
             if (Objects.nonNull(session)) {
                 session.close();
             }
