@@ -20,6 +20,7 @@
 
 - @PathVariable：用来获得请求url中的动态参数的
 - @RequestParam和@PathVariable：**Spring能够根据名字自动赋值**对应的函数参数值
+- @RequestBody：接收请求报体中的数据；
 - @RequestHeader ：按请求报头绑定
 - @CookieValue   ：将参数名帮定了对像属性
 - @MatrixVariable：用矩阵变量绑定参数
