@@ -20,7 +20,7 @@
 
    - 本地需要另启一个 cmd 窗口，原来的不要关闭，不然就无法访问服务端了，切换到 redis 目录下运行: 
 
-   - redis-cli -h 127.0.0.1 -p 6379   【本地】
+   - exitredis-cli -h 127.0.0.1 -p 6379   【本地】
    - redis-cli -h {host} -p {port}
 
 5. 设置键值对：set myKey abc 

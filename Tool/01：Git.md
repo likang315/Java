@@ -66,6 +66,14 @@
 
     - git config  user.name "Your Name"
     - git config  user.email "you@example.com"
+    
+  - 
+  
+  - **配置多个Git账户时，使用别名进行clone**
+  
+    - git@gitlab:crm/merchant-platform.git（别名取代域名了）
+  
+  - 
 
 ##### 2：基础命令（支持linux命令）
 
