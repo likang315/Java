@@ -14,8 +14,29 @@
 ​	四个注解功能相同，都是用在类上的 Annotation，说明实例化此类，并把对象放入 spring 容器中，可以设置bean的名称。
 
 1. @Repository：声明在dao层
+
+   - 实例化MapperScannerConfigurer或者使用**@MapperScan()** 进行多个包扫描接口类
+
+   ```xml
+   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
+       <property name="basePackage" value="com.xupt.ivr.dao,
+                                           com.xupt.crm.dao" />
+     	<!--该属性单一数据源时可以不用配，但是多个数据源时，可以为不同的数据库对应不同的mapper接口-->
+       <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+   </bean>
+   <!--只扫描Repository注解-->
+   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
+       <property name="basePackage" value="com.xupt.crm" />
+     	<property name="annotationClass"
+                 value="org.springframework.stereotype.Repository"/>
+       <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+   </bean>
+   ```
+
 2. @Service：声明在service层
+
 3. @Controller：声明在控制器层
+
 4. @Component ：一般声明在组件、工具类
 
 ##### 3：设置基包的扫描( 四种方式)
