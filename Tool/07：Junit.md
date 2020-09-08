@@ -50,7 +50,7 @@
 ##### 4：功能测试【重要】
 
 - 一般面向某个完整的业务功能，同时也可以使用切面测试中的mock能力，推荐使用。涉及到的注解有**@RunWith、@SpringBootTest**等；
-- **@SpringBootTes**t
+- **@SpringBootTest**
   - 该注解并没有像@ContextConfiguration一样显示指定locations或classes属性，原因在于@SpringBootTest注解会**自动检索程序的配置文件，检索顺序是从当前包开始，逐级向上查找**被@SpringBootApplication或@SpringBootConfiguration注解的类；
   - 一般使用@SpringBootTest后，Spring将加载所有被管理的bean，基本等同于**启动了整个服务**，此时便可以开始功能测试；
 
