@@ -1,57 +1,46 @@
-### Dubbo
+### Dubbo 快速启动
 
 ------
 
-##### 01：Dubbo 的服务架构
+##### 01：安装dubbo
 
-![Dubbo](/Users/likang/Code/Git/Middleware/Dubbo/photos/Dubbo.png)
+###### 安装：
 
-###### 节点角色
+```sh
+git clone https://github.com/apache/dubbo.git
+cd dubbo/dubbo-demo/dubbo-demo-xml
+运行 dubbo-demo-xml-provider中的org.apache.dubbo.demo.provider.Application
+如果使用Intellij Idea 请加上-Djava.net.preferIPv4Stack=true
+```
 
-| 节点      | 角色说明                               |
-| --------- | -------------------------------------- |
-| Provider  | 暴露服务的服务提供方                   |
-| Consumer  | 调用远程服务的服务消费方               |
-| Registry  | 服务注册与发现的注册中心               |
-| Monitor   | 统计服务的调用次数和调用时间的监控中心 |
-| Container | 服务运行容器                           |
+###### 配置：
 
-##### 02：运行过程
+```sh
+resources/spring/dubbo-provider.xml
+修改其中的dubbo:registry，替换成真实的注册中心地址，推荐使用zookeeper，如：
+<dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+```
 
-1. 启动容器，加载，**运行服务提供者**。
-2. 服务提供者在启动时，在注册中心**发布注册**自己提供的**服务**。
-3. 服务消费者在启动时，在注册中心**订阅**自己所需的**服务**。
-4. 注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。
-5. 服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。
-6. 服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。
+##### 01：示例
 
-##### 03：示例
-
-###### 服务端
+###### 服务提供者
 
 服务端的接口写好，因为其实 dubbo 的作用简单来说就是给消费端提供接口。
 
 ```java
-/**
- * xml方式服务提供者接口
- */
+// 定义服务接口
 public interface ProviderService {
-
-    String SayHello(String word);
+    String sayHello(String word);
 }
-
-/**
- * xml方式服务提供者实现类
- */
-public class ProviderServiceImpl implements ProviderService{
-
-    public String SayHello(String word) {
+// 在服务提供方实现接口
+public class ProviderServiceImpl implements ProviderService {
+    public String sayHello(String word) {
         return word;
     }
 }
 ```
 
-###### 暴露接口（xml配置方法）
+###### 用 Spring 配置声明暴露服务
 
 1. 在项目的 resource 目录下**创建 META-INF.spring 包**，然后再创建 **provider.xml** 文件，名字可以任取；
 
@@ -71,23 +60,21 @@ public class ProviderServiceImpl implements ProviderService{
      
        <dubbo:monitor protocol="registry"/>
    
-       <!--dubbo这个服务所要暴露的服务地址所对应的注册中心-->
-       <!--<dubbo:registry address="N/A"/>-->
+       <!--d该服务所要暴露的服务地址所对应的注册中心-->
        <dubbo:registry address="N/A" />
    
-       <!--当前服务发布所依赖的协议；webserovice、Thrift、Hessain、http-->
+       <!-- 用dubbo协议在20880端口暴露服务 -->
        <dubbo:protocol name="dubbo" port="20880"/>
    
        <!--服务发布的配置，需要暴露的服务接口-->
-       <dubbo:service
-                      interface="com.sihai.dubbo.provider.service.ProviderService"
+       <dubbo:service interface="com.dubbo.provider.service.ProviderService"
                       ref="providerService"/>
    
        <!--Bean bean定义-->
        <bean id="providerService" 
-             class="com.sihai.dubbo.provider.service.ProviderServiceImpl"/>
+             class="com.dubbo.provider.service.ProviderServiceImpl"/>
    ```
-
+   
 2. 上面的文件其实就是类似 spring 的配置文件，而且，dubbo 底层就是 spring。
 
    - **节点：dubbo:application**
@@ -99,7 +86,7 @@ public class ProviderServiceImpl implements ProviderService{
    - **节点：dubbo:protocol**
      - 服务发布的时候 dubbo 依赖什么协议，可以配置 dubbo、webserovice、Thrift、Hessain、http等协议。
    - **节点：dubbo:service**
-     - 重点接口，当我们服务发布的时候，我们就是通过这个配置将我们的服务发布出去的。`interface` 是接口的包路径，`ref` 配置的接口的 bean。
+     - 重点接口，当我们服务发布的时候，我们就是通过这个配置将我们的服务发布出去的，**interface 是接口的包路径，ref 配置的接口的 bean。**
 
 3. ###### 发布接口
 
@@ -119,17 +106,15 @@ public class ProviderServiceImpl implements ProviderService{
 4. ###### dubbo暴露的URL
 
    ```java
-   dubbo://192.168.234.1:20880/com.sihai.dubbo.provider.service.ProviderService?anyhost=true&application=provider&bean.name=com.sihai.dubbo.provider.service.ProviderService&bind.ip=192.168.234.1&bind.port=20880&dubbo=2.0.2&generic=false&interface=com.sihai.dubbo.provider.service.ProviderService&methods=SayHello&owner=sihai&pid=8412&qos.accept.foreign.ip=false&qos.enable=true&qos.port=55555&side=provider&timestamp=1562077289380
+   dubbo://192.168.234.1:20880/com.dubbo.provider.service.ProviderService?anyhost=true&application=provider&bean.name=com.dubbo.provider.service.ProviderService&bind.ip=192.168.234.1&bind.port=20880&dubbo=2.0.2&generic=false&interface=com.dubbo.provider.service.ProviderService&methods=SayHello&owner=sihai&pid=8412&qos.accept.foreign.ip=false&qos.enable=true&qos.port=55555&side=provider&timestamp=1562077289380
    ```
 
    - dubbo://192.168.234.1:20880/com.sihai.dubbo.provider.service.ProviderService
    - ? 之前的链接，构成：**协议://ip:端口/接口**，类似于HTTP请求。
 
-###### 消费端
+###### 服务消费者
 
 - 在消费端的 resource 下建立配置文件consumer.xml，因为没有使用注册中心，所以配置有些不一样；
-
-- 
 
   ```xml
   <?xml version="1.0" encoding="UTF-8"?>
@@ -144,22 +129,21 @@ public class ProviderServiceImpl implements ProviderService{
       <!--dubbo这个服务所要暴露的服务地址所对应的注册中心-->
       <!--点对点的方式-->
       <dubbo:registry address="N/A" />
-      <!-- 使用zookeeper做为注册中心
-  		dubbo.crawler.zookeeper=zk.beta.corp.xupt.com:2181
+      
+    	<!-- 使用zookeeper做为注册中心
+  		dubbo.crawler.zookeeper=zk.beta.xupt.com:2181
   		dubbo.crawler.group=/content/feed-crawler/xupt/32238
   		-->
       <dubbo:registry id="crawlerRegistry" protocol="zookeeper"
                       address="@dubbo.crawler.zookeeper@"
                       group="@dubbo.content.group@" />
     	<dubbo:reference id="contentSearchService"
-                       registry="crawlerRegistry"
-                       interface="com.xupt.travel.service.CollectionService"
-                       timeout="3000" version="1.0.0" check="false"/>
+                       interface="com.xupt.travel.service.CollectionService" />
   
       <!--生成一个远程服务的调用代理-->
       <!--点对点方式-->
       <dubbo:reference id="providerService"
-                       interface="com.sihai.dubbo.provider.service.ProviderService"
+                       interface="com.dubbo.provider.service.ProviderService"
                        url="dubbo://192.168.234.1:20880
                             /com.xupt.dubbo.provider.service.ProviderService"/>
   </beans>
@@ -178,7 +162,7 @@ public class ProviderServiceImpl implements ProviderService{
           context.start();
           ProviderService providerService = 
             (ProviderService) context.getBean("providerService");
-          String str = providerService.SayHello("hello");
+          String str = providerService.sayHello("hello");
           System.out.println(str);
           System.in.read();
       }
