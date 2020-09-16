@@ -11,19 +11,49 @@
 - Redis 缓存空间大，不像InnoDB只有 256KB 缓存空间
 - Redis 只缓存热点数据，并且存在过期时间和内存淘汰，注定数据量⼩, ⽽ RDS 需要存储全量数据
 
-##### 2：缓存穿透、缓存雪崩
+##### 2：缓存穿透、缓存击穿、缓存雪崩
 
-- 缓存穿透：多次请求缓存中不存在的数据
-- 缓存雪崩：redis 缓存大量失效
+- 缓存穿透：key对应的数据在数据源并不存在，每次针对此key的请求从缓存获取不到，请求都会到数据源，从而可能压垮数据源；
+- 缓存击穿：key对应的数据存在，但在redis中过期，此时若有大量并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回写到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮；
+- 缓存雪崩：当缓存服务器重启或者大量缓存集中在某一个时间段失效，这样在失效的时候，也会给后端系统(比如DB)带来很大压力；
 
 ###### 解决穿透：
 
 1. 布隆过滤或压缩filter提前拦截
 2. 数据库找不到也将空对象进行缓存
 
+###### 解决击穿：
+
+1. redis 使用互斥锁，SETNX，是「SET if Not eXists」的缩写，也就是只有不存在的时候才设置，可以利用它来实现锁的效果;
+
+2. ```java
+   public String get(key) {
+       String value = redis.get(key);
+       // 代表缓存值过期
+       if (value == null) {
+           // 设置3min的过期时间，防止del操作失败的时候，下次缓存过期一直不能load db
+           if (redis.setnx(key_mutex, 1, 3 * 60) == 1) {
+               // db 获取value
+               value = db.get(key);
+               redis.set(key, value, expire_secs);
+               redis.del(key_mutex);
+           } else {
+               // 代表同时其他线程已经load db并回设到缓存了，这时候重试获取缓存值即可
+               sleep(50);
+               //   //重试
+               get(key);
+           }
+       } else {
+         	return value;      
+       }
+   }
+   ```
+
 ###### 解决雪崩：
 
 - 惰性删除【贪心策略】、定期删除
+
+![缓存雪崩](/Users/likang/Code/Git/Middleware/Redis/Redis/缓存雪崩.png)
 
 ##### 3：缓存不一致
 

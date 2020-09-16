@@ -70,3 +70,28 @@
 
    - 使用在**类**上
    - 生成包含所有参数的构造方法，get 方法，equals、hashCode、toString 方法，**注意：没有setter** 
+   
+10. @SneakyThrows
+
+   - 处理Exception的常见手段就是外面包一层RuntimeException，接着往上丢;
+   - 该注解会将异常抛出，value=“异常”；
+
+   ```java
+   try {
+     
+   } catch(Exception e) { 
+     throw new RuntimeException(e);
+   }
+   ```
+
+11. @UtilityClass
+
+    - 将所有的方法声明为static的；
+    - 同时创建了一个私有构造方法，调用该构造会抛出异常；
+
+12. @Accessors(chain = true)
+
+    - 使用链式创建对象；
+    - user.setName("").setAge("");
+
+    
