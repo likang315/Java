@@ -70,4 +70,231 @@
 
 - http://dubbo.apache.org/zh-cn/docs/user/configuration/api.html
 
-##### 04：注解配置
+##### 04：注解配置【使用方便】
+
+###### 服务提供方
+
+- Service注解暴露服务
+
+```java
+@Service
+public class AnnotationServiceImpl implements AnnotationService {
+    @Override
+    public String sayHello(String name) {
+        return "annotation: hello, " + name;
+    }
+}
+```
+
+- 增加应用共享配置
+
+```properties
+# dubbo-provider.properties
+dubbo.application.name=annotation-provider
+dubbo.registry.address=zookeeper://127.0.0.1:2181
+dubbo.protocol.name=dubbo
+dubbo.protocol.port=20880
+```
+
+- 指定Spring扫描路径
+
+```java
+@Configuration
+@EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.impl")
+@PropertySource("classpath:/spring/dubbo-provider.properties")
+static public class ProviderConfiguration {
+       
+}
+```
+
+###### 服务消费方
+
+- Reference 注解引用服务
+
+```java
+@Component("annotationAction")
+public class AnnotationAction {
+    @Reference
+    private AnnotationService annotationService;
+    
+    public String doSayHello(String name) {
+        return annotationService.sayHello(name);
+    }
+}
+```
+
+- 增加应用共享配置
+
+```properties
+# dubbo-consumer.properties
+dubbo.application.name=annotation-consumer
+dubbo.registry.address=zookeeper://127.0.0.1:2181
+dubbo.consumer.timeout=3000
+```
+
+- 指定Spring扫描路径
+
+```java
+@Configuration
+@EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.action")
+@PropertySource("classpath:/spring/dubbo-consumer.properties")
+@ComponentScan(value = {"org.apache.dubbo.samples.simple.annotation.action"})
+static public class ConsumerConfiguration {
+
+}
+```
+
+- 调用服务
+
+```java
+public static void main(String[] args) throws Exception {
+    AnnotationConfigApplicationContext context = 
+      new AnnotationConfigApplicationContext(ConsumerConfiguration.class);
+    context.start();
+    final AnnotationAction annotationAction =
+      (AnnotationAction) context.getBean("annotationAction");
+    String hello = annotationAction.doSayHello("world");
+}
+```
+
+##### 05：SpringBoot 配置
+
+```properties
+  ## application.properties
+  # Spring boot application
+  spring.application.name=dubbo-externalized-configuration-provider-sample
+  # Base packages to scan Dubbo Component: @com.alibaba.dubbo.config.annotation.Service
+  dubbo.scan.base-packages=com.alibaba.boot.dubbo.demo.provider.service
+  # Dubbo Application
+  ## The default value of dubbo.application.name is ${spring.application.name}
+  ## dubbo.application.name=${spring.application.name}
+  # Dubbo Protocol
+  dubbo.protocol.name=dubbo
+  dubbo.protocol.port=12345
+  ## Dubbo Registry
+  dubbo.registry.address=N/A
+  ## DemoService version
+  demo.service.version=1.0.0
+```
+
+##### 06：动态配置中心
+
+配置中心（v2.7.0）在Dubbo中承担**两个职责**：
+
+1. 外部化配置。启动配置的集中式存储 （简单理解为dubbo.properties的外部化存储）。
+2. 服务治理。服务治理规则的存储与通知。
+   - 为了兼容2.6.x版本配置，在使用Zookeeper作为注册中心，且没有显示配置配置中心的情况下，Dubbo框架会默认将此Zookeeper用作配置中心，但将只作服务治理用途。
+
+###### 三种启用方式
+
+```properties
+<dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
+
+dubbo.config-center.address=zookeeper://127.0.0.1:2181
+
+ConfigCenterConfig configCenter = new ConfigCenterConfig();
+configCenter.setAddress("zookeeper://127.0.0.1:2181");
+```
+
+###### 外部化部署
+
+- 外部化配置和其他本地配置在内容和格式上并无区别，可以简单理解为`dubbo.properties`的外部化存储，配置中心更适合将一些公共配置如注册中心、元数据中心配置等抽取以便做集中管理。
+
+- ```properties
+  # 将注册中心地址、元数据中心地址等配置集中管理，可以做到统一环境、减少开发侧感知。
+  dubbo.registry.address=zookeeper://127.0.0.1:2181
+  dubbo.registry.simplified=true
+  
+  dubbo.metadata-report.address=zookeeper://127.0.0.1:2181
+  
+  dubbo.protocol.name=dubbo
+  dubbo.protocol.port=20880
+  
+  dubbo.application.qos.port=33333
+  ```
+
+- 优先级
+
+  - 外部化配置默认较本地配置有更高的优先级，因此这里配置的内容会覆盖本地配置值，你也可通过以下**选项调整配置中心的优先级**：
+
+```properties
+-Ddubbo.config-center.highest-priority=false
+```
+
+- 作用域
+
+  - 外部化配置有**全局和应用**两个级别，全局配置是所有应用共享的，应用级配置是由每个应用自己维护且只对自身可见的。
+  - 当前已支持的扩展实现有Zookeeper、Apollo。
+
+- **Zookeeper【示例】**
+
+  - ```xml
+    <dubbo:config-center address="zookeeper://127.0.0.1:2181"/>
+    ```
+
+  - 默认所有的配置都存储在`/dubbo/config`节点，具体节点结构图依次降级：
+
+    1. namespace：用于不同配置的环境隔离。
+    2. config：Dubbo约定的固定节点，不可更改，所有配置和服务治理规则都存储在此节点下。
+    3. dubbo/application：分别用来隔离全局配置、应用级别配置：dubbo是默认group值，application对应应用名
+    4. dubbo.properties：此节点的node value存储具体配置内容
+
+- 自己加载外部化配置
+
+  - 所谓Dubbo对配置中心的支持：本质上就是把`.properties`从远程拉取到本地，然后和本地的配置做一次融合。理论上只要Dubbo框架能拿到需要的配置就可以正常的启动，它并不关心这些配置是自己加载到的还是应用直接塞给它的。
+
+###### 服务治理
+
+- Zookeeper 默认的节点结构
+  - namespace：用于不同配置的环境隔离。
+  - config：Dubbo约定的固定节点，不可更改，所有配置和服务治理规则都存储在此节点下。
+  - dubbo：所有服务治理规则都是全局性的，dubbo为默认节点。
+  - configurators/tag-router/condition-router：不同的服务治理规则类型，node value存储具体规则内容。
+
+##### 07：配置加载流程
+
+- 在**应用启动阶段，Dubbo 框架如何将所需要的配置采集起来**（包括应用配置、注册中心配置、服务配置等），以完成服务的暴露和引用流程。
+- Dubbo的配置读取总体上遵循了以下几个原则：
+  - Dubbo支持了多层级的配置，并按**预定优先级自动实现配置间的覆盖**，最终所有配置汇总到数据总线URL后驱动后续的服务暴露、引用等流程；
+  - ApplicationConfig、ServiceConfig、ReferenceConfig可以被理解成配置来源的一种，是直接面向用户编程的配置采集方式；
+  - 配置格式以Properties为主，在配置内容上遵循约定的`path-based`的命名规范；
+- 配置来源
+  - 默认有四种配置来源，配置覆盖关系的优先级从上到下依次降低：
+    - JVM System Properties，-D参数
+    - Externalized Configuration，外部化配置
+    - ServiceConfig、ReferenceConfig等编程接口采集的配置
+    - 本地配置文件dubbo.properties
+
+##### 08：自动加载环境变量
+
+- Dubbo会自动从约定key中读取配置，并将配置以Key-Value的形式写入到URL中，支持的key有以下两个：
+
+  1. `dubbo.labels`：指定一些列配置到URL中的键值对，通常通过JVM -D或系统环境变量指定。
+
+     ```properties
+     # JVM
+     -Ddubbo.labels = "tag1=value1; tag2=value2"
+     
+     # 环境变量
+     DUBBO_LABELS = "tag1=value1; tag2=value2"
+     # 最终生成的URL会包含 tag1、tag2 两个 key: dubbo://xxx?tag1=value1&tag2=value2
+     ```
+
+  2. `dubbo.env.keys`：指定环境变量key值，Dubbo会尝试从环境变量加载每个 key
+
+     ```properties
+     # JVM
+     -Ddubbo.env.keys = "DUBBO_TAG1, DUBBO_TAG2"
+     
+     # 环境变量
+     DUBBO_ENV_KEYS = "DUBBO_TAG1, DUBBO_TAG2"
+     # 最终生成的URL会包含 DUBBO_TAG1、DUBBO_TAG2 两个 key:
+     # dubbo://xxx?DUBBO_TAG1=value1&DUBBO_TAG2=value2
+     ```
+
+
+
+
+
+
+

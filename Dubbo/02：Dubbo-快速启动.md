@@ -60,7 +60,7 @@ public class ProviderServiceImpl implements ProviderService {
      
        <dubbo:monitor protocol="registry"/>
    
-       <!--d该服务所要暴露的服务地址所对应的注册中心-->
+       <!--该服务所要暴露的服务地址所对应的注册中心-->
        <dubbo:registry address="N/A" />
    
        <!-- 用dubbo协议在20880端口暴露服务 -->
@@ -137,8 +137,8 @@ public class ProviderServiceImpl implements ProviderService {
       <dubbo:registry id="crawlerRegistry" protocol="zookeeper"
                       address="@dubbo.crawler.zookeeper@"
                       group="@dubbo.content.group@" />
-    	<dubbo:reference id="contentSearchService"
-                       interface="com.xupt.travel.service.CollectionService" />
+    	<dubbo:reference id="providerService"
+                       interface="com.xupt.dubbo.provider.service.ProviderService" />
   
       <!--生成一个远程服务的调用代理-->
       <!--点对点方式-->

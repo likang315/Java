@@ -1,0 +1,3655 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://www.cnblogs.com/sunddenly/p/4033574.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <meta property="og:description" content="一、分布式协调技术 在给大家介绍ZooKeeper之前先来给大家介绍一种技术——分布式协调技术。那么什么是分布式协调技术？那么我来告诉大家，其实分布式协调技术主要用来解决分布式环境当中多个进程之间的同">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <link rel="stylesheet" href="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/blog-common.min.css">
+    <link id="MainCss" rel="stylesheet" href="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/bundle-simpleblue.min.css">
+    <link type="text/css" rel="stylesheet" href="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/custom.css">
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/bundle-simpleblue-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/sunddenly/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/sunddenly/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/sunddenly/wlwmanifest.xml">
+    <script async="" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/analytics.js"></script><script>
+        var currentBlogId = 197901;
+        var currentBlogApp = 'sunddenly';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleBlue';
+        var visitorUserId = '';
+    </script>
+        <script>
+            var currentPostDateAdded = '2014-10-21 11:50';
+        </script>
+    <script src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/jquery-2.2.0.min.js"></script>
+    <script src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/blog-common.min.js"></script>
+    
+    
+    
+<script src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/pubads_impl_2020091401.js" async=""></script><link rel="preload" href="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/f.txt"></script><link rel="prefetch" href="https://8b6693d594f77722c691af93701d1574.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html"><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html"></head>
+<body>
+    <a name="top"></a>
+        <div id="top_nav" class="navbar">
+            <nav id="nav_main" class="navbar-main">
+                <ul id="nav_left" class="navbar-list navbar-left">
+                    <li class="navbar-branding">
+                        <a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/logo.svg" alt="博客园Logo"></a>
+                    </li>
+                    <li><a href="https://www.cnblogs.com/">首页</a></li>
+                    <li><a href="https://news.cnblogs.com/">新闻</a></li>
+                    <li><a href="https://q.cnblogs.com/">博问</a></li>
+                    <li><a id="nav_brandzone" href="https://brands.cnblogs.com/">专区</a></li>
+                    <li><a href="https://ing.cnblogs.com/">闪存</a></li>
+                    <li><a href="https://edu.cnblogs.com/">班级</a></li>
+                </ul>
+                <ul id="nav_right" class="navbar-list navbar-right">
+                    <li>
+                        <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                            <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3">
+                            <button type="submit" id="zzk_search_button">
+                                <img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/search.svg" alt="搜索">
+                            </button>
+                        </form>
+                    </li>
+                    <li id="navbar_login_status" class="navbar-list">
+                        <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                            <img id="myblog_icon" class="navbar-icon" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/myblog.svg" alt="我的博客">
+                        </a>
+                        <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                            <img id="msg_icon" class="navbar-icon" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/message.svg" alt="短消息">
+                            <span id="msg_count" style="display: none"></span>
+                        </a>
+                        <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                            <a class="dropdown-button" href="https://home.cnblogs.com/">
+                                <img id="user_icon" class="navbar-avatar" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/avatar-default.svg" alt="用户头像">
+                            </a>
+                            <div class="dropdown-menu">
+                                <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                                <a href="https://home.cnblogs.com/">我的园子</a>
+                                <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                                <a href="javascript:void(0)" onclick="logout();">退出登录</a>
+                            </div>
+                        </div>
+                        <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                        <a class="navbar-anonymous" href="https://account.cnblogs.com/signin/?returnUrl=https://www.cnblogs.com/" style="display: inline;">登录</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    <div id="page_begin_html">
+        <style type="text/css">body { font-size: 14px; font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0 0 10px; padding: 0 0 10px; background-color: rgba(217, 214, 203, 1) }
+img { border: 0 }
+td { font-size: 14px }
+a { color: rgba(34, 51, 85, 1); text-decoration: none }
+a:hover { text-decoration: underline }
+h1 { margin: 0 0 0 5px; padding-top: 5px; font-size: 1.8em }
+h1 a:visited, h1 a:active, h1 a:link, h1 a:hover { color: rgba(255, 255, 255, 1); margin-top: 10px; text-decoration: none }
+h2 { margin-top: 10px; font-size: 1em }
+h5 { margin: 0; padding: 0 }
+#header { }
+#top { background-color: rgba(32, 55, 95, 1); height: 75px; vertical-align: middle; color: rgba(204, 204, 204, 1); padding-left: 10px }
+#top td { color: rgba(204, 204, 204, 1); width: 100% }
+#sub { text-align: right; background-color: rgba(0, 0, 0, 1); color: rgba(204, 204, 204, 1); font-size: 14px; padding: 4px 4px 4px 10px }
+.headermaintitle { font-family: "Trebuchet MS"; padding-bottom: 10px; color: rgba(204, 204, 204, 1) }
+#subtitle { color: rgba(255, 255, 255, 1); font-size: 1em; margin-top: 10px; margin-left: 6px }
+p.date img { vertical-align: middle }
+p.date { font-size: 1.2em; font-weight: bold; margin-bottom: 0; padding: 2px 0; color: rgba(170, 170, 170, 1); text-align: right }
+p.date span { background-color: rgba(255, 255, 255, 1) }
+p.date a { color: rgba(136, 136, 136, 1) }
+blockquote { background-color: rgba(255, 255, 255, 1); border: 1px dashed rgba(0, 0, 0, 1); padding: 2px; margin: 0 }
+#leftmenu { float: left; left: 0; width: 190px; padding: 0 0 5px 5px; overflow: hidden; background-color: rgba(238, 238, 238, 1) }
+#leftmenu h3 { font-size: 14px; margin: 0; padding: 4px; border-bottom: 1px solid rgba(187, 187, 187, 1) }
+#leftmenu ul { list-style: none; margin: 5px 5px 5px 8px; padding: 0; font-size: 13px }
+#leftmenu li { display: block; margin-bottom: 2px }
+#leftmenu a:active, #leftmenu a:visited, #leftmenu a:link { display: inline-block; color: rgba(0, 0, 0, 1); text-decoration: none; margin-right: 0; padding: 0 }
+#leftmenu a:hover { background-color: rgba(204, 213, 224, 1) }
+#main_container { }
+#main_content { float: right; margin-left: -200px; width: 100% }
+.cnblogs_code pre { font-family: Courier New; font-size: 20px; white-space: pre-wrap }
+#content { margin-left: 194px; padding: 10px; margin-right: 0; border-left: 1px solid rgba(221, 221, 221, 1); border-bottom: 1px solid rgba(221, 221, 221, 1) }</style>
+    </div>
+    <div id="home">
+    <div id="header">
+        <div id="blogTitle">
+            
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/sunddenly/">Sunddenly(⊙_⊙)</a>
+</div>
+<div class="subtitle">
+不问收获，但问耕耘,天道酬勤!
+</div>
+
+        </div>
+        <div id="navigator">
+            
+<ul id="navList">
+    <li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+    <li id="nav_myhome">
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/sunddenly/">
+首页</a>
+</li>
+    <li id="nav_newpost">
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+    <li id="nav_contact">
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/sunddenly">
+联系</a></li>
+    <li id="nav_rss">
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/sunddenly/rss/">
+订阅</a></li>
+    <li id="nav_admin">
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+            <div class="blogStats">
+                
+<span id="stats_post_count">随笔 - 
+73&nbsp;</span>
+<span id="stats_article_count">文章 - 
+31&nbsp;</span>
+<!-- <span id="stats-comment_count"></span> -->
+<span id="stats_comment_count">评论 - 
+179</span>
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="mainContent">
+            <div class="forFlow">
+                <div id="post_detail">
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/sunddenly/p/4033574.html">
+    <span>ZooKeeper学习第一期---Zookeeper简单介绍</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body">
+    <h2><span style="font-size: 16pt;"><strong>一、分布式协调技术 </strong></span></h2>
+<p>在给大家介绍ZooKeeper之前先来给大家介绍一种技术——分布式协调技术。那么什么是分布式协调技术？那么我来告诉大家，其实分布式协调技术主要用来解决分布式环境当中多个进程之间的同步控制，让他们有序的去访问某种临界资源，防止造成"脏数据"的后果。这时，有人可能会说这个简单，写一个调度算法就轻松解决了。说这句话的人，可能对分布式系统不是很了解，所以才会出现这种误解。如果这些进程全部是跑在一台机上的话，相对来说确实就好办了，问题就在于他是在一个分布式的环境下，这时问题又来了，那什么是分布式呢？这个一两句话我也说不清楚，但我给大家画了一张图希望能帮助大家理解这方面的内容，如果觉得不对尽可拍砖，来咱们看一下这张图，如图1.1所示。</p>
+<p style="text-align: center;"><span style="font-family: 黑体;"><span style="font-size: 14px;">图 1.1 分布式系统图</span> </span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534548096997.png" alt=""></p>
+<p>给大家分析一下这张图，在这图中有三台机器，每台机器各跑一个应用程序。然后我们将这三台机器通过网络将其连接起来，构成一个系统来为用户提供服务，对用户来说这个系统的架构是透明的，他感觉不到我这个系统是一个什么样的架构。那么我们就可以把这种系统称作一个<strong>分布式系统</strong>。</p>
+<p>那我们接下来再分析一下，在这个分布式系统中如何对进程进行调度，我假设在第一台机器上挂载了一个资源，然后这三个物理分布的进程都要竞争这个资源，但我们又不希望他们同时进行访问，这时候我们就需要一个<strong>协调器</strong>，来让他们有序的来访问这个资源。这个协调器就是我们经常提到的那个<strong>锁</strong>，比如说"进程-1"在使用该资源的时候，会先去获得锁，"进程1"获得锁以后会对该资源保持<strong>独占</strong>，这样其他进程就无法访问该资源，"进程1"用完该资源以后就将锁释放掉，让其他进程来获得锁，那么通过这个锁机制，我们就能保证了分布式系统中多个进程能够有序的访问该临界资源。那么我们把这个分布式环境下的这个锁叫作<strong>分布式锁</strong>。这个分布式锁也就是我们<strong>分布式协调技术</strong>实现的核心内容，那么如何实现这个分布式呢，那就是我们后面要讲的内容。</p>
+<h2><span style="font-size: 16pt;"><strong>二、分布式锁的实现 </strong></span></h2>
+<p>好我们知道，为了防止分布式系统中的多个进程之间相互干扰，我们需要一种分布式协调技术来对这些进程进行调度。而这个分布式协调技术的核心就是来实现这个分<strong>布式锁</strong>。那么这个锁怎么实现呢？这实现起来确实相对来说比较困难的。</p>
+<h3><span style="font-size: 15pt;"><strong>1.1 面临的问题 </strong></span></h3>
+<p>在看了图1.1所示的分布式环境之后，有人可能会感觉这不是很难。无非是将原来在同一台机器上对进程调度的原语，通过网络实现在分布式环境中。是的，表面上是可以这么说。但是问题就在网络这，在分布式系统中，所有在同一台机器上的假设都不存在：因为网络是不可靠的。</p>
+<p>比如，在同一台机器上，你对一个服务的调用如果成功，那就是成功，如果调用失败，比如抛出异常那就是调用失败。但是在分布式环境中，由于网络的不可靠，你对一个服务的调用失败了并不表示一定是失败的，可能是执行成功了，但是响应返回的时候失败了。还有，A和B都去调用C服务，在时间上 A还先调用一些，B后调用，那么最后的结果是不是一定A的请求就先于B到达呢？ 这些在同一台机器上的种种假设，我们都要重新思考，我们还要思考这些问题给我们的设计和编码带来了哪些影响。还有，在分布式环境中为了提升可靠性，我们往往会部署多套服务，但是如何在多套服务中达到一致性，这在同一台机器上多个进程之间的同步相对来说比较容易办到，但在分布式环境中确实一个大难题。</p>
+<p>所以分布式协调远比在同一台机器上对多个进程的调度要难得多，而且如果为每一个分布式应用都开发一个独立的协调程序。一方面，协调程序的反复编写浪费，且难以形成通用、伸缩性好的协调器。另一方面，协调程序开销比较大，会影响系统原有的性能。所以，急需一种高可靠、高可用的通用协调机制来用以协调分布式应用。</p>
+<h3><span style="font-size: 15pt;"><strong>1.2 分布式锁的实现者 </strong></span></h3>
+<p>目前，在分布式协调技术方面做得比较好的就是Google的Chubby还有Apache的ZooKeeper他们都是分布式锁的实现者。有人会问既然有了Chubby为什么还要弄一个ZooKeeper，难道Chubby做得不够好吗？不是这样的，主要是Chbby是非开源的，Google自家用。后来雅虎模仿Chubby开发出了ZooKeeper，也实现了类似的分布式锁的功能，并且将ZooKeeper作为一种开源的程序捐献给了Apache，那么这样就可以使用ZooKeeper所提供锁服务。而且在分布式领域久经考验，它的可靠性，可用性都是经过理论和实践的验证的。所以我们在构建一些分布式系统的时候，就可以以这类系统为起点来构建我们的系统，这将节省不少成本，而且bug也 将更少。</p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534551216968.png" alt=""></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534558566811.png" alt=""></p>
+<h2><span style="font-size: 16pt;"><strong>三、ZooKeeper概述 </strong></span></h2>
+<p>ZooKeeper是一种为分布式应用所设计的<span style="color: blue;">高可用</span>、<span style="color: blue;">高性能</span>且<span style="color: blue;">一致的</span>开源协调服务，它提供了一项基本服务：<strong>分布式锁服务</strong>。由于ZooKeeper的开源特性，后来我们的开发者在分布式锁的基础上，摸索了出了其他的使用方法：<strong>配置维护、组服务、分布式消息队列</strong>、<strong>分布式通知/协调</strong>等。</p>
+<h4><strong>注意：</strong>ZooKeeper<strong>性能上的特点</strong>决定了它能够用在大型的、分布式的系统当中。从<strong>可靠性</strong>方面来说，它并不会因为一个节点的错误而崩溃。除此之外，它<strong>严格的序列访问控制</strong>意味着复杂的控制原语可以应用在客户端上。ZooKeeper在一致性、可用性、容错性的保证，也是ZooKeeper的成功之处，它获得的一切成功都与它采用的协议——Zab协议是密不可分的，这些内容将会在后面介绍。</h4>
+<p>前面提到了那么多的服务，比如分布式锁、配置维护、组服务等，那它们是如何实现的呢，我相信这才是大家关心的东西。ZooKeeper在实现这些服务时，首先它设计一种新的<strong>数据结构——Znode</strong>，然后在该数据结构的基础上定义了一些<strong>原语</strong>，也就是一些关于该数据结构的一些操作。有了这些数据结构和原语还不够，因为我们的ZooKeeper是工作在一个分布式的环境下，我们的服务是通过消息以网络的形式发送给我们的分布式应用程序，所以还需要一个<strong>通知机制</strong>——Watcher机制。那么总结一下，ZooKeeper所提供的服务主要是通过：数据结构+原语+watcher机制，三个部分来实现的。那么我就从这三个方面，给大家介绍一下ZooKeeper。</p>
+<h2><span style="font-size: 16pt;"><strong>四、ZooKeeper数据模型 </strong></span></h2>
+<h3><span style="font-size: 15pt;"><strong>4.1 ZooKeeper数据模型Znode </strong></span></h3>
+<p>ZooKeeper拥有一个层次的命名空间，这个和标准的文件系统非常相似，如下图3.1 所示。</p>
+<p style="text-align: center;"><span style="font-family: 黑体;">图4.1 ZooKeeper数据模型与文件系统目录树 </span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534562152768.png" alt=""> <img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534565743426.png" alt=""></p>
+<p>从图中我们可以看出ZooKeeper的数据模型，在结构上和标准文件系统的非常相似，都是采用这种树形层次结构，ZooKeeper树中的每个节点被称为—Znode。和文件系统的目录树一样，ZooKeeper树中的每个节点可以拥有子节点。但也有不同之处：</p>
+<p><strong>(1) 引用方式 </strong></p>
+<p>Zonde通过<strong>路径引用</strong>，如同Unix中的文件路径。路径必须是<span style="color: blue;">绝对的</span>，因此他们必须由<span style="color: blue;">斜杠</span>字符来<strong>开头</strong>。除此以外，他们必须是唯一的，也就是说每一个路径只有一个表示，因此这些路径不能改变。在ZooKeeper中，路径由Unicode字符串组成，并且有一些限制。字符串"/zookeeper"用以保存管理信息，比如关键配额信息。</p>
+<p><strong>(2)</strong> <strong>Znode结构 </strong></p>
+<p>ZooKeeper命名空间中的Znode，兼具文件和目录两种特点。既像文件一样维护着数据、元信息、ACL、时间戳等数据结构，又像目录一样可以作为路径标识的一部分。图中的每个节点称为一个Znode。 每个Znode由3部分组成:</p>
+<p style="margin-left: 24pt;"><strong>①</strong> stat：此为状态信息, 描述该Znode的版本, 权限等信息</p>
+<p style="margin-left: 24pt;"><strong>②</strong> data：与该Znode关联的数据</p>
+<p style="margin-left: 24pt;"><strong>③</strong> children：该Znode下的子节点</p>
+<p>ZooKeeper虽然可以关联一些数据，但并没有被设计为常规的数据库或者大数据存储，相反的是，它用来<span style="color: purple; font-family: 微软雅黑;"><strong>管理调度数据</strong></span>，比如分布式应用中的<span style="color: blue;">配置文件信息</span>、<span style="color: blue;">状态信息</span>、<span style="color: blue;">汇集位置</span>等等。这些数据的共同特性就是它们都是很小的数据，通常以KB为大小单位。ZooKeeper的服务器和客户端都被设计为严格检查并限制每个Znode的数据大小至多1M，但常规使用中应该远小于此值。</p>
+<p><strong>(3) 数据访问 </strong></p>
+<p>ZooKeeper中的每个节点存储的数据要被<strong>原子性的操作</strong>。也就是说读操作将获取与节点相关的所有数据，写操作也将替换掉节点的所有数据。另外，每一个节点都拥有自己的ACL(访问控制列表)，这个列表规定了用户的权限，即限定了特定用户对目标节点可以执行的操作。</p>
+<p><strong>(4) 节点类型 </strong></p>
+<p>ZooKeeper中的节点有两种，分别为<strong>临时节点</strong>和<strong>永久节点</strong>。节点的类型在创建时即被确定，并且不能改变。</p>
+<p style="margin-left: 24pt;"><strong>① 临时节点：</strong>该节点的生命周期依赖于创建它们的会话。一旦会话(Session)结束，临时节点将被自动删除，当然可以也可以手动删除。虽然每个临时的Znode都会绑定到一个客户端会话，但他们对所有的客户端还是可见的。另外，ZooKeeper的<span style="color: blue;">临时节点不允许拥有子节点</span>。</p>
+<p style="margin-left: 24pt;"><strong>② 永久节点：</strong>该节点的生命周期不依赖于会话，并且只有在客户端显示执行删除操作的时候，他们才能被删除。</p>
+<p><strong>(5)</strong> <span style="font-family: 宋体;"><strong>顺序节点</strong> </span></p>
+<p>当创建Znode的时候，用户可以请求在ZooKeeper的路径结尾添加一个<strong>递增的计数</strong>。这个计数<strong>对于此节点的父节点来说</strong>是<span style="color: blue;">唯一的</span>，它的格式为"%10d"(10位数字，没有数值的数位用0补充，例如"0000000001")。当计数值大于2<sup>32</sup>-1时，计数器将溢出。</p>
+<p><strong>(6) 观察 </strong></p>
+<p>客户端可以在节点上设置watch，我们称之为<strong>监视器</strong>。当节点状态发生改变时(Znode的增、删、改)将会触发watch所对应的操作。当watch被触发时，ZooKeeper将会向客户端发送且仅发送一条通知，因为watch只能被触发一次，这样可以减少网络流量。</p>
+<h3><span style="font-size: 15pt;"><strong>4.2 ZooKeeper中的时间 </strong></span></h3>
+<p>ZooKeeper有多种记录时间的形式，其中包含以下几个主要属性：</p>
+<p><strong>(1) Zxid </strong></p>
+<p>致使ZooKeeper节点状态改变的每一个操作都将使节点接收到一个Zxid格式的时间戳，并且这个时间戳全局有序。也就是说，也就是说，每个对节点的改变都将产生一个唯一的Zxid。如果Zxid1的值小于Zxid2的值，那么Zxid1所对应的事件发生在Zxid2所对应的事件之前。实际上，ZooKeeper的每个节点维护者三个Zxid值，为别为：cZxid、mZxid、pZxid。</p>
+<p style="margin-left: 24pt;"><strong>①</strong> <strong>cZxid</strong>： 是节点的创建时间所对应的Zxid格式时间戳。<br><strong>② mZxid</strong>：是节点的修改时间所对应的Zxid格式时间戳。
+</p>
+<p>实现中Zxid是一个64为的数字，它<span style="color: red;">高32位</span>是<span style="color: blue;">epoch</span>用来标识leader关系是否改变，每次一个leader被选出来，它都会有一个 新的epoch。<span style="color: red;">低32位</span>是个<strong>递增计数</strong>。 <strong>(2) 版本号
+</strong></p>
+<p>对节点的每一个操作都将致使这个节点的版本号增加。每个节点维护着三个版本号，他们分别为：
+</p>
+<p style="margin-left: 24pt;"><strong>① version</strong>：节点数据版本号<br><strong>② cversion</strong>：子节点版本号<br><strong>③ aversion</strong>：节点所拥有的ACL版本号
+</p>
+<h3><span style="font-size: 15pt;"><strong>4.3 ZooKeeper节点属性
+</strong></span></h3>
+<p>通过前面的介绍，我们可以了解到，一个节点自身拥有表示其状态的许多重要属性，如下图所示。
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体;">图 4.2 Znode节点属性结构
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534569026625.png" alt=""></p>
+<h2><span style="font-size: 16pt;"><strong>五、ZooKeeper服务中操作
+</strong></span></h2>
+<p>在ZooKeeper中有9个基本操作，如下图所示：
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体;">图 5.1 ZooKeeper类方法描述
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534572468352.png" alt="">
+	</p>
+<p>更新ZooKeeper操作是<span style="color: blue;">有限制的</span>。delete或setData必须明确要更新的Znode的版本号，我们可以调用exists找到。如果版本号不匹配，更新将会失败。
+</p>
+<p>更新ZooKeeper操作是<span style="color: blue;">非阻塞式的</span>。因此客户端如果失去了一个更新(由于另一个进程在同时更新这个Znode)，他可以在不阻塞其他进程执行的情况下，选择重新尝试或进行其他操作。
+</p>
+<p>尽管ZooKeeper可以被看做是一个文件系统，但是处于便利，摒弃了一些文件系统地操作原语。因为文件非常的小并且使整体读写的，所以不需要打开、关闭或是寻地的操作。
+</p>
+<h2><span style="font-size: 16pt;"><strong>六、Watch触发器
+</strong></span></h2>
+<p><strong>(1) watch概述
+</strong></p>
+<p>ZooKeeper可以为所有的<span style="color: red;"><strong>读操作</strong><span style="color: blue;">设置watch</span>，这些读操作包括：<span style="color: blue;">exists</span>()</span>、<span style="color: blue;">getChildren</span>()及<span style="color: blue;">getData</span>()。watch事件是<strong>一次性的触发器</strong>，当watch的对象状态发生改变时，将会触发此对象上watch所对应的事件。watch事件将被<strong>异步</strong>地发送给客户端，并且ZooKeeper为watch机制提供了有序的<strong>一致性保证</strong>。理论上，客户端<span style="color: red;">接收<span style="color: blue;">watch事件</span>的时间要快于其看到<span style="color: blue;">watch对象状态变化</span>的时间。</span>
+	</p>
+<p><strong>(2) watch类型
+</strong></p>
+<p>ZooKeeper所管理的watch可以分为两类：
+</p>
+<p style="margin-left: 24pt;"><strong>①</strong><span style="color: purple;"> 数据watch</span>(data&nbsp; watches)：<strong>getData</strong>和<strong>exists</strong>负责设置数据watch<br><strong>② </strong><span style="color: purple;">孩子watch</span>(child watches)：<strong>getChildren</strong>负责设置孩子watch
+</p>
+<p>我们可以通过操作<strong>返回的数据</strong>来设置不同的watch：
+</p>
+<p style="margin-left: 24pt;"><strong>① getData和exists：</strong>返回关于节点的<span style="color: blue;">数据信息</span><br><strong>② getChildren：</strong>返回<span style="color: blue;">孩子列表
+</span></p>
+<p>因此
+</p>
+<p style="margin-left: 24pt;"><strong>① </strong>一个成功的<strong>setData操作</strong>将触发Znode的<span style="color: blue;">数据</span>watch
+</p>
+<p style="margin-left: 24pt;"><strong>②</strong> 一个成功的<strong>create操作</strong>将触发Znode的<span style="color: blue;">数据</span>watch以及<span style="color: blue;">孩子</span>watch
+</p>
+<p style="margin-left: 24pt;"><strong>③ </strong>一个成功的<strong>delete操作</strong>将触发Znode的<span style="color: blue;">数据</span>watch以及<span style="color: blue;">孩子</span>watch
+</p>
+<p><strong>(3) watch注册与处触发
+</strong></p>
+<p style="text-align: center;"><span style="font-family: 黑体;">图 6.1 watch设置操作及相应的触发器如图下图所示：
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534579188980.png" alt="">
+	</p>
+<p style="margin-left: 24pt;"><span style="color: black;"><strong>① </strong><span style="color: blue;">exists</span>操作上的</span>watch，在被监视的<span style="color: purple;">Znode</span><strong>创建</strong>、<strong>删除</strong>或<strong>数据更新</strong>时被触发。<br><span style="color: black;"><strong>②</strong><span style="color: blue;"> getData</span>操作上的</span>watch，在被监视的<span style="color: purple;">Znode</span><strong>删除</strong>或<strong>数据更新</strong>时被触发。在被创建时不能被触发，因为只有Znode一定存在，getData操作才会成功。<br><span style="color: black;"><strong>③</strong><span style="color: blue;"> getChildren</span>操作上的</span>watch，在被监视的<span style="color: purple;">Znode的子节点</span><strong>创建</strong>或<strong>删除</strong>，或是这个<span style="color: purple;">Znode自身</span>被<strong>删除</strong>时被触发。可以通过查看watch事件类型来区分是Znode，还是他的子节点被删除：NodeDelete表示Znode被删除，NodeDeletedChanged表示子节点被删除。
+</p>
+<p>Watch由客户端所连接的ZooKeeper服务器在本地维护，因此watch可以非常容易地设置、管理和分派。当客户端连接到一个新的服务器时，任何的会话事件都将可能触发watch。另外，当从服务器断开连接的时候，watch将不会被接收。但是，当一个客户端重新建立连接的时候，任何先前注册过的watch都会被重新注册。
+</p>
+<p><strong>(4) 需要注意的几点
+</strong></p>
+<p><strong>Zookeeper的watch实际上要处理两类事件：</strong>
+	</p>
+<p style="margin-left: 24pt;"><strong>① 连接状态事件</strong>(type=None, path=null)
+</p>
+<p style="margin-left: 48pt;">这类事件不需要注册，也不需要我们连续触发，我们只要处理就行了。
+</p>
+<p style="margin-left: 24pt;"><strong>② 节点事件</strong>
+	</p>
+<p style="margin-left: 48pt;">节点的建立，删除，数据的修改。它是one time trigger，我们需要不停的注册触发，还可能发生事件丢失的情况。
+</p>
+<p>上面2类事件都在Watch中处理，也就是重载的<strong>process(Event event)</strong>
+	</p>
+<p><strong>节点事件的触发，通过函数exists，getData或getChildren来处理这类函数，有双重作用：
+</strong></p>
+<p style="margin-left: 24pt;"><strong>① 注册触发事件
+</strong></p>
+<p style="margin-left: 24pt;"><strong>② 函数本身的功能 
+</strong></p>
+<p>函数的本身的功能又可以用异步的回调函数来实现,重载processResult()过程中处理函数本身的的功能。
+</p>
+<h2><span style="font-size: 16pt;"><strong>七、ZooKeeper应用举例　
+</strong></span></h2>
+<p>为了方便大家理解ZooKeeper，在此就给大家举个例子，看看ZooKeeper是如何实现的他的服务的，我以ZooKeeper提供的基本服务<strong>分布式锁</strong>为例。
+</p>
+<h3><span style="font-size: 15pt;"><strong>7.1 分布式锁应用场景
+</strong></span></h3>
+<p>在分布式锁服务中，有一种最典型应用场景，就是通过对集群进行<strong>Master选举</strong>，来解决分布式系统中的<strong>单点故障</strong>。什么是分布式系统中的单点故障：通常分布式系统采用主从模式，就是一个主控机连接多个处理节点。主节点负责分发任务，从节点负责处理任务，当我们的主节点发生故障时，那么整个系统就都瘫痪了，那么我们把这种故障叫作单点故障。如下图7.1和7.2所示：
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 14pt;"><strong><span style="font-size: 15px;">图 7.1 主从模式分布式系统&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 15px;">&nbsp;                      图7.2 单点故障
+</span></strong></span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534587316566.png" alt="" width="328" height="314">&nbsp;&nbsp;&nbsp;&nbsp;
+		<img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534591214279.png" alt="" width="302" height="289">
+	</p>
+<h3><span style="font-size: 15pt;"><strong>7.2 传统解决方案
+</strong></span></h3>
+<p>传统方式是采用一个备用节点，这个备用节点定期给当前主节点发送ping包，主节点收到ping包以后向备用节点发送回复Ack，当备用节点收到回复的时候就会认为当前主节点还活着，让他继续提供服务。如图7.3所示：
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 15px;"><strong>图 7.3 传统解决方案
+</strong></span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534594814937.png" alt="" width="418" height="249"></p>
+<p>当主节点挂了，这时候备用节点收不到回复了，然后他就认为主节点挂了接替他成为主节点如下图7.4所示：
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 15px;"><strong>图 7.4传统解决方案
+</strong></span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301534599495094.png" alt="" width="496" height="296"></p>
+<p>但是这种方式就是有一个隐患，就是网络问题，来看一网络问题会造成什么后果，如下图7.5所示：
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 15px;">图 7.5 网络故障
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301535005121522.png" alt="" width="436" height="276"></p>
+<p>也就是说我们的主节点的并没有挂，只是在回复的时候网络发生故障，这样我们的备用节点同样收不到回复，就会认为主节点挂了，然后备用节点将他的Master实例启动起来，这样我们的分布式系统当中就有了两个主节点也就是---<strong>双Master</strong>，出现Master以后我们的从节点就会将它所做的事一部分汇报给了主节点，一部分汇报给了从节点，这样服务就全乱了。为了防止出现这种情况，我们引入了ZooKeeper，它虽然不能避免网络故障，但它能够保证每时每刻只有一个Master。我么来看一下ZooKeeper是如何实现的。
+</p>
+<h3><span style="font-size: 15pt;"><strong>7.3 ZooKeeper解决方案
+</strong></span></h3>
+<p><strong>(1) Master启动
+</strong></p>
+<p>在引入了Zookeeper以后我们启动了两个主节点，"主节点-A"和"主节点-B"他们启动以后，都向ZooKeeper去注册一个节点。我们假设"主节点-A"锁注册地节点是"master-00001"，"主节点-B"注册的节点是"master-00002"，注册完以后进行选举，编号最小的节点将在选举中获胜获得锁成为主节点，也就是我们的"主节点-A"将会获得锁成为主节点，然后"主节点-B"将被阻塞成为一个备用节点。那么，通过这种方式就完成了对两个Master进程的调度。
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 15px;">图7.6 ZooKeeper Master选举
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301535008567950.png" alt=""></p>
+<p><strong>(2) Master故障
+</strong></p>
+<p>如果"主节点-A"挂了，这时候他所注册的节点将被自动删除，ZooKeeper会自动感知节点的变化，然后再次发出选举，这时候"主节点-B"将在选举中获胜，替代"主节点-A"成为主节点。
+</p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 15px;">图7.7 ZooKeeper Master选举
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301535012773122.png" alt="">
+	</p>
+<p><strong>(3) Master 恢复
+</strong></p>
+<p style="text-align: center;"><span style="font-family: 黑体; font-size: 15px;">图7.8 ZooKeeper Master选举
+</span></p>
+<p style="text-align: center;"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/301535016997293.png" alt=""></p>
+<p>如果主节点恢复了，他会再次向ZooKeeper注册一个节点，这时候他注册的节点将会是"master-00003"，ZooKeeper会感知节点的变化再次发动选举，这时候"主节点-B"在选举中会再次获胜继续担任"主节点"，"主节点-A"会担任备用节点。
+</p>
+<p> &nbsp;</p>
+<blockquote>
+<p>如果，您认为阅读这篇博客让您有些收获，不妨点击一下右下角的【推荐】。<br>如果，您希望更容易地发现我的新博客，不妨点击一下左下角的【关注我】。<br>如果，您对我的博客所讲述的内容有兴趣，请继续关注我的后续博客，我是【<a href="http://www.cnblogs.com/sunddenly/" target="_blank">Sunddenly</a>】。</p>
+<p>本文版权归作者和博客园共有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+
+</blockquote>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/sunddenly/category/611923.html" target="_blank">hadoop学习</a>,             <a href="https://www.cnblogs.com/sunddenly/category/620563.html" target="_blank">Zookeeper学习</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4033574,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;66a56b7e-8039-e411-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/sunddenly/" target="_blank"><img src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/sunddenly/">sunddenly</a><br>
+            <a href="https://home.cnblogs.com/u/sunddenly/followees/">关注 - 15</a><br>
+            <a href="https://home.cnblogs.com/u/sunddenly/followers/">粉丝 - 643</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;66a56b7e-8039-e411-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4033574,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">113</span>
+    </div>
+    <div class="buryit" onclick="votePost(4033574,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/sunddenly/archive/2004/01/13/4031322.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/sunddenly/archive/2004/01/13/4031322.html" title="发布于 2004-01-13 00:00">配置yum，nc，telnet</a>
+    <br>
+    <a href="https://www.cnblogs.com/sunddenly/archive/2004/01/13/4018459.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/sunddenly/archive/2004/01/13/4018459.html" title="发布于 2004-01-13 00:00">ZooKeeper学习第二期--ZooKeeper安装配置</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2014-10-21 11:50</span>&nbsp;
+<a href="https://www.cnblogs.com/sunddenly/">sunddenly</a>&nbsp;
+阅读(<span id="post_view_count">32714</span>)&nbsp;
+评论(<span id="post_comment_count">46</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=4033574" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(4033574);return false;">收藏</a></div>
+        </div>
+<script src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 197901, cb_blogApp = 'sunddenly', cb_blogUserGuid = '66a56b7e-8039-e411-b908-9dcfd8948a71';
+    var cb_entryId = 4033574, cb_entryCreatedDate = '2014-10-21 11:50', cb_postType = 1;
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder">
+
+<div id="comment_pager_top">
+    
+</div>
+
+
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3047866" class="layer">#1楼</a>
+<a name="3047866" id="comment_anchor_3047866"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-10-21 12:07</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3047866" href="https://www.cnblogs.com/chaoa/" target="_blank">Chaoa</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3047866" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    赞一个
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3047866, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3047866, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3047866_avatar" style="display:none">
+            https://pic.cnblogs.com/face/350819/20140107112643.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3047879" class="layer">#2楼</a>
+<a name="3047879" id="comment_anchor_3047879"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-10-21 12:32</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3047879" href="https://www.cnblogs.com/edisonchou/" target="_blank">EdisonZhou</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3047879" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    写得越来越长了，赞一个！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3047879, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3047879, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3047879_avatar" style="display:none">
+            https://pic.cnblogs.com/face/381412/20161204141727.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3049116" class="layer">#3楼</a>
+<a name="3049116" id="comment_anchor_3049116"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-10-22 18:52</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3049116" href="https://home.cnblogs.com/u/616953/" target="_blank">leesf</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3049116" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    写得真好！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3049116, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3049116, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3049221" class="layer">#4楼</a>
+<a name="3049221" id="comment_anchor_3049221"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-10-22 22:55</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3049221" href="https://www.cnblogs.com/haitao-fan/" target="_blank">范海涛</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3049221" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    天哪，你这些都是从哪里学到的，太牛了
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3049221, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3049221, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3049221_avatar" style="display:none">
+            https://pic.cnblogs.com/face/395638/20140818132358.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3057451" class="layer">#5楼</a>
+<a name="3057451" id="comment_anchor_3057451"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-11-04 21:30</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3057451" href="https://www.cnblogs.com/sunddenly/" target="_blank">sunddenly</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3057451" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3049221" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3049221);">@</a>
+尼玛范爷<br>哪里，大家相互学习相互交流
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3057451, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3057451, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3057452" class="layer">#6楼</a>
+<a name="3057452" id="comment_anchor_3057452"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-11-04 21:32</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3057452" href="https://www.cnblogs.com/sunddenly/" target="_blank">sunddenly</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3057452" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3047879" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3047879);">@</a>
+Edison Chou<br>嘿嘿，师兄看你的博客正在研究Nosql吗，师兄是要进互联网吗？
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3057452, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3057452, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3062682" class="layer">#7楼</a>
+<a name="3062682" id="comment_anchor_3062682"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-11-12 19:13</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3062682" href="https://www.cnblogs.com/edisonchou/" target="_blank">EdisonZhou</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3062682" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3057452" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3057452);">@</a>
+sunddenly<br>前段时间研究学习了一下，因为项目需要哈。你的博客写的越来越好，越来越长了，被评为推荐博客指日可待了，加油！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3062682, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3062682, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3062682_avatar" style="display:none">
+            https://pic.cnblogs.com/face/381412/20161204141727.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3063218" class="layer">#8楼</a>
+<a name="3063218" id="comment_anchor_3063218"></a>
+[<span class="louzhu">楼主</span>]
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-11-13 12:54</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3063218" href="https://www.cnblogs.com/sunddenly/" target="_blank">sunddenly</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3063218" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    <a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3062682" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3062682);">@</a>
+Edison Chou<br>嘿嘿，多谢师兄鼓励，还望师兄以后多多指点
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3063218, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3063218, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3077298" class="layer">#9楼</a>
+<a name="3077298" id="comment_anchor_3077298"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-12-03 15:45</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3077298" href="https://home.cnblogs.com/u/686646/" target="_blank">trucy</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3077298" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    wow，又变详细了。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3077298, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3077298, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3090468" class="layer">#10楼</a>
+<a name="3090468" id="comment_anchor_3090468"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2014-12-20 16:29</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3090468" href="https://www.cnblogs.com/byphper/" target="_blank">凹斯卡影帝</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3090468" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    博主是從哪些渠道學習到的這些知識，圖也不錯，很形象，贊！！！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3090468, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3090468, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3090468_avatar" style="display:none">
+            https://pic.cnblogs.com/face/536245/20130606120239.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3129249" class="layer">#11楼</a>
+<a name="3129249" id="comment_anchor_3129249"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2015-02-13 13:44</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3129249" href="https://www.cnblogs.com/liuwt0911/" target="_blank">刘文涛</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3129249" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    楼主写的精彩，我搜了好多文章，你的文章最好理解，又比较有深度，感谢分享。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3129249, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3129249, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3192800" class="layer">#12楼</a>
+<a name="3192800" id="comment_anchor_3192800"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2015-05-25 18:37</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3192800" href="https://www.cnblogs.com/vento/" target="_blank">vento</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3192800" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    看过介绍zookeeper最好的文章了
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3192800, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3192800, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3192800_avatar" style="display:none">
+            https://pic.cnblogs.com/face/27038/20130203213305.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3211488" class="layer">#13楼</a>
+<a name="3211488" id="comment_anchor_3211488"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2015-06-19 09:32</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3211488" href="https://www.cnblogs.com/yjmyzz/" target="_blank">菩提树下的杨过</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3211488" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    见过的zookeeper最好的中文系列文章，没有之一！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3211488, &#39;Digg&#39;, this.parentElement, false);">
+                支持(2)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3211488, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3211488_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u27612.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3247232" class="layer">#14楼</a>
+<a name="3247232" id="comment_anchor_3247232"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2015-08-13 16:30</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3247232" href="https://home.cnblogs.com/u/371927/" target="_blank">土豆哥哥</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3247232" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    兄弟，写的很好很认真，受教匪浅，再次感谢分享
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3247232, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3247232, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3298009" class="layer">#15楼</a>
+<a name="3298009" id="comment_anchor_3298009"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2015-11-03 15:27</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3298009" href="https://home.cnblogs.com/u/831110/" target="_blank">RMX</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3298009" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    很详细   是入门的好文章！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3298009, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3298009, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3335476" class="layer">#16楼</a>
+<a name="3335476" id="comment_anchor_3335476"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2015-12-27 12:28</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3335476" href="https://www.cnblogs.com/huawei306/" target="_blank">孙冬</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3335476" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    已收藏
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3335476, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3335476, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3335476_avatar" style="display:none">
+            https://pic.cnblogs.com/face/806648/20150903230948.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3342927" class="layer">#17楼</a>
+<a name="3342927" id="comment_anchor_3342927"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-01-07 11:32</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3342927" href="https://www.cnblogs.com/LUCKYZHOUSTAR/" target="_blank">LUCKYZHOUSTAR</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3342927" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    牛逼，收藏了
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3342927, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3342927, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3405703" class="layer">#18楼</a>
+<a name="3405703" id="comment_anchor_3405703"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-04-12 10:11</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3405703" href="https://www.cnblogs.com/linma/" target="_blank">SuperML</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3405703" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    这个真的是厉害， 博主要是能介绍下学习方法就更nice了
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3405703, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3405703, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3419570" class="layer">#19楼</a>
+<a name="3419570" id="comment_anchor_3419570"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-04-28 16:44</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3419570" href="https://www.cnblogs.com/BeingCreator/" target="_blank">一杯暖咖啡</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3419570" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    赞一个
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3419570, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3419570, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3419570_avatar" style="display:none">
+            https://pic.cnblogs.com/face/521248/20130425094217.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3447802" class="layer">#20楼</a>
+<a name="3447802" id="comment_anchor_3447802"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-06-06 22:30</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3447802" href="https://home.cnblogs.com/u/87352/" target="_blank">紫川帝林</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3447802" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    所看到过最好的zk入门文章。
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3447802, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3447802, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3473518" class="layer">#21楼</a>
+<a name="3473518" id="comment_anchor_3473518"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-07-20 17:32</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3473518" href="https://www.cnblogs.com/thlzhf/" target="_blank">逝者如斯(乎)</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3473518" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    有一个问题不明白，ZooKeeper本身安装在哪里呢？安装ZooKeeper的服务器本身如何避免单点故障？这不是死循环吗？希望能给解释一下，谢谢？
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3473518, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3473518, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3473556" class="layer">#22楼</a>
+<a name="3473556" id="comment_anchor_3473556"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-07-20 18:45</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3473556" href="https://www.cnblogs.com/thlzhf/" target="_blank">逝者如斯(乎)</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3473556" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    往后看知道了，在第8期有讲到ZooKeeper本身如何避免单点故障，谢谢！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3473556, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3473556, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3490393" class="layer">#23楼</a>
+<a name="3490393" id="comment_anchor_3490393"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-08-16 17:03</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3490393" href="https://www.cnblogs.com/rulian/" target="_blank">如莲</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3490393" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    写的非常不错。赞一个
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3490393, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3490393, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3490393_avatar" style="display:none">
+            https://pic.cnblogs.com/face/730751/20190322094501.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3527286" class="layer">#24楼</a>
+<a name="3527286" id="comment_anchor_3527286"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-10-10 14:01</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3527286" href="https://home.cnblogs.com/u/1039361/" target="_blank">菠萝135</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3527286" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    写的真好！大赞！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3527286, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3527286, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3535491" class="layer">#25楼</a>
+<a name="3535491" id="comment_anchor_3535491"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-10-19 09:21</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3535491" href="https://home.cnblogs.com/u/1045382/" target="_blank">lili_1834</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3535491" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    博主文章写的很清晰，赞。PXID表示的意思为：当前节点的最后一个子节点修改的zxid。如/B/[b1,b2,b3]这棵树，现在新增一个节点b4，其zxid为0x20000004，则/B节点的pxid=0x20000004
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3535491, &#39;Digg&#39;, this.parentElement, false);">
+                支持(1)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3535491, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3587601" class="layer">#26楼</a>
+<a name="3587601" id="comment_anchor_3587601"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2016-12-23 08:27</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3587601" href="https://www.cnblogs.com/vilolo/" target="_blank">yunti</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3587601" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    非常棒~~~
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3587601, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3587601, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3602429" class="layer">#27楼</a>
+<a name="3602429" id="comment_anchor_3602429"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-01-12 16:26</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3602429" href="https://www.cnblogs.com/valor-xh/" target="_blank">二郎神</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3602429" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    写的真好，绝对赞！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3602429, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3602429, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3602429_avatar" style="display:none">
+            https://pic.cnblogs.com/face/775431/20160822101938.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3628155" class="layer">#28楼</a>
+<a name="3628155" id="comment_anchor_3628155"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-02-28 11:49</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3628155" href="https://home.cnblogs.com/u/824128/" target="_blank">china100yb</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3628155" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    不错的文章，已经收藏，谢谢分享！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3628155, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3628155, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3661769" class="layer">#29楼</a>
+<a name="3661769" id="comment_anchor_3661769"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-04-07 16:58</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3661769" href="https://www.cnblogs.com/huyong/" target="_blank">.NET快速开发框架</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3661769" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    Zookeeper注册中心和Dubbo-Admin管理平台的搭建<br><a href="http://www.cnblogs.com/huyong/p/6678475.html" target="_blank">http://www.cnblogs.com/huyong/p/6678475.html</a><br>或<br><a href="http://blog.csdn.net/chinahuyong/article/details/69567840" target="_blank">http://blog.csdn.net/chinahuyong/article/details/69567840</a><br>或<br><a href="http://blog.rdiframework.net/929.html" target="_blank">http://blog.rdiframework.net/929.html</a>
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3661769, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3661769, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3661769_avatar" style="display:none">
+            https://pic.cnblogs.com/face/157572/20150613183043.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3687940" class="layer">#30楼</a>
+<a name="3687940" id="comment_anchor_3687940"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-05-09 16:55</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3687940" href="https://home.cnblogs.com/u/1127131/" target="_blank">neilyochc</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3687940" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    使用场景分析，适合入门学习 ，通俗易懂！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3687940, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3687940, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3764520" class="layer">#31楼</a>
+<a name="3764520" id="comment_anchor_3764520"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-08-23 17:16</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3764520" href="https://www.cnblogs.com/liuche/" target="_blank">刘彻</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3764520" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    如果Zookeeper挂了怎么办？又回到单点故障了吗
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3764520, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3764520, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3764520_avatar" style="display:none">
+            https://pic.cnblogs.com/face/371129/20170615154227.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3797639" class="layer">#32楼</a>
+<a name="3797639" id="comment_anchor_3797639"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-09-26 20:20</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3797639" href="https://home.cnblogs.com/u/153546/" target="_blank">wdwwtzy</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3797639" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    不错，很好的zk文章
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3797639, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3797639, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3861356" class="layer">#33楼</a>
+<a name="3861356" id="comment_anchor_3861356"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-12-08 17:45</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3861356" href="https://www.cnblogs.com/er-xiao/" target="_blank">MMeier</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3861356" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    马住后看(:
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3861356, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3861356, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3861356_avatar" style="display:none">
+            https://pic.cnblogs.com/face/1238644/20170913115012.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3863150" class="layer">#34楼</a>
+<a name="3863150" id="comment_anchor_3863150"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-12-11 17:57</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3863150" href="https://www.cnblogs.com/springmonkey/" target="_blank">spring_monkey</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3863150" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    牛掰
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3863150, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3863150, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3863150_avatar" style="display:none">
+            https://pic.cnblogs.com/face/772825/20190115153931.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3867187" class="layer">#35楼</a>
+<a name="3867187" id="comment_anchor_3867187"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-12-16 14:05</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3867187" href="https://www.cnblogs.com/boothsun/" target="_blank">做个有梦想的咸鱼</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3867187" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    很棒，希望转载部分内容，会标明出处~
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3867187, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3867187, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3869341" class="layer">#36楼</a>
+<a name="3869341" id="comment_anchor_3869341"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-12-19 15:48</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3869341" href="https://home.cnblogs.com/u/1244342/" target="_blank">kevin_cy</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3869341" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    赞一个
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3869341, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3869341, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3877053" class="layer">#37楼</a>
+<a name="3877053" id="comment_anchor_3877053"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2017-12-29 11:43</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3877053" href="https://home.cnblogs.com/u/1308787/" target="_blank">咒小隐</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3877053" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    想问下，Zookeeper的主从关系是Zookeeper机器间的，还是Zookeeper里的Znode节点间的？？或者都有
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3877053, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3877053, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3891850" class="layer">#38楼</a>
+<a name="3891850" id="comment_anchor_3891850"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2018-01-17 14:01</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3891850" href="https://www.cnblogs.com/ultranms/" target="_blank">哪是什么大佬</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3891850" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    zookeeper在你这篇文章终于有了大概的认识，很棒~~~
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3891850, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3891850, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3891850_avatar" style="display:none">
+            https://pic.cnblogs.com/face/1278921/20180704131040.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3897427" class="layer">#39楼</a>
+<a name="3897427" id="comment_anchor_3897427"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2018-01-25 17:07</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3897427" href="https://home.cnblogs.com/u/1306905/" target="_blank">huacq</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3897427" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    B节点没收到A节点ack，并不能证明A节点挂了，这个时候B节点就起来了，就会存在两个节点，我觉得在生产中完全不会有这种情况，A节点是不能证明它挂了，但是我可以人为的让他挂掉。这个图和分布式锁的关联没看明白，不过这么有条理的写学习笔记，很方便其他人学习，很赞！！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3897427, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3897427, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3902645" class="layer">#40楼</a>
+<a name="3902645" id="comment_anchor_3902645"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2018-02-02 14:01</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3902645" href="https://www.cnblogs.com/net515/" target="_blank">net515</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3902645" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    写得不错，意犹未尽呐
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3902645, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3902645, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3902645_avatar" style="display:none">
+            https://pic.cnblogs.com/face/u411269.jpg?id=05220903
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3955180" class="layer">#41楼</a>
+<a name="3955180" id="comment_anchor_3955180"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2018-04-19 08:37</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3955180" href="https://www.cnblogs.com/x54256/" target="_blank">想54256</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3955180" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    楼主NB，转载下可以不
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3955180, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3955180, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3955180_avatar" style="display:none">
+            https://pic.cnblogs.com/face/1251900/20171106140246.png
+        </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3998084" class="layer">#42楼</a>
+<a name="3998084" id="comment_anchor_3998084"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2018-06-14 11:05</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_3998084" href="https://home.cnblogs.com/u/900394/" target="_blank">wen默声</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_3998084" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    楼主写的真的很不错，很详细也很容易理解
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3998084, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(3998084, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#4025017" class="layer">#43楼</a>
+<a name="4025017" id="comment_anchor_4025017"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2018-07-20 16:18</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_4025017" href="https://home.cnblogs.com/u/1098215/" target="_blank">时光与少年都已沉旧</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_4025017" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    挺详细的,必须赞!
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4025017, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(4025017, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#4187744" class="layer">#44楼</a>
+<a name="4187744" id="comment_anchor_4187744"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2019-02-25 20:55</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_4187744" href="https://home.cnblogs.com/u/1461814/" target="_blank">xiahui400951</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_4187744" data-format-type="Ubb" class="blog_comment_body cnblogs-ubb">
+    非常棒！
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4187744, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(4187744, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#4595005" class="layer">#45楼</a>
+<a name="4595005" id="comment_anchor_4595005"></a>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2020-06-04 09:33</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_4595005" href="https://home.cnblogs.com/u/1627141/" target="_blank">扑啦扑啦飞</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_4595005" data-format-type="Markdown" class="blog_comment_body cnblogs-markdown">
+    <p>问一个问题哈。传统备用节点的缺点是可能存在通信方式异常。如果引用zookeeper的话，那么主节点A和zookeep之间会不会存在相同的问题呢？</p>
+
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4595005, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(4595005, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+    <div class="feedbackItem">
+        <div class="feedbackListSubtitle">
+            <div class="feedbackManage">
+                &nbsp;&nbsp;
+                
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+            </div>
+            <!-- Title -->
+            
+<a href="https://www.cnblogs.com/sunddenly/p/4033574.html#4640160" class="layer">#46楼</a>
+<a name="4640160" id="comment_anchor_4640160"></a>
+    <span id="comment-maxId" style="display: none">4640160</span>
+    <span id="comment-maxDate" style="display: none">2020/7/25 下午7:58:24</span>
+
+            <!-- PostDate -->
+            
+<span class="comment_date">2020-07-25 19:58</span>
+
+
+            <!--NameLink-->
+            
+        <a id="a_comment_author_4640160" href="https://www.cnblogs.com/loyalists/" target="_blank">lant007</a>
+
+            <div class="feedbackCon">
+                
+<div id="comment_body_4640160" data-format-type="Markdown" class="blog_comment_body cnblogs-markdown">
+    <p><a href="https://www.cnblogs.com/sunddenly/p/4033574.html#3897427" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3897427);">@</a>huacq<br>
+出现双Master时，即便你有报警能提示你说有新的master被切换，然后你去认为关掉另一个节点，这中间的时间， 已经有很多数据都打到它身上了，你关了它数据就丢了</p>
+
+</div>
+        <div class="comment_vote">
+            <span class="comment_error" style="color: red"></span>
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(4640160, &#39;Digg&#39;, this.parentElement, false);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment(4640160, &#39;Bury&#39;, this.parentElement, false);">
+                反对(0)
+            </a>
+        </div>
+        
+
+            </div>
+        </div>
+    </div>
+
+
+<div id="comment_pager_bottom">
+    
+</div>
+</div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/sunddenly/p/4033574.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/sunddenly/p/4033574.html#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-ucancode&#39;)">【推荐】超50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://developer.aliyun.com/learning/trainingcamp/together/1?utm_content=g_1000182999" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-9.17训练营&#39;)">【推荐】云栖训练营火热开启，跟着大牛学知识</a><br><a href="https://developer.aliyun.com/topic/offer/yunqi?utm_content=g_1000180856" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-阿里云offer5k&#39;)">【推荐】阿里云携近百家科技企业向你发来面试邀请</a><br><a href="https://www.cnblogs.com/cmt/p/13645639.html" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-示说网&#39;)">【推荐】博客园与示说网联合策划，AI实战系列公开课</a><br><a href="https://brands.cnblogs.com/agora" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-声网专区&#39;)">【推荐】未知数的距离，毫秒间的传递，声网与你实时互动</a><br><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-华为专区&#39;)">【推荐】了不起的开发者，挡不住的华为，园子里的品牌专区</a><br><a href="https://developer.aliyun.com/ask/257760?utm_content=g_1000088949" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-阿里云开发者社区&#39;)">【推荐】精品问答：大数据计算技术 1000 问</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CLSR0a2X8usCFaCA6QUdfykDIg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/saved_resource.html"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a title="ZooKeeper学习第一期---Zookeeper简单介绍" href="https://www.cnblogs.com/wuxl360/p/5817471.html" target="_blank" onclick="clickRecomItmem(5817471)">ZooKeeper学习第一期---Zookeeper简单介绍</a><br>·  <a title="ZooKeeper学习第一期---Zookeeper简单介绍" href="https://www.cnblogs.com/crazylqy/p/7490120.html" target="_blank" onclick="clickRecomItmem(7490120)">ZooKeeper学习第一期---Zookeeper简单介绍</a><br>·  <a title="Zookeeper学习之路 （一）初识" href="https://www.cnblogs.com/qingyunzong/p/8618965.html" target="_blank" onclick="clickRecomItmem(8618965)">Zookeeper学习之路 （一）初识</a><br>·  <a title="Zookeeper 介绍 原理" href="https://www.cnblogs.com/centos2017/p/8118963.html" target="_blank" onclick="clickRecomItmem(8118963)">Zookeeper 介绍 原理</a><br>·  <a title="【转】ZooKeeper详细介绍和使用第一节" href="https://www.cnblogs.com/wangyayun/p/6811734.html" target="_blank" onclick="clickRecomItmem(6811734)">【转】ZooKeeper详细介绍和使用第一节</a><br>»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/4033574">更多推荐...</a><div id="cnblogs_t5"><a href="https://www.sheca.com/assets/wwx/page3.html?site=bokeyuan" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T5-上海CA-大家签&#39;)">【推荐】电子签名认准大家签，上海CA权威认证</a></div></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CP2N0K2X8usCFaCA6QUdfykDIg"><div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="2" data-load-complete="true" src="./ZooKeeper学习第一期---Zookeeper简单介绍 - sunddenly - 博客园_files/saved_resource(1).html"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·          <a href="https://news.cnblogs.com/n/673145/" target="_blank">字节计划将TikTok赴美IPO，Ins创始人或出任新CEO，甲骨文持股20%</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/673144/" target="_blank">华为河图让敦煌「活」了，数字永生离我们还远吗？</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/673143/" target="_blank">贾扬清发布阿里云「湖仓一体」解决方案，下一代大数据计算平台来了！</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/673142/" target="_blank">Apple Watch 支持家庭管理 一块手表就能完成日常生活全部需求</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/673141/" target="_blank">老区加速上云，国内首个县级全域旅游智慧平台上线运行</a>
+        <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverT2();
+        deliverC1C2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>    </div>
+</div>
+            </div>
+        </div>
+
+        <div id="sideBar">
+            <div id="sideBarMain">
+                
+<div id="sidebar_news" class="newsItem">
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    <div style="text-align: left; margin-top: 5px; font-family: &quot;微软雅黑&quot;; font-size: 10pt">
+<br>
+			<span style="font-weight: bold">状态：</span>研二修炼<br>
+			<span style="font-weight: bold">现居：</span>天津<br>
+			<span style="font-weight: bold">技能：</span>码农吐槽<br>
+			<span style="font-weight: bold">兴趣：</span>Java/C++/c/scala<br>
+			<span style="font-weight: bold">座右铭：</span>心豁达，自非凡，不以物喜，不以己悲！<br>
+		</div>
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/sunddenly/">
+            sunddenly
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/sunddenly/" title="入园时间：2014-09-11">
+            6年
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/sunddenly/followers/">
+            643
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/sunddenly/followees/">
+            15
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow(&#39;66a56b7e-8039-e411-b908-9dcfd8948a71&#39;)">+加关注</a></div>
+        <script>getFollowStatus('66a56b7e-8039-e411-b908-9dcfd8948a71');</script>
+    </div>
+</div></div>
+
+<div id="sidebar_ad"></div>
+                <div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2020/08/18&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2020年9月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2020/10/18&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        5
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            6
+                        </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                18
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            27
+                        </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            10
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div>                
+                <script>loadBlogDefaultCalendar();</script>
+                <div id="leftcontentcontainer">
+                    <!-- begin:SingleColumn -->
+                    <div id="blog-sidecolumn">
+<!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+    
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/sunddenly/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/sunddenly/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/sunddenly/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/sunddenly/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/sunddenly/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+    
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+    
+        <div class="catListPostCategory">
+            <h3 class="catListTitle">
+                
+随笔分类
+
+
+
+            </h3>
+            <ul>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/660067.html" rel="" target="">
+    Eclipse中的一些插件配置(5)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/660063.html" rel="" target="">
+    GitHub使用(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/637704.html" rel="" target="">
+    Hadoop开发(4)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/612293.html" rel="" target="">
+    hadoop随笔(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/611923.html" rel="" target="">
+    hadoop学习(26)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/620025.html" rel="" target="">
+    Hadoop学习目录(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/623692.html" rel="" target="">
+    java基础学习(5)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/613422.html" rel="" target="">
+    Linux随笔(3)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/612919.html" rel="" target="">
+    Linux学习(3)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/666625.html" rel="" target="">
+    Maven(4)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/656560.html" rel="" target="">
+    Nosql(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/676151.html" rel="" target="">
+    Scala(18)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/620563.html" rel="" target="">
+    Zookeeper学习(8)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/613408.html" rel="" target="">
+    电脑常识(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/665283.html" rel="" target="">
+    分布式开发(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/695713.html" rel="" target="">
+    设计模式学习(1)
+</a>
+
+                            
+
+                        </li>
+                        
+            </ul>
+        </div>
+        <div class="catListPostArchive">
+            <h3 class="catListTitle">
+                
+随笔档案
+
+
+
+            </h3>
+            <ul>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/11.html" rel="" target="">
+    2015年11月(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/09.html" rel="" target="">
+    2015年9月(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/08.html" rel="" target="">
+    2015年8月(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/07.html" rel="" target="">
+    2015年7月(7)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/06.html" rel="" target="">
+    2015年6月(15)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/04.html" rel="" target="">
+    2015年4月(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/03.html" rel="" target="">
+    2015年3月(9)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2015/02.html" rel="" target="">
+    2015年2月(3)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2014/12.html" rel="" target="">
+    2014年12月(4)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2014/11.html" rel="" target="">
+    2014年11月(3)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2014/10.html" rel="" target="">
+    2014年10月(7)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/archive/2014/09.html" rel="" target="">
+    2014年9月(20)
+</a>
+
+                            
+
+                        </li>
+                        
+            </ul>
+        </div>
+        <div class="catListArticleCategory">
+            <h3 class="catListTitle">
+                
+文章分类
+
+
+
+            </h3>
+            <ul>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/644130.html" rel="" target="">
+    Hadoop配置过程的一些问题(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/611905.html" rel="" target="">
+    hadoop学习(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/623840.html" rel="" target="">
+    java(3)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/629472.html" rel="" target="">
+    java环境变量(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/660070.html" rel="" target="">
+    Vnware(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/629475.html" rel="" target="">
+    ZooKeeper收藏(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/626810.html" rel="" target="">
+    ZooKeeper文章补充(8)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/627391.html" rel="" target="">
+    ZooKeeper源码(2)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/629473.html" rel="" target="">
+    博客装饰(1)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/629474.html" rel="" target="">
+    分布式(5)
+</a>
+
+                            
+
+                        </li>
+                        
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/category/628623.html" rel="" target="">
+    译文(3)
+</a>
+
+                            
+
+                        </li>
+                        
+            </ul>
+        </div>
+        <div class="catListImageCategory">
+            <h3 class="catListTitle">
+                
+相册
+
+
+
+            </h3>
+            <ul>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/sunddenly/gallery/705770.html" rel="nofollow noopener noreferrer" target="">
+    sunddenly(1)
+</a>
+
+                            
+
+                        </li>
+                        
+            </ul>
+        </div>
+
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block">
+    <div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/sunddenly/p/3979042.html">1. Re:Ms.office2010安装教程</a></li>
+                    <li class="recent_comment_body"><p>完美联网激活  <a href="https://www.cnblogs.com/sunddenly/p/4033574.html" target="blank">www.luymm.com/office</a></p>
+</li>
+                    <li class="recent_comment_author">--ollie1217</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/sunddenly/p/4033574.html">2. Re:ZooKeeper学习第一期---Zookeeper简单介绍</a></li>
+                    <li class="recent_comment_body">@huacq 出现双Master时，即便你有报警能提示你说有新的master被切换，然后你去认为关掉另一个节点，这中间的时间， 已经有很多数据都打到它身上了，你关了它数据就丢了...</li>
+                    <li class="recent_comment_author">--lant007</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/sunddenly/p/4033574.html">3. Re:ZooKeeper学习第一期---Zookeeper简单介绍</a></li>
+                    <li class="recent_comment_body"><p>问一个问题哈。传统备用节点的缺点是可能存在通信方式异常。如果引用zookeeper的话，那么主节点A和zookeep之间会不会存在相同的问题呢？</p>
+</li>
+                    <li class="recent_comment_author">--扑啦扑啦飞</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/sunddenly/p/4409276.html">4. Re:Scala学习(二)练习</a></li>
+                    <li class="recent_comment_body"><p>大佬,请问下,第十题中的返回值类型写出AnyVal 为什么就不行呢?  不能自动进行类型推断码?</p>
+</li>
+                    <li class="recent_comment_author">--泉水豆花儿</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/sunddenly/p/4092654.html">5. Re:ZooKeeper学习第五期--ZooKeeper管理分布式环境中的数据</a></li>
+                    <li class="recent_comment_body"><p>非常好的文章，条理清晰，简单易懂，感谢楼主分享！</p>
+</li>
+                    <li class="recent_comment_author">--neogx</li>
+        </ul>
+    </div>
+</div>
+</div>
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+    
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4033574.html">
+                            1. ZooKeeper学习第一期---Zookeeper简单介绍(32713)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4411564.html">
+                            2. Scala学习(三)----数组相关操作(28522)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4106562.html">
+                            3. Java多线程学习(三)---线程的生命周期(23156)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4031881.html">
+                            4. ZooKeeper学习第三期---Zookeeper命令操作(21945)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4341542.html">
+                            5. Maven学习第4期---Maven简单使用(19581)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block">
+    
+<div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4033574.html">
+                            1. ZooKeeper学习第一期---Zookeeper简单介绍(46)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4330792.html">
+                            2. GitHub基本操作(16)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/4138580.html">
+                            3. ZooKeeper学习第七期--ZooKeeper一致性原理(11)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/3977011.html">
+                            4. Hadoop日记Day1---Hadoop介绍(11)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/sunddenly/p/3977659.html">
+                            5. Hadoop开发第2期---虚拟机中搭建Linux(7)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+    
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/sunddenly/p/4033574.html">
+                                1. ZooKeeper学习第一期---Zookeeper简单介绍(113)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/sunddenly/p/4018459.html">
+                                2. ZooKeeper学习第二期--ZooKeeper安装配置(30)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/sunddenly/p/4330792.html">
+                                3. GitHub基本操作(24)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/sunddenly/p/4143306.html">
+                                4. ZooKeeper学习第八期——ZooKeeper伸缩性(17)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/sunddenly/p/4064992.html">
+                                5. ZooKeeper学习第四期---构建ZooKeeper应用(14)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div></div>
+                    <script>loadBlogSideColumn();</script>
+                    <!-- end:  SingleColumn -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <!--done-->
+Copyright © 2020 sunddenly
+<br><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+    </div>
+</div>
+
+    
+
+
+</body></html>
