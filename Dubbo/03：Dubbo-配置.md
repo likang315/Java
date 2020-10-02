@@ -8,13 +8,13 @@
 
 | 标签                   | 用途         | 解释                                                         |
 | ---------------------- | ------------ | ------------------------------------------------------------ |
-| `<dubbo:service/>`     | 服务配置     | 用于**暴露一个服务**，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心 |
+| `<dubbo:service/>`     | 服务配置     | 用于**暴露一个服务**，定义服务的元信息，一个服务可以用多个协议暴露，一个**服务也可以注册到多个注册中心**，是根据ByName暴露服务的 |
 | `<dubbo:reference/>`   | 引用配置     | 用于创建一个**远程服务代理**，一个引用可以指向多个注册中心   |
-| `<dubbo:protocol/>`    | 协议配置     | 用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受 |
-| `<dubbo:application/>` | 应用配置     | 用于配置当前应用信息，不管该应用是提供者还是消费者           |
+| `<dubbo:protocol/>`    | 协议配置     | 用于**配置提供服务的协议信息**，协议由提供方指定，消费方被动接受 |
+| `<dubbo:application/>` | 应用配置     | 用于**配置当前应用信息**，不管该应用是提供者还是消费者       |
 | `<dubbo:module/>`      | 模块配置     | 用于配置当前模块信息，可选                                   |
 | `<dubbo:registry/>`    | 注册中心配置 | 用于**配置连接注册中心**相关信息                             |
-| `<dubbo:monitor/>`     | 监控中心配置 | 用于配置连接监控中心相关信息，可选                           |
+| `<dubbo:monitor/>`     | 监控中心配置 | 用于**配置连接监控中心**相关信息，可选                       |
 | `<dubbo:provider/>`    | 提供方配置   | 当 ProtocolConfig 和 ServiceConfig 某属性没有配置时，采用此缺省值，可选 |
 | `<dubbo:consumer/>`    | 消费方配置   | 当 ReferenceConfig 某属性没有配置时，采用此缺省值，可选      |
 | `<dubbo:method/>`      | 方法配置     | 用于 ServiceConfig 和 ReferenceConfig 指定方法级的配置信息   |
@@ -31,21 +31,21 @@
 
 ###### 延迟加载
 
-- 引用缺省是延迟初始化的，只有引用被注入到其它 Bean，或被 `getBean()` 获取，才会初始化。如果需要饥饿加载，即没有人引用也立即生成动态代理，可以配置：**<dubbo:reference ... init="true" />**
+- 引用缺省是**延迟初始化**的，只有引用被注入到其它 Bean，或被 `getBean()` 获取，才会初始化。如果需要饥饿加载，即没有人引用也立即生成动态代理，可以配置：**<dubbo:reference ... init="true" />**
 
 ##### 02：属性配置（dubbo.properties文件）
 
 - 如果你的应用足够简单，例如，不需要多注册中心或多协议，并且需要在spring容器中共享配置，那么，我们可以直接使用 `dubbo.properties`作为默认配置。
-- Dubbo可以自动加载classpath根目录下的dubbo.properties，也可以使用JVM参数来指定路径：
+- **Dubbo可以自动加载classpath根目录下的dubbo.properties**，也可以使用JVM参数来指定路径：
   - -Ddubbo.properties.file=xxx.properties
 
 ###### 映射规则
 
-- 可以将xml的tag名和属性名组合起来，用‘.’分隔。每行一个属性。
+- 可以**将xml的tag名和属性名组合**起来，用‘.’分隔。每行一个属性。
 
   - `dubbo.application.name=foo` 相当于 `<dubbo:application name="foo" />`
 
-- 如果在xml配置中有超过一个的tag，那么你可以使用‘id’进行区分。如果你不指定id，它将作用于所有tag。
+- 如果在xml配置中有**超过一个的tag，那么你可以使用‘id’进行区分**。如果你不指定id，它将作用于所有tag。
 
   - `dubbo.protocol.rmi.port=1099` 相当于 `<dubbo:protocol id="rmi" name="rmi" port="1099" />`
 
@@ -66,9 +66,89 @@
 - 如果在classpath下有超过一个dubbo.properties文件，比如，两个jar包都各自包含了dubbo.properties，dubbo将随机选择一个加载，并且打印错误日志。
 - 如果 id 没有在 protocol 中配置，将使用`name`作为默认属性。
 
-##### 03：API 配置
+##### 03：API 配置【太重，不使用】
 
-- http://dubbo.apache.org/zh-cn/docs/user/configuration/api.html
+- 可用于测试dubbo服务；
+
+- ```java
+  // 服务提供者
+  import org.apache.dubbo.rpc.config.ApplicationConfig;
+  import org.apache.dubbo.rpc.config.RegistryConfig;
+  import org.apache.dubbo.rpc.config.ProviderConfig;
+  import org.apache.dubbo.rpc.config.ServiceConfig;
+  import com.xxx.XxxService;
+  import com.xxx.XxxServiceImpl;
+   
+  // 服务实现
+  XxxService xxxService = new XxxServiceImpl();
+   
+  // 当前应用配置
+  ApplicationConfig application = new ApplicationConfig();
+  application.setName("xxx");
+   
+  // 连接注册中心配置
+  RegistryConfig registry = new RegistryConfig();
+  registry.setAddress("10.20.130.230:9090");
+  registry.setUsername("aaa");
+  registry.setPassword("bbb");
+   
+  // 服务提供者协议配置
+  ProtocolConfig protocol = new ProtocolConfig();
+  protocol.setName("dubbo");
+  protocol.setPort(12345);
+  protocol.setThreads(200);
+   
+  // 注意：ServiceConfig为重对象，内部封装了与注册中心的连接，以及开启服务端口
+   
+  // 服务提供者暴露服务配置
+  ServiceConfig<XxxService> service = new ServiceConfig<XxxService>(); // 此实例很重，封装了与注册中心的连接，请自行缓存，否则可能造成内存和连接泄漏
+  service.setApplication(application);
+  service.setRegistry(registry); // 多个注册中心可以用setRegistries()
+  service.setProtocol(protocol); // 多个协议可以用setProtocols()
+  service.setInterface(XxxService.class);
+  service.setRef(xxxService);
+  service.setVersion("1.0.0");
+   
+  // 暴露及注册服务
+  service.export();
+  
+  
+  // 服务消费者
+  import org.apache.dubbo.rpc.config.ApplicationConfig;
+  import org.apache.dubbo.rpc.config.RegistryConfig;
+  import org.apache.dubbo.rpc.config.ConsumerConfig;
+  import org.apache.dubbo.rpc.config.ReferenceConfig;
+  import com.xxx.XxxService;
+   
+  // 当前应用配置
+  ApplicationConfig application = new ApplicationConfig();
+  application.setName("yyy");
+   
+  // 连接注册中心配置
+  RegistryConfig registry = new RegistryConfig();
+  registry.setAddress("10.20.130.230:9090");
+  registry.setUsername("aaa");
+  registry.setPassword("bbb");
+   
+  // 注意：ReferenceConfig为重对象，内部封装了与注册中心的连接，以及与服务提供方的连接
+   
+  // 引用远程服务
+  ReferenceConfig<XxxService> reference = new ReferenceConfig<XxxService>(); // 此实例很重，封装了与注册中心的连接以及与提供者的连接，请自行缓存，否则可能造成内存和连接泄漏
+  reference.setApplication(application);
+  reference.setRegistry(registry); // 多个注册中心可以用setRegistries()
+  reference.setInterface(XxxService.class);
+  reference.setVersion("1.0.0");
+  
+  // 如果点对点直连，可以用reference.setUrl()指定目标地址，设置url后将绕过注册中心，
+  ReferenceConfig<XxxService> reference = new ReferenceConfig<XxxService>();
+  // 其中，协议对应provider.setProtocol()的值，端口对应provider.setPort()的值，
+  // 路径对应service.setPath()的值，如果未设置path，缺省path为接口名
+  reference.setUrl("dubbo://10.20.130.230:20880/com.xxx.XxxService"); 
+   
+  // 和本地bean一样使用xxxService
+  XxxService xxxService = reference.get();
+  // 注意：此代理对象内部封装了所有通讯细节，对象较重，请缓存复用
+  ```
 
 ##### 04：注解配置【使用方便】
 
@@ -102,7 +182,7 @@ dubbo.protocol.port=20880
 @Configuration
 @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.impl")
 @PropertySource("classpath:/spring/dubbo-provider.properties")
-static public class ProviderConfiguration {
+public static class ProviderConfiguration {
        
 }
 ```
@@ -139,7 +219,7 @@ dubbo.consumer.timeout=3000
 @EnableDubbo(scanBasePackages = "org.apache.dubbo.samples.simple.annotation.action")
 @PropertySource("classpath:/spring/dubbo-consumer.properties")
 @ComponentScan(value = {"org.apache.dubbo.samples.simple.annotation.action"})
-static public class ConsumerConfiguration {
+public static class ConsumerConfiguration {
 
 }
 ```
@@ -181,8 +261,8 @@ public static void main(String[] args) throws Exception {
 
 配置中心（v2.7.0）在Dubbo中承担**两个职责**：
 
-1. 外部化配置。启动配置的集中式存储 （简单理解为dubbo.properties的外部化存储）。
-2. 服务治理。服务治理规则的存储与通知。
+1. **外部化配置**。启动配置的集中式存储 （简单理解为dubbo.properties的外部化存储）。
+2. **服务治理**。服务治理规则的存储与通知。
    - 为了兼容2.6.x版本配置，在使用Zookeeper作为注册中心，且没有显示配置配置中心的情况下，Dubbo框架会默认将此Zookeeper用作配置中心，但将只作服务治理用途。
 
 ###### 三种启用方式
@@ -256,7 +336,7 @@ configCenter.setAddress("zookeeper://127.0.0.1:2181");
 - 在**应用启动阶段，Dubbo 框架如何将所需要的配置采集起来**（包括应用配置、注册中心配置、服务配置等），以完成服务的暴露和引用流程。
 - Dubbo的配置读取总体上遵循了以下几个原则：
   - Dubbo支持了多层级的配置，并按**预定优先级自动实现配置间的覆盖**，最终所有配置汇总到数据总线URL后驱动后续的服务暴露、引用等流程；
-  - ApplicationConfig、ServiceConfig、ReferenceConfig可以被理解成配置来源的一种，是直接面向用户编程的配置采集方式；
+  - ApplicationConfig、ServiceConfig、ReferenceConfig可以被理解成配置来源的一种，是**直接面向用户编程的配置采集方式**；
   - 配置格式以Properties为主，在配置内容上遵循约定的`path-based`的命名规范；
 - 配置来源
   - 默认有四种配置来源，配置覆盖关系的优先级从上到下依次降低：

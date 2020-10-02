@@ -1,8 +1,8 @@
-### Dubbo 快速启动
+### Dubbo 示例
 
 ------
 
-##### 01：安装dubbo
+##### 01：dubbo 示例下载
 
 ###### 安装：
 
@@ -21,7 +21,18 @@ resources/spring/dubbo-provider.xml
 <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 ```
 
-##### 01：示例
+##### 02：示例
+
+###### 导入依赖
+
+```xml
+<!--  理论上只依赖JDK，可以不依赖任何第三方库-->
+<dependency>
+    <groupId>org.apache.dubbo</groupId>
+    <artifactId>dubbo</artifactId>
+    <version>2.7.3</version>
+</dependency>
+```
 
 ###### 服务提供者
 
@@ -82,11 +93,11 @@ public class ProviderServiceImpl implements ProviderService {
    - **节点：dubbo:monitor**
      - 监控中心配置， 用于配置连接监控中心相关信息，可以不配置，不是必须的参数
    - **节点：dubbo:registry**
-     - 配置注册中心的信息，比如，这里我们可以配置 zookeeper 作为我们的注册中心。`address` 是注册中心的地址，这里我们配置的是 `N/A` 表示由 dubbo 自动分配地址。或者说是一种直连的方式，不通过注册中心。
+     - 配置注册中心的信息，比如，这里我们可以配置 zookeeper 作为我们的注册中心。`address` 是注册中心的地址，这里我们配置的是 **N/A 表示由 dubbo 自动分配地址**。或者说是一种直连的方式，不通过注册中心。
    - **节点：dubbo:protocol**
      - 服务发布的时候 dubbo 依赖什么协议，可以配置 dubbo、webserovice、Thrift、Hessain、http等协议。
    - **节点：dubbo:service**
-     - 重点接口，当我们服务发布的时候，我们就是通过这个配置将我们的服务发布出去的，**interface 是接口的包路径，ref 配置的接口的 bean。**
+     - 重点接口，当我们服务发布的时候，我们就是通过这个配置将我们的服务发布出去的，**interface 是接口的包路径，ref 配置的接口的 bean 的 引用。**
 
 3. ###### 发布接口
 
@@ -111,6 +122,7 @@ public class ProviderServiceImpl implements ProviderService {
 
    - dubbo://192.168.234.1:20880/com.sihai.dubbo.provider.service.ProviderService
    - ? 之前的链接，构成：**协议://ip:端口/接口**，类似于HTTP请求。
+     - IP：提供dubbo服务的机器地址；
 
 ###### 服务消费者
 
@@ -132,7 +144,7 @@ public class ProviderServiceImpl implements ProviderService {
       
     	<!-- 使用zookeeper做为注册中心
   		dubbo.crawler.zookeeper=zk.beta.xupt.com:2181
-  		dubbo.crawler.group=/content/feed-crawler/xupt/32238
+  		dubbo.crawler.group=/content/feed-crawler/
   		-->
       <dubbo:registry id="crawlerRegistry" protocol="zookeeper"
                       address="@dubbo.crawler.zookeeper@"
