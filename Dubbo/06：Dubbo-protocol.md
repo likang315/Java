@@ -1,8 +1,13 @@
-###  Dubbo-协议
+###  Dubbo-protocol
 
 ------
 
-##### 01：dubbo://
+```xml
+<dubbo:protocol id="provider-protocol" name="dubbo" port="20209"
+                serialization="hessian2"/>
+```
+
+##### 01：dubbo://【使用】
 
 ###### 特性
 
@@ -43,7 +48,7 @@
 
 - 多连接配置：
 
-  - Dubbo 协议缺省每服务每提供者每消费者使用单一长连接，如果数据量较大，可以使用多个连接。
+  - Dubbo 协议缺省**每服务每提供者每消费者使用单一长连接**，如果数据量较大，可以使用多个连接。
 
   ```xml
   <dubbo:service connections="1"/>
