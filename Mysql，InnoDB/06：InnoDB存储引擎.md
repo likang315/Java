@@ -152,14 +152,14 @@
 
 ###### 修改索引：
 
-- ALTER TABLE 表名 ADD 索引类型 （unique,primary key,fulltext,index）'索引名'（字段名，字段名），ADD ...
-- ALTER TABLE 'table_name' ADD INDEX 'index_name' ('column_list')；
+- ALTER TABLE 表名 ADD 索引类型 （unique,primary key,fulltext,index）索引名（字段名，字段名），ADD ...
+- ALTER TABLE table_name ADD INDEX index_name  (column_list)；
   -  索引名，可要可不要;如果不要，该字段名就是索引名
 
 ######   删除索引：
 
-- ALTER TABLE 'table_name' DROP INDEX 'index_name'
-- ALTER TABLE 'table_name' DROP PRIMARY KEY； 删除主键索引，注意主键索引只能用这种方式删除
+- ALTER TABLE table_name DROP INDEX index_name
+- ALTER TABLE  table_name DROP PRIMARY KEY； 删除主键索引，注意主键索引只能用这种方式删除
 
 ######   查看索引：
 

@@ -33,10 +33,10 @@
 | TIME      | 3          | '-838:59:59'/'838:59:59'                                     | HH:MM:SS            | 时间值或持续时间 |
 | YEAR      | 1          | 1901/2155                                                    | YYYY                | 年份值           |
 | DATETIME  | 8          | 1000-01-01 00:00:00/9999-12-31 23:59:59                      | YYYY-MM-DD HH:MM:SS | 混合日期和时间值 |
-| TIMESTAMP | 4          | 1970-01-01 00:00:00/2038结束时间是第 2147483647 秒，北京时间 2038-1-19 11:14:07 | YYYYMMDD HHMMSS     | 时间戳           |
+| TIMESTAMP | 4          | 1970-01-01 00:00:00/2038结束时间是第 2147483647 秒，范围小【禁用】 | YYYYMMDD HHMMSS     | 时间戳           |
 
-- 自动跟新特性：若定义一个字段为timestamp，这个字段里的时间数据会随其他字段修改的时候自动刷新
-- (c_time：DATETIME，u_time：TIMESTAMP)
+- 自动跟新特性：若定义一个字段为DATETIME或者TIMESTAMP，这个字段里的时间数据会随其他字段修改的时候自动刷新；
+- (c_time：DATETIME，u_time：ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间')
 
 ##### 4：字符串类型
 
