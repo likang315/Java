@@ -135,3 +135,19 @@ public final class Stopwatch {
 }
 ```
 
+##### 02：Commons-lang3的StopWatch
+
+- StopWatch watch = StopWatch.createStarted(); 
+  - 创建后立即start；
+- long getTime()
+  - 返回开始到结束的毫秒值；
+- long getTime(final TimeUnit timeUnit)
+  - 支持单位转换；
+- **void split()**
+  - 切割时间点；
+- **long getSplitTime()**
+  - 获取**开始时间到切割时间点**的耗时毫秒；
+- void suspend()
+  - 暂停秒表；
+- void resume()
+  - 恢复秒表计数；

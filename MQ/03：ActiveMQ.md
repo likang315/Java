@@ -2,11 +2,13 @@
 
 ------
 
+[TOC]
+
 - ActiveMQ 是Apache自己编写的MQ，不过性能较差，已弃用；
 
 ##### 01：WEB管理界面介绍
 
-![WEB面板介绍](/Users/likang/Code/Git/Middleware/MQ/photos/WEB面板介绍.png)
+![WEB面板介绍](https://github.com/likang315/Middleware/blob/master/MQ/photos/WEB%E9%9D%A2%E6%9D%BF%E4%BB%8B%E7%BB%8D.png?raw=true)
 
 - Name：消息队列名称；
 - Number Of Pending Messages：在队列中等待消费的消息；
@@ -50,7 +52,6 @@ public class Producer {
                 message.setLong("count", System.currentTimeMillis());
                 if (i == 2) {
                     throw new Exception();
-
                 }
                 producer.send(message);
             }
@@ -79,19 +80,17 @@ public class Producer {
 
 ###### 消费者
 
-1. 同步方式：**pull** 的方式去拉取消息消费；
-2. 异步方式：**push** 创建监听器监听消费，当有消费被push过来时，触发消费；
+1. **同步方式**：**pull** 的方式去拉取消息消费；
+2. **异步方式**：**push** 创建监听器监听消费，当有消费被push过来时，触发消费；
 
 ```java
-package com.gyf.p2p;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 import java.util.Objects;
 
 /**
- * session 通过参数设置是否已事务提交，若是批量pull消息时会回滚，否则从异常消息处往后的消息均消费失败
+ * session 通过参数设置是否事务提交，若是批量pull消息时会回滚，否则从异常消息处往后的消息均消费失败
  *
  * @author kangkang.li@qunar.com
  * @date 2020-08-22 11:33

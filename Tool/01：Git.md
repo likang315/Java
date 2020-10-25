@@ -158,7 +158,7 @@
 6. git rebase 指定分支名
    - 该命令会把你的当前分支里的每个提交(commit)取消掉，并且把它们临时保存为补丁(patch)(这些补丁放到".git/rebase"目录中)，然后把当前分支更新成最新的"origin"分支，最后把保存的这些patch应用到当前分支上，分支更新之后，它会指向这些新创建的提交(commit),而那些老的提交会被丢弃。
    - 相对于merge来说，丢弃掉了并行分支，合并为一个分支，间隙的插入到当前分支上。
-   - 在合并过程中，可能会产生冲突，Git会停止rebase并会让你去解决冲突，在解决完冲突后，用"git-add"命令去更新这些内容的索引(index), 然后，你无需执行 git-commit只要执行：git rebase --continue，这样Git就会继续应用剩余的patch。
+   - 在合并过程中，可能会产生冲突，Git会停止rebase并会让你去解决冲突，在解决完冲突后，用"git-add"命令去更新这些内容的索引(index), 然后，git 你无需执行 git-commit只要执行：git rebase --continue，这样Git就会继续应用剩余的patch。
 7. git rebase --abort
    - 任何时候，你可以用 --abort 参数来终止rebase的行动，并且当前分支会回到rebase开始前的状态。
 

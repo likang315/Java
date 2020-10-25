@@ -2,7 +2,10 @@
 
 ------
 
+[TOC]
+
 - Java 消息服务（**Java Message Service**）应用程序接口，是一个**Java平台中关于面向消息中间件（MOM）的API**，用于在**两个应用程序之间**，或**分布式系统中发送消息，进行异步通信**。Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持。
+
 - Java 提供了接口，我们使用已经开源实现好的MQ；
 
 ##### 01：为什么要学JMS
@@ -31,13 +34,13 @@
 
 - 当消费者收到消息的时候消费完之后，会发送确认收到通知（ack）给JMS；
 
-  ![point-to-point](/Users/likang/Downloads/point-to-point.png)
+  ![](https://github.com/likang315/Middleware/blob/master/MQ/photos/point-to-point.png?raw=true)
 
 ###### Publish/Subscribe Messaging Domain（发布/订阅通信模型）
 
 - 一条消息可以有多个订阅者，订阅某个主题，被动的接受；
 - 发布者和订阅者有时间依赖性，只有当客户端创建订阅后才能接受消息，且订阅者需一直保持活动状态以接收消息;
-- ![publish:subscribe-Message-domain](/Users/likang/Downloads/publish:subscribe-Message-domain.png)
+- ![publish:subscribe-Message-domain](https://github.com/likang315/Middleware/blob/master/MQ/photos/publish:subscribe-Message-domain.png?raw=true)
 
 ##### 04：JMS消费消息
 

@@ -8,7 +8,7 @@
 
 1. 配置方法：
 
-   1. 尝试在 classpath下查找文件logback-test.xml
+   1. 尝试在 classpath下查找文件logback-spring.xml
    2. 如果文件不存在，则查找文件logback.xml；
    3. 如果两个文件都不存在，logback用BasicConfigurator自动对自己进行配置，这会导致记录输出到控制台。
 
@@ -40,44 +40,62 @@
    </dependencies>
       ```
 
-   2. 配置lomback.xml
+   2. 配置logback-spring.xml
    
       ```xml
       <?xml version="1.0" encoding="UTF-8"?>
-      <configuration scan="true" scanPeriod="60 seconds" debug="false">
+      <!-- slf4j日志配置文件 -->
+      <configuration debug="true" scan="true" scanPeriod="30 seconds">
+      
+          <!-- 设置日志输出根目录 -->
+          <property name="app.name" value="h_crm_data_merchantman"/>
+          <property name="log.dir" value="${catalina.base}/logs"/>
           <property name="encoding" value="UTF-8"/>
-          <!--定义日志文件存储地址-->
-      		<property name="log.dir" value="${catalina.base}/logs"/>
-          <property name="normal-pattern"
-                    value="%date %level [%thread] %logger [%file : %line] %msg%n"/>
-          <property name="common-pattern"
-                    value="%d{HH:mm:ss.SSS} [%thread] %-5level [%C{1}:%line] %msg%n"/>
-          <property name="db-pattern" value="%d{yyyy-mm-dd HH:mm:ss.SSS} [%thread] %logger [%file : %line] %msg%n"/>
-          <!-- 打印我们请求第三方的日志(dubbo) -->
-          <appender name="error"
-                    class="ch.qos.logback.core.rolling.RollingFileAppender">
-             <append>true</append>
-             <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <!--%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-              <pattern>
-                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
-              </pattern>
-              <charset>${encoding}</charset>
+          <property name="pattern"
+                    value="%d{yyyy-MM-dd HH:mm:ss.SSS}[%level][%X{QTRACER}][%thread]    |    %C#%M:%L    |    %msg%n"/>
+      
+          <!-- log file default -->
+          <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <File>${log.dir}/merchantman.log</File>
+              <encoder>
+                  <pattern>${pattern}</pattern>
+                  <charset>${encoding}</charset>
               </encoder>
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                  <!--日志文件输出的文件名-->
-                  <FileNamePattern>
-                    ${LOG_HOME}/SharingEnvironmentCofig.log.%d{yyyy-MM-dd}.log
-              		</FileNamePattern>
-                  <append>true</append>
-                  <!--日志文件保留天数-->
+              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                  <fileNamePattern>${log.dir}/merchantman.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
                   <MaxHistory>30</MaxHistory>
-             </rollingPolicy>
+              </rollingPolicy>
           </appender>
-          <!-- 日志输出级别 -->
-          <root level="INFO">
-              <appender-ref ref="error"/>
-          </root>
+          <!-- 时间滚动输出 level为 ERROR 日志 -->
+          <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                  <level>ERROR</level>
+                  <onMatch>ACCEPT</onMatch>
+                  <onMismatch>DENY</onMismatch>
+              </filter>
+              <File>${log.dir}/error.log</File>
+              <encoder>
+                  <pattern>${pattern}</pattern>
+                  <charset>${encoding}</charset>
+              </encoder>
+              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                  <FileNamePattern>${log.dir}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+                  <MaxHistory>30</MaxHistory>
+              </rollingPolicy>
+          </appender>
+      
+          <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+              <encoder>
+                  <pattern>${pattern}</pattern>
+                  <charset>${encoding}</charset>
+              </encoder>
+          </appender>
+        
+         <root level="INFO">
+              <appender-ref ref="console"/>
+              <appender-ref ref="file"/>
+              <appender-ref ref="file-error"/>
+         </root>
       </configuration>
       ```
 

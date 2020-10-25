@@ -44,13 +44,25 @@
 1. 复合注解 **@SpringBootApplication**
 
    - 一个注解相当于三个注解的配置
+
    - @Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration
+
    - @EnableAutoConfiguration：借助@Import来收集所有符合自动配置条件的bean定义的类(@Configuration)，汇总成一个加载到IoC容器
-   - @ComponentScan：若不配置base-package，则**默认从当前类开始下扫描，所以一般运行类放在基包下**
+
+   - @ComponentScan：若不配置scanBasePackages，则**默认从当前类开始下扫描，所以一般运行类放在基包下**
+
+   - Springboot 会自动初始化数据源，若没有配置数据源则剔除DataSourceAutoConfiguration该类；
+
+     - ```
+       @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+       ```
 
    ```java
    @SpringBootApplication
-   public class Application {
+   @ImportResource(value = {
+     "classpath:spring/spring-config.xml"
+   })
+   public class Application extends SpringBootServletInitializer {
      /**
       *  启动项目
       */
@@ -65,8 +77,11 @@
 ```java
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "com.xupt")
-public class App {
+@ComponentScan(basePackages = {"com.xupt.merchantman", "xxx"})
+@ImportResource(value = {
+  "classpath:spring/spring-config.xml"
+})
+public class App extends SpringBootServletInitializer {
     public static void main( String[] args ) {
         SpringApplication.run(App.class,args);
     }
@@ -149,6 +164,9 @@ public class App {
       - FreeMarker
       - Velocity
       - Groovy
+   
+5. **mian 方法启动成功**
+   ![springboot](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/springboot.png)
 
 ##### 7：模板引擎
 
@@ -250,8 +268,8 @@ public class App {
 ```xml
 <!-- 在web.xml配置中也可以实现配置 spring.profiles.default 等参数 -->
 <context-param>
-<param-name>spring.profiles.default</param-name>
-<param-value>dev</param-value>
+  <param-name>spring.profiles.default</param-name>
+  <param-value>dev</param-value>
 </context-param>
 ```
 
@@ -274,6 +292,18 @@ public class App {
 4. 执行下面命令进行编译：mvn package -P dev
 
 ```xml
+<build>
+        <finalName>工程名</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+               <directory>src/main/resources/${project.environment}</directory>
+            </resource>
+        </resources>
+</build>
+
 <profiles>
     <profile>
       <id>dev</id>
@@ -298,25 +328,6 @@ public class App {
       </properties>
     </profile>
 </profiles>
-
- <build>
-        <finalName>工程名</finalName>
-        <filters>
-            <filter>src/main/config/${project.environment}/qfilter.properties</filter>
-        </filters>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>config</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/config/${profile.active}</directory>
-              <targetPath>.</targetPath>
-            </resource>
-        </resources>
-</build>
 ```
 
 ##### 11：导入其他配置文件【重要】
@@ -390,9 +401,22 @@ public class App {
 
 3. **@PropertySource**：来引入定义属性文件的位置
 
-   - @PropertySource(value= {"classpath:/config/book.properties"})
-   - 使用在需要获取 book.propesties  中值的类上，一般与@Value，@ConfigurationProperties一起使用；
+   - @PropertySource(value= {"classpath:**/*.properties"})
+   - 使用在需要获取 *.propesties  中值的类上，一般与@Value，@ConfigurationProperties一起使用；
 
+   ```java
+   // 放在springBoot 启动类下，加载properties文件
+   @Bean
+   public static PropertySourcesPlaceholderConfigurer
+   propertySourcesPlaceholderConfigurer() throws IOException {
+     val result = new PropertySourcesPlaceholderConfigurer();
+     result.setLocations(new PathMatchingResourcePatternResolver()
+     .getResources("classpath*:**/*.properties"));
+     result.setIgnoreUnresolvablePlaceholders(true);
+     return result;
+   }
+   ```
+   
 4. **多环境配置文件**：application-{profile}.properties 格式，其中{profile}对应你的环境标识，比如：
 
    - application-dev.properties：开发环境
