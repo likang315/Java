@@ -242,7 +242,7 @@ public Object elapsedTime(ProceedingJoinPoint joinPoint) throws Throwable {
         String monitorName =  Objects.nonNull(annotation) 
           && StringUtils.isNotEmpty(annotation.value()) 
           ? annotation.value()
-          : String.format("%s_%s", method.getClass().getSimpleName(), method.getName());
+          : String.format("%s.%s", method.getDeclaringClass().getSimpleName(), method.getName());
         Stopwatch stopwatch = Stopwatch.createStarted();
         Object result = joinPoint.proceed();
         stopwatch.stop();
