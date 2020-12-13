@@ -36,32 +36,23 @@
     3. ###### 用 Map 传递多个参数或返回Map
   
        1. map 传递多个参数时，parameterType="java.util.Map"，
-          
-          - key为参数，value是参数值，通过**#{key}**获取值
+         
+          - key为参数，value是参数值，通过**#{变量.key}**获取值
           
        2. map 作为返回值时
-          - 返回Map 是**一个对象**时，根据数据库的字段和值生成map
+          - 返回**一个对象**时，根据数据库的字段和值生成map
             - resultType = "java.util.Map"
-          - 返回 map 是**多个对象**时，key是对象中指定的字段名，value是Bean
-            - resultMap="自定义的resultMap标签名" 或者使用 **as** 使名称对应上；
-            - key 需要通过**@MapKey("keynote")**  指定pojo对象中一个属性名为key
+          - 返回**多个对象**时，有两种情况
+            - 通过**@MapKey("fieldName")**  指定pojo对象中一个属性名作为key
+              - value：是个Map<字段名，字段值>
               - 用在mapper 接口定义的方法上；
+            - 返回结果用List<Map<String, String>> 接收，一个Bean为：字段名-字段值；
           
-          ```xml
-          Map<String, UserDO> getUser();
+          ```java
           @MapKey("id")
-          List<Map<String, Object>> listUserMap();
-          
-          <select id="getUser" resultMap="map">
-             SELECT id, user_name as userName, sex
-             FROM user_info
-             WHERE id = "1"
-          </select>
-          <select id="listUserMap" resultType="map">
-               SELECT id, user_name as userName, sex FROM user_info
-          </select>
+          List<Map<String, JavaBean>> listUserMap();
           ```
-  
+    
   - resultMap ：用于把复杂的pojo进行结果映射，一对多、一对一时；
 
 ```xml
