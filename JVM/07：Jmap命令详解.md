@@ -52,7 +52,7 @@
    - 打印类加载器信息
 5. jmap -finalizerinfo pid
    - 打印等待销毁的对象信息；
-6. **jmap -dump:format=b,file=heapdump.hprof pid**
+6. **jmap -F -dump:format=b,file=heapdump.hprof pid**
    - 以hprof二进制格式转储Java堆到指定filename的文件中。live子选项是可选的。如果指定了live子选项，堆中只有活动的对象会被转储；
    - 该过程较为耗时，并且执行的过程中为了保证dump的信息是可靠的，所以会暂停应用， 线上系统慎用；
 
