@@ -202,3 +202,16 @@
    - 可以把暂存区的修改撤销掉（unstage），重新放回工作区
 5. git revert HEAD
    - 恢复到上一次commit的状态，并且需要你输入comment，其实现在他在暂存区，输入comment才创建新的commit。
+
+##### 10：打标签
+
+- 标签分为：轻量标签（lightweight）与附注标签（annotated）;
+  - 附注标签是存储在 Git 数据库中的一个完整对象， 它们是可以被校验的
+    -  git tag -a v1.4 -m "my version 1.4"
+  - 轻量标签本质上是将提交校验和存储到一个文件中——没有保存任何其他信息
+    - git tag v1.4
+- git tag 
+  
+  - 列出已有的标签
+  
+  

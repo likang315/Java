@@ -8,8 +8,8 @@
 
 1. 配置方法：
 
-   1. 尝试在 classpath下查找文件logback-spring.xml
-   2. 如果文件不存在，则查找文件logback.xml；
+   1. 尝试在 classpath下查找文件logback.xml;
+   2. 如果文件不存在，则查找文件logback-spring.xml；
    3. 如果两个文件都不存在，logback用BasicConfigurator自动对自己进行配置，这会导致记录输出到控制台。
 
 2. ###### 使用方式
@@ -46,7 +46,6 @@
       <?xml version="1.0" encoding="UTF-8"?>
       <!-- slf4j日志配置文件 -->
       <configuration debug="true" scan="true" scanPeriod="30 seconds">
-      
           <!-- 设置日志输出根目录 -->
           <property name="app.name" value="h_crm_data_merchantman"/>
           <property name="log.dir" value="${catalina.base}/logs"/>
@@ -62,13 +61,17 @@
                   <charset>${encoding}</charset>
               </encoder>
               <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                  <fileNamePattern>${log.dir}/merchantman.%d{yyyy-MM-dd_HH}.log</fileNamePattern>
-                  <MaxHistory>30</MaxHistory>
+                <fileNamePattern>
+                    ${log.dir}/merchantman.%d{yyyy-MM-dd_HH}.log
+                </fileNamePattern>
+                <MaxHistory>30</MaxHistory>
               </rollingPolicy>
           </appender>
           <!-- 时间滚动输出 level为 ERROR 日志 -->
-          <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-              <filter class="ch.qos.logback.classic.filter.LevelFilter">
+          <appender name="file-error"
+                    class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 用过滤器，只接受ERROR级别的日志信息，其余全部过滤掉 -->  
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
                   <level>ERROR</level>
                   <onMatch>ACCEPT</onMatch>
                   <onMismatch>DENY</onMismatch>
@@ -78,9 +81,12 @@
                   <pattern>${pattern}</pattern>
                   <charset>${encoding}</charset>
               </encoder>
+            	<!--日志滚动策略-->
               <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                  <FileNamePattern>${log.dir}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
-                  <MaxHistory>30</MaxHistory>
+                <!-- 历史日志文件的存放路径和名称 也可以配置成.gz 的 -->  
+                <FileNamePattern>${log.dir}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+                <!--最大保留30天的日志-->  
+                <MaxHistory>30</MaxHistory>
               </rollingPolicy>
           </appender>
       
