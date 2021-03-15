@@ -56,30 +56,31 @@
 ###### 自定义 TypeHandler
 
 - 自定义类型处理器必须实现TypeHandler  或者继承BaseTypeHandler类，并且重写四个方法
+
 - 配置 mybatis-config.xml
 
-1. ```xml
-   <!--加载类型处理器-->
-   <typeHandlers>
-    	<typeHandler JavaType="com.xupt.sex" jdbcType="int" handler="com.xupt.SexHandler"/>
-     <package naem = "package name all load...">
-   </typeHandlers>
-   ```
-   
-   - 使用SpringBoot时加载方式
-   
-     ```yml
-     mybatis:
-       type-handlers-package: com.xupt.mybatis.typehandler
-       mapperLocations: classpath:mybatis/mapper/**/*.xml
-     ```
+  ```xml
+  <!--加载类型处理器-->
+  <typeHandlers>
+    <package name="com.xupt.dao.typehandler" />
+  </typeHandlers>
+  ```
+
+- 使用SpringBoot时加载方式
+
+  - ```properties
+    mybatis:
+      type-handlers-package: com.xupt.mybatis.typehandler
+      mapperLocations: classpath:mybatis/mapper/**/*.xml
+    ```
 
 - 使用 TypeHandler
 
+  - 查询，更新，使用注解的方式时，insert语句里不用配置javaType，jdbcType;
+
   ```xml
   <resultMap type="student" id="studentMap">
-    	<result property="Sex" column="stu_sex"  javaType="string" jdbcType="INT"
-    	typeHandler="com.xupt.SexHandler"/>
+    	<result property="Sex" column="stu_sex"  javaType="string" jdbcType="INT" />
   </resultMap>
   ```
 
@@ -87,74 +88,40 @@
 
 ```java
 /**
- * @Author: likang315
- * @Date: 2019-06-16 10:45
- * @Github: https://github.com/likang315
- * @Description: TypeHandler,也可以继承BaseTypeHandler，重写其方法
+ * Json转换TypeHandler
+ * 使用注解的方式配置JdbcType，JavaType
+ * @author kangkang.li@qunar.com
+ * @date 2021-03-12 10:42
  */
-@MappedJdbcTypes(value={JdbcType.INT})
-@MappedTypes(value = {Sex.class})
-public class StringTypeHandler implements TypeHandler<Sex> {
-    /**
-     * TypeHandler，PreparedStatement操作数据库的参数传递方式
-     *
-     * @param preparedStatement
-     * @param i 第几个参数
-     * @param s javaType的值
-     * @param jdbcType
-     * @throws SQLException
-     */
-    @Override
-    public void setParameter(PreparedStatement preparedStatement, int i, String s, 						JdbcType jdbcType) throws SQLException {
-      	// s 为JavaType转换为JdbcType存储
-        preparedStatement.setInt(i, Integer.parseInt(s));
-    }
+@MappedJdbcTypes(value={JdbcType.LONGVARCHAR})
+@MappedTypes(value = {HotelInfo.class})
+public class JsonTypeHandler extends BaseTypeHandler<HotelInfo> {
 
-    /**
-     * 根据列名取值,然后赋值给DO对应的属性返回
-     *
-     * @param resultSet
-     * @param s 结果集列名
-     * @return
-     * @throws SQLException
-     */
-    @Override
-    public Sex getResult(ResultSet resultSet, String s) throws SQLException {
-        Sex sex = new Sex();
-      	sex.setValue(resultSet.getInt(s));
-        return sex;
-    }
+  @Override
+  public void setNonNullParameter(PreparedStatement preparedStatement, int i,
+                                  HotelInfo hotelInfo, JdbcType jdbcType)
+    throws SQLException {
+    preparedStatement.setString(i, JsonUtils.writeValueAsString(hotelInfo));
+  }
 
-    /**
-     * 根据列的序列号取值
-     *
-     * @param resultSet
-     * @param i
-     * @return
-     * @throws SQLException
-     */
-    @Override
-    public Sex getResult(ResultSet resultSet, int i) throws SQLException {
-      	Sex sex = new Sex();  
-      	sex.setValue(resultSet.getInt(i));
-        return sex;
-    }
+  @Override
+  public HotelInfo getNullableResult(ResultSet resultSet, String s) throws SQLException {
+    return JsonUtils.readValue(resultSet.getString(s), HotelInfo.class)
+      .orElse(new HotelInfo());
+  }
 
-    /**
-     * 通过列号取值,给存储过程的
-     *
-     * @param callableStatement
-     * @param i
-     * @return
-     * @throws SQLException
-     */
-    @Override
-    public Sex getResult(CallableStatement callableStatement, int i)
-      throws SQLException {
-        Sex sex = new Sex();  
-       	sex.setValue(callableStatement.getInt(i));
-        return sex;
-    }
+  @Override
+  public HotelInfo getNullableResult(ResultSet resultSet, int i) throws SQLException {
+    return JsonUtils.readValue(resultSet.getString(i), QMHotelInfo.class)
+      .orElse(new HotelInfo());
+  }
+
+  @Override
+  public HotelInfo getNullableResult(CallableStatement callableStatement, int i)
+    throws SQLException {
+    return JsonUtils.readValue(callableStatement.getString(i), HotelInfo.class)
+      .orElse(new HotelInfo());
+  }
 }
 ```
 

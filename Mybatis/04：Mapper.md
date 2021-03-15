@@ -106,7 +106,7 @@
 ```xml
 <insert id="insertAuthor" useGeneratedKeys="true" keyProperty="id">
   insert into User (username,password,email) values (#{username},#{password},
-  #{email})
+  #{email})f
 </insert>
 ```
 
@@ -319,13 +319,38 @@
 Student getStudent(@Param("name") String Name)
 
 <select id="getStudent" resultType="com.xuot.student">
-    SELECT * FROM student
+     SELECT * FROM student
     where name = #{name}
     LIMIT 1
 </select>
 ```
 
+##### 10：<= , >=
 
+- 在 XML 元素中，"<" 和 "&" 是非法的，所以需要使用特殊的字符转义；
 
+  - "<" 会产生错误，因为解析器会把该字符解释为新元素的开始。
+  - "&" 也会产生错误，因为解析器会把该字符解释为字符实体的开始。
 
+- ```
+  &gt;  >  大于号[greater than]
+  &lt;  <  小于号[less than]
+  ```
+
+- <![CDATA[   ]]> 
+
+  - xml  的语法，在CDATA内部的所有内容都会被解析器忽略，不会别转义；
+
+  - ```xml
+    <delete id="batchDelete" parameterType="java.lang.String" flushCache="true">
+      DELETE FROM lowest_price_compare
+      <where>
+        <if test="date != null and date != '' ">
+          date <![CDATA[ <= ]]> #{item}>
+        </if>
+      </where>
+    </delete>
+    ```
+
+    
 
