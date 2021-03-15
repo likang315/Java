@@ -346,7 +346,7 @@ Student getStudent(@Param("name") String Name)
       DELETE FROM lowest_price_compare
       <where>
         <if test="date != null and date != '' ">
-          date <![CDATA[ <= ]]> #{item}>
+          date <![CDATA[ <= ]]> #{date}>
         </if>
       </where>
     </delete>
