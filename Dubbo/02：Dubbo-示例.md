@@ -2,6 +2,8 @@
 
 ------
 
+[TOC]
+
 ##### 01：dubbo 示例下载
 
 ###### 安装：
@@ -117,10 +119,10 @@ public class ProviderServiceImpl implements ProviderService {
 4. ###### dubbo暴露的URL
 
    ```java
-   dubbo://192.168.234.1:20880/com.dubbo.provider.service.ProviderService?anyhost=true&application=provider&bean.name=com.dubbo.provider.service.ProviderService&bind.ip=192.168.234.1&bind.port=20880&dubbo=2.0.2&generic=false&interface=com.dubbo.provider.service.ProviderService&methods=SayHello&owner=sihai&pid=8412&qos.accept.foreign.ip=false&qos.enable=true&qos.port=55555&side=provider&timestamp=1562077289380
+   dubbo://192.168.234.1:20880/com.dubbo.provider.service.ProviderService?anyhost=true&application=provider&bean.name=com.dubbo.provider.service.ProviderService&bind.ip=192.168.234.1&bind.port=20880&dubbo=2.0.2&generic=false&interface=com.dubbo.provider.service.ProviderService&methods=SayHello&owner=xupt&pid=8412&qos.accept.foreign.ip=false&qos.enable=true&qos.port=55555&side=provider&timestamp=1562077289380
    ```
 
-   - dubbo://192.168.234.1:20880/com.sihai.dubbo.provider.service.ProviderService
+   - dubbo://192.168.234.1:20880/com.dubbo.provider.service.ProviderService
    - ? 之前的链接，构成：**协议://ip:端口/接口**，类似于HTTP请求。
      - IP：提供dubbo服务的机器地址；
 
@@ -146,7 +148,8 @@ public class ProviderServiceImpl implements ProviderService {
   		dubbo.crawler.zookeeper=zk.beta.xupt.com:2181
   		dubbo.crawler.group=/content/feed-crawler/
   		-->
-      <dubbo:registry id="crawlerRegistry" protocol="zookeeper"
+      <dubbo:registry id="crawlerRegistry"
+                      protocol="zookeeper"
                       address="@dubbo.crawler.zookeeper@"
                       group="@dubbo.content.group@" />
     	<dubbo:reference id="providerService"

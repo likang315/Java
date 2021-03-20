@@ -2,6 +2,8 @@
 
 ------
 
+[TOC]
+
 - 随着网站应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进；【服务治理】
 - http://dubbo.apache.org/zh-cn/docs/user/new-features-in-a-glance.html
 
@@ -80,7 +82,7 @@ local.xml:
 ###### 远程服务 Spring 配置
 
 - 将上面的 `local.xml` 配置拆分成两份，**将服务暴露部分放在服务提供方 `remote-provider.xml`，将服务引用部分放在服务消费方 `remote-consumer.xml`。**
-- 并在**提供方增加暴露服务配置 `<dubbo:service>`，在消费方增加引用服务配置 `<dubbo: reference>**`。
+- 并在**提供方增加暴露服务配置 `<dubbo:service>`，在消费方增加引用服务配置 <dubbo: reference>**。
 
 remote-provider.xml:
 

@@ -2,6 +2,8 @@
 
 ------
 
+[TOC]
+
 所有配置项分为三大类
 
 - **服务发现**：表示该配置项用于**服务的注册与发现**，目的是让消费方找到提供方。
@@ -34,7 +36,7 @@
   | path          | <path>            | string         | 可选     | 缺省为接口名               | 服务发现 | 服务路径 (注意：1.0不支持自定义路径，总是使用接口名，如果有1.0调2.0，配置服务路径可能不兼容) |
   | delay         | delay             | int            | 可选     | 0                          | 性能调优 | **延迟注册服务时间(毫秒)** ，设为-1时，表示延迟到Spring容器初始化完成时暴露服务 |
   | **timeout**   | timeout           | int            | 可选     | 1000                       | 性能调优 | 远程服务调用超时时间(毫秒)                                   |
-  | retries       | retries           | int            | 可选     | 2                          | 性能调优 | 远程服务**调用重试次数**，不包括第一次调用，不需要重试请设为0 |
+  | **retries**   | retries           | int            | 可选     | 2                          | 性能调优 | 远程服务**调用重试次数**，不包括第一次调用，不需要重试请设为0 |
   | connections   | connections       | int            | 可选     | 100                        | 性能调优 | 对每个提供者的**最大连接数**，rmi、http、hessian等短连接协议表示限制连接数，dubbo等长连接协表示建立的长连接个数 |
   | loadbalance   | loadbalance       | string         | 可选     | random                     | 性能调优 | **负载均衡策略**，可选值：random,roundrobin,leastactive，分别表示：随机，轮询，最少活跃调用 |
   | **registry**  |                   | string         | 可选     | 缺省向所有registry注册     | 配置关联 | 向指定注册中心注册，在多个注册中心时使用，值为<dubbo:registry>的id属性，多个注册中心ID用逗号分隔，如果不想将该服务注册到任何registry，可将值设为N/A |
@@ -78,7 +80,7 @@
   | cluster       | cluster          | string         | 可选     | failover                                 | 性能调优 | 集群方式，可选：failover/failfast/failsafe/failback/forking  |
   | filter        | reference.filter | string         | 可选     | default                                  | 性能调优 | 服务消费方远程调用过程拦截器名称，多个名称用逗号分隔         |
   | listener      | invoker.listener | string         | 可选     | default                                  | 性能调优 | 服务消费方引用服务监听器名称，多个名称用逗号分隔             |
-  | protocol      | protocol         | string         | 可选     |                                          | 服务治理 | **只调用指定协议的服务提供方，其它协议忽略。**               |
+  | **protocol**  | protocol         | string         | 可选     |                                          | 服务治理 | **只调用指定协议的服务提供方，其它协议忽略。**               |
 
 ##### 03：dubbo:protocol
 
