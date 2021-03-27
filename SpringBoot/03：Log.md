@@ -45,50 +45,51 @@
    2. 配置logback-spring.xml
    
       ```xml
-      <?xml version="1.0" encoding="UTF-8"?>
+      </configuration><?xml version="1.0" encoding="UTF-8"?>
       <!-- slf4j日志配置文件 -->
       <configuration debug="true" scan="true" scanPeriod="30 seconds">
+      
           <!-- 设置日志输出根目录 -->
-          <property name="app.name" value="h_crm_data_merchantman"/>
+          <property name="app.name" value="h_datacube_wrapper"/>
           <property name="log.dir" value="${catalina.base}/logs"/>
           <property name="encoding" value="UTF-8"/>
           <property name="pattern"
                     value="%d{yyyy-MM-dd HH:mm:ss.SSS}[%level][%X{QTRACER}][%thread]    |    %C#%M:%L    |    %msg%n"/>
+          <property name="log.maxHistory" value="14"/>
+          <property name="log.level" value="info"/>
+          <property name="log.maxSize" value="40GB" />
       
-          <!-- log file default -->
-          <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-              <File>${log.dir}/merchantman.log</File>
+          <!-- 只打印 INFO 级别以上的信息-->
+          <appender name="info_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                  <level>INFO</level>
+              </filter>
+              <file>${log.dir}/info.log</file>
               <encoder>
                   <pattern>${pattern}</pattern>
                   <charset>${encoding}</charset>
               </encoder>
               <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>
-                    ${log.dir}/merchantman.%d{yyyy-MM-dd_HH}.log
-                </fileNamePattern>
-                <MaxHistory>30</MaxHistory>
+                  <param name="fileNamePattern" value="${log.dir}/info-%d{yyyy-MM-dd_HH}.log"/>
+                  <param name="maxHistory" value="${log.maxHistory}"/>
+                  <param name="totalSizeCap" value="${log.maxSize}"/>
               </rollingPolicy>
           </appender>
-          <!-- 时间滚动输出 level为 ERROR 日志 -->
-          <appender name="file-error"
-                    class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <!-- 用过滤器，只接受ERROR级别的日志信息，其余全部过滤掉 -->  
-            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      
+          <!-- 只打印 ERROR 级别以上的信息 -->
+          <appender name="error_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+              <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
                   <level>ERROR</level>
-                  <onMatch>ACCEPT</onMatch>
-                  <onMismatch>DENY</onMismatch>
               </filter>
               <File>${log.dir}/error.log</File>
               <encoder>
                   <pattern>${pattern}</pattern>
                   <charset>${encoding}</charset>
               </encoder>
-            	<!--日志滚动策略-->
               <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <!-- 历史日志文件的存放路径和名称 也可以配置成.gz 的 -->  
-                <FileNamePattern>${log.dir}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
-                <!--最大保留30天的日志-->  
-                <MaxHistory>30</MaxHistory>
+                  <param name="fileNamePattern" value="${log.dir}/error-%d{yyyy-MM-dd_HH}.log"/>
+                  <param name="maxHistory" value="${log.maxHistory}"/>
+                  <param name="totalSizeCap" value="${log.maxSize}"/>
               </rollingPolicy>
           </appender>
       
@@ -98,33 +99,117 @@
                   <charset>${encoding}</charset>
               </encoder>
           </appender>
-        
-         <root level="INFO">
+      
+          <appender name="dbAccessAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">>
+              <file>${log.dir}/dbsource.log</file>
+              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                  <param name="fileNamePattern" value="${log.dir}/dbsource-%d{yyyy-MM-dd}.log"/>
+                  <param name="maxHistory" value="${log.maxHistory}"/>
+              </rollingPolicy>
+              <encoder>
+                  <pattern>${pattern}</pattern>
+              </encoder>
+          </appender>
+      
+          <appender name="redisAccessAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">>
+              <file>${log.dir}/redis.log</file>
+              <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                  <param name="fileNamePattern" value="${log.home_dir}/redis-%d{yyyy-MM-dd}.log"/>
+                  <param name="maxHistory" value="${log.maxHistory}"/>
+              </rollingPolicy>
+              <encoder>
+                  <pattern>${log.pattern}</pattern>
+              </encoder>
+          </appender>
+      
+          <!--自定义logger-->
+          <logger name="com.xupt.db.resource" level="warn" additivity="false">
+              <level value="INFO" />
+              <appender-ref ref="dbAccessAppender" />
+          </logger>
+      
+          <logger name="com.xupt.redis.storage" level="warn" additivity="false">
+              <level value="INFO" />
+              <appender-ref ref="redisAccessAppender" />
+          </logger>
+      
+          <logger name="com.xupt" additivity="false">
+              <appender-ref ref="info_appender" />
+              <appender-ref ref="error_appender" />
+          </logger>
+      
+          <root level="INFO">
               <appender-ref ref="console"/>
-              <appender-ref ref="file"/>
-              <appender-ref ref="file-error"/>
-         </root>
+          </root>
       </configuration>
       ```
 
-##### 02：Log4j和Commons Logging
+##### 02：Logback 配置详解
 
-1. 配置根Logger(level)
-   - log4j.rootLogger = debug,info,warn,error,fatal--------按此顺序设置优先级
-   - level 是日志记录的优先级，分为FATAL、ERROR、WARN、INFO、DEBUG或者自定义的级别,Log4j建议只使用四个级别，优先级从高到低分别是FATAL，ERROR、WARN、INFO、DEBUG
-   - 特殊：
-     - ALL：打印所有的日志
-     - OFF：关闭所有的日志输出
-   - 通过在这里定义的级别，您可以控制到应用程序中相应级别的日志信息的开关,appenderName就是指定日志信息输出到哪个地方，可同时指定多个输出目的地
-2. 配置日志信息输出目的地 Appender
-   - log4j.appender.XXX (console,file,dailyfile)
-3. 配置日志信息的格式（布局）Layout
-   - log4j.appender.console.layout.ConversionPattern ="XXX"
-4. 配置好之后，如果想给某各类加日志
-   - private static Logger log=Logger.getLogger(xxx.class);
-   - log.error("error...."+e);
+1. ###### 根节点 <configuration> 
 
-##### 03：使用AOP统一处理Web请求日志
+   - scan: 
+     - 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+   - scanPeriod:
+     - 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+   - debug:
+     - 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+
+2. ###### 设置上下文信息  <contextName>
+
+   - 每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用 <contextName> 设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。
+   - <property> 
+     - 用来定义变量值的标签，有两个属性，其中name的值是变量的名称，value的值时变量定义的值。通过<property>定义的值会被插入到logger上下文中。**定义变量后，可以使“${}”来使用变量**。
+   - <timestamp>
+     - 有两个属性，其中key，标识此<timestamp> 的名字；datePattern：设置将当前时间（解析配置文件的时间）转换为字符串的模式，遵循java.txt.SimpleDateFormat的格式；
+
+3. ###### 设置logger，root
+
+   - logger
+
+     - 用来**设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>。**
+     - name ：用来**指定受此logger约束的某一个包或者具体的某一个类**。
+     - level：用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，还有一个特俗值INHERITED或者同义词NULL，代表强制执行上级的级别。**如果未设置此属性，那么当前logger将会继承上级（root）的级别。**
+     - addtivity：是否向上级传递 该logger 打印的信息。默认是true。
+     - ![log-level](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/log-level.jpg)
+
+   - root
+
+     - 也是 <logger>元素，不过它是根loger。只有一个level属性，因为已经被命名为"root"
+     - level：用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，不能设置为INHERITED或者同义词NULL。默认是DEBUG。
+     - <root> 可以包含零个或多个<appender-ref>元素，**标识这个appender将会添加到这个logger。**
+
+   - ###### 示例
+
+   - ```xml
+     <configuration>   
+       <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">   
+         <!-- encoder 默认配置为PatternLayoutEncoder -->   
+         <encoder>   
+           <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+         </encoder>   
+       </appender>   
+     
+       <!-- logback为java中的包 -->   
+       <logger name="logback"/>   
+       <!--logback.LogbackDemo：类的全路径 -->   
+       <logger name="logback.LogbackDemo" level="INFO" additivity="false">  
+         <appender-ref ref="STDOUT"/>  
+       </logger>   
+     
+       <root level="INFO">             
+         <appender-ref ref="STDOUT" />   
+       </root>     
+     </configuration>
+     ```
+
+     - <logger name="logback" />
+       - 将控制logback包下的所有类的日志的打印，但是并没用设置打印级别，所以继承他的上级<root>的日志级别“DEBUG”；没有设置addtivity，默认为true，将此loger的打印信息向上级传递；没有设置appender，所以他本身不打印任何信息，而是传递给上级打印信息；
+     - <logger name="logback.LogbackDemo" level="INFO" additivity="false">
+       - 控制logback.LogbackDemo类的日志打印，打印级别为“INFO”；additivity属性为false，表示此loger的打印信息不再向上级传递，指定了名字为“STDOUT”的appender。
+       - **如果additivity="true"，则日志会打印两次，本身打印一次，上级打印一次；**
+
+##### 04：使用AOP统一处理Web请求日志
 
 1. 添加AOP依赖
 
