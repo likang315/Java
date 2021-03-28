@@ -114,7 +114,7 @@
           <appender name="redisAccessAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">>
               <file>${log.dir}/redis.log</file>
               <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                  <param name="fileNamePattern" value="${log.home_dir}/redis-%d{yyyy-MM-dd}.log"/>
+                  <param name="fileNamePattern" value="${log.dir}/redis-%d{yyyy-MM-dd}.log"/>
                   <param name="maxHistory" value="${log.maxHistory}"/>
               </rollingPolicy>
               <encoder>
