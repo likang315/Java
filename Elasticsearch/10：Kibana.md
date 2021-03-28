@@ -10,7 +10,13 @@
 
 - 以使用 Kibana 来搜索，查看存储在 Elasticsearch 索引中的数据并与之交互。你可以很容易实现高级的数据分析和可视化，以图表的形式展现出来；
 - 侧边栏：
-  - discover：数据探索功能；
+  - Discover：用于和Elasticsearch交互和展示搜索结果；
+  - Visualize：用于图表的制作，图表分了很多类型，比如饼图、曲线图、线状图等。
+  - Dashboard：整合了多个图表的面板，方便查看
+  - TimeLion：Timelion是Kibana时间序列的可视化工具。时间序列可视化是可视化的，以时间顺序分析数据。
+  - Dev Tools：主要用于操作es中的数据，可以对es中的数据和索引进行增删改查等操作；
+  - Management：负责管理kibana，如对kibana索引的增删改等操作。
+  - 
 
 ##### 02：创建索引
 

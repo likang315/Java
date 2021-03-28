@@ -220,11 +220,9 @@ PUT /megacorp/employee/1
                            "about":       "I like to build cabinets",
                            "interests": [ "forestry" ]
                          }
-                       },{
-     
-                       } 
+                       }
                      ]
-                   }
+       }
      }
      ```
    
