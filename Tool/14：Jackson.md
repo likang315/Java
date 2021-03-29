@@ -52,7 +52,7 @@
 - DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES：反序列化时忽略Json中存在但对象中不存在的属性，设为False；
 - .defaultDateFormat(new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS))
   - 不设置，默认时间序列化成时间戳；
--  DeserializationFeature，SerializationFeature 和 Include 有关配置的类；
+-  **DeserializationFeature，SerializationFeature 和 Include 有关配置的类；**
 
 ##### 05：Jackson 注解
 
