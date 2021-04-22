@@ -417,7 +417,6 @@ public class Question1 {
                     firstSemaphore.acquire();
                     log.info("A");
                     secondSemaphore.release();
-
                 } catch (InterruptedException | BrokenBarrierException e) {
                     log.error("Question1.init_A: " + e.getMessage());
                 }
@@ -437,7 +436,6 @@ public class Question1 {
                     secondSemaphore.acquire();
                     log.info("B");
                     thirdSemaphore.release();
-
                 } catch (InterruptedException | BrokenBarrierException e) {
                     log.error("Question1.init_B: " + e.getMessage());
                 }
@@ -457,7 +455,6 @@ public class Question1 {
                     thirdSemaphore.acquire();
                     log.info("C");
                     firstSemaphore.release();
-
                 } catch (InterruptedException | BrokenBarrierException e) {
                     log.error("Question1.init_C: " + e.getMessage());
                 }
