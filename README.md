@@ -19,7 +19,22 @@
    13. ThreadPool
    14. Excutor
 
-2. ##### MySQL
+2. ##### JVM
+
+   1. JMM
+   2. 搜索算法、回收算法
+   3. 垃圾回收器
+   4. 类的加载、类加载器
+   5. 字节码文件
+   6. Jstat 命令详解
+   7. Jmap 命令详解
+   8. JVM 调优
+   
+3. ##### Design Pattern
+
+   1. 
+
+4. ##### MySQL
 
    1. DataBase
    2. MySQL 基本数据类型
@@ -34,7 +49,7 @@
    11. 数据库连接池、存储过程
    12. Jndi
 
-3. ##### Servlet、Session
+5. ##### Servlet、Session
 
    1. Tomcat
    2. Servlet
@@ -44,8 +59,8 @@
    6. Listener
    7. Fileupload、Filedownload
    8. kindeditor
-   
-4. ##### Spring
+
+6. ##### Spring
 
    - 01：Spring
    - 02：Spring Bean
@@ -58,7 +73,7 @@
    - 09：Spring Resource
    - 10：Spring Expression
 
-5. ##### Spring MVC
+7. ##### Spring MVC
 
    - 01：Spring MVC
    - 02：Spring Config
@@ -69,13 +84,13 @@
    - 07：Schedule
    - 08：SSM
 
-6. ##### SpringBoot
+8. ##### SpringBoot
 
    - 01：SpringBoot
    - 02：SpringBoot JDBC
    - 03：Log
 
-7. 
+9. 
 
 
 
