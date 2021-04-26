@@ -2,11 +2,16 @@
 
 ------
 
-​	某个代理类代表另一个类的功能，并且可以在不改动目标对象的基础上，增加额外的功能
+[TOC]
+
+##### 00：概述
+
+- 某个代理类代表另一个类的功能，并且可以在不改动目标对象的基础上，增加额外的功能；
 
 ###### 目的：
 
-​	为此对象提供一种代理，以控制对这个对象的访问
+- 为此对象提供一种代理，以**控制对这个对象的访问**；
+
 
 ###### 示例：	
 
@@ -21,13 +26,13 @@
 2. 动态代理
 3. Cglib 代理
 
-##### 1：静态代理
+##### 01：静态代理
 
-​	在使用时，需要定义接口或者父类，被代理对象（目标对象）与代理对象（Proxy）一起实现相同的接口
+​	在使用时，需要定义接口或者父类，**被代理对象（目标对象）与代理对象（Proxy）一起实现相同的接口**；
 
 ###### 缺点：
 
-​	一旦接口增加方法，目标对象与代理对象都要维护，所以使用动态代理方式来解决
+​	一旦接口增加方法，目标对象与代理对象都要维护，所以使用动态代理方式来解决；
 
 ```java
 public interface Base {
@@ -43,14 +48,12 @@ public class Source implements Base {
 
 public class Proxy implements Base {
   private Base pbase;
-
   public Proxy(Base t) {
     pbase = t;
   }
-
   @Override
   public void method() {
-    System.out.println(" 添加控制代理功能的逻辑 ");
+    System.out.println("添加控制代理功能的逻辑 ");
     pbase.method();
   }
 }
@@ -63,15 +66,15 @@ public class Main {
 }
 ```
 
-##### 2：动态代理（JDK代理）
+##### 02：动态代理（JDK代理）
 
 1. 代理对象不需要实现接口
-2. 代理对象的生成，是利用JDK的API，动态的在内存中创建代理对象
+2. 代理对象的生成，是利用JDK的API，**动态的在内存中创建代理对象**；
 
-代理类所在包：java.lang.reflect.Proxy JDK 实现代理只需要代理工厂使用 newProxyInstance 方法,但是该方法需要接收三个参数,完整的写法是:
+代理类所在包：java.lang.reflect.Proxy JDK 实现代理只需要代理工厂使用 newProxyInstance 方法，但是该方法需要接收三个参数,完整的写法是:
 
 - ClassLoader loader ：指定当前目标对象使用类加载器 
-- Class<?>[] interfaces ：目标对象实现的接口的类型,使用泛型方式确认类型
+- Class<?>[] interfaces ：目标对象实现的接口的类型，使用泛型方式确认类型
 -  InvocationHandler h ： 事件处理器
 
 当代理对象调用真实对象的方法时，其会自动的跳转到代理对象关联的 handler 对象的 invoke 方法来进行调用
@@ -117,7 +120,7 @@ public class MyInvocation implements InvocationHandler {
       if("send".equals(method.getName())) {
           Logger.before();
           // 传入代理的实际对象和参数,调用原始方法
-          method.invoke(obj,objects);
+          method.invoke(obj, objects);
           Logger.after();
       } else {
           method.invoke(obj,objects);
@@ -137,15 +140,15 @@ public class Logger {
 }
 ```
 
-##### 3：Cglib 代理（继承）：
+##### 03：Cglib 代理（继承）：
 
 ​	对指定的目标类生成一个子类，并覆盖其中方法实现增强，但因为采用的是继承，所以不能对 final 修饰的类进行代理
 
-- Cglib代理，也叫作子类代理，它是在内存中构建一个子类对象从而实现对目标对象功能的扩展
+- Cglib代理，也叫作子类代理，它是**在内存中构建一个子类对象从而实现对目标对象功能的扩展**；
 
 ######  Cglib子类代理实现方法: 
 
 1. 需要引入cglib 的 jar 包，但是Spring的核心包中已经包括了Cglib功能,所以直接引入Spring-core.jar 即可
 2. 引入功能包后，就可以在内存中动态构建子类
 3. 代理的类不能为 final ,否则报错
-4. 目标对象的方法如果为 final/static ,那么就不会被拦截，即不会执行目标对象额外的业务方法
+4. 目标对象的方法如果为 final/static，那么就不会被拦截，即不会执行目标对象额外的业务方法；

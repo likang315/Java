@@ -2,13 +2,16 @@
 
 ------
 
-​	将一个复杂对象的构建与其表示相分离，使得同样的构建过程可以创建不同的对象 ( 属性不同 )	
+[TOC]
 
-- 指挥者(director)：构建一个使用 builder 接口的对象 
-- 建造者(builder) ：创建一个产品对象的各个部件的抽象接口 
-- 具体的建造者（concreteBuilder)：实现 Builder 接口，描写各个部件的装配细节
+##### 01：概述
 
-与工厂模式的区别是：建造者模式更加关注与零件装配的
+- 将一个复杂对象的**构建与其表示相分离**，使得同样的构建过程可以创建不同的对象 ( 属性不同 )	
+  - **指挥者(director)**：构建一个使用 builder 接口的对象 
+  - **建造者(builder)** ：创建一个产品对象的各个部件的抽象接口 
+    - 具体的建造者（concreteBuilder)：实现 Builder 接口，描写各个部件的装配细节
+  - 指挥者指挥建造者建造对象；
+- 与工厂模式的区别是：建造者模式更加关注与零件装配的
 
 ```java
 // 指挥者，一个产品分为三个模块
@@ -32,7 +35,7 @@ public class ConcreteBuilderA implements Builder {
 		p = new Product();
 	}
   public Product getP() {
-        return p;
+    return p;
   }
 
   @Override

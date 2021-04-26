@@ -2,12 +2,15 @@
 
 ------
 
-​	保证一个类的只可创建一个对象
+[TOC]
 
-- 构造方法私有（类外不可创建对象，不可被继承）
-- 类的 static 方法
+##### 01：概述
 
-##### 1：懒汉式，方法被调用时，对象才被初始化，也叫对象的延时加载
+- 保证一个类的对象只有一个；
+- 构造方法私有（类外不可创建对象，不可被继承）；
+- 类的 static 方法；
+
+##### 02：懒汉式：方法被调用时，对象才被初始化，也叫对象的延时加载
 
 ```java
 // 懒汉式，对象的延时加载，线程安全，同步代码块，双重检查 Double-Check，效率高（双检锁）
@@ -38,7 +41,7 @@ public class Singleton {
           return singleton;
       }
 }
-// 静态内部类，通过类加载机制，懒加载，调用方法才会装载，效率高
+// 静态内部类，通过类加载机制，懒加载，调用方法时才会装载，效率高
 public class Singleton {
   private static class SingletonInstance {
       private static final Singleton INSTANCE = new Singleton();
@@ -49,7 +52,7 @@ public class Singleton {
 }
 ```
 
-##### 2：饿汉式，直接创建对象
+##### 03：饿汉式，直接创建对象
 
 ```java
 public class Singleton {
@@ -78,7 +81,7 @@ public enum EnumSingleton {
 }
 ```
 
-##### 3：枚举实现单例
+##### 04：枚举实现单例
 
 ```Java
 public final class T extends Enum {
@@ -86,6 +89,6 @@ public final class T extends Enum {
 }
 ```
 
-- enum 有且仅有 private 的构造方法，防止外部的额外构造，这恰好和单例模式吻合
-- 反射不能创建枚举类型，如果时枚举类型直接抛出异常
+- enum 有且仅有 private 的构造方法，防止外部的额外构造，这恰好和单例模式吻合；
+- 反射不能创建枚举类型，如果创建枚举类型直接抛出异常；
 - 对于序列化和反序列化，因为每一个枚举类型和枚举变量在JVM中都是唯一的，即Java在序列化和反序列化枚举时做了特殊的规定，枚举的writeObject、readObject、readObjectNoData、writeReplace和readResolve等方法是被编译器禁用的，因此也不存在实现序列化接口后调用 readObject 会破坏单例的问题                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
