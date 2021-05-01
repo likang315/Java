@@ -2,11 +2,15 @@
 
 ------
 
-​	空对象取代对 NULL 对象实例的检查，null 对象不是用来检查空值，而是用来执行一个不做任何动作的关系，提供默认的行为
+[TOC]
 
-###### 实现：
+##### 01：概述
 
-​	工厂类 *CustomerFactory* 基于客户传递的名字来返回 *RealCustomer* 或 *NullCustomer* 对象
+- 空对象取代对 NULL 对象实例的检查，**NULL 对象不是用来检查空值，而是用来执行一个不做任何动作的关系，提供默认的行为**；
+
+##### 02：示例
+
+​	工厂类 CustomerFactory 基于客户传递的名字来返回 *RealCustomer* 或 *NullCustomer* 对象
 
 ```java
 public abstract class AbstractCustomer {
