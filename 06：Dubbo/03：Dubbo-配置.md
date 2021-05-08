@@ -4,7 +4,7 @@
 
 [TOC]
 
-##### 01：xml配置
+##### 01：xml 配置
 
 ###### 配置标签
 
@@ -239,7 +239,7 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-##### 05：SpringBoot 配置
+##### 05：SpringBoot 配置 【类似属性配置】
 
 ```properties
   ## application.properties
@@ -337,7 +337,7 @@ configCenter.setAddress("zookeeper://127.0.0.1:2181");
 
 - 在**应用启动阶段，Dubbo 框架如何将所需要的配置采集起来**（包括应用配置、注册中心配置、服务配置等），以完成服务的暴露和引用流程。
 - Dubbo的配置读取总体上遵循了以下几个原则：
-  - Dubbo支持了多层级的配置，并按**预定优先级自动实现配置间的覆盖**，最终所有配置汇总到数据总线URL后驱动后续的服务暴露、引用等流程；
+  - Dubbo支持了多层级的配置，并按**预定优先级自动实现配置间的覆盖**，最终**所有配置汇总到数据总线URL**后驱动后续的服务暴露、引用等流程；
   - ApplicationConfig、ServiceConfig、ReferenceConfig可以被理解成配置来源的一种，是**直接面向用户编程的配置采集方式**；
   - 配置格式以Properties为主，在配置内容上遵循约定的`path-based`的命名规范；
 - 配置来源
@@ -349,7 +349,7 @@ configCenter.setAddress("zookeeper://127.0.0.1:2181");
 
 ##### 08：自动加载环境变量
 
-- Dubbo会自动从约定key中读取配置，并将配置以Key-Value的形式写入到URL中，支持的key有以下两个：
+- Dubbo会**自动从约定key中读取配置，并将配置以Key-Value的形式写入到URL中**，支持的key有以下两个：
 
   1. `dubbo.labels`：指定一些列配置到URL中的键值对，通常通过JVM -D或系统环境变量指定。
 

@@ -12,7 +12,7 @@
 git clone https://github.com/apache/dubbo.git
 cd dubbo/dubbo-demo/dubbo-demo-xml
 运行 dubbo-demo-xml-provider中的org.apache.dubbo.demo.provider.Application
-如果使用Intellij Idea 请加上-Djava.net.preferIPv4Stack=true
+如果使用 Intellij Idea 请加上-Djava.net.preferIPv4Stack=true
 ```
 
 ###### 配置：
@@ -95,7 +95,7 @@ public class ProviderServiceImpl implements ProviderService {
    - **节点：dubbo:monitor**
      - 监控中心配置， 用于配置连接监控中心相关信息，可以不配置，不是必须的参数
    - **节点：dubbo:registry**
-     - 配置注册中心的信息，比如，这里我们可以配置 zookeeper 作为我们的注册中心。`address` 是注册中心的地址，这里我们配置的是 **N/A 表示由 dubbo 自动分配地址**。或者说是一种直连的方式，不通过注册中心。
+     - 配置注册中心的信息，比如，这里我们可以配置 zookeeper 作为我们的注册中心。`address` 是注册中心的地址，这里我们配置的是 **N/A 表示由 dubbo 自动分配地址**。或者说是**一种直连的方式，不通过注册中心**。
    - **节点：dubbo:protocol**
      - 服务发布的时候 dubbo 依赖什么协议，可以配置 dubbo、webserovice、Thrift、Hessain、http等协议。
    - **节点：dubbo:service**
