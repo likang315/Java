@@ -259,7 +259,7 @@ public static void main(String[] args) throws Exception {
   demo.service.version=1.0.0
 ```
 
-##### 06：动态配置中心
+##### 06：动态配置中心【重点】
 
 配置中心（v2.7.0）在Dubbo中承担**两个职责**：
 
@@ -321,7 +321,7 @@ configCenter.setAddress("zookeeper://127.0.0.1:2181");
     3. dubbo/application：分别用来隔离全局配置、应用级别配置：dubbo是默认group值，application对应应用名
     4. dubbo.properties：此节点的node value存储具体配置内容
 
-- 自己加载外部化配置
+- **自己加载外部化配置**
 
   - 所谓Dubbo对配置中心的支持：本质上就是把`.properties`从远程拉取到本地，然后和本地的配置做一次融合。理论上只要Dubbo框架能拿到需要的配置就可以正常的启动，它并不关心这些配置是自己加载到的还是应用直接塞给它的。
 

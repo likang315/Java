@@ -15,7 +15,7 @@
 
 ##### 01：dubbo:service
 
-- 服务提供者暴露服务配置。对应的配置类：`org.apache.dubbo.config.ServiceConfig`
+- 服务提供者**暴露服务**配置。对应的配置类：`org.apache.dubbo.config.ServiceConfig`
 
 - ```xml
   <dubbo:service interface="com.crm.data.cube.api.CrmDataDubboService" 
@@ -42,17 +42,17 @@
   | **registry**  |                   | string         | 可选     | 缺省向所有registry注册     | 配置关联 | 向指定注册中心注册，在多个注册中心时使用，值为<dubbo:registry>的id属性，多个注册中心ID用逗号分隔，如果不想将该服务注册到任何registry，可将值设为N/A |
   | provider      |                   | string         | 可选     | 缺省使用第一个provider配置 | 配置关联 | 指定provider，值为<dubbo:provider>的id属性                   |
   | dynamic       | dynamic           | boolean        | 可选     | true                       | 服务治理 | 服务是否动态注册，如果设为false，注册后将显示后disable状态，需人工启用，并且服务提供者停止时，也不会自动取消册，需人工禁用。 |
-  | accesslog     | accesslog         | string/boolean | 可选     | false                      | 服务治理 | 设为true，将向logger中输出访问日志，也可填写访问日志文件路径，直接把访问日志输出到指定文件 |
+  | **accesslog** | accesslog         | string/boolean | 可选     | false                      | 服务治理 | 设为true，将向logger中输出访问日志，也可填写访问日志文件路径，直接把访问日志输出到指定文件 |
   | weight        | weight            | int            | 可选     |                            | 性能调优 | 服务权重                                                     |
   | executes      | executes          | int            | 可选     | 0                          | 性能调优 | 服务提供者每服务每方法最大可并行执行请求数                   |
   | cluster       | cluster           | string         | 可选     | failover                   | 性能调优 | 集群方式，可选：failover/failfast/failsafe/failback/forking  |
   | filter        | service.filter    | string         | 可选     | default                    | 性能调优 | 服务提供方远程调用过程拦截器名称，多个名称用逗号分隔         |
   | listener      | exporter.listener | string         | 可选     | default                    | 性能调优 | 服务提供方导出服务监听器名称，多个名称用逗号分隔             |
-  | **protocol**  |                   | string         | 可选     |                            | 配置关联 | 使用指定的协议暴露服务，在多协议时使用，值为<dubbo:protocol>的id属性，多个协议ID用逗号分隔 |
+  | **protocol**  |                   | string         | 可选     |                            | 配置关联 | 使用**指定的协议暴露服务**，在多协议时使用，值为<dubbo:protocol>的id属性，多个协议ID用逗号分隔 |
 
 ##### 02：dubbo:reference
 
-- 服务消费者引用服务配置，对应的配置类： `org.apache.dubbo.config.ReferenceConfig`
+- 服务消费者**引用服务**配置，对应的配置类： `org.apache.dubbo.config.ReferenceConfig`
 
 - ```xml
   <dubbo:reference interface="com.crm.data.cube.api.CrmDataDubboService"
@@ -71,7 +71,7 @@
   | timeout       | timeout          | long           | 可选     | 缺省使用<dubbo:consumer>的timeout        | 性能调优 | 服务方法调用超时时间(毫秒)                                   |
   | retries       | retries          | int            | 可选     | 缺省使用<dubbo:consumer>的retries        | 性能调优 | 远程服务调用重试次数，不包括第一次调用，不需要重试请设为0    |
   | connections   | connections      | int            | 可选     | 缺省使用<dubbo:consumer>的connections    | 性能调优 | 对每个提供者的最大连接数，rmi、http、hessian等短连接协议表示限制连接数，dubbo等长连接协表示建立的长连接个数 |
-  | loadbalance   | loadbalance      | string         | 可选     | 缺省使用<dubbo:consumer>的loadbalance    | 性能调优 | 负载均衡策略，可选值：random,roundrobin,leastactive，分别表示：随机，轮询，最少活跃调用 |
+  | loadbalance   | loadbalance      | string         | 可选     | 缺省使用<dubbo:consumer>的loadbalance    | 性能调优 | 负载均衡策略，可选值：random,roundrobin,leastactive，分别表示：**随机，轮询，最少活跃调用** |
   | **check**     | check            | boolean        | 可选     | 缺省使用<dubbo:consumer>的check          | 服务治理 | **启动时检查提供者是否存在，true报错，false忽略**            |
   | **url**       | url              | string         | 可选     |                                          | 服务治理 | **点对点直连服务提供者地址，将绕过注册中心**                 |
   | cache         | cache            | string/boolean | 可选     |                                          | 服务治理 | **以调用参数为key，缓存返回结果**，可选：lru, threadlocal, jcache等 |
@@ -122,13 +122,13 @@
   | ------------- | -------------------- | ------- | -------- | ------ | -------- | ------------------------------------------------------------ |
   | **id**        |                      | string  | 可选     |        | 配置关联 | 注册中心引用BeanId，可以在<dubbo:service registry="">或<dubbo:reference registry="">中引用此ID |
   | **address**   | <host:port>          | string  | **必填** |        | 服务发现 | **注册中心服务器地址**，如果地址没有端口**缺省为9090**，同一集群内的多个地址用逗号分隔，如：ip:port,ip:port，不同集群的注册中心，请配置多个<dubbo:registry>标签 |
-  | **protocol**  | <protocol>           | string  | 可选     | dubbo  | 服务发现 | 注册中心地址协议，支持`dubbo`, `multicast`, `zookeeper`, `redis`, `consul(2.7.1)`, `sofa(2.7.2)`, `etcd(2.7.2)`, `nacos(2.7.2)`等协议 |
+  | **protocol**  | <protocol>           | string  | 可选     | dubbo  | 服务发现 | **注册中心地址协议**，支持`dubbo`, `multicast`, `zookeeper`, `redis`, `consul(2.7.1)`, `sofa(2.7.2)`, `etcd(2.7.2)`, `nacos(2.7.2)`等协议 |
   | port          | <port>               | int     | 可选     | 9090   | 服务发现 | 注册中心缺省端口，当address没有带端口时使用此端口做为缺省值  |
   | **username**  | <username>           | string  | 可选     |        | 服务治理 | 登录注册中心用户名，如果注册中心不需要验证可不填             |
   | **password**  | <password>           | string  | 可选     |        | 服务治理 | 登录注册中心密码，如果注册中心不需要验证可不填               |
   | transport     | registry.transporter | string  | 可选     | netty  | 性能调优 | 网络传输方式，可选mina,netty                                 |
   | timeout       | registry.timeout     | int     | 可选     | 5000   | 性能调优 | 注册中心请求超时时间(毫秒)                                   |
-  | file          | registry.file        | string  | 可选     |        | 服务治理 | **使用文件缓存注册中心地址列表及服务提供者列表，应用重启时将基于此文件恢复，注意：两个注册中心不能使用同一文件存储** |
+  | **file**      | registry.file        | string  | 可选     |        | 服务治理 | **使用文件缓存注册中心地址列表及服务提供者列表，应用重启时将基于此文件恢复，注意：两个注册中心不能使用同一文件存储** |
   | **register**  | register             | boolean | 可选     | true   | 服务治理 | 是否向此注册中心注册服务**，如果设为false，将只订阅，不注册** |
   | **subscribe** | subscribe            | boolean | 可选     | true   | 服务治理 | 是否向此注册中心订阅服务，**如果设为false，将只注册，不订阅** |
   | dynamic       | dynamic              | boolean | 可选     | true   | 服务治理 | **服务是否动态注册**，如果设为false，注册后将显示为disable状态，需人工启用，并且服务提供者停止时，也不会自动取消注册，需人工禁用。 |
@@ -136,7 +136,7 @@
 
 ##### 05：dubbo:monitor
 
-- 监控中心配置。对应的配置类： `org.apache.dubbo.config.MonitorConfig`
+- **监控中心配置**。对应的配置类： `org.apache.dubbo.config.MonitorConfig`
 
 - | 属性     | 对应URL参数 | 类型   | 是否必填 | 缺省值 | 作用     | 描述                                                         |
   | -------- | ----------- | ------ | -------- | ------ | -------- | ------------------------------------------------------------ |
@@ -159,7 +159,7 @@
   | architecture | architecture        | string | 可选     |           | 服务治理 | 用于服务分层对应的架构。                                     |
   | environment  | environment         | string | 可选     |           | 服务治理 | 应用环境，如：develop/test/product，不同环境使用不同的缺省值 |
   | compiler     | compiler            | string | 可选     | javassist | 性能优化 | Java字节码编译器，用于动态类的生成，可选：jdk或javassist     |
-  | logger       | logger              | string | 可选     | slf4j     | 性能优化 | 日志输出方式，可选：slf4j,jcl,log4j,log4j2,jdk               |
+  | **logger**   | logger              | string | 可选     | slf4j     | 性能优化 | 日志输出方式，可选：slf4j,jcl,log4j,log4j2,jdk               |
 
 ##### 07：dubbo:provider
 
@@ -202,7 +202,7 @@
 
 ##### 11：dubbo:config-center
 
-- 配置中心。对应的配置类：`org.apache.dubbo.config.ConfigCenterConfig`
+- **配置中心**。对应的配置类：`org.apache.dubbo.config.ConfigCenterConfig`
 
 - | 属性             | 对应URL参数            | 类型    | 是否必填 | 缺省值           | 描述                                                         |
   | ---------------- | ---------------------- | ------- | -------- | ---------------- | ------------------------------------------------------------ |
