@@ -2,33 +2,37 @@
 
 ------
 
-​	一般调整垃圾回收器，和堆大小以及最大停顿时间
+[TOC]
 
-- -XX:+UseG1GC -Xmx32g -XX:MaxGCPauseMillis = 200
+##### 01：概述
+
+​	一般调整**垃圾回收器**，和**堆大小**以及**最大停顿时间**
+
+- -XX:+UseG1GC -Xmx9g -XX:MaxGCPauseMillis = 200
   - -XX:+UseG1GC：为开启G1垃圾收集器
-  - -Xmx32g：设计堆内存的最大内存为32G
+  - -Xmx9g：设计堆内存的最大内存为9G
   - -XX:MaxGCPauseMillis=200：设置GC的最大暂停时间为200ms
-- 如果我们需要调优，在内存大小一定的情况下，我们只需要修改最大暂停时间即可
+- 如果我们需要调优，在内存大小一定的情况下，我们只需要修改最大暂停时间即可;
 
-##### 01：Jvm 参数格式
+##### 02：Jvm 参数格式
 
-1. 标准参数（-），所有的JVM实现都必须实现这些参数的功能，而且向后兼容；
-2. 非标准参数（-X），默认jvm实现这些参数的功能，但是并不保证所有jvm实现都满足，且不保证向后兼容；
+1. 标准参数（-），**所有的JVM实现都必须实现**这些参数的功能，而且向后兼容；
+2. 非标准参数（-X），**默认jvm实现这些参数的功能**，但是并不保证所有jvm实现都满足，且不保证向后兼容；
 3. 非Stable参数（-XX），此类参数各个jvm实现会有所不同，将来可能会随时取消，需要慎重使用；
 
-##### 02：tomcat 配置
+##### 03：JVM调参
 
 - /Tomcat/apache-tomcat-8.5.40/bin/catalina.sh
 
 - 添加JAVA_OPTS
 
   - ```sh
-    JAVA_OPTS="-Xms6g -Xmx6g -XX:-OmitStackTraceInFastThrow 
-    -XX:SoftRefLRUPolicyMSPerMB=0 -Xss256k -XX:MaxGCPauseMillis=200 
-    -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m 
+    -Xms9216m -Xmx9216m -XX:MetaspaceSize=2048m -XX:MaxMetaspaceSize=2048m -server 
+    -XX:MaxGCPauseMillis=200 -XX:-OmitStackTraceInFastThrow 
+    -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+DisableExplicitGC -XX:+UseG1GC 
     -Djava.security.egd=file:/dev/./urandom -XX:+HeapDumpOnOutOfMemoryError 
-    -Xlog:gc*:file=$CATALINA_BASE/logs/gc-$(date +%Y_%m_%d-%H_%M_%S).log:time,level,tags -XX:HeapDumpPath=${CATALINA_BASE}/logs
-    -Djava.awt.headless=true"
+    -verbose:gc -Xlog:gc*:file=$CATALINA_BASE/.logs/gc.log:time,level,tags 
+    -XX:HeapDumpPath=$CATALINA_BASE/logs
     ```
 
   - 堆配置

@@ -8,7 +8,7 @@
 
 ##### 01：内存模型（JMM，Java Memory Model）
 
-![](https://github.com/likang315/Java-and-Middleware/blob/master/JVM/JVM/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B.png?raw=true)
+![JMM](/Users/likang/Code/Git/Middleware/02：JVM/JVM/JMM.png)
 
 1. **程序计数器：**当前线程**所执行字节码的行号指示器**，值 +1，就去下一条的字节码指令去执行
 - 每个线程**都有一个独立的程序计数器，线程私有**
@@ -26,7 +26,7 @@
    
 3. **本地方法栈：**Native 方法执行的内存模型
 - 存储 jvm 使用到的 **Native 方法（本地方法库）**，**线程私有**；
-   
+  
 4. **Java堆（heap）：**运行时进行**存储空间分配和回收的内存管理模型**；
 - 所有new的对象实例（包括成员变量的属性），都存储在堆中；
    - Java 堆是GC管理的主要区域，因此有时也称GC堆；

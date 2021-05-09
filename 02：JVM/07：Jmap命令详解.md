@@ -2,9 +2,13 @@
 
 ------
 
-​	是一个多功能的命令。它可以生成 java 程序的 dump 文件， 也可以查看堆内对象示例的统计信息、查看 ClassLoader 的信息以及 finalizer 队列。
+[TOC]
 
-##### 01：Jmap 使用方式
+##### 01：概述
+
+​	是一个多功能的命令。它可以**生成 java 程序的 dump 文件**， 也可以**查看堆内对象示例的统计信息**、查看 ClassLoader 的信息以及 **finalizer 队列**。
+
+##### 02：Jmap 使用方式
 
 - ```
   jmap [option] <pid>
@@ -22,7 +26,7 @@
   - **histo:live：** 显示堆中对象的统计信息
   - **clstats：**打印类加载器信息
   - **finalizerinfo：** 显示在F-Queue队列等待Finalizer线程执行finalizer方法的对象
-  - **dump:<dump-options>：**生成堆转储快照
+  - **dump:<dump-options>: 生成堆转储快照**
   - **F：** 当-dump没有响应时，使用-dump或者-histo参数. 在这个模式下,live子参数无效.
   - **help：**打印帮助信息
   - **J<flag>：**指定传递给运行jmap的JVM的参数
@@ -53,10 +57,8 @@
 5. jmap -finalizerinfo pid
    - 打印等待销毁的对象信息；
 6. **jmap -F -dump:format=b,file=heapdump.hprof pid**
-   - 以hprof二进制格式转储Java堆到指定filename的文件中。live子选项是可选的。如果指定了live子选项，堆中只有活动的对象会被转储；
-   - 该过程较为耗时，并且执行的过程中为了保证dump的信息是可靠的，所以会暂停应用， 线上系统慎用；
-
-
+   - 以**hprof二进制格式转储Java堆到指定filename的文件中**。live子选项是可选的。如果指定了live子选项，堆中只有活动的对象会被转储；
+   - 该过程较为耗时，并且执行的过程中为了保证dump的信息是可靠的，所以会**暂停应用， 线上系统慎用**；
 
 
 
