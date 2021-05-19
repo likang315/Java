@@ -55,8 +55,6 @@
 
   - 可以在 consumer 端注册一些filter，这些 filter 将在 listener.onMessage 之前和之后执行一些逻辑。filter需要实现下面的接口:
 
-  - 
-
   - ```java
     public interface Filter {
         /**
@@ -80,13 +78,13 @@
                           filterContext);
     }
     ```
-
+  
   - 如果使用的是 qmq 2.x 的annotation，可以采用这种方式
 
     ```java
     `@QmqConsumer``(prefix=``"mymessage"``, consumerGroup=``"mygroup"``, filters={``"filter1"``, ``"filter2"``})` `public``void``handleMessage(Message msg){`  `}`
     ```
-
+  
 - **显示ACK**
 
 - **调整Consumer线程池**

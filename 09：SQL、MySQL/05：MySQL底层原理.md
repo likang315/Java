@@ -6,7 +6,7 @@
 
 ##### 01：MySQL 体系结构【八大组件】
 
-![](https://github.com/likang315/Middleware/blob/master/Mysql%EF%BC%8CInnoDB/InnoDB/mysql%20%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
+![](https://github.com/likang315/Middleware/blob/master/09%EF%BC%9ASQL%E3%80%81MySQL/photos/mysql%20%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png?raw=true)
 
 1. 数据库驱动：用于连接数据库，JDBC；
 2. **数据库连接池**：管理数据库实例（IP：port），Druid；
@@ -71,7 +71,7 @@
 8. 读取相关**数据页**从 innodb_buffer_pool 中（如果数据页本身就在缓存中，则不用从硬盘读取）；
 9. 将页中的**原始数据（快照）保存到 undo log buffer** 回滚日志中；
 10. 在 innodb_buffer_pool 中将**相关页面更新，该页变成脏页**（脏页会定时的刷盘写入到所属表空间中）；
-11. 页面修改完成后，会把修改后的物理页面**保存到 redo log  [innodb_log_buffer] 中**，redo log buffer 会以相关参数定义的规则进行刷盘操作写入到 redo log tablespace 中；
+11. 页面修改完成后，会把修改后的物理页面**保存到 redo log buffer [innodb_log_buffer] 中**，redo log buffer 会以相关参数定义的规则进行刷盘操作写入到 **redo log tablespace** 中；
 12. 如果开启bin log，则更新数据的逻辑语句也会记录在**bin log_cache**中；
 13. 执行 commit 操作后，由于**要保证redo log与bin log的一致性，redo log采用两阶段提交方式**；
 14. 将**redo log 刷盘**（innodb_flush_log_at_trx_commit=1），并将该事务的**redo log 标记为 prepare 状态**；

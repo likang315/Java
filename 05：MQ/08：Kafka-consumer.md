@@ -106,7 +106,6 @@
 2. **fetch.max.wait.ms**
 - 指定 broker 的等待时间，默认是500ms。如果没有足够的数据流入Kafka，消费者获取最小数据量的要求就得不到满足，最终导致500ms 的延迟。
    - 如果fetch.max.wait.ms 被设为100ms，并且fetch.min.bytes 被设为1MB，那么Kafka 在收到消费者的请求后，要么返回1MB 数据，要么在100ms 后返回所有可用的数据，就看哪个条件先得到满足；
-   
 3. **max.partition.fetch.bytes**
    - 指定了服务器从**每个分区里返回给消费者的最大字节数。它的默认值是1MB**，也就是说，KafkaConsumer.poll() 方法从每个分区里返回的记录最多不超过max.partition.fetch.bytes 指定的字节；
 
@@ -119,11 +118,9 @@
 - 指定了消费者在**读取一个没有偏移量的分区或者偏移量无效的情况下（因消费者长时间失效，包含偏移量的记录已经过时并被删除）该作何处理**。它的默认值是latest，
    - **latest：**在偏移量无效的情况下，**消费者将从最新的记录开始读取数据（在消费者启动之后生成的记录）。**
    - earliest：在偏移量无效的情况下，消费者将从起始位置读取分区的记录；
-   
 6. **enable.auto.commit**
 - 指定了消费者**是否自动提交偏移量**，默认值是true。
    - 如果把它设为true，还可以通过配置**auto.commit.interval.ms属性来控制提交的频率**，默认值：5s;
-   
 7. partition.assignment.strategy
 
    - 决定哪些分区应该被分配给哪个消费者
@@ -138,7 +135,6 @@
 
 9. **max.poll.records**
 -  用于控制**单次调用call() 方法能够返回的记录数量**，可以帮你控制在轮询里需要处理的数据量。
-  
 10. receive.buffer.bytes 和 send.buffer.bytes
 
     - socket 在读写数据时用到的 TCP 缓冲区也可以设置大小。如果它们被设为-1，就使用操作系统的默认值；
@@ -171,20 +167,20 @@
 
 - ```java
   while (true) {
-    ConsumerRecords<String, String> records = consumer.poll(100);
-    for (ConsumerRecord<String, String> record : records) {
-      System.out.printf("topic = %s, partition = %s, offset =%d,
-                        customer = %s, country = %s\n",
-                        record.topic(), record.partition(),
-                        record.offset(), record.key(), record.value());
-    }
-    try {
-      // 只要没有发生不可恢复的错误，commitSync() 方法会一直尝试直至提交成功
-      // 如果提交失败，我们也只能把异常记录到错误日志里，重复消费；
-      consumer.commitSync();
-    } catch (CommitFailedException e) {
-      log.error("commit failed", e)
-    }
+        ConsumerRecords<String, String> records = consumer.poll(100);
+        for (ConsumerRecord<String, String> record : records) {
+          System.out.printf("topic = %s, partition = %s, offset =%d,
+                            customer = %s, country = %s\n",
+                            record.topic(), record.partition(),
+                            record.offset(), record.key(), record.value());
+        }
+        try {
+          // 只要没有发生不可恢复的错误，commitSync() 方法会一直尝试直至提交成功
+          // 如果提交失败，我们也只能把异常记录到错误日志里，重复消费；
+          consumer.commitSync();
+        } catch (CommitFailedException e) {
+          log.error("commit failed", e)
+        }
   }
   ```
 
@@ -282,7 +278,7 @@
     - 会在重新分配分区之后和消费者开始读取消息之前被调用。
 
   ```java
-  private Map<TopicPartition, OffsetAndMetadata> currentOffsets=
+  private Map<TopicPartition, OffsetAndMetadata> currentOffsets =
     new HashMap<>();
   private class HandleRebalance implements ConsumerRebalanceListener {
     public void onPartitionsAssigned(Collection<TopicPartition>
@@ -322,7 +318,6 @@
     }
   }
   ```
-  
 
 ##### 08：从特定偏移量处开始处理记录
 

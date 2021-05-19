@@ -134,27 +134,27 @@ public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
    
 2. **LinkedBlockingQueue：**是一个用链表实现的有界阻塞队列
 - 此队列的默认和最大长度为Integer.MAX_VALUE。此队列按照先进先出的原则对元素进行排序。
-   
+  
 3. **PriorityBlockingQueue：**是一个支持优先级的无界阻塞队列
    - 默认情况下元素采取自然顺序升序排列。也可以自定义类实现compareTo()方法来指定元素排序规则，或者初始化PriorityBlockingQueue时，指定构造参数Comparator来对元素进行排序。需要注意的是**不能保证同优先级元素的顺序**。
    - 始终保证出队的元素时优先级最高的；
 
 4. **DelayQueue：是一个支持延时获取元素的无界阻塞队列**
-- 队列使用PriorityQueue来实现。队列中的元素必须实现Delayed接口，在创建元素时可以指定多久才能从队列中获取当前元素。只有在延迟期满时才能从队列中提取元素。
+- 队列使用PriorityQueue来实现。队列中的元素必须实现Delayed接口，在**创建元素时可以指定多久才能从队列中获取当前元素**。只有在延迟期满时才能从队列中提取元素。
    - DelayQueue非常有用，可以将DelayQueue运用在以下应用场景。
      1. **缓存系统的设计**：可以用DelayQueue保存缓存元素的有效期，使用一个线程循环查询DelayQueue，一旦能从DelayQueue中获取元素时，表示缓存有效期到了。
      2. **定时任务调度**：使用DelayQueue保存当天将会执行的任务和执行时间，一旦从DelayQueue中获取到任务就开始执行，比如TimerQueue就是使用DelayQueue实现的。
    
 5. **SynchronousQueue：**是一个不存储元素的阻塞队列
 - 每一个put操作必须等待一个take操作，否则不能继续添加元素，队列本身不存储元素，非常适合传递性场景。 
-   
+  
 6. **LinkedTransferQueue：**是一个由链表结构组成的无界阻塞TransferQueue队列
 - 相对于其他阻塞队列，LinkedTransferQueue多了tryTransfer和transfer方法
      1. transfer方法
         - 如果当前有消费者正在等待接收元素（消费者使用take()方法或带时间限制的poll()方法时）transfer方法**可以把生产者传入的元素直接 transfer（传输）给消费者**。如果没有消费者在等待接收元素（让CPU自旋），transfer方法会将元素存放在队列的tail节点，并等到该元素被消费者消费了才返回。
      2. tryTransfer方法
         - 用来**试探**生产者传入的元素是否能直接传给消费者。如果没有消费者等待接收元素，则返回false。
-   
+
 7. **LinkedBlockingDeque**：是一个由链表结构组成的双向阻塞队列。
 - 所谓双向队列指的是可以从队列的两端插入和移出元素。双向队列因为多了一个操作队列的入口，在多线程同时入队时，也就减少了一半的竞争。
    - 在初始化LinkedBlockingDeque时可以**设置容量防止其过度膨胀**。另外，双向阻塞队列可以运用在“**工作窃取**”模式中。
