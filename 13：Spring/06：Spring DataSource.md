@@ -2,7 +2,11 @@
 
 ------
 
-Spring 中提供了 5 种不同的数据源
+[TOC]
+
+##### 01：Spring数据源
+
+- Spring 中提供了 5 种不同的数据源
 
 1. DriverManagerDataSource：spring 自带的数据源
 2. druid  （使用druid 数据源）
@@ -10,7 +14,7 @@ Spring 中提供了 5 种不同的数据源
 4. DBCP 数据源
 5. C3P0 数据源
 
-##### 1：DriverManagerDataSource
+##### 02：DriverManagerDataSource
 
 ```xml
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -21,9 +25,10 @@ Spring 中提供了 5 种不同的数据源
 </bean>
 ```
 
-##### 2：druid
+##### ：druid
 
-druid 连接池及监控在 spring 配置如下：
+- druid 连接池及监控在 spring 配置如下：
+
 
 ```xml
 <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" 

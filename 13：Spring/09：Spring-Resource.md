@@ -1,12 +1,13 @@
 ### Spring Resource
 
-​	获取外部资源，处理URL资源、File资源资源、ClassPath相关资源、服务器相关资源
-
 ------
 
-##### 1：Resource ：
+##### 01：概述
 
- 	Spring 为资源访问提供了一个 Resource 接口，该接口提拱了更强的资源访问能力，Spring框架本身大量使用Resource来访问底层资源
+- 获取外部资源，处理URL资源、File资源资源、ClassPath相关资源、服务器相关资源；
+- Spring 为资源访问提供了一个 **Resource 接口**，该接口提拱了更强的资源访问能力，Spring框架本身大量使用Resource来访问底层资源；
+
+##### 02：API
 
 ###### 实现类
 
@@ -25,37 +26,35 @@
 - getInputStream()：获取当前资源的输入流，每次调用都返回新的输入流，调用者必须关闭输入流
 - getFile：返回资源对应的 File 对象
 - getURL：返回资源对应的 URL 对象
-- 
 - isOpen()：返回资源文件是否打开
 - getDescription()：返回资源的描述信息，通常是全限定文件名或实际 URL
 
 ```java
 Resource fileResource = new FileSystemResource("D:/cxyapi/show.txt");
 Resource fileResource = new ClassPathResource("aop.xml");
-Resource fileResource =
-  				new ServletContextResource(application,"/configTest/cxyapi.txt");
+Resource fileResource = new ServletContextResource(application,"/configTest/cxyapi.txt");
 ```
 
-##### 2：ResourceLoader Interface
+###### ResourceLoader Interface
 
-​	弱化对各个Resource接口的实现类的感知，不去本身去实现Resource，通过ResourceLoader接口，该接口的getResource(String location)方法可以用来获取资源。它的DefaultResourceLoader实现类可以适用于所有的环境
-
+- 弱化对各个Resource接口的实现类的感知，不去本身去实现Resource，通过ResourceLoader接口，该接口的getResource(String location)方法可以用来获取资源。它的DefaultResourceLoader实现类可以适用于所有的环境；
 - Resource getResource(String location)：根据资源地址加载文件资源，需要指定前缀
   - 在进行加载资源时需要使用前缀来指定加载：
   - "classpath:path"：表示返回ClasspathResource
   - "http://path"，"file:path"：表示返回UrlResource资源
-  - 如果不加前缀则需要根据当前上下文来决定，DefaultResourceLoader默认实现是加载classpath资源
+  - 如果不加前缀则需要根据当前上下文来决定，DefaultResourceLoader默认实现是加载classpath资源；
 
 ###### 使用方式
 
-​	所有ApplicationContext实现类，都实现了ResourceLoader接口
+- 所有ApplicationContext实现类，都实现了ResourceLoader接口
+
 
 ```java
 // 获取的是 classPath 类型的Resource实现类
 ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-resource.xml");  
 ```
 
-##### 3：资源地址表达式
+##### 03：资源地址表达式
 
 1. classpath：从类路径中加载资源（Resource）
    - classpath:/beanfactory/**/bean.xml

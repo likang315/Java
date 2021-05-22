@@ -2,6 +2,8 @@
 
 ------
 
+[TOC]
+
 ##### 01：统一异常处理
 
 1. 统一在Controller 层处理异常、参数校验；
@@ -39,7 +41,7 @@ public class ExceptionResolver {
     }
 
   	/**
-  	 *
+  	 * 自定义异常处理器
   	 */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseBody

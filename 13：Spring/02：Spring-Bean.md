@@ -2,13 +2,16 @@
 
 ------
 
-##### Xmlns：表示默认的XML Namespace的缩写
+[TOC]
 
-​	使用语法：xmlns:namespace-prefix="namespaceURI"，其中namespace-prefix为自定义前缀，只要在这个XML文档中保证前缀不重复即可；namespaceURI 是这个前缀对应的XML Namespace的定义
+##### 01：xmlns
+
+- 表示默认的XML namespace；
+- 使用语法：xmlns:namespace-prefix="namespaceURI"，其中namespace-prefix为自定义前缀，只要在这个XML文档中保证前缀不重复即可；namespaceURI 是这个前缀对应的XML namespace的定义；
 
 ###### xsi:schemaLocation
 
-- xsi:schemaLocation：其实是 namespace 为 http://www.w3.org/2001/XMLSchema-instance 里的schemaLocation 属性值
+- xsi:schemaLocation：其实是 namespace 为 http://www.w3.org/2001/XMLSchema-instance 里的 schemaLocation 属性值
 - 为了解决元素命名冲突的；
 
 ```xml
@@ -18,25 +21,26 @@
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 ```
 
-- xsi:schemaLocation：它定义了XML Namespace和对应的XSD（Xml Schema Definition）文档的位置的关系。它的值由一个或多个URI引用对组成，**两个URI之间以空白符分隔（空格和换行均可）**
-  - 第一个URI：定义的XML Namespace 的值
+- xsi:schemaLocation：它定义了XML Namespace和对应的XSD（Xml Schema Definition）**文档的位置的关系**。它的值由一个或多个URI引用对组成，**两个URI之间以空白符分隔（空格和换行均可）**
+  - 第一个URI：定义的XML Namespace 的值；
   - 第二个URI：指出 Schema 文档的位置，Schema 处理器将从这个位置读取Schema文档
 
-##### 1：Bean 的定义
+##### 02：Bean 的定义【重要】
 
-###### 构成 Bean 的属性（property）：
+###### Bean 的属性
 
 - id="对象名"
 - class="实例化此类，放入 Spring容器中" 
 - scope= "作用域" 
-  - **singleton**：单例模式，默认的，Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例
-  - prototype：原型模式，每次都会产生一个新的bean实例，克隆操作
-- lazy-init="true" ：懒加载，初始化容器的时候不会立刻加载，用时再加载 
-- init-method="方法名" ：初始化对象之前调用此方法
-- destory-method="方法名" ：销毁对象之前调用此方法
+  - **singleton**：单例模式，默认的，Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例；
+  - 虽然 Spring 的 Bean 是单例的，但它内部使用**ThreadLocal** ，每一个线程对应一个变量副本，所以是**线程安全的**；
+  - prototype：原型模式，每次都会产生一个新的bean实例，克隆操作；
+- lazy-init="true" ：懒加载，初始化容器的时候不会立刻加载，用时再加载；
+- init-method="方法名" ：初始化对象之前调用此方法；
+- destory-method="方法名" ：销毁对象之前调用此方法； 
 - abstract="true" ：抽象的被用来继承
 - parent="id值" ：继承bean的id，与abstract联用
-- primary="true" ：首选的，容器中有两个相同对象时，优先选择
+- **primary="true"** ：首选的，容器中有两个相同对象时，优先选择
 - factory-bean="实例化工厂对象名" 
 - factory-method="实例化对象的静态方法名"：使用静态方法实例化Bean
 
@@ -47,7 +51,7 @@
 </bean>
 ```
 
-##### 2：Bean 作用域（scope）三种配置方式：
+###### Bean 作用域（scope）
 
 ```java
 @Bean
@@ -67,21 +71,25 @@ Public Notepad notepad() {
 
 | 作用域         | 描述                                                         |
 | -------------- | ------------------------------------------------------------ |
-| singleton      | 在spring IoC容器仅存在一个Bean实例，Bean以单例方式存在，默认值，Threadlocal |
+| singleton      | 在spring IoC容器仅存在一个Bean实例，Bean以单例方式存在，**默认值，Threadlocal** |
 | prototype      | 每次从容器中调用Bean时，都返回一个新的实例，即每次调用getBean()时，相当于执行newXxxBean()  ，克隆 |
-| request        | 每次HTTP请求都会创建一个新的Bean，该作用域仅适用于WebApplicationContext环境 |
+| request        | 每次HTTP请求都会创建一个新的Bean，该作用域**仅适用于WebApplicationContext环境** |
 | session        | 同一个HTTP Session共享一个Bean，不同Session使用不同的Bean，仅适用于WebApplicationContext环境 |
 | global-session | 一般用于Portlet应用环境，该运用域仅适用于WebApplicationContext环境 |
 
-##### 3：实例化Bean的三种方式
+##### 03：实例化Bean【三种】
 
-###### 1：使用类构造器实例化，默认使用无参的构造方法实例化 Bean 对像
+###### 类构造器实例化
+
+- 默认使用**无参的构造方法**实例化 Bean 对像；
 
 ```xml
 <bean id="exampleBean" class="com.xupt.ExampleBean />
 ```
 
-###### 2：使用静态工厂方法实例化，直接使用时是静态方法实例化
+###### 静态工厂方法实例化
+
+- 直接使用时是静态方法实例化
 
 ```xml
 <bean id="对象名"  class="com.xupt.ClientService" 
@@ -96,7 +104,7 @@ public class ClientService {
 }
 ```
 
-###### 3：使用实例工厂方法实例化
+###### 实例工厂方法实例化
 
 ```xml
 <bean id="serviceLocator" class="com.xupt.DefaultServiceLocator">
@@ -105,11 +113,12 @@ public class ClientService {
 </bean>
 ```
 
-##### 4：Bean 的生命周期【重要】
+##### 04：Bean 的生命周期【重要】
 
-​	Bean的定义——Bean的初始化——Bean的使用——Bean的销毁
+- Bean的定义——Bean的初始化——Bean的使用——Bean的销毁。
 
-1. Spring 先对 bean 进行实例化，调用构造器
+
+1. Spring 先对 bean 进行实例化，调用构造器；
 2. Spring 将 值 和 bean 的引用注入到 bean 对应的属性中
 3. Bean 初始化的两种方式
    1. init-method="方法名" ，通过xml配置调用自定义方法
@@ -128,15 +137,14 @@ public class ClientService {
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" 
-    default-init-method="init" 
+    default-init-method="init"
     default-destroy-method="destroy">
 ```
 
-##### 5：Bean 后置处理器 (BeanPostProcessor)
+##### 05：Bean 后置处理器 (BeanPostProcessor)
 
-​	实现 **BeanPostProcessor**  接口，重写 **postProcessBeforeInitialization 和 postProcessAfterInitialization** 可以对 bean实例之前或者之后进行一些逻辑处理
-
-ApplicationContext 会自动检测由 BeanPostProcessor 接口的实现类定义的 bean，注册这些 bean 为后置处理器，然后通过在容器中创建 bean，在适当的时候调用它
+- 实现 **BeanPostProcessor**  接口，重写 **postProcessBeforeInitialization 和 postProcessAfterInitialization** 可以对 bean实例之前或者之后进行一些逻辑处理；
+- ApplicationContext 会自动检测由 BeanPostProcessor 接口的实现类定义的 bean，注册这些 bean 为后置处理器，然后通过在容器中创建 bean，在适当的时候调用它；
 
 ```java
 public class InitHelloWorld implements BeanPostProcessor {
@@ -158,7 +166,7 @@ public class InitHelloWorld implements BeanPostProcessor {
 }
 ```
 
-##### 6：Bean 定义继承 
+##### 06：Bean 定义继承 
 
 ```xml
 <!--可以定义成抽象的，也可以不用定义成抽象的，实体类直接被继承-->
@@ -175,16 +183,12 @@ public class InitHelloWorld implements BeanPostProcessor {
 </bean>
 ```
 
-##### 7：Bean 是线程安全的【重要】
-
-​	虽然 Spring 的 Bean 是单例的，但是它内部采用**ThreadLocal** 这种方式，每一个线程对应一个变量副本，所以是线程安全的
-
-##### 8：条件化 Bean
+##### 07：条件化 Bean
 
 - @Conditional 使用在方法上
-  - 可以用到带 @Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean
+  - 可以用到带 @Bean 注解的方法上，如果条件计算结果为 true，就会实例化Bean；
 - @Conditional 使用在类上
-  - 任意实现了 Condition 接口，重写 matches 方法，返回 boolean 类型的结果
+  - 任意实现了 Condition 接口，重写 matches 方法，返回 boolean 类型的结果；
 
 ```java
 @Conditional({ProfileCondition.class})
@@ -193,10 +197,10 @@ public @interface Profile {
 }
 // 返回true ，则实例化，反之不实例化
 public class ProfileCondition implements Condition {
-		@Override
+	@Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        if(context.getEnvironment() != null) {
-						return true;
+        if (context.getEnvironment() != null) {
+			return true;
         }
         return false;
     }
