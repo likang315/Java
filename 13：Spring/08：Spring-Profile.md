@@ -2,6 +2,8 @@
 
 ------
 
+[TOC]
+
 ##### 01：概述
 
 - Spring 容器中所定义的 Bean 的一组逻辑名称，只有当这些Profile被激活的时候，才会将Profile中所对应的Bean注册到Spring容器中，开发时可以定义不同的配置文件；
@@ -10,7 +12,7 @@
 
 - 3个配置文件，一个用于开发、一个用户测试、一个用户生产，其分别对应于3个Profile。当在实际运行的时候，只需给定一个参数来激活对应的Profile即可，那么容器就会只加载激活后的配置文件；
 
-##### ：Spring 的配置方式【SSM】
+##### 02：Spring 的配置方式【SSM】
 
 - **web.xml** 中定义加载 spring-config.xml 、spring-mvc.xml文件
 

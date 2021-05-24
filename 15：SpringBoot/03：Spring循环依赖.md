@@ -13,16 +13,16 @@
   ```java
   @Component
   public class A {
-    // A中注入了B
-  	@Autowired
-  	private B b;
+      // A中注入了B
+      @Autowired
+      private B b;
   }
   
   @Component
   public class B {
-    // B中也注入了A
-  	@Autowired
-  	private A a;
+      // B中也注入了A
+      @Autowired
+      private A a;
   }
   ```
 
@@ -47,14 +47,13 @@
 
 - 为了测试依赖解决情况和注入方式的关系，我们做以下四种测试
 
--  
-
   | 依赖情况               | 依赖注入方式                                                 | 循环依赖是否被解决 |
   | :--------------------- | ------------------------------------------------------------ | ------------------ |
   | AB相互依赖（循环依赖） | 均采用setter方法注入                                         | 是                 |
   | AB相互依赖（循环依赖） | 均采用构造器注入                                             | 否                 |
   | AB相互依赖（循环依赖） | A中注入B的方式为setter方法，B中注入A的方式为构造器           | 是                 |
   | AB相互依赖（循环依赖） | A中注入B的方式为构造器，B中注入A的方式为setter方法，创建Bean时，是按照自然排序进行创建的； | 否                 |
+
 
 ##### 03：Spring 是如何解决循环依赖的？
 
@@ -69,7 +68,7 @@
 
 ###### 简单的循环依赖
 
-- ![Spring循环依赖](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/Spring循环依赖.png)
+- ![](https://github.com/likang315/Middleware/blob/master/15%EF%BC%9ASpringBoot/photos/Spring%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96.png?raw=true)
 
   1. 调用getBean( ) 方法。
 
@@ -134,40 +133,40 @@
 
 2. 明明初始化的时候是A对象，那么**Spring是在哪里将代理对象放入到容器中**的呢？
 
-   - 在完成初始化后，Spring又调用了一次`getSingleton`方法，这一次传入的参数又不一样了，**false可以理解为禁用三级缓存**，在为B中注入A时已经**将三级缓存中的工厂取出，并从工厂中获取到了一个对象放入到了二级缓存中**，所以这里的这个方法就是**从二级缓存中获取到这个代理后的A对象**。`exposedObject == bean`可以认为是必定成立的。
+   - 在B完成初始化后，Spring又调用了一次`getSingleton`方法，这一次传入的参数又不一样了，**false可以理解为禁用三级缓存**，在为B中注入A时已经**将三级缓存中的工厂取出，并从工厂中获取到了一个对象放入到了二级缓存中**，所以这里的这个方法就是**从二级缓存中获取到这个代理后的A对象**。`exposedObject == bean`可以认为是必定成立的。
 
    - ```java
      protected Object doCreateBean(String beanName, RootBeanDefinition mbd, @Nullable Object[] args)
-     			throws BeanCreationException {
-     		// ...
-       // A是单例的，mbd.isSingleton()条件满足
-     	// allowCircularReferences：这个变量代表是否允许循环依赖，默认是开启的，条件也满足
-     	// isSingletonCurrentlyInCreation：正在在创建A，也满足
-     	// 所以earlySingletonExposure=true
-     		boolean earlySingletonExposure = (mbd.isSingleton() && 
+         throws BeanCreationException {
+         // ...
+         // A是单例的，mbd.isSingleton()条件满足
+         // allowCircularReferences：这个变量代表是否允许循环依赖，默认是开启的，条件也满足
+         // isSingletonCurrentlyInCreation：正在在创建A，也满足
+         // 所以earlySingletonExposure=true
+         boolean earlySingletonExposure = (mbd.isSingleton() && 
                                            this.allowCircularReferences &&
                                            isSingletonCurrentlyInCreation(beanName));
-       	// 无论如何还是会通过三级缓存提前暴露一个工厂对象
-     		if (earlySingletonExposure) {
-     			if (logger.isTraceEnabled()) {
-     				logger.trace("Eagerly caching bean '" + beanName +
-     						"' to allow for resolving potential circular references");
-     			}
-     			addSingletonFactory(beanName, () -> getEarlyBeanReference(
-             beanName, mbd, bean));
-     		}
-       
-       	// 从二级缓存中获取到代理后的Bean
-       if (earlySingletonExposure) {
-         Object earlySingletonReference = getSingleton(beanName, false);
-         if (earlySingletonReference != null) {
-           if (exposedObject == bean) {
-             // 替换陈代理对象添加到一级缓存中
-             exposedObject = earlySingletonReference;
-           }
+         // 无论如何还是会通过三级缓存提前暴露一个工厂对象
+         if (earlySingletonExposure) {
+             if (logger.isTraceEnabled()) {
+                 logger.trace("Eagerly caching bean '" + beanName +
+                              "' to allow for resolving potential circular references");
+             }
+             addSingletonFactory(beanName, () -> getEarlyBeanReference(
+                 beanName, mbd, bean));
          }
-       }
-      
+     
+         // 从二级缓存中获取到代理后的Bean
+         if (earlySingletonExposure) {
+             Object earlySingletonReference = getSingleton(beanName, false);
+             if (earlySingletonReference != null) {
+                 if (exposedObject == bean) {
+                     // 替换陈代理对象添加到一级缓存中
+                     exposedObject = earlySingletonReference;
+                 }
+             }
+         }
+     
      }
      ```
 

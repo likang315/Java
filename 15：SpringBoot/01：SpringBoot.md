@@ -2,52 +2,42 @@
 
 ------
 
-​	简化了Spring开发初始搭建以及开发过程，可以非常容易的构建独立的服务组件，是实现分布式架构、微服务架构利器。
+[TOC]
 
-![SpringBoot结构图](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/SpringBoot结构图.jpeg)
+##### 01：概述
 
-##### 1：SpringBoot 的特点
+- 简化了 Spring 框架搭建以及开发过程，可以非常容易的构建独立的服务组件，是实现分布式架构、微服务架构利器；
+- 内嵌Tomcat、jetty等web容器，不需要部署 war 包；
+- 提供一系列的 “starter” 来简化的 Maven 配置，不需要添加很多依赖；
 
-- 内嵌Tomcat、jetty等web容器，不需要部署WAR文件。
-- 提供一系列的“starter” 来简化的Maven配置，不需要添加很多依赖。
+##### 02：pom.xml 依赖管理
 
-##### 2：简单构建一个Demo
-
-- Spring initializr：直接启动，添加相应的组件
-  - 构建的工程已经没有web.xml
-
-##### 3：pom.xml 依赖的管理
-
-- 在 pom.xml 中引入 spring-boot-start-parent,它可以提供 dependency management，也就是说依赖管理，引入以后在申明其它dependency的时候就不需要version了，后面可以看到，可以用于解决以来冲突；
-- spring-boot-starter-web 是 springweb 核心组件，构建war包必须使用；
+- 在 pom.xml 中引入 spring-boot-dependencies, 它可以提供 dependency management，也就是说依赖管理，引入以后在申明其它dependency的时候就不需要version了，后面可以看到，可以用于解决以来冲突；
 
 ```xml
- <parent>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-parent</artifactId>
-      <version>2.1.10.RELEASE</version>
- </parent>
-
+<!--管理Springboot jar包的版本-->
 <dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-web</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>${org.springframework.boot.version}</version>
+    <type>pom</type>
+    <scope>import</scope>
 </dependency>
 ```
 
-##### 4：SpringBoot的启动方式
+##### ：SpringBoot的启动方式
 
-​	以前启动Spring项目的时候，需要打包部署到 tomcat 的webapp下，由于SpringBoot内置tomcat，所以有以下两种启动方式；
-
-- Main 方法启动，依赖内置的Tomcat；
-- 外部Tomcat启动；
+- 以前启动Spring的时候，需要打包部署到 tomcat 的webapp下，由于SpringBoot内置tomcat，所以有以下两种启动方式；
+  1. Main 方法启动，依赖内置的Tomcat；
+  2. 外部Tomcat启动；
 
 1. 复合注解 **@SpringBootApplication**
 
    - 一个注解相当于三个注解的配置
 
-   - @Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration
+   - @Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration）
 
-   - @EnableAutoConfiguration：借助@Import来收集所有符合自动配置条件的bean定义的类(@Configuration)，汇总成一个加载到IoC容器
+   - @EnableAutoConfiguration：借助@Import来收集所有符合自动配置条件的bean定义的类(@Configuration)，汇总成一个加载到IoC容器；
 
    - @ComponentScan：若不配置scanBasePackages，则**默认从当前类开始下扫描，所以一般运行类放在基包下**
 
@@ -60,15 +50,31 @@
    ```java
    @SpringBootApplication
    @ImportResource(value = {
-     "classpath:spring/spring-config.xml"
+       "classpath:spring/spring-config.xml"
    })
    public class Application extends SpringBootServletInitializer {
-     /**
-      *  启动项目
-      */
-   	public static void main(String[] args) {
-   		SpringApplication.run(Application.class, args);
-   	}
+       /**
+      	 *  启动项目
+        */
+       public static void main(String[] args) {
+           SpringApplication.run(Application.class, args);
+       }
+   
+       /**
+   	 * 导入.properties文件
+   	 *
+   	 * @return
+   	 * @throws IOException
+   	 */
+       @Bean
+       public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() 
+           throws IOException {
+           val result = new PropertySourcesPlaceholderConfigurer();
+           result.setLocations(new PathMatchingResourcePatternResolver()
+                               .getResources("classpath*:**/*.properties"));
+           result.setIgnoreUnresolvablePlaceholders(true);
+           return result;
+       }
    }
    ```
 
@@ -88,7 +94,7 @@ public class App extends SpringBootServletInitializer {
 }
 ```
 
-##### 5： Spring Boot的依赖介绍
+##### 04： Spring Boot 的依赖
 
 - mvn dependency:tree：执行此命令可以查看依赖树
 
@@ -115,7 +121,7 @@ public class App extends SpringBootServletInitializer {
 | **spring-boot-starter-tomcat**   | 使用 Spring Boot 默认的 Tomcat 作为应用服务器。              |
 |                                  |                                                              |
 
-##### 6： SpringBoot WEB页面目录结构
+##### 05： SpringBoot 项目结构
 
 1. Spring-Boot 默认提供静态资源目录位置**需置于classpath下**(resources目录下)，目录名需符合如下规则：
 
@@ -168,7 +174,7 @@ public class App extends SpringBootServletInitializer {
 5. **mian 方法启动成功**
    ![springboot](/Users/likang/Code/Git/Middleware/SpringBoot/SpringBoot/springboot.png)
 
-##### 7：模板引擎
+##### 06：模板引擎
 
 1. ###### FreeMarker 的使用
 
@@ -237,8 +243,9 @@ public class App extends SpringBootServletInitializer {
           	suffix: ".html"
       ```
 
-##### 8：yaml：以数据为中心，使用空白、缩进、分行组织数据，用于指定分层配置数据
+##### 07：yaml 配置文件
 
+- 以数据为中心，使用空白、缩进、分行组织数据，用于指定分层配置数据；
 - 语法：
   1. 大小写敏感
   2. 使用缩进表示层级关系
@@ -247,16 +254,16 @@ public class App extends SpringBootServletInitializer {
   5. "#"：表示注释，从这个字符一直到行尾，都会被解析器忽略
   6. 字符串可以不用引号，也可以使用单引号或者双引号	
   7. 书写(Key: Value)
-     - key：需要顶格写，不能有空格，冒号后面需要有一个空格然后再跟值, 相同的缩进属于同一个map 
+     - key：需要顶格写，不能有空格，冒号后面需要有一个空格然后再跟值，相同的缩进属于同一个map ；
 
-##### 9：SpringBoot默认的配置文件【重要】
+##### 08：SpringBoot 默认的配置文件【重要】
 
 - application.properties
 - application.yml
 - Spring Boot接受prop / xml / yml 三种配置文件形式，这三种配置文件内部有所不同，配置形式不同，除此之外，其实文件的功能和用处没什么特别之处。
   1. prop:配置文件结构
-  2. yml:树状结构
-  3. xml:标签结构
+  2. yml：树状结构
+  3. xml：标签结构
 
 1. **spring.profiles.active**
    - Spring Profile参数，在启动时配置这个参数可以**激活当前环境的Profile**，如 --spring.profiles.active=dev 则可以激活的配置文件是 application-dev.propteies，以此来达到不同环境使用不同配置文件的目的，如application-dev.propteies ，application-prod.propteies；
@@ -265,15 +272,7 @@ public class App extends SpringBootServletInitializer {
 3. **spring.profiles.default**
    - spring.profiles.default 和 spring.profiles.active 一般是需要搭配使用的，在spring.profiles.active激活之后可以知道我们有多个环境了，如dev，prod，那么在没有指定的时候，默认使用的环境，就是由spring.profiles.default指定的。
 
-```xml
-<!-- 在web.xml配置中也可以实现配置 spring.profiles.default 等参数 -->
-<context-param>
-  <param-name>spring.profiles.default</param-name>
-  <param-value>dev</param-value>
-</context-param>
-```
-
-##### 10：使用Maven在编译时指定Profile方式【推荐】
+##### 09：使用 Maven 指定 Profile【推荐】
 
 1. < profile>：定义了各个环境的变量ID；
    1. maven启动时会配置自动选择使用哪个< profile>
@@ -289,48 +288,8 @@ public class App extends SpringBootServletInitializer {
    3. < excludes>：表示排除掉资源目录下的某文件或文件夹
    4. < includes>：表示包含资源目录下的文件；
    5. < targetPath>：表示该资源标签下的资源打包编译后的保存路径,"." 表示当前目录；
-4. 执行下面命令进行编译：mvn package -P dev
 
-```xml
-<build>
-        <finalName>工程名</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-               <directory>src/main/resources/${project.environment}</directory>
-            </resource>
-        </resources>
-</build>
-
-<profiles>
-    <profile>
-      <id>dev</id>
-      <properties>
-        <project.environment>dev</project.environment>
-      </properties>
-      <activation>
-        <!--默认开发环境-->
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-    <profile>
-      <id>beta</id>
-      <properties>
-        <project.environment>beta</project.environment>
-      </properties>
-    </profile>
-    <profile>
-      <id>prod</id>
-      <properties>
-        <project.environment>prod</project.environment>
-      </properties>
-    </profile>
-</profiles>
-```
-
-##### 11：导入其他配置文件【重要】
+##### 10：导入其他配置文件【重要】
 
 1. **Spring可以通过注解@Value(“${属性名key}”)**
 
@@ -408,12 +367,12 @@ public class App extends SpringBootServletInitializer {
    // 放在springBoot 启动类下，加载properties文件
    @Bean
    public static PropertySourcesPlaceholderConfigurer
-   propertySourcesPlaceholderConfigurer() throws IOException {
-     val result = new PropertySourcesPlaceholderConfigurer();
-     result.setLocations(new PathMatchingResourcePatternResolver()
-     .getResources("classpath*:**/*.properties"));
-     result.setIgnoreUnresolvablePlaceholders(true);
-     return result;
+       propertySourcesPlaceholderConfigurer() throws IOException {
+       val result = new PropertySourcesPlaceholderConfigurer();
+       result.setLocations(new PathMatchingResourcePatternResolver()
+                           .getResources("classpath*:**/*.properties"));
+       result.setIgnoreUnresolvablePlaceholders(true);
+       return result;
    }
    ```
    

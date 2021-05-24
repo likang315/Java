@@ -183,7 +183,7 @@ public Foo foo() {
   }
   ```
 
-##### ：显示加载配置类
+##### 07：显示加载配置类
 
 - 通过：AnnotationConfigApplicationContext
 

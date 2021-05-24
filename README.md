@@ -139,37 +139,42 @@
 
 ##### 1：MyBatis
 
-1. 
+1. MyBatis
+2. 映射器-API
+3. Mapper
+4. 动态SQL
 
 ##### 12：Spring
 
-- 01：Spring
-- 02：Spring Bean
-- 03：Spring DI
-- 04：Spring Annotation
-- 05：Spring AOP
-- 06：Spring DataSource
-- 07：Spring TransactionManager
-- 08：Bean Profile
-- 09：Spring Resource
-- 10：Spring Expression
+1. Spring
+2. Spring Bean
+3. Spring DI
+4. Spring Annotation
+5. Spring AOP
+6. Spring DataSource
+7. Spring TransactionManager
+8. Bean Profile
+9. Spring Resource
+10. Spring Expression
+11. Spring Exception
+12. Scheduled
 
 ##### 1：Spring MVC
 
-- 01：Spring MVC
-- 02：Spring Config
-- 03：DataBinder、Convert、Formatter
-- 04：DataValidator
-- 05：ViewResolver
-- 06：Listener、Filter、Interceptor
-- 07：Schedule
-- 08：SSM
+1. Spring MVC
+2. Spring API
+3. DataBinder、Convert、Formatter
+4. DataValidator
+5. ViewResolver
+6. Listener、Filter、Interceptor
 
 ##### 14：SpringBoot
 
-- 01：SpringBoot
-- 02：SpringBoot JDBC
-- 03：Log
+- SpringBoot
+- SpringBoot-JDBC
+- Spring-Log
+- Spring 循环依赖
+- Spring 启动过程
 
 
 

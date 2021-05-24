@@ -25,7 +25,7 @@
 </bean>
 ```
 
-##### ：druid
+##### 03：druid
 
 - druid 连接池及监控在 spring 配置如下：
 

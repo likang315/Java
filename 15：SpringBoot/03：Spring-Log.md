@@ -8,6 +8,8 @@
 
 ##### 01：Slf4j：定义了抽象层的日志框架，LogBack：slf4j的原生实现
 
+![](https://github.com/likang315/Middleware/blob/master/15%EF%BC%9ASpringBoot/photos/log-level.jpg?raw=true)
+
 1. 配置方法：
 
    1. 尝试在 classpath下查找文件logback.xml;
@@ -42,7 +44,7 @@
    </dependencies>
       ```
 
-   2. 配置logback-spring.xml
+   2. 配置logback.xml
    
       ```xml
       </configuration><?xml version="1.0" encoding="UTF-8"?>
@@ -209,7 +211,7 @@
        - 控制logback.LogbackDemo类的日志打印，打印级别为“INFO”；additivity属性为false，表示此loger的打印信息不再向上级传递，指定了名字为“STDOUT”的appender。
        - **如果additivity="true"，则日志会打印两次，本身打印一次，上级打印一次；**
 
-##### 04：使用AOP统一处理Web请求日志
+##### 03：使用AOP统一处理Web请求日志
 
 1. 添加AOP依赖
 
@@ -219,29 +221,29 @@
    @Aspect
    @Component
    public class WebLogAspect {
-     private Logger logger = Logger.getLogger(getClass());
-   	// 申明切点
-     @Pointcut("execution(com.xupt.controller..*.*(..))")
-     public void webLog() {
-     }
+       private Logger logger = Logger.getLogger(getClass());
+       // 申明切点
+       @Pointcut("execution(com.xupt.controller..*.*(..))")
+       public void webLog() {
+       }
    
-     @Before("webLog()")
-     public void doBefore(JoinPoint joinPoint) throws Throwable {
-       // 接收到请求，记录请求内容
-       ServletRequestAttributes attributes = 
-         (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-       HttpServletRequest request = attributes.getRequest();
-       // 记录下请求内容
-       logger.info("---------------request----------------");
-       logger.info("URL : " + request.getRequestURL().toString());
-       logger.info("IP : " + request.getRemoteAddr());
-     }
-     
-     @AfterReturning(returning = "resp", pointcut = "webLog()")
-     public void doAfterReturning(Object ret) throws Throwable {
-       logger.info("---------------response----------------");
-       // 处理完请求，返回内容
-       logger.info("RESPONSE : " + resp);
-     }
+       @Before("webLog()")
+       public void doBefore(JoinPoint joinPoint) throws Throwable {
+           // 接收到请求，记录请求内容
+           ServletRequestAttributes attributes = 
+               (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+           HttpServletRequest request = attributes.getRequest();
+           // 记录下请求内容
+           logger.info("---------------request----------------");
+           logger.info("URL : " + request.getRequestURL().toString());
+           logger.info("IP : " + request.getRemoteAddr());
+       }
+   
+       @AfterReturning(returning = "resp", pointcut = "webLog()")
+       public void doAfterReturning(Object ret) throws Throwable {
+           logger.info("---------------response----------------");
+           // 处理完请求，返回内容
+           logger.info("RESPONSE : " + resp);
+       }
    }
    ```

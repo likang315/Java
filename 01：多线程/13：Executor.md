@@ -74,10 +74,9 @@
 
    ```java
    public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)
-   
    public static ScheduledExecutorService newSingleThreadScheduledExecutor()
    ```
-
+   
 3. ###### Future接口
 
    - 实现Future接口的FutureTask类用来表示异步计算的结果，获取异步执行的结果；
@@ -135,6 +134,10 @@
 
 1. 当调用ScheduledThreadPoolExecutor的scheduleAtFixedRate()方法或者scheduleWithFixedDelay()方法时，会向ScheduledThreadPoolExecutor的DelayQueue添加一个实现了RunnableScheduledFutur接口的ScheduledFutureTask；
 2. 线程池中的线程从**DelayQueue**中获取ScheduledFutureTask，然后执行任务；
+
+###### 原理
+
+- 定时任务先执行 corn，计算出任务的执行时间，放入延迟队列中，加入队列中有多个定时任务，按照延迟时间最小堆排序，把延迟是时间最小的放到队列的头部，有一个工作者线程轮询获取任务（持有时间器），判断delayTime 是否为0 ，若是执行，否则丢弃任务，继续等待；
 
 ##### 07：Future 接口
 
@@ -320,7 +323,6 @@ public static <T> CompletableFuture<Stream<T>> sequence(
   return sequence(futureList);
 }
 ```
-
 
 
 
