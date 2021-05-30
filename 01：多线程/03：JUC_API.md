@@ -18,9 +18,9 @@
 Thread thread = new Thread() {
     @Override
     public void run() {
-			for (int i = 0; i < 100; i++) {
-           System.out.println(i);
-      }
+        for (int i = 0; i < 100; i++) {
+            System.out.println(i);
+        }
     }
 };
 // 调用处于就绪状态，不允许显示创建线程，使用线程池，否则会创建大量同类的线程；
@@ -130,12 +130,12 @@ public class CallableThreadTest implements Callable<List<String>> {
         static class Domino implements Runnable {
             private Thread thread;
             public Domino(Thread thread) {
-              	this.thread = thread;
+                this.thread = thread;
             }
             @Override
             public void run() {
                 try {
-                  thread.join();
+                    thread.join();
                 } catch (InterruptedException e) {
                 }
                 System.out.println(Thread.currentThread().getName() + " terminate.");
@@ -331,34 +331,32 @@ public class MyThread extends Thread {
 // 三个许可证
 private static Semaphore semaphore = new Semaphore(3);
 public static void main(String[] args) {
-  for (int i = 0; i < 10; i++) {
-    new Student(Integer.toString(i), semaphore).start();
-  }
+    for (int i = 0; i < 10; i++) {
+        new Student(Integer.toString(i), semaphore).start();
+    }
 }
 
 static class Student extends Thread {
-
-  private String name;
-  private Semaphore semaphore;
-
-  public Student(String name, Semaphore semaphore) {
-    this.name = name;
-    this.semaphore = semaphore;
-  }
-
-  @Override
-  public void run() {
-    try {
-      semaphore.acquire();
-      System.out.println(name + "获取取餐的许可");
-      TimeUnit.MICROSECONDS.sleep(10003);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } finally {
-      System.out.println(name + "取餐完毕，释放窗口资源");
-      semaphore.release();
+    private String name;
+    private Semaphore semaphore;
+    public Student(String name, Semaphore semaphore) {
+        this.name = name;
+        this.semaphore = semaphore;
     }
-  }
+
+    @Override
+    public void run() {
+        try {
+            semaphore.acquire();
+            System.out.println(name + "获取取餐的许可");
+            TimeUnit.MICROSECONDS.sleep(10003);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(name + "取餐完毕，释放窗口资源");
+            semaphore.release();
+        }
+    }
 }
 ```
 
@@ -383,10 +381,10 @@ public class Question1 {
      * 初始化线程数
      */
     private static final ExecutorService POOL = new ThreadPoolExecutor(3,
-            5,
-            0L,
-            TimeUnit.MILLISECONDS,
-            new LinkedBlockingDeque<>());
+                                                                       5,
+                                                                       0L,
+                                                                       TimeUnit.MILLISECONDS,
+                                                                       new LinkedBlockingDeque<>());
 
     /**
      * 控制A线程顺序
@@ -471,7 +469,6 @@ public class Question1 {
         init_B();
         init_C();
     }
-
 }
 ```
 

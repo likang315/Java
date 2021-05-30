@@ -86,6 +86,7 @@ public class ProviderServiceImpl implements ProviderService {
        <!--Bean bean定义-->
        <bean id="providerService" 
              class="com.dubbo.provider.service.ProviderServiceImpl"/>
+   </beans>
    ```
    
 2. 上面的文件其实就是类似 spring 的配置文件，而且，dubbo 底层就是 spring。

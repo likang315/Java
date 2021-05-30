@@ -48,12 +48,12 @@ public interface Lock {
 
 ##### 03：队列同步器（AQS）
 
-- 队列同步器AbstractQueuedSynchronizer，是用来**构建锁**或者其他同步组件的基础框架，它使用了一个**volatile int 成员变量表示同步状态**，通过**内置的队列来完成获取资源的线程 的排队工作**
+- 队列同步器AbstractQueuedSynchronizer，是用来**构建锁**或者其他同步组件的基础框架，它使用了一个**volatile int 成员变量表示同步状态**，通过**内置的队列来完成获取资源的线程的排队工作**
 - private volatile int state;
 
 ###### AQS原理
 
-​	同步器的主要使用方式是**继承**，子类通过继承同步器并实现它的抽象方法来管理同步状态，在抽象方法的实现过程中免不了要**对同步状态进行更改**，这时就需要使用同步器提供的3个方法（getState()、setState(int newState)和compareAndSetState(int expect, int update)）来进行操作，因为它们能够**保证状态的改变是安全的**；
+​	同步器的主要使用方式是**继承**，子类通过**继承同步器并实现它的抽象方法来管理同步状态**，在抽象方法的实现过程中免不了要**对同步状态进行更改**，这时就需要使用同步器提供的3个方法（getState()、setState(int newState)和compareAndSetState(int expect, int update)）来进行操作，因为它们能够**保证状态的改变是安全的**；
 
 ###### 同步器和锁的关系
 
@@ -79,13 +79,13 @@ public interface Lock {
 class Mutex implements Lock {
     // 静态内部类，自定义同步器
     private static class Sync extends AbstractQueuedSynchronizer {
-      // 是否处于占用状态
-      protected boolean isHeldExclusively() {
-        return getState() == 1;
-      }
-      // 当状态为0的时候获取锁
-      public boolean tryAcquire(int acquires) {
-        		final Thread current = Thread.currentThread();
+        // 是否处于占用状态
+        protected boolean isHeldExclusively() {
+            return getState() == 1;
+        }
+        // 当状态为0的时候获取锁
+        public boolean tryAcquire(int acquires) {
+            final Thread current = Thread.currentThread();
             int c = getState();
             if (c == 0) {
                 if (compareAndSetState(0, acquires)) {
@@ -93,7 +93,7 @@ class Mutex implements Lock {
                     return true;
                 }
             } else if (current == getExclusiveOwnerThread()) {
-              	// 可重入锁
+                // 可重入锁
                 int nextc = c + acquires;
                 if (nextc < 0) 
                     throw new Error("Maximum lock count exceeded");
@@ -101,47 +101,48 @@ class Mutex implements Lock {
                 return true;
             }
             return false;
-      }
-      // 释放锁，将状态设置为0
-      protected boolean tryRelease(int releases) {
-      		int c = getState() - releases;
-        	if (Thread.currentThread() != getExclusiveOwnerThread())
-          	throw new IllegalMonitorStateException();
-        	boolean free = false;
-        	if (c == 0) {
-          	free = true;
-            // 当前线程释放锁
-          	setExclusiveOwnerThread(null);
-       	 	}
-        	setState(c);
-        	return free;
-      }
-      // 返回一个Condition，每个condition都包含了一个condition队列
-      Condition newCondition() { return new ConditionObject(); }
+        }
+        // 释放锁，将状态设置为0
+        protected boolean tryRelease(int releases) {
+            int c = getState() - releases;
+            if (Thread.currentThread() != getExclusiveOwnerThread())
+                throw new IllegalMonitorStateException();
+            boolean free = false;
+            if (c == 0) {
+                free = true;
+                // 当前线程释放锁
+                setExclusiveOwnerThread(null);
+            }
+            setState(c);
+            return free;
+        }
+        // 返回一个Condition，每个condition都包含了一个condition队列
+        Condition newCondition() { return new ConditionObject(); }
     }
+    
     // 仅需要将操作代理到Sync上即可
     private final Sync sync = new Sync();
     public void lock() { 
- 				// 底层调用的还是重写的tryLock()
-      	sync.acquire(1);
+        // 底层调用的还是重写的tryLock()
+        sync.acquire(1);
     }
     public boolean tryLock() { return sync.tryAcquire(1); }
     public void unlock() { sync.release(1); }
     public Condition newCondition() { return sync.newCondition(); }
     public boolean isLocked() { 
-      	// 是否被当前线程所占用
-      	return sync.isHeldExclusively();
+        // 是否被当前线程所占用
+        return sync.isHeldExclusively();
     }
     public boolean hasQueuedThreads() {
-      // 队列中是否有线程等待
-      return sync.hasQueuedThreads();
+        // 队列中是否有线程等待
+        return sync.hasQueuedThreads();
     }
-  	// 如果当前方法被中断，将会抛出InterruptedException后返回
+    // 如果当前方法被中断，将会抛出InterruptedException后返回
     public void lockInterruptibly() throws InterruptedException {
-      sync.acquireInterruptibly(1);
+        sync.acquireInterruptibly(1);
     }
     public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {
-      return sync.tryAcquireNanos(1, unit.toNanos(timeout));
+        return sync.tryAcquireNanos(1, unit.toNanos(timeout));
     }
 }
 ```
@@ -361,7 +362,7 @@ protected final int tryAcquireShared(int unused) {
 
 ​	指拥有着（当前拥有的）写锁，再获取到读锁，随后释放（先前拥有的）写锁的过程。
 
-- **锁降级中读锁的获取是否必要呢**？
+- **锁降级中读锁的获取是否必要呢**？【懵懂】
 
   - 必要的，主要是为了**保证数据的可见性**，如果当前线程不获取读锁而是直接释放写锁，假设此刻另一个线程（记作线程T）获取了写锁并修改了数据，那么当前线程无法感知线程T的数据更新。如果当前线程获取读锁，即遵循锁降级的步骤，则线程T将会被阻塞，直到当前线程使用数据并释放读锁之后，线程T才能获取写锁进行数据更新。
 
@@ -508,7 +509,7 @@ public class BoundedQueue<T> {
 }
 ```
 
-##### 11：剖析 Condition【懵懂】
+##### 11：剖析 Condition【等待队列】
 
 ​	一个Condition包含一个等待队列，Condition拥有首节点（firstWaiter）和尾节点（lastWaiter）。当前线程调用Condition.await()方法，将会以当前线程构造节点，并将节点从尾部加入等待队列。并且Condition是AQS的内部类，它的节点的构造复用了同步器中节点的定义，**Lock（更确切地说是同步器）拥有一个同步队列和多个等待队列**
 
@@ -576,4 +577,9 @@ atomicInteger.incrementAndGet();
    - tryLock(long time, TimeUnit unit)
      - 传入时间参数：表示等待指定的时间
      - 无参则表示立即返回锁申请的结果，true表示获取锁成功，false表示获取锁失败
+   
+4. ###### 实现方式不同
+
+   - volatile int 同步状态管理；
+   - monitor锁管理；
 

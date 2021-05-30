@@ -19,7 +19,7 @@
 
 - ```xml
   <dubbo:service interface="com.crm.data.cube.api.CrmDataDubboService" 
-                 group="app-group-name"
+                 group="interface_impl_1"
                  ref="queryDataDubboService"
                  version="1.0.0"
                  timeout="500"

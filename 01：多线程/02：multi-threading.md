@@ -111,11 +111,11 @@ public class Daemon {
 private void init(ThreadGroup g, Runnable target, String name,long stackSize,
                   AccessControlContext acc) {
     if (name == null) {
-    		throw new NullPointerException("name cannot be null");
+        throw new NullPointerException("name cannot be null");
     }
     // 当前线程就是该线程的父线程
     Thread parent = currentThread();
-  	// 设置线程组
+    // 设置线程组
     this.group = g;
     // 将 daemon、priority属性设置为父线程的对应属性
     this.daemon = parent.isDaemon();
@@ -125,8 +125,8 @@ private void init(ThreadGroup g, Runnable target, String name,long stackSize,
     setPriority(priority);
     // 设置contextClassLoader以及可继承的ThreadLocal，将父线程InheritableThreadLocal复制过来
     if (parent.inheritableThreadLocals != null)
-    		this.inheritableThreadLocals=ThreadLocal.createInheritedMap(
-      	parent.inheritableThreadLocals);
+        this.inheritableThreadLocals=ThreadLocal.createInheritedMap(
+        parent.inheritableThreadLocals);
     // 分配一个线程ID
     tid = nextThreadID();
 }
@@ -141,7 +141,7 @@ private void init(ThreadGroup g, Runnable target, String name,long stackSize,
 
 ###### 安全的中断任务操作
 
-​	main线程通过**中断操作和cancel()方法均可使CountThread得以终止**，这种通过标识位或者中断操作的方式能够使线程在终止时有机会去清理资源，而不是武断地将线程停止；
+​	main线程通过**中断操作和cancel()方法均可使CountThread得以终止**，这种通过**标识位或者中断操作的方式**能够使线程在终止时有机会去清理资源，而不是武断地将线程停止；
 
 ```java
 public class Shutdown {
@@ -165,12 +165,12 @@ public class Shutdown {
         @Override
         public void run() {
             while (on && !Thread.currentThread().isInterrupted()) {
-            		i++;
-        		}
-        		System.out.println("Count i = " + i);
+                i++;
+            }
+            System.out.println("Count i = " + i);
         }
         public void cancel() {
-        		on = false;
+            on = false;
         }
     }
 }
@@ -206,27 +206,27 @@ public class Shutdown {
                printThread.start();
                int receive = 0;
                try {
-                 while ((receive = System.in.read()) != -1) {
-                 		out.write(receive);
-                 }
+                   while ((receive = System.in.read()) != -1) {
+                       out.write(receive);
+                   }
                } finally {
-                 out.close();
+                   out.close();
                }
            }
            static class Print implements Runnable {
                private PipedReader in;
                public Print(PipedReader in) {
-                 this.in = in;
+                   this.in = in;
                }
                public void run() {
-                 int receive = 0;
-                 try {
-                   while ((receive = in.read()) != -1) {
-                     	System.out.print((char) receive);
+                   int receive = 0;
+                   try {
+                       while ((receive = in.read()) != -1) {
+                           System.out.print((char) receive);
+                       }
+                   } catch (IOException ex) {
+       
                    }
-                 } catch (IOException ex) {
-                   
-                 }
                }
            }
        }
@@ -236,7 +236,7 @@ public class Shutdown {
 
    - 一个线程修改了一个对象的值，而另一个线程感知到了变化，然后进行相应的操作，整个过程开始于一个线程（生产者），而最终执行又是另一个线程（消费者）
 
-   - 等待通知机制（生产者-消费者模型）：等待通知机制的相关方法是任意Java对象都具有的，Object类
+   - 等待通知机制（生产者-消费者模型）：等待通知机制的相关方法是任意Java对象都具有的Object类
 
      - 是指**一个线程A调用了对象O的wait()方法**进入等待状态，而**另一个线程B调用了对象O的notify()或者notifyAll()方法**，线程A收到通知后从对象O的wait()方法返回，进而执行后续操作。上述**两个线程通过对象O来完成交互**，用来完成等待方和通知方之间的交互工作；
      - wait()：当线程执行 wait() 时，会让出CPU，释放当前对象的锁资源，进入WAITING状态
@@ -251,7 +251,7 @@ public class Shutdown {
       * @date 2021-04-20 16:27
       */
      public class WaitNotify {
-       	// 共享资源
+         // 共享资源
          static Object lock = new Object();
          public static void main(String[] args) throws Exception {
              Thread waitThread = new Thread(new Wait(), "WaitThread");
@@ -269,22 +269,22 @@ public class Shutdown {
                  synchronized (lock) {
                      try {
                          System.out.println(Thread.currentThread()
-                                 + " flag is true.wait@ "
-                                 + new SimpleDateFormat("HH:mm:ss")
+                                            + " flag is true.wait@ "
+                                            + new SimpleDateFormat("HH:mm:ss")
                                             .format(new Date()));
-          // 线程通知并且释放锁资源后才从wait中返回，底层会重新获取锁资源，从当前开始执行
+                         // 线程通知并且释放锁资源后才从wait中返回，底层会重新获取锁资源，从当前开始执行
                          lock.wait();
                          System.out.println(Thread.currentThread()
-                                 + " restart@ "
-                                 + new SimpleDateFormat("HH:mm:ss")
+                                            + " restart@ "
+                                            + new SimpleDateFormat("HH:mm:ss")
                                             .format(new Date()));
                      } catch (InterruptedException e) {
      
                      }
                      // 条件满足时，完成工作
                      System.out.println(Thread.currentThread()
-                             + " flag is false.running@ "
-                             + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                                        + " flag is false.running@ "
+                                        + new SimpleDateFormat("HH:mm:ss").format(new Date()));
                  }
              }
          }
@@ -296,11 +296,11 @@ public class Shutdown {
              public void run() {
                  // 加锁，拥有lock的Monitor
                  synchronized (lock) {
-                     // 获取lock的锁，然后进行通知，通知时不会释放lock的锁，
+                     // 获取lock的锁，然后进行通知，通知时不会释放lock的锁
                      // 直到当前线程释放了lock后，WaitThread才能从wait方法中返回
                      System.out.println(Thread.currentThread()
-                             + " hold lock. notify @ "
-                             + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+                                        + " hold lock. notify @ "
+                                        + new SimpleDateFormat("HH:mm:ss").format(new Date()));
                      lock.notifyAll();
                      // 测试是否notify是否会释放锁资源
                      Thread.sleep(10000);
@@ -315,8 +315,8 @@ public class Shutdown {
    ```java
    // 消费者
    synchronized (对象) {
-    			对象.wait();
-    		对应的处理逻辑
+       对象.wait();
+       对应的处理逻辑
    }
    // 生产者
    synchronized (对象) {
@@ -345,11 +345,11 @@ public class Shutdown {
 3. 优先级调度算法：在线程等待队列中选择优先级最高的来执行
    - 保证了紧急任务的执行，但是多个紧急的任务执行时，并没有考虑他的效率
 4. 时间片轮转算法
-   - 导致任务可能没有执行完，就会被切换，线程间的切换，唤醒非常浪费资源
+   - 导致任务可能没有执行完，就会被切换，进程间的切换，唤醒非常浪费资源
 5. **多级反馈队列调度算法**：把**时间片轮转与优先级调度相结合**，把进程按优先级分成的队列，先按照优先级调度，优先级相同的，按照时间片轮转
    - **既保证了紧急的任务优先处理，又保证了任务执行的效率**
 
-##### 13：线程调度：
+##### 13：线程调度
 
 1. **时分调度模型：**所有线程轮流使用 CPU 的使用权，平均分配 CPU 的时间片给每个线程占用
 2. **抢占式调度模型：**优先让优先级高的线程使用 CPU，如果线程的优先级相同，那么会随机选择一个，优先级高的线程获取的 CPU 时间片相对多一些

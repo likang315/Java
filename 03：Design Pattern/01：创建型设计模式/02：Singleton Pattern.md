@@ -63,17 +63,17 @@ public class Singleton {
 }
 // 通过静态块，类初始化的时候就加载
 public class Singleton {
-      private static Singleton instance;
-      static {
-          instance = new Singleton();
-      }
-      public static Singleton getInstance() {
-          return instance;
-      }
+    private static Singleton instance;
+    static {
+        instance = new Singleton();
+    }
+    public static Singleton getInstance() {
+        return instance;
+    }
 }
 // 枚举实现单例模式，不仅能避免反射问题，而且还自动支持序列化机制
 public enum EnumSingleton {
-  	// private static final INSTANCE;
+    // public static final INSTANCE;
     INSTANCE;
     public EnumSingleton getInstance(){
         return INSTANCE;
@@ -89,6 +89,6 @@ public final class T extends Enum {
 }
 ```
 
-- enum 有且仅有 private 的构造方法，防止外部的额外构造，这恰好和单例模式吻合；
+- **enum 有且仅有 private 的构造方法**，防止外部的额外构造，这恰好和单例模式吻合；
 - 反射不能创建枚举类型，如果创建枚举类型直接抛出异常；
 - 对于序列化和反序列化，因为每一个枚举类型和枚举变量在JVM中都是唯一的，即Java在序列化和反序列化枚举时做了特殊的规定，枚举的writeObject、readObject、readObjectNoData、writeReplace和readResolve等方法是被编译器禁用的，因此也不存在实现序列化接口后调用 readObject 会破坏单例的问题                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

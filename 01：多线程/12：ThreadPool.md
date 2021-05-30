@@ -51,7 +51,7 @@
   - ArrayBlockingQueue：
     -  基于数组结构的有界阻塞队列，按FIFO排序任务
   - LinkedBlockingQuene：
-    - 基于链表结构的无界阻塞队列，按FIFO排序任务，**吞吐量高于ArrayBlockingQuene**；
+    - 基于链表结构的有界阻塞队列，按FIFO排序任务，**吞吐量高于ArrayBlockingQuene**；
     - ExecutorService newFixedThreadPool( ) 使用此队列
       - Executors.newFixedThreadpool（固定线程数）:禁用
     - ThreadPoolTaskExecutor 默认也是此队列；
@@ -110,14 +110,14 @@
     - ```java
       Future<Object> future = excutor.submit(task);
       try {
-      		Object obj = future.get();
+          Object obj = future.get();
       } catch (InterruptedException e) {
-      		// 处理中断异常
+          // 处理中断异常
       } catch (ExceptionException e) {
-      		// 处理无法执行的任务异常
+          // 处理无法执行的任务异常
       } finally {
-        	// 关闭线程池
-      		excutor.shutdown();
+          // 关闭线程池
+          excutor.shutdown();
       }
       ```
 - **shutdown( )：**
