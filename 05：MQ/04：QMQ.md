@@ -20,8 +20,8 @@
   - new qmq：pull；
   
 - **prefix**
-- 消费的主题，相当于topic；
-  
+    - 消费的主题，相当于topic；
+
 - **consumerGroup**
 - 消费集群，按照某种负载策略选取其中一台机器进行消费；
   - 若是需要实现广播的形式，可以不同设置 consumerGroup 这样 qmq-client 会让每台机器都使用都属于一个consumerGroup；

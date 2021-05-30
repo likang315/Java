@@ -18,7 +18,7 @@
 
 - **分区重分配：**一个**新的消费者加入群组时，它读取的是原本由其他消费者读取的消息**。当一个消费者被关闭或发生崩溃时，它就离开群组，原本**由它读取的分区将由群组里的其他消费者来读取**。在主题发生变化时，比如管理员添加了新的分区，会**发生群主重新分配分区**；
 - **再均衡：**分区的所有权从一个消费者转移到另一个消费者；
-- 当分区被重新分配给另一个消费者时，**消费者当前的读取状态会丢失**，需要从_consumer_offset 主题获取offset信息；
+- 当分区被重新分配给另一个消费者时，**消费者当前的读取状态会丢失**，需要从**_consumer_offset 主题**获取offset信息；
 - **群组协调器：**消费者通过向被指派为**群组协调器对应的broker（不同的群组可以有不同的协调器）发送心跳**来维持它们和**群组的从属关系以及它们对分区的所有权关系**。只要消费者以正常的时间间隔发送心跳，就被认为是活跃的，说明它还在读取分区里的消息。消费者会在**轮询消息（为了获取消息）或提交偏移量时发送心跳**。如果消费者停止发送心跳的时间足够长，会话就会过期，**群组协调器认为它已经死亡，就会触发一次再均衡**。如果一个消费者发生崩溃，并停止读取消息，群组协调器会等待几秒钟，确认它死亡了才会触发再均衡。在这几秒钟时间里，死掉的消费者不会读取分区里的消息。在清理消费者时，消费者会通知协调器它将要离开群组，协调器会立即触发一次再均衡，尽量降低处理停顿；
 
 ###### 分区分配
@@ -65,25 +65,25 @@
 
 - ```java
   try {
-    // 轮询
-    while (true) {
-      ConsumerRecords<String, String> records = consumer.poll(100);
-      for (ConsumerRecord<String, String> record : records) {
-        log.debug("topic = %s, partition = %s, offset = %d, customer = %s,
-                  country = %s\n",
-                  record.topic(), record.partition(), record.offset(),
-                  record.key(), record.value());
-        int updatedCount = 1;
-        if (custCountryMap.countainsKey(record.value())) {
-          updatedCount = custCountryMap.get(record.value()) + 1;
-        }
-        custCountryMap.put(record.value(), updatedCount);
-        JSONObject json = new JSONObject(custCountryMap);
-        System.out.println(json.toString(4))
+      // 轮询
+      while (true) {
+          ConsumerRecords<String, String> records = consumer.poll(100);
+          for (ConsumerRecord<String, String> record : records) {
+              log.debug("topic = %s, partition = %s, offset = %d, customer = %s,
+                        country = %s\n",
+                        record.topic(), record.partition(), record.offset(),
+                        record.key(), record.value());
+              int updatedCount = 1;
+              if (custCountryMap.countainsKey(record.value())) {
+                  updatedCount = custCountryMap.get(record.value()) + 1;
+              }
+              custCountryMap.put(record.value(), updatedCount);
+              JSONObject json = new JSONObject(custCountryMap);
+              System.out.println(json.toString(4))
+          }
       }
-    }
   } finally {
-    consumer.close();
+      consumer.close();
   }
   ```
 
@@ -208,24 +208,24 @@
 
 - ```java
   try {
-    while (true) {
-      ConsumerRecords<String, String> records = consumer.poll(100);
-      for (ConsumerRecord<String, String> record : records) {
-        System.out.println("topic = %s, partition = %s, offset = %d,
-                           customer = %s, country = %s\n",
-                           record.topic(), record.partition(),
-                           record.offset(), record.key(), record.value());
+      while (true) {
+          ConsumerRecords<String, String> records = consumer.poll(100);
+          for (ConsumerRecord<String, String> record : records) {
+              System.out.println("topic = %s, partition = %s, offset = %d,
+                                 customer = %s, country = %s\n",
+                                 record.topic(), record.partition(),
+                                 record.offset(), record.key(), record.value());
+          }
+          consumer.commitAsync();
       }
-      consumer.commitAsync();
-    }
   } catch (Exception e) {
-    log.error("Unexpected error", e);
+      log.error("Unexpected error", e);
   } finally {
-    try {
-      consumer.commitSync();
-    } finally {
-      consumer.close();
-    }
+      try {
+          consumer.commitSync();
+      } finally {
+          consumer.close();
+      }
   }
   ```
 
@@ -237,26 +237,25 @@
 
 - ```java
   private Map<TopicPartition, OffsetAndMetadata> currentOffsets =
-    new HashMap<>();
+      new HashMap<>();
   int count = 0;
   ...
-    while (true) {
-      ConsumerRecords<String, String> records = consumer.poll(100);
-      for (ConsumerRecord<String, String> record : records)
-      {
-        System.out.printf("topic = %s, partition = %s, offset = %d,
-                          customer = %s, country = %s\n",
-                          record.topic(), record.partition(), record.offset(),
-                          record.key(), record.value());
-        currentOffsets.put(new TopicPartition(record.topic(),
-                                              record.partition()), new
-                           OffsetAndMetadata(record.offset()+1, "no metadata"));
-        // 设置没处理1000条记录就提交一次偏移量
-        if (count % 1000 == 0)
-          consumer.commitAsync(currentOffsets,null);
-        count++;
+      while (true) {
+          ConsumerRecords<String, String> records = consumer.poll(100);
+          for (ConsumerRecord<String, String> record : records) {
+              System.out.printf("topic = %s, partition = %s, offset = %d,
+                                customer = %s, country = %s\n",
+                                record.topic(), record.partition(), record.offset(),
+                                record.key(), record.value());
+              currentOffsets.put(new TopicPartition(record.topic(),
+                                                    record.partition()), new
+                                 OffsetAndMetadata(record.offset()+1, "no metadata"));
+              // 设置没处理1000条记录就提交一次偏移量
+              if (count % 1000 == 0)
+                  consumer.commitAsync(currentOffsets, null);
+              count++;
+          }
       }
-    }
   ```
 
 ###### 查看消费者消费情况
@@ -279,43 +278,43 @@
 
   ```java
   private Map<TopicPartition, OffsetAndMetadata> currentOffsets =
-    new HashMap<>();
+      new HashMap<>();
   private class HandleRebalance implements ConsumerRebalanceListener {
-    public void onPartitionsAssigned(Collection<TopicPartition>
-                                     partitions) {}
-    public void onPartitionsRevoked(Collection<TopicPartition>
-                                    partitions) {
-      System.out.println("Lost partitions in rebalance.Committing current offsets:" + 
-                         currentOffsets);
-      consumer.commitSync(currentOffsets);
-   	}
+      public void onPartitionsAssigned(Collection<TopicPartition>
+                                       partitions) {}
+      public void onPartitionsRevoked(Collection<TopicPartition>
+                                      partitions) {
+          System.out.println("Lost partitions in rebalance.Committing current offsets:" + 
+                             currentOffsets);
+          consumer.commitSync(currentOffsets);
+      }
   }
   try {
-    // 订阅主题时，把再均衡监听器传递给subscribe;
-    consumer.subscribe(topics, new HandleRebalance());
+      // 订阅主题时，把再均衡监听器传递给subscribe;
+      consumer.subscribe(topics, new HandleRebalance());
       while (true) {
-        ConsumerRecords<String, String> records = consumer.poll(100);
-        for (ConsumerRecord<String, String> record : records) {
-          System.out.println("topic = %s, partition = %s, offset = %d,
-                             customer = %s, country = %s\n",
-                             record.topic(), record.partition(), record.offset(),
-                             record.key(), record.value());
-          currentOffsets.put(new TopicPartition(record.topic(), record.partition()),
-                             new OffsetAndMetadata(record.offset()+1, "no metadata"));
-        }
-        consumer.commitAsync(currentOffsets, null);
-        // 另起一个线程，退出轮询，抛出异常
-        CompletableFuture.runAsync(() -> consumer.wakeup());
+          ConsumerRecords<String, String> records = consumer.poll(100);
+          for (ConsumerRecord<String, String> record : records) {
+              System.out.println("topic = %s, partition = %s, offset = %d,
+                                 customer = %s, country = %s\n",
+                                 record.topic(), record.partition(), record.offset(),
+                                 record.key(), record.value());
+              currentOffsets.put(new TopicPartition(record.topic(), record.partition()),
+                                 new OffsetAndMetadata(record.offset()+1, "no metadata"));
+          }
+          consumer.commitAsync(currentOffsets, null);
+          // 另起一个线程，退出轮询，抛出异常
+          CompletableFuture.runAsync(() -> consumer.wakeup());
       }
   } catch (Exception e) {
-    log.error("Unexpected error", e);
+      log.error("Unexpected error", e);
   } finally {
-    try {
-      consumer.commitSync(currentOffsets);
-    } finally {
-      consumer.close();
-      System.out.println("Closed consumer and we are done");
-    }
+      try {
+          consumer.commitSync(currentOffsets);
+      } finally {
+          consumer.close();
+          System.out.println("Closed consumer and we are done");
+      }
   }
   ```
 
@@ -347,22 +346,22 @@
   // 向群组协调器获取分区信息
   List<PartitionInfo> partitionInfos = consumer.partitionsFor("topic");
   if (partitionInfos != null) {
-    for (PartitionInfo partition : partitionInfos) {
-      partitions.add(
-        new TopicPartition(partition.topic(), partition.partition()));
-    }
-    // 把需要消费的分区指派给消费者
-    consumer.assign(partitions);
-    while (true) {
-      ConsumerRecords<String, String> records = consumer.poll(1000);
-      for (ConsumerRecord<String, String> record: records) {
-        System.out.println("topic = %s, partition = %s, offset = %d, key = %s, 
-                           value = %s\n",
-                           record.topic(), record.partition(), record.offset(),
-                           record.key(), record.value());
+      for (PartitionInfo partition : partitionInfos) {
+          partitions.add(
+              new TopicPartition(partition.topic(), partition.partition()));
       }
-      consumer.commitSync();
-    }
+      // 把需要消费的分区指派给消费者
+      consumer.assign(partitions);
+      while (true) {
+          ConsumerRecords<String, String> records = consumer.poll(1000);
+          for (ConsumerRecord<String, String> record: records) {
+              System.out.println("topic = %s, partition = %s, offset = %d, key = %s, 
+                                 value = %s\n",
+                                 record.topic(), record.partition(), record.offset(),
+                                 record.key(), record.value());
+          }
+          consumer.commitSync();
+      }
   }
   ```
 
