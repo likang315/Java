@@ -13,3 +13,15 @@
 ```
 jstack [-l] pid
 ```
+
+##### 02：一次负载过高定位过程
+
+1. 查看GC 情况（频率，耗时）；
+2. 查看占用CPU 最大的进程；
+   - top
+3. 查看占用CPU 最大的线程；
+   - top -Hp pid 
+4. 查看线程堆栈；
+   - printf "%x\n" tid; 输出16精致
+   - jstack pid | grep tid(16进制)
+

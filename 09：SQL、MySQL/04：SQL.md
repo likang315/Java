@@ -1,4 +1,4 @@
-### SQL（Structured Query Language ）
+### SQL（Structured Query Language）
 
 ------
 
@@ -38,15 +38,15 @@
 
 ```SQL
 CREATE TABLE 表名 (
-	id	 BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL comment '主键ID',
-	列名	数据类型（）DEFAULT defalut_value NOT NULL comment 'xx',
-	列名	数据类型（）DEFAULT defalut_value NOT NULL comment 'xx',
-	c_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
-  u_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 
-  '更新时间',
-	Foreign key(列名) references 目标表名（列名)
+    id	 BIGINT UNSIGNED AUTO_INCREMENT  NOT NULL comment '主键ID',
+    列名	数据类型（）DEFAULT defalut_value NOT NULL comment 'xx',
+    列名	数据类型（）DEFAULT defalut_value NOT NULL comment 'xx',
+    c_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '创建时间',
+    u_time DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 
+    '更新时间',
+    PRIMARY KEY (`id`)，
+    Foreign key(列名) references 目标表名（列名)
 );
-# 通常记事本写好直接 copy
 ```
 
 - 创建相同的表：CREATE TABLE 表1 LIKE 表2;
@@ -164,7 +164,7 @@ CREATE TABLE 表名 (
   
   - HAVING   COUNT(sex) >= 1;
   
-- **WITH ROLLUP**：将会在所有记录的最后加上一条记录，这一条记录是上面所有记录的总和。
+- **WITH ROLLUP**：将会加上一条记录，这一条记录是上面所有记录的总和。
 
 ###### 聚合函数
 
@@ -188,7 +188,7 @@ CREATE TABLE 表名 (
 ##### 08：WHERE：限制条件
 
 - WHERE ：不能使用聚合函数作为过滤条件，原因是过滤时机不对，子查询；
-- WHERE：是在数据库检索表中数据时，对数据**逐行过滤**以决定是否查询该数据是否使用的，所以WHERE用来**确定结果集**的数据的，聚合函数**是从结果集中，并且分组完毕才进行过滤的**，由此可见这个过滤时机是在WHERE之后进行的，所以**聚合函数的过滤条件**要在HAVING子句中使用， HAVING必须在GROUP BY之后
+- WHERE：是在数据库检索表中数据时，对数据**逐行过滤**以决定是否查询该数据是否使用的，所以WHERE用来**确定结果集**的数据的，聚合函数**是从结果集中，并且分组完毕才进行过滤的**，由此可见这个过滤时机是在WHERE之后进行的，所以**聚合函数的过滤条件**要在HAVING子句中使用， HAVING必须在GROUP BY之后；
 - SELECT dep_id,count(dep_id) AS count FROM emp GROUP BY dep_id **HAVING count(dep_id)>1**；
 
 ##### 09：LIMIT：分页查询
@@ -236,8 +236,8 @@ CREATE TABLE 表名 (
 ##### 13：count（1）和 count（*），count（字段） 的区别
 
 - 统计有多少条的记录
-- count( 1 )：查询遍历的第一个字段，**包含值 null 的记录**，除非是主键索引，否则和count( * )没有区别；
-- count( * )：会自己优化指定到使用索引的字段，**包含值为 null 的记录**；
+- count( 1 )：忽略所有列，**用1 （常量）代表代码行**，在统计结果的时候，**包含值为NULL的记录**，除非是主键索引，否则和count( * )没有区别
+- count( * )：会自己优化指定到使用索引的字段，**包含值 null 的记录**；
 - count( 字段名 )：统计该字段在表中出现的次数，**不包含值为 null记录**；
 
 ##### 14：SQL 中单引号和双引号的区别

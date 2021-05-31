@@ -55,7 +55,7 @@
 
 ##### 04：主从复制
 
-![](/Users/likang/Code/Git/Middleware/09：SQL、MySQL/photos/主从复制.png)
+![](https://github.com/likang315/Middleware/blob/master/09%EF%BC%9ASQL%E3%80%81MySQL/photos/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.png?raw=true)
 
 - 从库生成两个线程，**一个IO线程，一个SQL线程**
 - 主库会通过**bin log 记录每行实际数据的变更**，IO 线程去请求 主库 的bin log，主库会生成一个 **log dump 线程**，用来给从库 IO 线程传bin log，从库将得到的 bin log日志**写入 Relay log（中继日志） 文件中**，**SQL 线程负责读取**Relay log文件中的日志，并解析成具体操作，来实现主从的数据一致；
@@ -80,3 +80,4 @@
 3. 主主复制
 4. 多主一从
 5. 联级复制
+

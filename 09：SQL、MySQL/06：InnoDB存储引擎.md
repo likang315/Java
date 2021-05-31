@@ -211,3 +211,12 @@
 - auto_increment_offset：表示自增长字段从那个数开始，取值范围是[1,65535]；
 - auto_increment_increment：表示自增长字段每次**递增的量**，**默认值是1**，取值范围是[1,65535]；
 
+###### 自增ID用完
+
+- 因为业务表频繁的删除插入数据，为了防止自增ID用完，定时任务修改自增开始初始值；
+
+  ```sql
+  ALTER TABLE 表名 AUTO_INCREMENT = 1; 
+  ```
+
+- 两个表交换写，使用TRANCATE 清表；
