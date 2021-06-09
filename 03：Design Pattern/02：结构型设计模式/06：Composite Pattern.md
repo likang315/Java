@@ -18,71 +18,71 @@
 
 ```java
 public abstract class RootFile {
-  private String name;
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-  public RootFile() {
-  }
-  public RootFile(String name) {
-    this.name=name;
-  }
+    private String name;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public RootFile() {
+    }
+    public RootFile(String name) {
+        this.name=name;
+    }
 
-  public abstract void printName();
+    public abstract void printName();
 }
 public class Folder extends RootFile {
-  private List<RootFile> list = new ArrayList<RootFile>();
-  public Folder() {
-  }
-  
-  public Folder(String name) {
-    super(name);
-  }
-  public void add(RootFile t) {
-    arraylist.add(t);
-  }
-  @Override
-  public void printName() {
-    System.out.println("File name:" + super.getName());
-    if(null != list) {
-      // 是文件调用文件的printName ，若是文件夹调用文件夹的printName
-      for (RootFile rf:arraylist) {
-        rf.printName();
-      }
+    private List<RootFile> list = new ArrayList<RootFile>();
+    public Folder() {
     }
-  }
+
+    public Folder(String name) {
+        super(name);
+    }
+    public void add(RootFile t) {
+        arraylist.add(t);
+    }
+    @Override
+    public void printName() {
+        System.out.println("File name:" + super.getName());
+        if(null != list) {
+            // 是文件调用文件的printName ，若是文件夹调用文件夹的printName
+            for (RootFile rf:arraylist) {
+                rf.printName();
+            }
+        }
+    }
 }
 
 public class File extends RootFile {
-  public File() {
-    super();
-  }
-  public File(String name){
-    super(name);
-  }
-  @Override
-  public void printName() {
-    System.out.println("File name:"+super.getName());
-  }
+    public File() {
+        super();
+    }
+    public File(String name){
+        super(name);
+    }
+    @Override
+    public void printName() {
+        System.out.println("File name:"+super.getName());
+    }
 }
 
 package com.Compsite;
 public class Client {
-  public static void main(String[] args) {
-    File file1=new File("1.java");
-    File file2=new File("2.java");
-    File file3=new File("3.java");
-    Folder root = new Folder("F:\\bb");
-    Folder f = new Folder("aa");
-    root.add(file1);
-    root.add(file2);
-    root.add(f);
-    f.add(file3);
+    public static void main(String[] args) {
+        File file1=new File("1.java");
+        File file2=new File("2.java");
+        File file3=new File("3.java");
+        Folder root = new Folder("F:\\bb");
+        Folder f = new Folder("aa");
+        root.add(file1);
+        root.add(file2);
+        root.add(f);
+        f.add(file3);
 
-    root.printName();
-  }
+        root.printName();
+    }
 }
 ```

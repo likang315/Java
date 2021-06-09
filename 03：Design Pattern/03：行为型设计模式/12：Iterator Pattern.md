@@ -14,7 +14,7 @@
 
 ###### 缺点：
 
-​	由于迭代器模式**将存储数据和遍历数据的职责分离**，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上**增加了系统的复杂性**
+​	由于迭代器模式**将存储数据和遍历数据的职责分离**，增加新的目标类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上**增加了系统的复杂性**
 
 #####  02：示例
 
@@ -22,48 +22,45 @@
 
 ```java
 public interface Iterator {
-   public boolean hasNext();
-   public Object next();
+    boolean hasNext();
+    Object next();
 }
 // 迭代器类
 public class NameRepository {
-   public String names[] = {"Robert" , "John" ,"Julie" , "Lora"};
- 
-   @Override
-   public Iterator getIterator() {
-      return new NameIterator();
-   }
- 	 // 迭代器内部类
-   private class NameIterator implements Iterator {
-      int index;
-      @Override
-      public boolean hasNext() {
-         if(index < names.length){
-            return true;
-         }
-         return false;
-      }
- 
-      @Override
-      public Object next() {
-         if(this.hasNext()){
-            return names[index++];
-         }
-         return null;
-      }
-   }
+    public String names[] = {"Robert" , "John" ,"Julie" , "Lora"};
+    @Override
+    public Iterator getIterator() {
+        return new NameIterator();
+    }
+    // 迭代器内部类
+    private class NameIterator implements Iterator {
+        int index;
+        @Override
+        public boolean hasNext() {
+            if(index < names.length){
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public Object next() {
+            if(this.hasNext()){
+                return names[index++];
+            }
+            return null;
+        }
+    }
 }
 
 public class IteratorPatternDemo {
-   
-   public static void main(String[] args) {
-      NameRepository namesRepository = new NameRepository();
- 
-      for(Iterator iter = namesRepository.getIterator(); iter.hasNext();){
-         String name = (String)iter.next();
-         System.out.println("Name : " + name);
-      }  
-   }
+    public static void main(String[] args) {
+        NameRepository namesRepository = new NameRepository();
+        for(Iterator iter = namesRepository.getIterator(); iter.hasNext();){
+            String name = (String)iter.next();
+            System.out.println("Name : " + name);
+        }  
+    }
 } 
 ```
 

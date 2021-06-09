@@ -12,13 +12,13 @@
 
 - 抽象和实现的分离
 - 优秀的扩展能力
-- 桥接模式将继承关系转化成关联关系，它降低了类与类之间的耦合度
+- 桥接模式**将继承关系转化成关联关系**，它降低了类与类之间的耦合度
 
 ##### 01：示例
 
 ```java
 public interface Concrete {
-	public abstract void method();
+    void method();
 }
 public class ConcreteA implements Concrete {
     @Override
@@ -28,13 +28,13 @@ public class ConcreteA implements Concrete {
 }
 // 抽象部分，作为桥接类使二者可以独立发展
 public abstract class Abstraction {
-	private Concrete pimp;
-	public Abstraction(Concrete t) {
-		pimp = t;
-	}
-	public void method() {
-		pimp.method();
-	}
+    private Concrete pimp;
+    public Abstraction(Concrete t) {
+        pimp = t;
+    }
+    public void method() {
+        pimp.method();
+    }
 }
 // 实现部分
 public class AbstractionA extends Abstraction {

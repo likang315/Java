@@ -10,12 +10,13 @@
 
 ###### 优点：
 
-​	装饰类和被装饰类可以独立发展，装饰模式是继承的一个替代模式，解决了子类会很膨胀的问题
+- 装饰类和被装饰类可以独立发展，装饰模式是继承的一个替代模式，解决了子类膨胀的问题
+
 
 ```java
 // 被装饰对象和装饰对象必须实现此接口
 public interface Base {
-  public void method();
+   void method();
 }
 // 被装饰对象
 public class Product implements Base {
@@ -26,24 +27,24 @@ public class Product implements Base {
 }
 // 装饰器
 public class Decorator implements Base {
-  protected Base pbase;
-	public Decorator(Base t) {
-    pbase = t;
-  }
-  @Override
-  public void method() {
-    pbase.method();
-    newMethod();
-  }
-  public void newMethod() {
-    System.out.println("装饰的功能...");
-  }
+    protected Base pbase;
+    public Decorator(Base t) {
+        pbase = t;
+    }
+    @Override
+    public void method() {
+        pbase.method();
+        newMethod();
+    }
+    public void newMethod() {
+        System.out.println("装饰的功能...");
+    }
 }
 
 public class Main {
-  public static void main(String[] args) {
-    Decorator dec = new Decorator(new Product()); // 传被装饰对象
-    dec.method();
-  }
+    public static void main(String[] args) {
+        Decorator dec = new Decorator(new Product()); // 传被装饰对象
+        dec.method();
+    }
 }
 ```

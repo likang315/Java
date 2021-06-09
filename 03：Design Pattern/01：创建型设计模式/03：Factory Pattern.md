@@ -78,27 +78,27 @@ public class Factory {
 
 ```java
 public interface Factory {
-	public abstract Product send();
+    Product send();
 }
 
 public class FactoryA implements Factory {
-	@Override
-	public Product create() {
-		return new ProductA();
-	}
+    @Override
+    public Product create() {
+        return new ProductA();
+    }
 }
 
 public class FactoryB implements Factory {
-	@Override
-	public Product create() {
-		return new ProductB();
-	}
-  
-  public static void main(String[] args) {
-    Factory factory = new FactoryA();
-    Product product = factory.create();
-    // 调用对应的对象的功能
-    product.fun();
-  }
+    @Override
+    public Product create() {
+        return new ProductB();
+    }
+
+    public static void main(String[] args) {
+        Factory factory = new FactoryA();
+        Product product = factory.create();
+        // 调用对应的对象的功能
+        product.fun();
+    }
 }
 ```

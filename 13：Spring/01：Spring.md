@@ -22,7 +22,7 @@
 
 ###### 	核心容器需导入的Jar
 
-- spring-core
+- spring-cor
 - spring-beans
 - spring-context
 - spring-context-support

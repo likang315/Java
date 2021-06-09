@@ -151,7 +151,7 @@ class Mutex implements Lock {
 
 ###### 同步队列
 
-​	同步器依赖内部的**同步队列（一个FIFO双向队列）来完成同步状态的管理**，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成为一个节点（Node）并将其**加入同步队列，同时会阻塞当前线程**，当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。
+​	同步器依赖内部的**同步队列（一个FIFO双向队列）来完成同步状态的管理**，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成为一个节点（Node）并将其**加入同步队列进行自旋（判断该节点的前驱节点是否是头结点，若是则获取同步状态，若不是，则阻塞，超时和中断都可以唤醒该线程）**，当同步状态释放时，首节点会唤醒后面的结点，使其再次尝试获取同步状态。
 
 ###### Node节点
 
@@ -169,7 +169,7 @@ class Mutex implements Lock {
 
 ###### 同步队列的结构
 
-​	同步器包含了两个节点类型的引用，一个指向头节点，而另一个指向尾节点，当一个线程成功地获取了同步状态，其他线程将无法获取到同步状态，转而被构造成为节点并加入到同步队列中，而这个加入队列的过程必须要保证线程安全，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Nodeupdate)，它需要传递当前线程“认为”的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。
+​	同步器包含了两个节点类型的引用，**一个指向头节点，而另一个指向尾节点**，当一个线程成功地获取了同步状态，其他线程将无法获取到同步状态，转而被构造成为节点并加入到同步队列中，而这个**加入队列的过程必须要保证线程安全**，因此同步器提供了一个基于CAS的设置尾节点的方法：compareAndSetTail(Node expect,Nodeupdate)，它需要传递当前线程“认为”的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。
 
 - 同步队列遵循FIFO，**首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，将会唤醒后继节点，而后继节点将会在获取同步状态成功时将自己设置为首节点**
 
@@ -209,11 +209,10 @@ class Mutex implements Lock {
 
 ##### 05：重入锁(Lcok)
 
-- 表示该锁能够支持一个线程**对资源的重复加锁**
-- 重进入：指任意线程在获取到锁之后能够再次获取该锁而不会被锁阻塞
-- 可重入锁：指的是**可重复递归调用**的锁，在外层使用锁之后，在内层仍然可以获得此锁，并且不发生死锁
+- 重进入：指任意线程在获取到锁之后能够再次获取该锁而不会被锁阻塞；
+- 可重入锁：指的是**可重复递归调用**的锁，在外层使用锁之后，在内层仍然可以获得此锁；
   - ReentrantLock 和 synchronized 都是可重入锁
-- 不可重入锁：与可重入锁相反，不可递归调用，递归调用就发生死锁
+- 不可重入锁：与可重入锁相反，不可递归调用，**递归调用就发生死锁**；
 
 ##### 06：公平锁、非公平锁
 
@@ -226,7 +225,8 @@ Lock lock = new ReentrantLock(false);
 - **多个线程竞争锁时需不需要排队**
 - 公平锁：指线程获取锁的顺序是按照申请锁顺序来的，先lock的先获取锁；
 - 非公平锁：指的是抢锁机制，先lock的线程不一定先获得锁；
-- **公平性锁保证了锁的获取按照FIFO原则**，而代价是进行大量的线程切换。非公平性锁虽然可能造成线程“饥饿”，但极少的线程切换，**保证了其更大的吞吐量【100倍】**。
+- 当线程A执行完之后，要**唤醒线程B是需要时间的**，而且线程B醒来后还要再次竞争锁，所以如果**在切换过程当中，来了一个线程C**，那么线程C是有可能获取到锁的，如果C获取到了锁，B就只能继续自旋了；
+- 公平锁就是在非公平锁的基础上增加判断**当前线程是否是等待队列的队头元素**；
 
 ###### ReentrantLock 实现重进入需要满足两个特性【nonfairTryAcquire(int acquires)】
 
@@ -314,24 +314,24 @@ Lock lock = new ReentrantLock(false);
 
 ```java
 protected final boolean tryAcquire(int acquires) {
-  Thread current = Thread.currentThread();
-  int c = getState();
-  // 独占式锁的数量
-  int w = exclusiveCount(c);
-  if (c != 0) {
-    // 存在读锁或者当前获取线程不是已经获取写锁的线程
-    if (w == 0 || current != getExclusiveOwnerThread())
-      return false;
-    if (w + exclusiveCount(acquires) > MAX_COUNT)
-      throw new Error("Maximum lock count exceeded");
-    setState(c + acquires);
+    Thread current = Thread.currentThread();
+    int c = getState();
+    // 独占式锁的数量
+    int w = exclusiveCount(c);
+    if (c != 0) {
+        // 存在读锁或者当前获取线程不是已经获取写锁的线程
+        if (w == 0 || current != getExclusiveOwnerThread())
+            return false;
+        if (w + exclusiveCount(acquires) > MAX_COUNT)
+            throw new Error("Maximum lock count exceeded");
+        setState(c + acquires);
+        return true;
+    }
+    if (writerShouldBlock() || !compareAndSetState(c, c + acquires)) {
+        return false;
+    }
+    setExclusiveOwnerThread(current);
     return true;
-  }
-  if (writerShouldBlock() || !compareAndSetState(c, c + acquires)) {
-    return false;
-  }
-  setExclusiveOwnerThread(current);
-  return true;
 }
 ```
 
@@ -343,18 +343,18 @@ protected final boolean tryAcquire(int acquires) {
 
 ```java
 protected final int tryAcquireShared(int unused) {
-  for (;;) {
-    int c = getState();
-    // 获取之后同步状态的值
-    int nextc = c + (1 << 16);
-    if (nextc < c)
-      throw new Error("Maximum lock count exceeded");
-    if (exclusiveCount(c) != 0 && owner != Thread.currentThread())
-      return -1;
-    // 依靠CAS保证增加读状态线程安全
-    if (compareAndSetState(c, nextc))
-      return 1;
-  }
+    for (;;) {
+        int c = getState();
+        // 获取之后同步状态的值
+        int nextc = c + (1 << 16);
+        if (nextc < c)
+            throw new Error("Maximum lock count exceeded");
+        if (exclusiveCount(c) != 0 && owner != Thread.currentThread())
+            return -1;
+        // 依靠CAS保证增加读状态线程安全
+        if (compareAndSetState(c, nextc))
+            return 1;
+    }
 }
 ```
 
@@ -464,48 +464,48 @@ public class ConditionUseCase {
 
 ```java
 public class BoundedQueue<T> {
-  private Object[] items;
-  // 添加的下标，删除的下标和数组当前数量
-  private int addIndex, removeIndex, count;
-  private Lock lock = new ReentrantLock();
-  private Condition notEmpty = lock.newCondition();
-  private Condition notFull = lock.newCondition();
-  public BoundedQueue(int size) {
-    items = new Object[size];
-  }
-  // 添加一个元素，如果数组满，则添加线程进入等待状态，直到有"空位"
-  public void add(T t) throws InterruptedException {
-    lock.lock();
-    try {
-      // 注意是循环不是判断，防止过早或意外的通知，只有条件符合才退出循环
-      while (count == items.length)
-        notFull.await();
-      items[addIndex] = t;
-      if (++addIndex == items.length)
-        addIndex = 0;
-      ++count;
-      notEmpty.signal();
-    } finally {
-      lock.unlock();
+    private Object[] items;
+    // 添加的下标，删除的下标和数组当前数量
+    private int addIndex, removeIndex, count;
+    private Lock lock = new ReentrantLock();
+    private Condition notEmpty = lock.newCondition();
+    private Condition notFull = lock.newCondition();
+    public BoundedQueue(int size) {
+        items = new Object[size];
     }
-  }
-  // 由头部删除一个元素，如果数组空，则删除线程进入等待状态，直到有新添加元素
-  @SuppressWarnings("unchecked")
-  public T remove() throws InterruptedException {
-    lock.lock();
-    try {
-      while (count == 0)
-        notEmpty.await();
-      Object x = items[removeIndex];
-      if (++removeIndex == items.length)
-        removeIndex = 0;
-      --count;
-      notFull.signal();
-      return (T) x;
-    } finally {
-      lock.unlock();
+    // 添加一个元素，如果数组满，则添加线程进入等待状态，直到有"空位"
+    public void add(T t) throws InterruptedException {
+        lock.lock();
+        try {
+            // 注意是循环不是判断，防止过早或意外的通知，只有条件符合才退出循环
+            while (count == items.length)
+                notFull.await();
+            items[addIndex] = t;
+            if (++addIndex == items.length)
+                addIndex = 0;
+            ++count;
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
     }
-  }
+    // 由头部删除一个元素，如果数组空，则删除线程进入等待状态，直到有新添加元素
+    @SuppressWarnings("unchecked")
+    public T remove() throws InterruptedException {
+        lock.lock();
+        try {
+            while (count == 0)
+                notEmpty.await();
+            Object x = items[removeIndex];
+            if (++removeIndex == items.length)
+                removeIndex = 0;
+            --count;
+            notFull.signal();
+            return (T) x;
+        } finally {
+            lock.unlock();
+        }
+    }
 }
 ```
 

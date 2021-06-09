@@ -61,7 +61,7 @@ public class ProcessSecond implements ProcessInterence {
 
 public class Process {
     ArrayList<ProcessInterence>  processEventList = new ArrayList<>();
-    
+
     public Process() {
         processEventList.add(new ProcessFirst());
         processEventList.add(new ProcessSecond());
@@ -80,10 +80,10 @@ public class Process {
 }
 //请求发送者
 public class Client {
-	public static void main(String[] args) {
-		Process pro = new Process();
-    String result = pro.solution("3");
-    System.out.println(result);
-	}
+    public static void main(String[] args) {
+        Process pro = new Process();
+        String result = pro.solution("3");
+        System.out.println(result);
+    }
 }
 ```

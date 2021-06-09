@@ -28,37 +28,35 @@
 
 ```java
 public interface FlyBehavior {
-	public abstract void fly();
+    void fly();
 }
 
 public class SuperSonic implements FlyBehavior {
-
-  @Override
-  public void fly() {
-    System.out.println("超音速算法实现....");
-  }
+    @Override
+    public void fly() {
+        System.out.println("超音速算法实现....");
+    }
 }
 
 public class SubSonic implements FlyBehavior {
-
-  @Override
-  public void fly() {
-    System.out.println("低音速算法实现...");
-  }
+    @Override
+    public void fly() {
+        System.out.println("低音速算法实现...");
+    }
 }
 
 public class Flane {
-  private FlyBehavior flybehavior;
-  public Flane(FlyBehavior t) {
-    flybehavior = t;
-  }
+    private FlyBehavior flybehavior;
+    public Flane(FlyBehavior t) {
+        flybehavior = t;
+    }
 
-  public void fly() {
-    flybehavior.fly();
-  }
-  public static void main(String[] args) {
-  	new Flane(new SubSonic()).fly();
-  }
+    public void fly() {
+        flybehavior.fly();
+    }
+    public static void main(String[] args) {
+        new Flane(new SubSonic()).fly();
+    }
 }
 ```
 

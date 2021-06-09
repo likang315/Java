@@ -178,21 +178,21 @@ public class JsonTypeHandler extends BaseTypeHandler<HotelInfo> {
 
 ```xml
 <transactionManager type="MANAGED">
-  <property name="closeConnection" value="false"/>
+    <property name="closeConnection" value="false"/>
 </transactionManager>
 
- <!-- 分模块部署时，dao层需要数据源-->
- <environments default="dev">
+<!-- 分模块部署时，dao层需要数据源-->
+<environments default="dev">
     <environment id="dev">
-      <transactionManager type="JDBC"/>
-      <dataSource type="POOLED">
-        <property name="driver" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/mybatis4?useSSL=true"/>
-        <property name="username" value="root"/>
-        <property name="password" value="mysql"/>
-      </dataSource>
+        <transactionManager type="JDBC"/>
+        <dataSource type="POOLED">
+            <property name="driver" value="com.mysql.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:3306/mybatis4?useSSL=true"/>
+            <property name="username" value="root"/>
+            <property name="password" value="mysql"/>
+        </dataSource>
     </environment>
- </environments>
+</environments>
 ```
 
 ##### 07：注解配置Mapper接口
@@ -567,12 +567,12 @@ Student queryStudentByName(@Param("name") String name)
 
   - ```xml
     <delete id="batchDelete" parameterType="java.lang.String" flushCache="true">
-      DELETE FROM local_student
-      <where>
-        <if test="date != null and date.length() > 0">
-          date <![CDATA[ <= ]]> #{date}>
-        </if>
-      </where>
+        DELETE FROM local_student
+        <where>
+            <if test="date != null and date.length() > 0">
+                date <![CDATA[ <= ]]> #{date}>
+            </if>
+        </where>
     </delete>
     ```
 

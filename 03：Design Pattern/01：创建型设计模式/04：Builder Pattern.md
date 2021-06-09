@@ -16,59 +16,59 @@
 ```java
 // 指挥者，一个产品分为三个模块
 public class Director {
-	public void construct(Builder b) {
-		b.buildPartA();
-		b.buildPartB();
-		b.buildPartC();
-	}
+    public void construct(Builder b) {
+        b.buildPartA();
+        b.buildPartB();
+        b.buildPartC();
+    }
 }
 // 建造者
-public abstract interface Builder {
-    public abstract void buildPartA();
-    public abstract void buildPartB();
-    public abstract void buildPartC();
+public interface Builder {
+    void buildPartA();
+    void buildPartB();
+    void buildPartC();
 }
 // 具体的建造者
 public class ConcreteBuilderA implements Builder {
-	protected Product p;
-	public ConcreteBuilderA() {
-		p = new Product();
-	}
-  public Product getP() {
-    return p;
-  }
+    protected Product p;
+    public ConcreteBuilderA() {
+        p = new Product();
+    }
+    public Product getP() {
+        return p;
+    }
 
-  @Override
-  public void buildPartA() {
-    System.out.println("PartA 建造中...");
-    p.add("partA");
-  }
+    @Override
+    public void buildPartA() {
+        System.out.println("PartA 建造中...");
+        p.add("partA");
+    }
 
-  @Override
-  public void buildPartB() {
-    System.out.println("PartB 建造中...");
-    p.add("partB");
-  }
+    @Override
+    public void buildPartB() {
+        System.out.println("PartB 建造中...");
+        p.add("partB");
+    }
 
-  @Override
-  public void buildPartC() {
-    System.out.println("PartC 建造中...");
-    p.add("partC");
-  }
+    @Override
+    public void buildPartC() {
+        System.out.println("PartC 建造中...");
+        p.add("partC");
+    }
 }
 
 public class Product {
-	public void add(String s) {
-		System.out.println("添加部件"+s+"中....");
-	}
-  
-  public static void main(String[] args) {
-    Director director = new Director();
-    // 实例化建造者时就创建了product，每个对象只是属性不同
-    ConcreteBuilderA ca = new ConcreteBuilderA();  
-    // 把具体的建造者传给指挥者构建对象
-    director.construct(ca);
-    Product p = ca.getP();
-  }
+    public void add(String s) {
+        System.out.println("添加部件"+s+"中....");
+    }
+
+    public static void main(String[] args) {
+        Director director = new Director();
+        // 实例化建造者时就创建了product，每个对象只是属性不同
+        ConcreteBuilderA ca = new ConcreteBuilderA();  
+        // 把具体的建造者传给指挥者构建对象
+        director.construct(ca);
+        Product p = ca.getP();
+    }
 }
 ```

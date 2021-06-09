@@ -25,11 +25,11 @@
 
 ```java
 public interface Type_c {
-   public void transfer_1();
+    void transfer_1();
 }
 
 public interface Andriod {
-    public void transfer_2();
+    void transfer_2();
 }
 
 public class Type_imp implements Type_c {
@@ -87,29 +87,29 @@ public class Adapter {
 
 ```java
 public interface Usb {
-    public void ab();
-    public void transfer_02();
+    void ab();
+    void transfer_02();
 }
 
 // 使用抽象类，空方法体，可以让实现类有选择的实现
 public abstract class Usb_abs implements Usb{
-  @Override
-  public  void transfer_01(){}
+    @Override
+    public  void transfer_01(){}
 
-  @Override
-  public  void transfer_02(){}
+    @Override
+    public  void transfer_02(){}
 }
 
 public class Usb_absImp extends Usb_abs {
-  @Override
-  public void transfer_01() {
-    System.out.println("选择实现transfer_01...........");
-  }
+    @Override
+    public void transfer_01() {
+        System.out.println("选择实现transfer_01...........");
+    }
 }
 
 public class Main {
-  public static void main(String[] args) {
-    	new Usb_absImp().transfer_01();
-  }
+    public static void main(String[] args) {
+        new Usb_absImp().transfer_01();
+    }
 }
 ```

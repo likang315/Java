@@ -85,3 +85,28 @@
   - **后退指针：**backward 用于从表尾方向访问节点；
   - **分值：**用一个double类型的浮点数，跳表中所有节点都按分值的从小到大排序；
   - **成员对象：**是一个指针，指向对象地址；
+
+##### 07：BitMap
+
+- key-value（字符串位图）
+
+- 可以直接对值得bit位操作，大数据查找；
+
+- 示例
+
+  - ```sh
+    # 设置值为big（3个字符，一个字符8bit）
+    set hello big
+    # 获取二进制形式的第1位，即为0
+    getbit hello 0
+    # 给位图指定索引设置值
+    # setbit key offset vlaue
+    # 把hello二进制形式的第8位设置为1，之前的ASCII码为98,现在改为99，即把b改为c
+    setbit hello 7 1
+    # 获取位图指定索引的值
+    getbit key offset
+    # 获取位图指定范围(start到end,单位为bit，如果不指定就是获取全部)位值为1的个数
+    bitcount key [start end]
+    ```
+
+    
