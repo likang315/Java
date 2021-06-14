@@ -32,13 +32,13 @@ thread.start();
 ```java
 // 使用匿名内部类
 Runnable runnable = new Runnable() {
-  @Override
-  public void run() {
-      long startTimestamp = System.currentTimeMillis();
-    	// 处理我那业务通知其他线程
-      this.notifyAll(); 
-      long time = System.currentTimeMillis() - startTimestamp;
-  }
+    @Override
+    public void run() {
+        long startTimestamp = System.currentTimeMillis();
+        // 处理我那业务通知其他线程
+        this.notifyAll(); 
+        long time = System.currentTimeMillis() - startTimestamp;
+    }
 };
 // 执行线程
 executorServices.execute(runnable);
@@ -51,33 +51,33 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;  
 import java.util.concurrent.FutureTask;
 public class CallableThreadTest implements Callable<List<String>> {
-  // 每个线程最多执行1s
-  private static final long TASK_TIME_OUT = 1000ms;
-  // 实例化此类时，就可以携带参数
-  private String name;
+    // 每个线程最多执行1s
+    private static final long TASK_TIME_OUT = 1000ms;
+    // 实例化此类时，就可以携带参数
+    private String name;
 
-  @Override  
-  public List<String> call() throws Exception {
-    // 学习携带参数的方法
-    return new ArrayList<String>.add(name);  
-  }
-
-  // 学习回收结果的方法
-  public static void main(String[] args) {  
-    // 存储每个线程执行任务的返回值
-    List<List<String>> futureTask = new ArrayList<>();
-    CallableThreadTest task = new CallableThreadTest("param");  
-    Future<List<String>> future = executorService.submit(task);
-    futureTask.add(future);
-
-    // 取值过程
-    for (int i = 0; i < futureTask.size(); i++) {
-      Future<List<String>> futureReceive = futureTask.get(i);
-      List<String> futureValue  =
-        futureReceive.get(TASK_TIME_OUT, Time.Unit.MILLISECONDS);
-      System.out.println(futureValue);
+    @Override  
+    public List<String> call() throws Exception {
+        // 学习携带参数的方法
+        return new ArrayList<String>.add(name);  
     }
-  }
+
+    // 学习回收结果的方法
+    public static void main(String[] args) {  
+        // 存储每个线程执行任务的返回值
+        List<List<String>> futureTask = new ArrayList<>();
+        CallableThreadTest task = new CallableThreadTest("param");
+        Future<List<String>> future = executorService.submit(task);
+        futureTask.add(future);
+
+        // 取值过程
+        for (int i = 0; i < futureTask.size(); i++) {
+            Future<List<String>> futureReceive = futureTask.get(i);
+            List<String> futureValue  =
+                futureReceive.get(TASK_TIME_OUT, Time.Unit.MILLISECONDS);
+            System.out.println(futureValue);
+        }
+    }
 }
 ```
 
@@ -378,15 +378,6 @@ public class Question1 {
     private static final CyclicBarrier BARRIER = new CyclicBarrier(3, () -> log.info("start print........."));
 
     /**
-     * 初始化线程数
-     */
-    private static final ExecutorService POOL = new ThreadPoolExecutor(3,
-                                                                       5,
-                                                                       0L,
-                                                                       TimeUnit.MILLISECONDS,
-                                                                       new LinkedBlockingDeque<>());
-
-    /**
      * 控制A线程顺序
      */
     private static Semaphore firstSemaphore = new Semaphore(1);
@@ -420,7 +411,7 @@ public class Question1 {
                 }
             }
 
-        }, POOL);
+        });
     }
 
     /**
@@ -439,7 +430,7 @@ public class Question1 {
                 }
             }
 
-        }, POOL);
+        });
     }
 
     /**
@@ -458,7 +449,7 @@ public class Question1 {
                 }
             }
 
-        }, POOL);
+        });
     }
 
     /**

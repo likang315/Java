@@ -31,7 +31,7 @@
 1. 通过 getMap() 获取**每个线程 Thread 持有自己的ThreadLocalMap实例**, 因此它们是不存在并发竞争的，可以理解为每个线程有自己的变量副本；
 2. ThreadLocalMap 中 Entry[] 数组存储数据，初始化长度16，后续每次都是2倍扩容。主线程中定义了几个变量，Entry[]才有几个key；
 3. Entry 的 key是对 **当前线程ThreadLocal的弱引用**，当抛弃掉ThreadLocal对象时，垃圾收集器会忽略这个key的引用而清理掉 ThreadLocal 对象，**防止内存泄漏**；
-4. 如果 Threadlocal 在线程中还被**使用的时候他是一个强引用（new  ThreadLocal）**，而作为强引用的时候，他在ThreadLocalMap中的key这个弱引用就不会被GC收掉；
+4. 如果 Threadlocal 在线程中还被**使用的时候他是一个强引用（new  ThreadLocal）**，而作为强引用的时候，他在ThreadLocalMap中的key 这个弱引用就不会被GC收掉；
 
 ```java
 public class ThreadLocal<T> {
